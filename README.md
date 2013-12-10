@@ -1,6 +1,4 @@
-<div style="text-align: center">![](doc/vimdesktop_128.jpg)</div>
-
-VimDesktop
+![icon](assets/images/vimdesktop_32.jpg) VimDesktop
 ==========
 
 让所有 Windows 桌面程序拥有 Vim 操作风格的辅助工具
