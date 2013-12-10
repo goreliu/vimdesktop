@@ -1,3 +1,5 @@
+<div style="text-align: center">![](doc/vimdesktop_128.jpg)</div>
+
 VimDesktop
 ==========
 
