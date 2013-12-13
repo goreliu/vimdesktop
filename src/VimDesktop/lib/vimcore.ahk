@@ -367,7 +367,7 @@ Class vimcore {
                 more := RTrim(more,"`n")
                 If moreCount = 0
                 {
-                    This.KeyTemp := ""
+                	This.KeyTemp := ""
 					If InvalidMode
 					{
 						ShowComment()
@@ -383,13 +383,13 @@ Class vimcore {
                             This.ExecSub(Action)
                         }
                         Else {
-							If RegExMatch(This.KeyString,"i)\t" This.ToMatch(This.keyTemp) "[^\t]*",m,P){
+							If RegExMatch(This.KeyString,"i)\t" This.ToMatch(key) "[^\t]*")
                         		This.Try()
-								Return
-							}
 							Else
+							{
                             	Send,% This.TransSendKey(A_ThisHotkey)
-                            ShowComment()
+                            	ShowComment()
+							}
                             return
                         }
                     }
