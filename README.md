@@ -1,7 +1,11 @@
-![icon](assets/images/vimdesktop_32.jpg) VimDesktop 1.1.2
-=========================================================
+![icon](assets/images/vimdesktop_32.jpg) VimDesktop
+===================================================
 
 让所有 Windows 桌面程序拥有 Vim 操作风格的辅助工具
+
+下载地址
+--------
+[VimDesktop 1.1.3](https://raw.github.com/victorwoo/vimdesktop/master/build/VimDesktop-1.1.3.zip)
 
 运行要求
 --------
