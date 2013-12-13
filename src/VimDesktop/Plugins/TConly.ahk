@@ -375,6 +375,7 @@ return
 ; <GotoLine> {{{1
 ; 转到[count]行,缺省第一行
 <GotoLine>:
+	Vim_HotKeyCount := vim.GetCount() 
 	If Vim_HotKeyCount
 		GotoLine(Vim_HotKeyCount)
 	Else
@@ -383,6 +384,7 @@ return
 ; <LastLine> {{{1
 ; 转到[count]行, 最后一行
 <LastLine>:
+	Vim_HotKeyCount := vim.GetCount() 
 	If Vim_HotKeyCount
 		GotoLine(Vim_HotKeyCount)
 	Else
