@@ -23,6 +23,7 @@
 	vim.Comment("<Normal_Mode_TC>","返回正常模式")
 	vim.Comment("<Insert_Mode_TC>","进入插入模式")
 	vim.Comment("<ToggleTC>","打开/激活TC")
+
 	vim.Comment("<azHistory>","a-z历史导航")
 	vim.Comment("<DownSelect>","向下选择")
 	vim.Comment("<UpSelect>","向上选择")
@@ -38,6 +39,7 @@
 	vim.Comment("<Half>","移动到窗口中间行")
 	vim.Comment("<CreateNewFile>","文件模板")
 	vim.Comment("<GoToParentEx>","返回到上层文件夹，可返回到我的电脑")
+	vim.Comment("<AlwayOnTop>","设置TC顶置")
     vim.mode("normal","TQUICKSEARCH")
 	vim.map("J","<Down>","TQUICKSEARCH")
 	;;默认按键(VIM)
@@ -159,7 +161,7 @@
 	vim.map("zr","<cm_Restore>","TTOTAL_CMD")
 	vim.map("zv","<cm_VerticalPanels>","TTOTAL_CMD")
 	vim.map("zv","<cm_VerticalPanels>","TTOTAL_CMD")
-	vim.map("zs","<TransParent>","TTOTAL_CMD")
+	;vim.map("zs","<TransParent>","TTOTAL_CMD")
 	vim.map(".","<Repeat>","TTOTAL_CMD")
 /*
 	KeyList := vim.listKey("TTOTAL_CMD")
@@ -180,11 +182,13 @@ TTOTAL_CMD_CheckMode()
 	If MenuID
 		return True
 	ControlGetFocus,ctrl,AHK_CLASS TTOTAL_CMD
-	If RegExMatch(ctrl,TInEdit)
-		Return True
-	If RegExMatch(ctrl,TCEdit)
-		Return True
-	Return False
+;	If RegExMatch(ctrl,TInEdit)
+;		Return True
+;	If RegExMatch(ctrl,TCEdit)
+;		Return True
+	Ifinstring,ctrl,%TCListBox% 
+		Return False
+	Return True
 }
 <ExcSubOK>:
 	Tooltip
@@ -202,16 +206,27 @@ return
 ; <ToggleTC> {{{1
 <ToggleTC>:
 	IfWinExist,AHK_CLASS TTOTAL_CMD
-		WinActivate,AHK_CLASS TTOTAL_CMD
-	Else
-		Run,%TCPath%
-	Loop,4
 	{
-		IfWinNotActive,AHK_CLASS TTOTAL_CMD
-			WinActivate,AHK_CLASS TTOTAL_CMD
+		WinGet,AC,MinMax,AHK_CLASS TTOTAL_CMD
+		If Ac = -1
+			Winactivate,AHK_ClASS TTOTAL_CMD
 		Else
-			Break
-		Sleep,500
+		Ifwinnotactive,AHK_CLASS TTOTAL_CMD
+			Winactivate,AHK_CLASS TTOTAL_CMD
+		Else
+			Winminimize,AHK_CLASS TTOTAL_CMD
+	}
+	Else
+	{
+		Run,%TCPath%
+		Loop,4
+		{
+			IfWinNotActive,AHK_CLASS TTOTAL_CMD
+				WinActivate,AHK_CLASS TTOTAL_CMD
+			Else
+				Break
+			Sleep,500
+		}
 	}
     ;settimer,AUTHTC,on
 	;emptymem()
@@ -255,8 +270,11 @@ azhistory()
         itemCount := DllCall("GetMenuItemCount", "Uint", hMenu, "Uint")
 		Loop %itemCount%
 	 	{
-			a := chr(A_Index+64) . ">>" .  GetMenuString(Hmenu,A_Index-1)
+			;a := chr(A_Index+64) . ">>" .  GetMenuString(Hmenu,A_Index-1)
+			a :=  GetMenuString(Hmenu,A_Index-1) A_Tab "[&"  chr(A_Index+64) "]"
 			Menu,SH,add,%a%,azSelect
+			If not Mod(A_Index,3)
+				Menu,SH,add
 		}
 		Send {Esc}
 		ControlGetFocus,TLB,ahk_class TTOTAL_CMD
@@ -283,7 +301,7 @@ Return
 azSelect()
 {
 	nPos := A_ThisMenuItem
-	nPos := Asc(Substr(nPos,1,1)) - 64
+	nPos := Asc(Substr(nPos,-1,1)) - 64
 	Winactivate,ahk_class TTOTAL_CMD
 	Postmessage,1075,572,0,,ahk_class TTOTAL_CMD
 	Sleep,100
@@ -867,4 +885,15 @@ IsRootDir()
 		}
 		PostMessage, 0x19E, %Focus%, 1, %focus_control%, AHK_CLASS TTOTAL_CMD
 	}
+}
+<AlwayOnTop>:
+	AlwayOnTop()
+Return
+AlwayOnTop()
+{
+	WinGet,ExStyle,ExStyle,ahk_class TTOTAL_CMD
+	If (ExStyle & 0x8)
+   		WinSet,AlwaysOnTop,off,ahk_class TTOTAL_CMD
+	else
+   		WinSet,AlwaysOnTop,on,ahk_class TTOTAL_CMD 
 }
