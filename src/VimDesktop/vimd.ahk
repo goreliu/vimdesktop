@@ -41,6 +41,11 @@ PluginsChange(a,f,i){
 	Run %A_ScriptDir%\check.ahk
 	SetTimer,WatchPlugins,off
 }
+CheckMode(){
+	;msgbox % A_ThisHotkey
+	;Load Exclude List
+	;Load Enabled Hotkey
+}
 
 GUI_ListHotkey() {
 	win := "È«¾Ö" "`n"
