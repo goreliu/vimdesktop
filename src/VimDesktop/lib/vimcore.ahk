@@ -73,6 +73,7 @@ Class vimcore {
 	   ;This.ExcludeList["AutoHotkey"] := True
        This.CommentList := []
        This.CommentType := []
+	   This.UseHotkey   := []
     }
 
     Vaild(win) {
@@ -99,7 +100,13 @@ Class vimcore {
         ShowComment()
     }
 
+	sMap(key,label,win=""){
+		This.UseHotkey[key] := True
+    	this.Map(key,label,win)
+	}
     Map(key,label,win="") {
+		If not RegExMatch(Key,"[^\s]")
+			return
         if Strlen(win) = 0
             w := This.vimGlobal
         Else
@@ -120,14 +127,13 @@ Class vimcore {
 
     do() {
         WinGetClass,win,A
-
-		If This.ExcludeList[win]
+        w := This.Vaild(win)
+		m := w.GetMode()
+		If This.ExcludeList[win] And not this.UseHotkey[m.GetThisHotkey()]
 		{
-			send %A_ThisHotkey%
+			Send,% m.TransSendKey(A_ThisHotkey)
 			return
 		}
-
-        w := This.Vaild(win)
         If w.winVaild {
             mode := w.GetMode()
 			If Mode.KeyList[A_ThisHotkey]
@@ -368,11 +374,7 @@ Class vimcore {
                 If moreCount = 0
                 {
                 	This.KeyTemp := ""
-					If InvalidMode
-					{
-						ShowComment()
-						return
-					}
+					
                     action := This.KeyBody[_SaveKeyTemp]
                     If Strlen(action) {
                         This.ExecSub(Action)
@@ -380,17 +382,25 @@ Class vimcore {
                     Else {
                         action := This.KeyBody[Key]
                         If Strlen(action) {
-                            This.ExecSub(Action)
-                        }
+							If InvalidMode
+                            	ShowComment()
+							Else
+                            	This.ExecSub(Action)
+						}
                         Else {
 							If RegExMatch(This.KeyString,"i)\t" This.ToMatch(key) "[^\t]*")
-                        		This.Try()
+							{
+								If InvalidMode
+                            		ShowComment()
+								Else
+                        			This.Try()
+							}
 							Else
 							{
                             	Send,% This.TransSendKey(A_ThisHotkey)
                             	ShowComment()
 							}
-                            return
+							return
                         }
                     }
                 }
@@ -407,7 +417,7 @@ Class vimcore {
                 Else
                 {
                     TimeOut := 0 - GetTimeOutClass(This.win)
-                    If Timeout {
+                    If Timeout And This.KeyBody[This.KeyTemp]{
                         This.TimeOutAction := This.KeyBody[This.KeyTemp]
                         This.TimeOutTick   := A_TickCount
                         SetTimeOutClass(This.win)
@@ -447,7 +457,8 @@ Class vimcore {
                             Return
                         }
                     }
-                    If FileExist(Substr(Action,2,Strlen(Action)-2)) And RegExMatch(action,"^\(.*\)$") {
+                    If RegExMatch(action,"^\(.*\)$") {
+						file := SubStr(action,2,Strlen(action)-2)
                         Run,%File%,,UseErrorLevel,ExecID
                         If ErrorLevel
                         {
@@ -474,6 +485,7 @@ Class vimcore {
                         w.winRepeat := Action
                     }
                 }
+				EmptyMem()
             }
 
             SetHotkey(key,label) {
@@ -607,6 +619,8 @@ Class vimcore {
                         ThisHotkey := Substr(ThisHotkey,0)
                     Else If RegExMatch(G_ThisHotkey,"^[a-z]$")
                         ThisHotkey := "shift & " . G_ThisHotkey
+					Else
+						ThisHotkey := A_ThisHotkey
                 }
                 Else
                     ThisHotkey := G_ThisHotkey
@@ -703,6 +717,13 @@ GetCommentType(action) {
         return Type
     Else
         return true
+}
+EmptyMem(PID="AHK Rocks")
+{
+    pid:=(pid="AHK Rocks") ? DllCall("GetCurrentProcessId") : pid
+    h:=DllCall("OpenProcess", "UInt", 0x001F0FFF, "Int", 0, "Int", pid)
+    DllCall("SetProcessWorkingSetSize", "UInt", h, "Int", -1, "Int", -1)
+    DllCall("CloseHandle", "Int", h)
 }
 <TimeOutLabel>:
     vim.TimeOut()

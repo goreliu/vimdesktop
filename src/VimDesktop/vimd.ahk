@@ -1,65 +1,126 @@
-;Version 1.0.3
+Ôªø;Version 1.0.3
 #Persistent,ON
 #SingleInstance,Force
+SetWorkingDir, %A_ScriptDir%
 SetControlDelay,-1
 Detecthiddenwindows,on
 Coordmode,Menu,Window
-Global InvalidMode := False
+OnMessage(0x4a, "Receive_WM_COPYDATA")
 Init()
-
-vim.mode("normal")
-vim.map("<ctrl><esc>","<GeneralCopy>")
-
-
+; Tray Menu {{{1
 Menu,Tray,NoStandard
-Menu,Tray,Add,œ‘ æ»»º¸(&Q),GUI_ListHotkey
-Menu,Tray,Default,œ‘ æ»»º¸(&Q)
+Menu,Tray,Add,ÊòæÁ§∫ÁÉ≠ÈîÆ(&Q),GUI_ListHotkey
+Menu,Tray,Default,ÊòæÁ§∫ÁÉ≠ÈîÆ(&Q)
 Menu,Tray,Add
-Menu,Tray,Add,÷˜“≥(&M),GUI_GotoWeb
-Menu,Tray,Add,Ã·ΩªŒ Ã‚(&I),GUI_GotoIssue
+Menu,Tray,Add,‰∏ªÈ°µ(&M),GUI_GotoWeb
+Menu,Tray,Add,Êèê‰∫§ÈóÆÈ¢ò(&I),GUI_GotoIssue
 Menu,Tray,Add
-Menu,Tray,Add,÷ÿ∆Ù(&R),GUI_Reload
-Menu,Tray,Add,ÕÀ≥ˆ(&X),GUI_Exit
+Menu,Tray,Add,ÈáçÂêØ(&R),GUI_Reload
+Menu,Tray,Add,ÈÄÄÂá∫(&X),GUI_Exit
 Menu,Tray,Icon,viatc.ico
-IniRead,sub,%A_ScriptDir%\plugins\plugins.ahk,ExtensionsTime
+;====================================================================
+; Read Config {{{1
+If Not FileExist(A_ScriptDir "\vimd.ini")
+	FileAppend,,%A_ScriptDir%\vimd.ini
+config := GetINIObj(A_ScriptDir "\vimd.ini")
+plog   := GetINIObj(A_ScriptDir "\plugins\plugins.ahk")
+
+Global InvalidMode := config.GetValue("config","InvalidMode")
+sub := plog.GetKeys("ExtensionsTime")
 Loop,Parse,Sub,`n
 {
-	If RegExMatch(A_LoopField,"^(.*)=\d*$",m)
-	{
-		If IsLabel(m1)
-			GoSub,%m1%
+	If IsLabel(A_LoopField) And Strlen(A_LoopField){
+		Enabled := strlen(config.GetValue("plugins",A_LoopField)) ? config.GetValue("plugins",A_LoopField) : 1
+		GoSub,%A_LoopField%
 	}
 }
-WatchDirectory(A_ScriptDir "\plugins",0)
-SetTimer,WatchPlugins,1000
+keylist := config.GetKeys("Global")
+Loop,Parse,keylist,`n
+{
+	If not strlen(A_LoopField)
+		continue
+	value := config.GetValue("Global",Trim(A_LoopField))
+	If RegExMatch(value,"\[=[^\[\]]*\]",mode)
+		vim.mode(Substr(mode,3,strlen(mode)-3))
+	If RegExMatch(Trim(A_LoopField),"^\*")
+		vim.smap(SubStr(Trim(A_LoopField),2),RegExReplace(value,"\[=[^\[\]]*\]"))
+	Else
+		vim.map(Trim(A_LoopField),RegExReplace(value,"\[=[^\[\]]*\]"))
+}
+
+keylist := config.GetKeys("Global_Exclude")
+Loop,Parse,keylist,`n
+{
+	If Strlen(A_LoopField)
+		vim.Exclude(A_LoopField)
+	Else
+		continue
+}
+
+for class ,k in vim.vimWindows
+{
+	If strlen(config.GetKeyValue(class))
+	{
+		keylist := config.GetKeys(class)
+		Loop,Parse,keylist,`n
+		{
+			If not strlen(A_LoopField)
+				continue
+			value := config.GetValue(class,Trim(A_LoopField))
+			If RegExMatch(value,"\[=[^\[\]]*\]",mode)
+				vim.mode(Substr(mode,3,strlen(mode)-3))
+			If RegExMatch(Trim(A_LoopField),"^\*")
+				vim.smap(SubStr(Trim(A_LoopField),2),RegExReplace(value,"\[=[^\[\]]*\]"),class)
+			Else
+				vim.map(Trim(A_LoopField),RegExReplace(value,"\[=[^\[\]]*\]"),class)
+		}
+	}
+}
+
+WatchDirectory(A_ScriptDir "\plugins",1)
+autoload := strlen(config.GetValue("config","autoload")) ? config.GetValue("config","autoload") : 1
+If autoload
+	SetTimer,WatchPlugins,1000
+EmptyMem()
 return
 
+;====================================================================
 WatchPlugins:
 	WatchDirectory("PluginsChange")
 return
 PluginsChange(a,f,i){
 	Run %A_ScriptDir%\check.ahk
-	SetTimer,WatchPlugins,off
+	;SetTimer,WatchPlugins,off
+	ExitApp
 }
-CheckMode(){
-	;msgbox % A_ThisHotkey
-	;Load Exclude List
-	;Load Enabled Hotkey
+; GUI {{{1
+; GUI_Config() {{{2
+<Config>:
+	GUI_Config()
+return
+GUI_Config() {
+	GUI,Config:Destroy
+	GUI,Config:Font,s9 ,Microsoft YaHei
+	Gui,Config:+Delimiter`n +hwndconfig +LastFound +Resize
+	GUI,Config:Add,ListBox,w200 h200
+	GUI,Config:Show
+	WinMove,ahk_id %config%,,,,626,500
 }
 
+; GUI_ListHotkey() {{{2
 GUI_ListHotkey() {
-	win := "»´æ÷" "`n"
+	win := "ÂÖ®Â±Ä" "`n"
 	For i , k in vim.vimWindows
 		win .= i "`n"
 	;GUI,ListHotkey:Add,Edit
 	GUI,ListHotkey:Destroy
 	GUI,ListHotkey:Font,s9 ,Microsoft YaHei
 	Gui,ListHotkey:+Delimiter`n +hwndlhk +LastFound +Resize
-	GUI,ListHotkey:Add,Text,x7 y8,¥∞ø⁄:
+	GUI,ListHotkey:Add,Text,x7 y8,Á™óÂè£:
 	GUI,ListHotkey:Add,DropDownList,x45 y5 w560 choose1 gGUI_ListHotKey_Win,%win%
-	GUI,ListHotkey:Add,Text,x7 y38 ,ƒ£ Ω:
+	GUI,ListHotkey:Add,Text,x7 y38 ,Ê®°Âºè:
 	GUI,ListHotKey:Add,DropDownList,x45 y35 w560 choose1 gGUI_ListHotKey_Mode
-	GUI,ListHotKey:Add,ListView, x5   w600 h400 ,»»º¸`n∂Ø◊˜`nÀµ√˜
+	GUI,ListHotKey:Add,ListView, x5   w600 h400 ,ÁÉ≠ÈîÆ`nÂä®‰Ωú`nËØ¥Êòé
 	GUI,ListHotkey:Default
 	LV_ModifyCol(1,"100 ")
 	LV_ModifyCol(2,"200 ")
@@ -72,10 +133,11 @@ GUI_ListHotkey() {
 GUI_ListHotkey_Win:
 	GUI_ListHotkey_Win()
 return
+; GUI_ListHotkey_Win() {{{2
 GUI_ListHotkey_Win() {
 	GUI,ListHotkey:Default
 	GUIControlGet,win,,ComboBox1
-    win := win = »´æ÷ ? "" : win
+    win := win = ÂÖ®Â±Ä ? "" : win
 	m := vim.ListKey(win)
 	mode := "`n"
 	Loop,Parse,m,`n
@@ -94,6 +156,7 @@ GUI_ListHotkey_Win() {
 GUI_ListHotkey_Mode:
 	GUI_ListHotkey_Mode()
 return
+; GUI_ListHotkey_Mode() {{{2
 GUI_ListHotkey_Mode() {
 	GUI,ListHOtkey:Default
 	GUIControlGet,win,,ComboBox1
@@ -119,6 +182,7 @@ GUI_ListHotkey_Mode() {
 			m0 := m0 + 1
 	}
 }
+; GUISize(w,p){{{2
 GUISize(w,p){
 	GUI,ListHotkey:+hwndlhk 
 	IfWinActive ahk_id %lhk%
@@ -173,11 +237,17 @@ GUI_VIMINFO()
     Else
         GUI,Query:Destroy
 }
+; Receive_WM_COPYDATA(wParam, lParam) {{{2
+Receive_WM_COPYDATA(wParam, lParam){
+    StringAddress := NumGet(lParam + 2*A_PtrSize)  ; Ëé∑Âèñ CopyDataStruct ÁöÑ lpData ÊàêÂëò.
+    AHKReturn := StrGet(StringAddress)  ; ‰ªéÁªìÊûÑ‰∏≠Â§çÂà∂Â≠óÁ¨¶‰∏≤.
+	If RegExMatch(AHKReturn,"i)exitapp")
+		ExitApp
+    return true
+}
 
-
-
-#Include lib\vimcore.ahk
-#Include lib\anchor.ahk
-#Include lib\ini.ahk
-#Include lib\watchdir.ahk
-#Include *i plugins\plugins.ahk
+#Include %A_ScriptDir%\lib\vimcore.ahk
+#Include %A_ScriptDir%\lib\anchor.ahk
+#Include %A_ScriptDir%\lib\ini.ahk
+#Include %A_ScriptDir%\lib\watchdir.ahk
+#Include *i %A_ScriptDir%\plugins\plugins.ahk
