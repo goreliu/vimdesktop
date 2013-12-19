@@ -1,4 +1,1220 @@
-﻿; TC自带命令 {{{1
+﻿totalcommander:
+;=======================================================
+	If not fileexist(A_ScriptDir "\plugins\totalcommander\totalcommander.ini")
+		fileAppend,,%A_ScriptDir%\plugins\totalcommander\totalcommander.ini
+	Global tcconfig := GetINIObj(A_ScriptDir "\plugins\totalcommander\totalcommander.ini")
+	Global TCPath := tcconfig.GetValue("Config","TCPath")
+	Global TCINI  := tcconfig.GetValue("Config","TCINI")
+	Global TCINIObj
+	If Not FileExist(TCPath)
+	{
+		RegRead,TCDir,HKEY_CURRENT_USER,Software\Ghisler\Total Commander,InstallDir
+		If FileExist(TCDir "\totalcmd.exe")
+			l .= TCDir "\totalcmd.exe`n"
+		If FileExist(TCDir "\totalcmd64.exe")
+			l .= TCDir "\totalcmd64.exe`n"
+		GUI,FindTC:Add,Edit,w300 ReadOnly R3,%TCDir%
+		GUI,FindTC:Add,Button,w300 gTotalcomander_select_tc,TOTALCMD.EXE   (&A)
+		GUI,FindTC:Add,Button,w300 gTotalcomander_select_tc64,TOTALCMD64.EXE (&S)
+		GUI,FindTC:Add,Button,w300 gTotalcomander_select_tcdir,TC目录路径不对? (&D)
+		GUI,FindTC:Show,,Total Commander 设置路径
+	}
+	If not FileExist(TCINI)
+	{
+		SplitPath,TCPath,,dir
+		TCINI := dir "\wincmd.ini"
+		IniWrite,%TCINI%,%A_ScriptDir%\plugins\totalcommander\totalcommander.ini,config,tcini
+	}
+	tciniobj    := GetINIObj(TCINI)
+	If RegExMatch(TcPath,"i)totalcmd64\.exe$")
+	{
+		Global TCListBox := "LCLListBox"
+		Global TCEdit := "Edit2"
+		Global TInEdit := "TInEdit1"
+		GLobal TCPanel1 := "Window1"
+		Global TCPanel2 := "Window11"
+	}
+	Else
+	{
+		Global TCListBox := "TMyListBox"
+		Global TCEdit := "Edit1"
+		Global TInEdit := "TInEdit1"
+		Global TCPanel1 := "TPanel1"
+		Global TCPanel2 := "TMyPanel8"
+	}
+	Global Mark := []
+	Global NewFiles := []
+	vim.Comment("<Normal_Mode_TC>","返回正常模式")
+	vim.Comment("<Insert_Mode_TC>","进入插入模式")
+	vim.Comment("<ToggleTC>","打开/激活TC")
+
+	vim.Comment("<azHistory>","a-z历史导航")
+	vim.Comment("<DownSelect>","向下选择")
+	vim.Comment("<UpSelect>","向上选择")
+	vim.Comment("<Mark>","标记功能")
+	vim.Comment("<ForceDelete>","强制删除")
+	vim.Comment("<ListMark>","显示标记")
+	vim.Comment("<WinMaxLeft>","最大化左侧窗口")
+	vim.Comment("<WinMaxRight>","最大化右侧窗口")
+	vim.Comment("<GoLastTab>","切换到最后一个标签")
+	vim.Comment("<CopyNameOnly>","只复制文件名，不含扩展名")
+	vim.Comment("<GotoLine>","移动到[count]行，默认第一行")
+	vim.Comment("<LastLine>","移动到[count]行，默认最后一行")
+	vim.Comment("<Half>","移动到窗口中间行")
+	vim.Comment("<CreateNewFile>","文件模板")
+	vim.Comment("<GoToParentEx>","返回到上层文件夹，可返回到我的电脑")
+	vim.Comment("<AlwayOnTop>","设置TC顶置")
+	vim.comment("<OpenDriveThis>","打开驱动器列表:本侧")
+	vim.comment("<OpenDriveThat>","打开驱动器列表:另侧")
+	vim.comment("<MoveDirectoryHotlist>","移动到常用文件夹")
+	vim.comment("<CopyDirectoryHotlist>","复制到常用文件夹")
+	vim.comment("<GotoPreviousDirOther>","后退另一侧")
+	vim.comment("<GotoNextDirOther>","前进另一侧")
+	vim.comment("<Search>","连续搜索")
+
+
+    vim.mode("normal","TQUICKSEARCH")
+	vim.map("J","<Down>","TQUICKSEARCH")
+	vim.map("K","<Up>","TQUICKSEARCH")
+	;vim.map("H","o","<OpenDriveThis>")
+	;vim.map("H","O","<OpenDriveThat>")
+    ;vim.map("<esc>","<Normal_Mode_TC>","TQUICKSEARCH")
+
+	vim.mode("insert","TTOTAL_CMD")
+	vim.SetTimeOut(800,"TTOTAL_CMD")
+    vim.map("<esc>","<Normal_Mode_TC>","TTOTAL_CMD")
+	vim.mode("Search","TTOTAL_CMD")
+    vim.map("<esc>","<Normal_Mode_TC>","TTOTAL_CMD")
+
+	vim.mode("normal","TTOTAL_CMD")
+	;复制/移动到右侧 f取file的意思 filecopy
+	vim.map("fc","<cm_CopyOtherpanel>","TTOTAL_CMD")
+	vim.map("fx","<cm_MoveOnly>","TTOTAL_CMD")
+	;ff复制到剪切板 fz剪切到剪切板 fv粘贴
+	vim.map("ff","<cm_CopyToClipboard>","TTOTAL_CMD")
+	vim.map("fz","<cm_CutToClipboard>","TTOTAL_CMD")
+	vim.map("fv","<cm_PasteFromClipboard>","TTOTAL_CMD")
+	;fb复制到收藏夹某个目录，fd移动到收藏夹的某个目录
+	vim.map("fb","<CopyDirectoryHotlist>","TTOTAL_CMD")
+	vim.map("fd","<MoveDirectoryHotlist>","TTOTAL_CMD")
+	vim.map("ft","<cm_SyncChangeDir>","TTOTAL_CMD")
+	vim.map("<shift>f","<Search>","TTOTAL_CMD")
+	vim.map("gh","<GotoPreviousDirOther>","TTOTAL_CMD")
+	vim.map("gl","<GotoNextDirOther>","TTOTAL_CMD")
+	vim.map("<shift>vh","<cm_SwitchIgnoreList>","TTOTAL_CMD")
+	vim.map("0","<0>","TTOTAL_CMD")
+	vim.map("1","<1>","TTOTAL_CMD")
+	vim.map("2","<2>","TTOTAL_CMD")
+	vim.map("3","<3>","TTOTAL_CMD")
+	vim.map("4","<4>","TTOTAL_CMD")
+	vim.map("5","<5>","TTOTAL_CMD")
+	vim.map("6","<6>","TTOTAL_CMD")
+	vim.map("7","<7>","TTOTAL_CMD")
+	vim.map("8","<8>","TTOTAL_CMD")
+	vim.map("9","<9>","TTOTAL_CMD")
+	vim.map("k","<up>","TTOTAL_CMD")
+	vim.map("K","<upSelect>","TTOTAL_CMD")
+	vim.map("j","<down>","TTOTAL_CMD")
+	vim.map("J","<downSelect>","TTOTAL_CMD")
+	vim.map("h","<left>","TTOTAL_CMD")
+	vim.map("H","<cm_GotoPreviousDir>","TTOTAL_CMD")
+	vim.map("l","<right>","TTOTAL_CMD")
+	vim.map("L","<cm_GotoNextDir>","TTOTAL_CMD")
+	vim.map("I","<CreateNewFile>","TTOTAL_CMD")
+	vim.map("i","<Insert_Mode_TC>","TTOTAL_CMD")
+	vim.map("d","<cm_DirectoryHotlist>","TTOTAL_CMD")
+	vim.map("D","<cm_OpenDesktop>","TTOTAL_CMD")
+	vim.map("e","<cm_ContextMenu>","TTOTAL_CMD")
+	vim.map("E","<cm_ExeCuteDOS>","TTOTAL_CMD")
+	vim.map("N","<cm_DirectoryHistory>","TTOTAL_CMD")
+	vim.map("n","<azHistory>","TTOTAL_CMD")
+	vim.map("m","<Mark>","TTOTAL_CMD")
+	vim.map("M","<Half>","TTOTAL_CMD")
+	vim.map("'","<ListMark>","TTOTAL_CMD")
+	vim.map("u","<GoToParentEx>","TTOTAL_CMD")
+	vim.map("U","<cm_GoToRoot>","TTOTAL_CMD")
+	vim.map("o","<cm_LeftOpenDrives>","TTOTAL_CMD")
+	vim.map("O","<cm_RightOpenDrives>","TTOTAL_CMD")
+	vim.map("q","<cm_SrcQuickView>","TTOTAL_CMD")
+	vim.map("r","<cm_RenameOnly>","TTOTAL_CMD")
+	vim.map("R","<cm_MultiRenameFiles>","TTOTAL_CMD")
+	vim.map("x","<cm_Delete>","TTOTAL_CMD")
+	vim.map("X","<ForceDelete>","TTOTAL_CMD")
+	vim.map("w","<cm_List>","TTOTAL_CMD")
+	vim.map("y","<cm_CopyNamesToClip>","TTOTAL_CMD")
+	vim.map("Y","<cm_CopyFullNamesToClip>","TTOTAL_CMD")
+	vim.map("P","<cm_PackFiles>","TTOTAL_CMD")
+	vim.map("p","<cm_UnpackFiles>","TTOTAL_CMD")
+	vim.map("t","<cm_OpenNewTab>","TTOTAL_CMD")
+	vim.map("T","<cm_OpenNewTabBg>","TTOTAL_CMD")
+	vim.map("/","<cm_ShowQuickSearch>","TTOTAL_CMD")
+	vim.map("?","<cm_SearchFor>","TTOTAL_CMD")
+	vim.map("[","<cm_SelectCurrentName>","TTOTAL_CMD")
+	vim.map("{","<cm_UnselectCurrentName>","TTOTAL_CMD")
+	vim.map("]","<cm_SelectCurrentExtension>","TTOTAL_CMD")
+	vim.map("}","<cm_UnSelectCurrentExtension>","TTOTAL_CMD")
+	vim.map("\","<cm_ExchangeSelection>","TTOTAL_CMD")
+	vim.map("|","<cm_ClearAll>","TTOTAL_CMD")
+	vim.map("-","<cm_SwitchSeparateTree>","TTOTAL_CMD")
+	vim.map("=","<cm_MatchSrc>","TTOTAL_CMD")
+	vim.map(":","<cm_FocusCmdLine>","TTOTAL_CMD")
+	vim.map("G","<LastLine>","TTOTAL_CMD")
+	vim.map("ga","<cm_CloseAllTabs>","TTOTAL_CMD")
+	vim.map("gg","<GoToLine>","TTOTAL_CMD")
+	vim.map("g$","<LastLine>","TTOTAL_CMD")
+	vim.map("gn","<cm_SwitchToNextTab>","TTOTAL_CMD")
+	vim.map("gp","<cm_SwitchToPreviousTab>","TTOTAL_CMD")
+	vim.map("gc","<cm_CloseCurrentTab>","TTOTAL_CMD")
+	vim.map("gb","<cm_OpenDirInNewTabOther>","TTOTAL_CMD")
+	vim.map("ge","<cm_Exchange>","TTOTAL_CMD")
+	vim.map("gw","<cm_ExchangeWithTabs>","TTOTAL_CMD")
+	vim.map("g1","<cm_SrcActivateTab1>","TTOTAL_CMD")
+	vim.map("g2","<cm_SrcActivateTab2>","TTOTAL_CMD")
+	vim.map("g3","<cm_SrcActivateTab3>","TTOTAL_CMD")
+	vim.map("g4","<cm_SrcActivateTab4>","TTOTAL_CMD")
+	vim.map("g5","<cm_SrcActivateTab5>","TTOTAL_CMD")
+	vim.map("g6","<cm_SrcActivateTab6>","TTOTAL_CMD")
+	vim.map("g7","<cm_SrcActivateTab7>","TTOTAL_CMD")
+	vim.map("g8","<cm_SrcActivateTab8>","TTOTAL_CMD")
+	vim.map("g9","<cm_SrcActivateTab9>","TTOTAL_CMD")
+	vim.map("g0","<GoLastTab>","TTOTAL_CMD")
+	vim.map("sn","<cm_SrcByName>","TTOTAL_CMD")
+	vim.map("se","<cm_SrcByExt>","TTOTAL_CMD")
+	vim.map("ss","<cm_SrcBySize>","TTOTAL_CMD")
+	vim.map("sd","<cm_SrcByDateTime>","TTOTAL_CMD")
+	vim.map("sr","<cm_SrcNegOrder>","TTOTAL_CMD")
+	vim.map("s1","<cm_SrcSortByCol1>","TTOTAL_CMD")
+	vim.map("s2","<cm_SrcSortByCol2>","TTOTAL_CMD")
+	vim.map("s3","<cm_SrcSortByCol3>","TTOTAL_CMD")
+	vim.map("s4","<cm_SrcSortByCol4>","TTOTAL_CMD")
+	vim.map("s5","<cm_SrcSortByCol5>","TTOTAL_CMD")
+	vim.map("s6","<cm_SrcSortByCol6>","TTOTAL_CMD")
+	vim.map("s7","<cm_SrcSortByCol7>","TTOTAL_CMD")
+	vim.map("s8","<cm_SrcSortByCol8>","TTOTAL_CMD")
+	vim.map("s9","<cm_SrcSortByCol9>","TTOTAL_CMD")
+	vim.map("s0","<cm_SrcUnsorted>","TTOTAL_CMD")
+	vim.map("v","<cm_SrcCustomViewMenu>","TTOTAL_CMD")
+	vim.map("Vb","<cm_VisButtonbar>","TTOTAL_CMD")
+	vim.map("Vd","<cm_VisDriveButtons>","TTOTAL_CMD")
+	vim.map("Vo","<cm_VisTwoDriveButtons>","TTOTAL_CMD")
+	vim.map("Vr","<cm_VisDriveCombo>","TTOTAL_CMD")
+	vim.map("Vc","<cm_VisDriveCombo>","TTOTAL_CMD")
+	vim.map("Vt","<cm_VisTabHeader>","TTOTAL_CMD")
+	vim.map("Vs","<cm_VisStatusbar>","TTOTAL_CMD")
+	vim.map("Vn","<cm_VisCmdLine>","TTOTAL_CMD")
+	vim.map("Vf","<cm_VisKeyButtons>","TTOTAL_CMD")
+	vim.map("Vw","<cm_VisDirTabs>","TTOTAL_CMD")
+	vim.map("Ve","<cm_CommandBrowser>","TTOTAL_CMD")
+	vim.map("zz","<cm_50Percent>","TTOTAL_CMD")
+	vim.map("zi","<WinMaxLeft>","TTOTAL_CMD")
+	vim.map("zo","<WinMaxRight>","TTOTAL_CMD")
+	vim.map("zt","<AlwayOnTop>","TTOTAL_CMD")
+	vim.map("zn","<cm_Minimize>","TTOTAL_CMD")
+	vim.map("zm","<cm_Maximize>","TTOTAL_CMD")
+	vim.map("zr","<cm_Restore>","TTOTAL_CMD")
+	vim.map("zv","<cm_VerticalPanels>","TTOTAL_CMD")
+	vim.map("zv","<cm_VerticalPanels>","TTOTAL_CMD")
+	vim.map(".","<Repeat>","TTOTAL_CMD")
+/*
+	;vim.map("zs","<TransParent>","TTOTAL_CMD")
+	KeyList := vim.listKey("TTOTAL_CMD")
+	GUI,Add,ListView,w300 h500,a
+	Loop,Parse,KeyList,`n
+	{
+		LV_Add("",A_LoopField)
+	}
+	GUI,Show ,w310 h510
+*/
+	;; 默认按键完
+	ReadNewFile()
+	GoSub,TCCOMMAND
+return
+<TC_0>:
+<TC_1>:
+<TC_2>:
+<TC_3>:
+<TC_4>:
+<TC_5>:
+<TC_6>:
+<TC_7>:
+<TC_8>:
+<TC_9>:
+	Vim_HotKeyCount :=
+return
+; TTOTAL_CMD_CheckMode()
+TTOTAL_CMD_CheckMode()
+{
+	WinGet,MenuID,ID,AHK_CLASS #32768
+	If MenuID
+		return True
+	ControlGetFocus,ctrl,AHK_CLASS TTOTAL_CMD
+;	If RegExMatch(ctrl,TInEdit)
+;		Return True
+;	If RegExMatch(ctrl,TCEdit)
+;		Return True
+	Ifinstring,ctrl,%TCListBox% 
+		Return False
+	Return True
+}
+<ExcSubOK>:
+	Tooltip
+return
+; <Esc_TC> {{{1
+<Normal_Mode_TC>:
+	Send,{Esc}
+    vim.Mode("normal","TTOTAL_CMD")
+	;emptymem()
+return
+; <QuickSearch> {{{1
+<Search>:
+    vim.Mode("Search","TTOTAL_CMD")
+return
+; <insert_TC> {{{1
+<Insert_Mode_TC>:
+    vim.Mode("insert","TTOTAL_CMD")
+return
+; <ToggleTC> {{{1
+<ToggleTC>:
+	IfWinExist,AHK_CLASS TTOTAL_CMD
+	{
+		WinGet,AC,MinMax,AHK_CLASS TTOTAL_CMD
+		If Ac = -1
+			Winactivate,AHK_ClASS TTOTAL_CMD
+		Else
+		Ifwinnotactive,AHK_CLASS TTOTAL_CMD
+			Winactivate,AHK_CLASS TTOTAL_CMD
+		Else
+			Winminimize,AHK_CLASS TTOTAL_CMD
+	}
+	Else
+	{
+		Run,%TCPath%
+		Loop,4
+		{
+			IfWinNotActive,AHK_CLASS TTOTAL_CMD
+				WinActivate,AHK_CLASS TTOTAL_CMD
+			Else
+				Break
+			Sleep,500
+		}
+	}
+    ;settimer,AUTHTC,on
+	;emptymem()
+return
+AUTHTC:
+    AUTHTC()
+return
+AUTHTC()
+{
+    WinGetText, string,ahk_class TNASTYNAGSCREEN
+    If Strlen(string)
+    {
+        RegExMatch(string,"\d",idx)
+        ControlClick,TButton%idx%,ahk_class TNASTYNAGSCREEN,,,,NA
+        ;msgbox % idx
+        settimer,AUTHTC,off
+    }
+}
+; <azHistory> {{{1
+<azHistory>:
+	azHistory2()
+return
+azHistory2()
+{
+	GoSub,<cm_ConfigSaveDirHistory>
+	sleep,200
+	history := ""
+	If Mod(LeftRight(),2)
+	{
+		If FileExist(f := tcconfig.GetValue("redirect","LeftHistory"))
+			IniRead,history,%f%,LeftHistory
+		Else
+			IniRead,history,%TCINI%,LeftHistory
+	}
+	Else
+	{
+		If FileExist(f := tcconfig.GetValue("redirect","RightHistory"))
+			IniRead,history,%f%,RightHistory
+		Else
+			IniRead,history,%TCINI%,RightHistory
+	}
+	history_obj := []
+	Global history_name_obj := []
+	Loop,Parse,history,`n
+		max := A_index
+	Loop,Parse,history,`n
+	{
+		idx := RegExReplace(A_LoopField,"=.*$")
+		value := RegExReplace(A_LoopField,"^\d\d?=")
+		name := value
+		If RegExMatch(Value,"::\{20D04FE0\-3AEA\-1069\-A2D8\-08002B30309D\}\|")
+		{
+			name  := RegExReplace(Value,"::\{20D04FE0\-3AEA\-1069\-A2D8\-08002B30309D\}\|")
+			value := 2122
+		}
+		If RegExMatch(Value,"::\|")
+		{
+			name  := RegExReplace(Value,"::\|")
+			value := 2121
+		}
+		If RegExMatch(Value,"::\{21EC2020\-3AEA\-1069\-A2DD\-08002B30309D\}\\::\{2227A280\-3AEA\-1069\-A2DE\-08002B30309D\}\|")
+		{
+			name  :=  RegExReplace(Value,"::\{21EC2020\-3AEA\-1069\-A2DD\-08002B30309D\}\\::\{2227A280\-3AEA\-1069\-A2DE\-08002B30309D\}\|")
+			value := 2126
+		}
+		If RegExMatch(Value,"::\{F02C1A0D\-BE21\-4350\-88B0\-7367FC96EF3C\}\|")
+		{
+			name := RegExReplace(Value,"::\{F02C1A0D\-BE21\-4350\-88B0\-7367FC96EF3C\}\|")
+			value := 2125
+		}
+		If RegExMatch(Value,"::\{26EE0668\-A00A\-44D7\-9371\-BEB064C98683\}\\0\|")
+		{
+			name := RegExReplace(Value,"::\{26EE0668\-A00A\-44D7\-9371\-BEB064C98683\}\\0\|")
+			value := 2123
+		}
+		If RegExMatch(Value,"::\{645FF040\-5081\-101B\-9F08\-00AA002F954E\}\|")
+		{
+			name := RegExReplace(Value,"::\{645FF040\-5081\-101B\-9F08\-00AA002F954E\}\|")
+			value := 2127
+		}
+		name .= A_Tab "[&"  chr(max-idx+64) "]"
+		history_obj[idx] := name 
+		history_name_obj[name] := value
+	}
+	Menu,az,UseErrorLevel
+	Menu,az,add
+	Menu,az,deleteall
+	Loop,%max%
+	{
+		idx := max - A_Index
+		name := history_obj[idx]
+		Menu,az,Add,%name%,azHistorySelect
+		Menu,az,icon,%name%,%A_ScriptDir%\plugins\totalcommander\a-zhistory.icl,%A_Index%
+	}
+	ControlGetFocus,TLB,ahk_class TTOTAL_CMD
+	ControlGetPos,xn,yn,wn,,%TLB%,ahk_class TTOTAL_CMD
+	Menu,az,show,%xn%,%yn%
+}
+azHistorySelect:
+	azHistorySelect()
+return
+azHistorySelect()
+{
+	Global history_name_obj
+	If ( history_name_obj[A_ThisMenuItem] = 2122 ) or RegExMatch(A_ThisMenuItem,"::\{20D04FE0\-3AEA\-1069\-A2D8\-08002B30309D\}")
+		GoSub,<cm_OpenDrives>
+	Else If ( history_name_obj[A_ThisMenuItem] = 2121 ) or RegExMatch(A_ThisMenuItem,"::(?!\{)")
+		GoSub,<cm_OpenDesktop>
+	Else If ( history_name_obj[A_ThisMenuItem] = 2126 ) or RegExMatch(A_ThisMenuItem,"::\{21EC2020\-3AEA\-1069\-A2DD\-08002B30309D\}\\::\{2227A280\-3AEA\-1069\-A2DE\-08002B30309D\}")
+		GoSub,<cm_OpenPrinters>
+	Else If ( history_name_obj[A_ThisMenuItem] = 2125 ) or RegExMatch(A_ThisMenuItem,"::\{F02C1A0D\-BE21\-4350\-88B0\-7367FC96EF3C\}")
+		GoSub,<cm_OpenNetwork>
+	Else If ( history_name_obj[A_ThisMenuItem] = 2123 ) or RegExMatch(A_ThisMenuItem,"::\{26EE0668\-A00A\-44D7\-9371\-BEB064C98683\}\\0")
+		GoSub,<cm_OpenControls>
+	Else If ( history_name_obj[A_ThisMenuItem] = 2127 ) or RegExMatch(A_ThisMenuItem,"::\{645FF040\-5081\-101B\-9F08\-00AA002F954E\}")
+		GoSub,<cm_OpenRecycled>
+	Else
+	{
+		ThisMenuItem := RegExReplace(A_ThisMenuItem,"\t.*$")
+		ControlSetText,%TCEdit%,cd %ThisMenuItem%,ahk_class TTOTAL_CMD
+		ControlSend,%TCEdit%,{enter},ahk_class TTOTAL_CMD
+	}
+}
+; <DownSelect> {{{1
+<DownSelect>:
+	Send +{Down}
+return
+; <upSelect> {{{1
+<upSelect>:
+	Send +{Up}
+return
+; <WinMaxLeft> {{{1
+<WinMaxLeft>:
+	WinMaxLR(true)
+Return
+; <WinMaxRight> {{{1
+<WinMaxRight>:
+	WinMaxLR(false)
+Return
+WinMaxLR(lr)
+{
+	If lr
+	{
+		ControlGetPos,x,y,w,h,%TCPanel2%,ahk_class TTOTAL_CMD
+		ControlGetPos,tm1x,tm1y,tm1W,tm1H,%TCPanel1%,ahk_class TTOTAL_CMD
+		If (tm1w < tm1h) ; 判断纵向还是横向 Ture为竖 false为横
+		{
+			ControlMove,%TCPanel1%,x+w,,,,ahk_class TTOTAL_CMD
+		}
+		else
+			ControlMove,%TCPanel1%,0,y+h,,,ahk_class TTOTAL_CMD
+		ControlClick, %TCPanel1%,ahk_class TTOTAL_CMD
+		WinActivate ahk_class TTOTAL_CMD
+	}
+	Else
+	{
+		ControlMove,%TCPanel1%,0,0,,,ahk_class TTOTAL_CMD
+		ControlClick,%TCPanel1%,ahk_class TTOTAL_CMD
+		WinActivate ahk_class TTOTAL_CMD
+	}
+}
+; <GoLastTab> {{{1
+<GoLastTab>:
+	GoSub,<cm_SrcActivateTab1>
+	GoSub,<cm_SwitchToPreviousTab>
+return
+; <CopyNameOnly> {{{1
+<CopyNameOnly>:
+		CopyNameOnly()
+Return
+CopyNameOnly()
+{
+	clipboard :=
+	GoSub,<cm_CopyNamesToClip>
+	ClipWait
+	If Not RegExMatch(clipboard,"^\..*")
+		clipboard := RegExReplace(RegExReplace(clipboard,"\\$"),"\.[^\.]*$")
+}
+; <ForceDelete>  {{{1
+; 强制删除
+<ForceDelete>:
+	Send +{Delete}
+return
+; <GotoLine> {{{1
+; 转到[count]行,缺省第一行
+<GotoLine>:
+    ; TODO: 是否需要？ Vim_HotKeyCount := vim.GetCount()
+	If ( count := vim.GetCount()) > 1
+		GotoLine(count)
+	Else
+		GotoLine(1)
+return
+; <LastLine> {{{1
+; 转到[count]行, 最后一行
+<LastLine>:
+    ; TODO: 是否需要？ Vim_HotKeyCount := vim.GetCount()
+	If ( count := vim.GetCount()) > 1
+		GotoLine(count)
+	Else
+		GotoLine(0)
+return
+GotoLine(Index)
+{
+	Vim_HotKeyCount := 0
+	ControlGetFocus,Ctrl,AHK_CLASS TTOTAL_CMD
+	If Index
+	{
+		;Index--
+		ControlGet,text,List,,%ctrl%,AHK_CLASS TTOTAL_CMD
+		Stringsplit,T,Text,`n
+		Last := T0 - 1
+		If Index > %Last%
+			Index := Last
+		Postmessage,0x19E,%Index%,1,%Ctrl%,AHK_CLASS TTOTAL_CMD
+	}
+	Else
+	{
+		ControlGet,text,List,,%ctrl%,AHK_CLASS TTOTAL_CMD
+		Stringsplit,T,Text,`n
+		Last := T0 - 1
+		PostMessage, 0x19E,  %Last% , 1 , %CTRL%, AHK_CLASS TTOTAL_CMD
+	}
+}
+; <Half>  {{{1
+; 移动到窗口中间
+<Half>:
+		Half()
+Return
+Half()
+{
+	winget,tid,id,ahk_class TTOTAL_CMD
+	controlgetfocus,ctrl,ahk_id %tid%
+	controlget,cid,hwnd,,%ctrl%,ahk_id %tid%
+	controlgetpos,x1,y1,w1,h1,THeaderClick2,ahk_id %tid%
+	controlgetpos,x,y,w,h,%ctrl%,ahk_id %tid%
+	SendMessage,0x01A1,1,0,,ahk_id %cid%
+	Hight := ErrorLevel
+	SendMessage,0x018E,0,0,,ahk_id %cid%
+	Top := ErrorLevel
+	HalfLine := Ceil( ((h-h1)/Hight)/2 ) + Top
+	PostMessage, 0x19E, %HalfLine%, 1, , AHK_id %cid%
+}
+; <Mark> {{{1
+; 标记功能
+<Mark>:
+	Mark()
+Return
+Mark()
+{
+	vim.mode("insert")
+	GoSub,<cm_FocusCmdLine>
+	ControlGet,EditId,Hwnd,,AHK_CLASS TTOTAL_CMD
+	ControlSetText,%TCEdit%,m,AHK_CLASS TTOTAL_CMD
+	Postmessage,0xB1,2,2,%TCEdit%,AHK_CLASS TTOTAL_CMD
+	SetTimer,<MarkTimer>,100
+}
+<MarkTimer>:
+	MarkTimer()
+Return
+MarkTimer()
+{
+	ControlGetFocus,ThisControl,AHK_CLASS TTOTAL_CMD
+	ControlGetText,OutVar,%TCEdit%,AHK_CLASS TTOTAL_CMD
+	Match_TCEdit := "i)^" . TCEdit . "$"
+	If Not RegExMatch(ThisControl,Match_TCEdit) OR Not RegExMatch(Outvar,"i)^m.?")
+	{
+		vim.mode("normal")
+		Settimer,<MarkTimer>,Off
+		Return
+	}
+	If RegExMatch(OutVar,"i)^m.+")
+	{
+		vim.mode("normal")
+		SetTimer,<MarkTimer>,off
+		ControlSetText,%TCEdit%,,AHK_CLASS TTOTAL_CMD
+		ControlSend,%TCEdit%,{Esc},AHK_CLASS TTOTAL_CMD
+		ClipSaved := ClipboardAll
+		Clipboard :=
+		Postmessage 1075, 2029, 0, , ahk_class TTOTAL_CMD
+		ClipWait
+		Path := Clipboard
+		Clipboard := ClipSaved
+		If StrLen(Path) > 80
+		{
+			SplitPath,Path,,PathDir
+			Path1 := SubStr(Path,1,15)
+			Path2 := SubStr(Path,RegExMatch(Path,"\\[^\\]*$")-Strlen(Path))
+			Path := Path1 . "..." . SubStr(Path2,1,65) "..."
+		}
+		M := SubStr(OutVar,2,1)
+		mPath := "&" . m . ">>" . Path
+		If RegExMatch(Mark["ms"],m)
+		{
+			DelM := Mark[m]
+			Menu,MarkMenu,Delete,%DelM%
+			Menu,MarkMenu,Add,%mPath%,<AddMark>
+			Mark["ms"] := Mark["ms"] . m
+			Mark[m] := mPath
+		}
+		Else
+		{
+			Menu,MarkMenu,Add,%mPath%,<AddMark>
+			Mark["ms"] := Mark["ms"] . m
+			Mark[m] := mPath
+		}
+	}
+}
+<AddMark>:
+	AddMark()
+Return
+AddMark()
+{
+	ThisMenuItem := SubStr(A_ThisMenuItem,5,StrLen(A_ThisMenuItem))
+	If RegExMatch(ThisMenuItem,"i)\\\\桌面$")
+	{
+		Postmessage 1075, 2121, 0, , ahk_class TTOTAL_CMD
+		Return
+	}
+	If RegExMatch(ThisMenuItem,"i)\\\\计算机$")
+	{
+		Postmessage 1075, 2122, 0, , ahk_class TTOTAL_CMD
+		Return
+	}
+	If RegExMatch(ThisMenuItem,"i)\\\\所有控制面板项$")
+	{
+		Postmessage 1075, 2123, 0, , ahk_class TTOTAL_CMD
+		Return
+	}
+	If RegExMatch(ThisMenuItem,"i)\\\\Fonts$")
+	{
+		Postmessage 1075, 2124, 0, , ahk_class TTOTAL_CMD
+		Return
+	}
+	If RegExMatch(ThisMenuItem,"i)\\\\网络$")
+	{
+		Postmessage 1075, 2125, 0, , ahk_class TTOTAL_CMD
+		Return
+	}
+	If RegExMatch(ThisMenuItem,"i)\\\\打印机$")
+	{
+		Postmessage 1075, 2126, 0, , ahk_class TTOTAL_CMD
+		Return
+	}
+	If RegExMatch(ThisMenuItem,"i)\\\\回收站$")
+	{
+		Postmessage 1075, 2127, 0, , ahk_class TTOTAL_CMD
+		Return
+	}
+	ControlSetText, %TCEdit%, cd %ThisMenuItem%, ahk_class TTOTAL_CMD
+	ControlSend, %TCEdit%, {Enter}, ahk_class TTOTAL_CMD
+	Return
+}
+; <ListMark> {{{1
+; 显示标记
+<ListMark>:
+	ListMark()
+Return
+ListMark()
+{
+	If Not Mark["ms"]
+		Return
+	ControlGetFocus,TLB,ahk_class TTOTAL_CMD
+	ControlGetPos,xn,yn,,,%TLB%,ahk_class TTOTAL_CMD
+	Menu,MarkMenu,Show,%xn%,%yn%
+}
+; <CreateNewFile> {{{1
+; 新建文件
+<CreateNewFile>:
+	CreateNewFile()
+return
+CreateNewFile()
+{
+	ControlGetFocus,TLB,ahk_class TTOTAL_CMD
+	ControlGetPos,xn,yn,,,%TLB%,ahk_class TTOTAL_CMD
+	Menu,FileTemp,Add
+	Menu,FileTemp,DeleteAll
+	Menu,FileTemp,Add ,0 新建文件,:CreateNewFile
+	Menu,FileTemp,Icon,0 新建文件,%A_WinDir%\system32\Shell32.dll,-152
+	Menu,FileTemp,Add ,1 文件夹,<cm_Mkdir>
+	Menu,FileTemp,Icon,1 文件夹,%A_WinDir%\system32\Shell32.dll,4
+	Menu,FileTemp,Add ,2 快捷方式,<cm_CreateShortcut>
+	Menu,FileTemp,Icon,2 快捷方式,%A_WinDir%\system32\Shell32.dll,264
+	Menu,FileTemp,Add ,3 添加到新模板,<AddToTempFiles>
+	Menu,FileTemp,Icon,3 添加到新模板,%A_WinDir%\system32\Shell32.dll,-155
+	FileTempMenuCheck()
+	Menu,FileTemp,Show,%xn%,%yn%
+}
+; 检查文件模板功能
+FileTempMenuCheck()
+{
+	Global TCPath
+	Splitpath,TCPath,,TCDir
+	Loop,%TCDir%\shellnew\*.*
+	{
+		If A_Index = 1
+			Menu,FileTemp,Add
+		ft := chr(64+A_Index) . " >> " . A_LoopFileName
+		Menu,FileTemp,Add,%ft%,FileTempNew
+		Ext := "." . A_LoopFileExt
+		IconFile := RegGetNewFileIcon(Ext)
+		IconFIle := RegExReplace(IconFile,"i)%systemroot%",A_WinDir)
+		IconFilePath := RegExReplace(IconFile,",-?\d*","")
+		IconFileIndex := RegExReplace(IconFile,".*,","")
+		If Not FileExist(IconFilePath)
+			Menu,FileTemp,Icon,%ft%,%A_WinDir%\system32\Shell32.dll,-152
+		Else
+			Menu,FileTemp,Icon,%ft%,%IconFilePath%,%IconFileIndex%
+	}
+}
+; 添加到文件模板中
+<AddToTempFiles>:
+	AddToTempFiles()
+return
+AddToTempFiles()
+{
+	ClipSaved := ClipboardAll
+	Clipboard :=
+	GoSub,<cm_CopyFullNamesToClip>
+	ClipWait,2
+	If clipboard
+		AddPath := clipboard
+	Else
+		Return
+	clipboard := ClipSaved
+	If FileExist(AddPath)
+		Splitpath,AddPath,filename,,fileext,filenamenoext
+	else
+		Return
+	Gui, Destroy
+	Gui, Add, Text, Hidden, %AddPath%
+	Gui, Add, Text, x12 y20 w50 h20 +Center, 模板源
+	Gui, Add, Edit, x72 y20 w300 h20 Disabled, %FileName%
+	Gui, Add, Text, x12 y50 w50 h20 +Center, 模板名
+	Gui, Add, Edit, x72 y50 w300 h20 , %FileName%
+	Gui, Add, Button, x162 y80 w90 h30 gAddTempOK default, 确认(&S)
+	Gui, Add, Button, x282 y80 w90 h30 gNewFileClose , 取消(&C)
+	Gui, Show, w400 h120, 添加模板
+	If Fileext
+	{
+		Controlget,nf,hwnd,,edit2,A
+		PostMessage,0x0B1,0,Strlen(filenamenoext),Edit2,A
+	}
+}
+AddTempOK:
+	AddTempOK()
+return
+AddTempOK()
+{
+	Global TCPath
+	GuiControlGet,SrcPath,,Static1
+	Splitpath,SrcPath,filename,,fileext,filenamenoext
+	GuiControlGet,NewFileName,,Edit2
+	SNDir := RegExReplace(TCPath,"[^\\]*$") . "ShellNew\"
+	If Not FileExist(SNDir)
+		FileCreateDir,%SNDir%
+	NewFile := SNDir . NewFileName
+	FileCopy,%SrcPath%,%NewFile%,1
+	Gui,Destroy
+}
+; 新建文件模板
+FileTempNew:
+	NewFile(RegExReplace(A_ThisMenuItem,".\s>>\s",RegExReplace(TCPath,"\\[^\\]*$","\shellnew\")))
+return
+; 新建文件
+NewFile:
+	NewFile()
+return
+NewFile(File="")
+{
+	Global NewFile
+	If Not File
+		File := RegExReplace(NewFiles[A_ThisMenuItemPos],"(.*\[|\]$)","")
+	If Not FileExist(File)
+	{
+		RegRead,ShellNewDir,HKEY_USERS,.default\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders
+		If Not ShellNewDir
+			ShellNewDir := "C:\windows\Shellnew"
+		File := ShellNewDir . "\" file
+		If RegExMatch(SubStr(file,-7),"NullFile")
+		{
+			fileext := RegExReplace(NewFiles[A_ThisMenuItemPos],"(.*\(|\).*)")
+			File := "New" . fileext
+			FileName := "New" . fileext
+			FileNamenoext := "New"
+		}
+	}
+	Else
+		Splitpath,file,filename,,fileext,filenamenoext
+	Gui, Destroy
+	Gui, Add, Text, x12 y20 w50 h20 +Center, 模板源
+	Gui, Add, Edit, x72 y20 w300 h20 Disabled, %file%
+	Gui, Add, Text, x12 y50 w50 h20 +Center, 新建文件
+	Gui, Add, Edit, x72 y50 w300 h20 , %filename%
+	Gui, Add, Button, x162 y80 w90 h30 gNewFileOk default, 确认(&S)
+	Gui, Add, Button, x282 y80 w90 h30 gNewFileClose , 取消(&C)
+	Gui, Show, w400 h120, 新建文件
+	If Fileext
+	{
+		Controlget,nf,hwnd,,edit2,A
+		PostMessage,0x0B1,0,Strlen(filenamenoext),Edit2,A
+	}
+	return
+}
+; 关闭新建文件窗口
+NewFileClose:
+	Gui,Destroy
+return
+
+; 确认新建文件
+NewFileOK:
+	NewFileOK()
+return
+NewFileOK()
+{
+	GuiControlGet,SrcPath,,Edit1
+	GuiControlGet,NewFileName,,Edit2
+	ClipSaved := ClipboardAll
+	Clipboard :=
+	GoSub,<cm_CopySrcPathToClip>
+	ClipWait,2
+	If clipboard
+		DstPath := Clipboard
+	Else
+		Return
+	clipboard := ClipSaved
+		If RegExMatch(DstPath,"^\\\\计算机$")
+		Return
+	If RegExMatch(DstPath,"i)\\\\所有控制面板项$")
+		Return
+	If RegExMatch(DstPath,"i)\\\\Fonts$")
+		Return
+	If RegExMatch(DstPath,"i)\\\\网络$")
+		Return
+	If RegExMatch(DstPath,"i)\\\\打印机$")
+		Return
+	If RegExMatch(DstPath,"i)\\\\回收站$")
+		Return
+	If RegExmatch(DstPath,"^\\\\桌面$")
+		DstPath := A_Desktop
+	NewFile := DstPath . "\" . NewFileName
+	If FileExist(NewFile)
+	{
+		MsgBox, 4, 新建文件, 新建文件已存在，是否覆盖？
+		IfMsgBox No
+			Return
+	}
+		FileCopy,%SrcPath%,%NewFile%,1
+	Gui,Destroy
+	WinActivate,AHK_CLASS TTOTAL_CMD
+	ControlGetFocus,FocusCtrl,AHK_Class TTOTAL_CMD
+	IF RegExMatch(FocusCtrl,TCListBox)
+	{
+		GoSub,<cm_RereadSource>
+		ControlGet,Text,List,,%FocusCtrl%,AHK_CLASS TTOTAL_CMD
+		Loop,Parse,Text,`n
+		{
+			If RegExMatch(A_LoopField,NewFileName)
+			{
+				Index := A_Index - 1
+				Postmessage,0x19E,%Index%,1,%FocusCtrl%,AHK_CLASS TTOTAL_CMD
+				Break
+			}
+		}
+	}
+}
+;============================================================================
+; ReadNewFile()
+; 新建文件菜单
+ReadNewFile()
+{
+	NewFiles[0] := 0
+	SetBatchLines -1
+	Loop,HKEY_CLASSES_ROOT ,,1,0
+	{
+		If RegExMatch(A_LoopRegName,"^\..*")
+		{
+			Reg := A_LoopRegName
+			Loop,HKEY_CLASSES_ROOT,%Reg%,1,1
+			{
+				If RegExMatch(A_LoopRegName,"i)shellnew")
+				{
+					NewReg := A_LoopRegSubKey "\shellnew"
+					If RegGetNewFilePath(NewReg)
+					{
+						NewFiles[0]++
+						Index := NewFiles[0]
+						NewFiles[Index] := RegGetNewFileDescribe(Reg) . "(" . Reg . ")[" . RegGetNewFilePath(NewReg) . "]"
+					}
+				}
+			}
+		}
+	}
+	LoopCount := NewFiles[0]
+	Half := LoopCount/2
+	Loop % LoopCount
+	{
+		If A_Index < %Half%
+		{
+			B_Index := NewFiles[0] - A_Index + 1
+			C_Index := NewFiles[A_Index]
+			NewFiles[A_Index] := NewFiles[B_Index]
+			NewFiles[B_Index] := C_Index
+		}
+	}
+	Menu,CreateNewFile,UseErrorLevel,On
+	Loop % NewFiles[0]
+	{
+		File := RegExReplace(NewFiles[A_Index],"\(.*","")
+		Exec := RegExReplace(NewFiles[A_Index],"(.*\(|\)\[.*)","")
+		MenuFile := Chr(A_Index+64) . " >> " . File . "(" Exec . ")"
+		Menu,CreateNewFile,Add,%MenuFile%,NewFile
+
+		IconFile := RegGetNewFileIcon(Exec)
+		IconFIle := RegExReplace(IconFile,"i)%systemroot%",A_WinDir)
+		IconFilePath := RegExReplace(IconFile,",-?\d*","")
+		If Not FileExist(IconFilePath)
+			IconFilePath := ""
+		IconFileIndex := RegExReplace(IconFile,".*,","")
+		If Not RegExMatch(IconFileIndex,"^-?\d*$")
+			IconFileIndex := ""
+		If RegExMatch(Exec,"\.lnk")
+		{
+			IconFilePath := A_WinDir . "\system32\Shell32.dll"
+			IconFileIndex := "264"
+		}
+		Menu,CreateNewFile,Icon,%MenuFile%,%IconFilePath%,%IconFileIndex%
+	}
+}
+; 获取新建文件的源
+; reg 为后缀
+RegGetNewFilePath(reg)
+{
+	RegRead,GetRegPath,HKEY_CLASSES_ROOT,%Reg%,FileName
+	IF Not ErrorLevel
+		Return GetRegPath
+	RegRead,GetRegPath,HKEY_CLASSES_ROOT,%Reg%,NullFile
+	IF Not ErrorLevel
+		Return "NullFile"
+}
+; RegGetNewFileType(reg)
+; 获取新建文件类型名
+; reg 为后缀
+RegGetNewFileType(reg)
+{
+	RegRead,FileType,HKEY_CLASSES_ROOT,%Reg%
+	If Not ErrorLevel
+		Return FileType
+}
+; 获取文件描述
+; reg 为后缀
+RegGetNewFileDescribe(reg)
+{
+	FileType := RegGetNewFileType(reg)
+	RegRead,FileDesc,HKEY_CLASSES_ROOT,%FileType%
+	If Not ErrorLevel
+		Return FileDesc
+}
+; 获取文件对应的图标
+; reg 为后缀
+RegGetNewFileIcon(reg)
+{
+	IconPath := RegGetNewFileType(reg) . "\DefaultIcon"
+	RegRead,FileIcon,HKEY_CLASSES_ROOT,%IconPath%
+	If Not ErrorLevel
+		Return FileIcon
+}
+; <GoToParentEx> {{{1
+; 返回到上层文件夹，可返回到我的电脑
+<GoToParentEx>:
+	IsRootDir()
+	GoSub,<cm_GoToParent>
+return
+IsRootDir()
+{
+	ClipSaved := ClipboardAll
+	clipboard :=
+	GoSub,<cm_CopySrcPathToClip>
+	ClipWait,1
+	Path := Clipboard
+	Clipboard := ClipSaved
+	If RegExMatch(Path,"^.:\\$")
+	{
+		GoSub,<cm_OpenDrives>
+		Path := "i)" . RegExReplace(Path,"\\","")
+		ControlGetFocus,focus_control,AHK_CLASS TTOTAL_CMD
+		ControlGet,outvar,list,,%focus_control%,AHK_CLASS TTOTAL_CMD
+		Loop,Parse,Outvar,`n
+		{
+			If Not A_LoopField
+				Break
+			If RegExMatch(A_LoopField,Path)
+			{
+				Focus := A_Index - 1
+				Break
+			}
+		}
+		PostMessage, 0x19E, %Focus%, 1, %focus_control%, AHK_CLASS TTOTAL_CMD
+	}
+}
+<AlwayOnTop>:
+	AlwayOnTop()
+Return
+AlwayOnTop()
+{
+	WinGet,ExStyle,ExStyle,ahk_class TTOTAL_CMD
+	If (ExStyle & 0x8)
+   		WinSet,AlwaysOnTop,off,ahk_class TTOTAL_CMD
+	else
+   		WinSet,AlwaysOnTop,on,ahk_class TTOTAL_CMD 
+}
+
+; LeftRight(){{{1
+LeftRight(){
+	
+	location := 0
+	ControlGetPos,x1,y1,,,%TCPanel1%,AHK_CLASS TTOTAL_CMD
+	If x1 > %y1%
+		location += 2
+	ControlGetFocus,TLB,ahk_class TTOTAL_CMD
+	ControlGetPos,x2,y2,wn,,%TLB%,ahk_class TTOTAL_CMD
+	If location
+	{
+		If x1 > %x2%
+			location += 1
+	}
+	Else
+	{
+		If y1 > %y2%
+			location += 1
+	}
+	return location
+}
+
+; 增强命令 By 流彩 {{{1
+;<OpenDriveThat>: >>打开驱动器列表:另侧{{{2
+<OpenDriveThis>:
+	ControlGetFocus,CurrentFocus,AHK_CLASS TTOTAL_CMD
+	if CurrentFocus not in TMyListBox2,TMyListBox1
+		return
+	if CurrentFocus in TMyListBox2
+		SendPos(131)
+	else
+		SendPos(231)
+Return
+
+;<OpenDriveThis>: >>打开驱动器列表:本侧{{{2
+<OpenDriveThat>:
+	ControlGetFocus,CurrentFocus,AHK_CLASS TTOTAL_CMD
+	if CurrentFocus not in TMyListBox2,TMyListBox1
+		return
+	if CurrentFocus in TMyListBox2
+		SendPos(231)
+	else
+		SendPos(131)
+Return
+
+;<DirectoryHotlistother>: >>常用文件夹:另一侧{{{2
+<DirectoryHotlistother>:
+	ControlGetFocus,CurrentFocus,AHK_CLASS TTOTAL_CMD
+	if CurrentFocus not in TMyListBox2,TMyListBox1
+		return
+	if CurrentFocus in TMyListBox2
+		otherlist = TMyListBox1
+	else
+		otherlist = TMyListBox2
+	ControlFocus, %otherlist% ,ahk_class TTOTAL_CMD
+	SendPos(526)
+	SetTimer WaitMenuPop3
+return
+WaitMenuPop3:
+	winget,menupop,,ahk_class #32768
+	if menupop
+	{
+		SetTimer, WaitMenuPop3 ,Off
+		SetTimer, WaitMenuOff3
+	}
+return
+WaitMenuOff3:
+	winget,menupop,,ahk_class #32768
+	if not menupop
+	{
+		SetTimer,WaitMenuOff3, off
+		goto, goonhot
+	}
+return
+goonhot:
+ControlFocus, %CurrentFocus% ,ahk_class TTOTAL_CMD
+Return
+
+;<CopyDirectoryHotlist>: >>复制到常用文件夹{{{2
+<CopyDirectoryHotlist>:
+	ControlGetFocus,CurrentFocus,AHK_CLASS TTOTAL_CMD
+	if CurrentFocus not in TMyListBox2,TMyListBox1
+		return
+	if CurrentFocus in TMyListBox2
+		otherlist = TMyListBox1
+	else
+		otherlist = TMyListBox2
+	ControlFocus, %otherlist% ,ahk_class TTOTAL_CMD
+	SendPos(526)
+	SetTimer WaitMenuPop1
+return
+WaitMenuPop1:
+winget,menupop,,ahk_class #32768
+if menupop
+	{
+		SetTimer, WaitMenuPop1 ,Off
+		SetTimer, WaitMenuOff1
+	}
+return
+WaitMenuOff1:
+	winget,menupop,,ahk_class #32768
+	if not menupop
+	{
+		SetTimer,WaitMenuOff1, off
+		goto, gooncopy
+	}
+return
+gooncopy:
+	ControlFocus, %CurrentFocus% ,ahk_class TTOTAL_CMD
+	SendPos(3101)
+return
+
+;<MoveDirectoryHotlist>: >>移动到常用文件夹{{{2
+<MoveDirectoryHotlist>:
+	If SendPos(0)
+		ControlGetFocus,CurrentFocus,AHK_CLASS TTOTAL_CMD
+	if CurrentFocus not in TMyListBox2,TMyListBox1
+		return
+	if CurrentFocus in TMyListBox2
+		otherlist = TMyListBox1
+	else
+		otherlist = TMyListBox2
+	ControlFocus, %otherlist% ,ahk_class TTOTAL_CMD
+	SendPos(526)
+	SetTimer WaitMenuPop2
+return
+WaitMenuPop2:
+	winget,menupop,,ahk_class #32768
+	if menupop
+	{
+		SetTimer, WaitMenuPop2 ,Off
+		SetTimer, WaitMenuOff2
+	}
+return
+WaitMenuOff2:
+	winget,menupop,,ahk_class #32768
+	if not menupop
+	{
+	SetTimer,WaitMenuOff2, off
+	goto, goonmove
+	}
+return
+GoonMove:
+	ControlFocus, %CurrentFocus% ,ahk_class TTOTAL_CMD
+	SendPos(1005)
+return
+
+;<GotoPreviousDirOther>: >>后退另一侧{{{2
+<GotoPreviousDirOther>:
+	Send {Tab}
+	SendPos(570)
+	Send {Tab}
+Return
+
+;<GotoNextDirOther>: >>前进另一侧{{{2
+<GotoNextDirOther>:
+	Send {Tab}
+	SendPos(571)
+	Send {Tab}
+Return
+
+
+<Totalcomander_GUI>:
+return
+
+Totalcomander_select_tc:
+	Totalcomander_select_tc()
+return
+Totalcomander_select_tc(){
+	GUI,FindTC:Default
+	GuiControlGet,dir,,Edit1
+	TCPath := dir "\totalcmd.exe"
+	TCINI  := dir "\wincmd.ini"
+	GUi,FindTC:Destroy
+	f := TCConfig.filepath
+	IniWrite,%TCPath%,%f%,config,tcpath
+	IniWrite,%TCINI%,%f%,config,tcini
+}
+Totalcomander_select_tc64:
+	Totalcomander_select_tc64()
+return
+Totalcomander_select_tc64(){
+	GUI,FindTC:Default
+	GuiControlGet,dir,,Edit1
+	TCPath := dir "\totalcmd64.exe"
+	TCINI  := dir "\wincmd.ini"
+	GUi,FindTC:Destroy
+	f := TCConfig.filepath
+	IniWrite,%TCPath%,%f%,config,tcpath
+	IniWrite,%TCINI%,%f%,config,tcini
+}
+Totalcomander_select_tcdir:
+	Totalcomander_select_tcdir()
+return
+Totalcomander_select_tcdir(){
+	FileSelectFolder,tcdir,,0,打开TC安装目录
+	GuiControl,,Edit1,%tcdir%
+}
+
+
+
+
+
+
+
+
+; TC自带命令 {{{1
 ;==================================================
 ;=======使用VIM下的VOom 插件可以很方便的查看=======
 ;==================================================

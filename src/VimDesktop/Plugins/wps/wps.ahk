@@ -1,4 +1,4 @@
-WPS:
+ï»¿WPS:
 	return
 	Global wpsApp
 	vim.mode("insert","QWidget")
@@ -12,10 +12,10 @@ WPS:
 	vim.map("j","<WPS_NextLine>","QWidget")
 	vim.map("k","<WPS_PreviousLine>","QWidget")
 
-	vim.Comment("<WPS_NextChar>","Ïò×óÒÆ¶¯Ò»¸ö×Ö·û",0)
-	vim.Comment("<WPS_PreviousChar>","ÏòÓÒÒÆ¶¯Ò»¸ö×Ö·û",0)
-	vim.Comment("<WPS_NextLine>","ÏòÏÂÒÆ¶¯Ò»ĞĞ",0)
-	vim.Comment("<WPS_PreviousLine>","ÏòÉÏÒÆ¶¯Ò»ĞĞ",0)
+	vim.Comment("<WPS_NextChar>","å‘å·¦ç§»åŠ¨ä¸€ä¸ªå­—ç¬¦",0)
+	vim.Comment("<WPS_PreviousChar>","å‘å³ç§»åŠ¨ä¸€ä¸ªå­—ç¬¦",0)
+	vim.Comment("<WPS_NextLine>","å‘ä¸‹ç§»åŠ¨ä¸€è¡Œ",0)
+	vim.Comment("<WPS_PreviousLine>","å‘ä¸Šç§»åŠ¨ä¸€è¡Œ",0)
 
 	vim.map("1","<1>","QWidget")
 	vim.map("2","<2>","QWidget")

@@ -35,9 +35,15 @@ class INI {
 				this.content[sec "`ncomment"] .= LoopString "`n"
 				continue
 			}
-			k := Trim(SubStr(LoopString,1,InStr(LoopString , "=" ) -1 ))
-            v := Trim(SubStr(LoopString,InStr(LoopString, "=") + 1))
-			this.content[sec "`nkeys"] .= k "`n"
+			If InStr(LoopString,"=")
+			{
+				k := Trim(SubStr(LoopString,1,InStr(LoopString , "=" ) -1 ))
+				v := Trim(SubStr(LoopString,InStr(LoopString, "=") + 1))
+			}
+			Else
+				k := LoopString
+			If Strlen(k)
+				this.content[sec "`nkeys"] .= k "`n"
 			this.content[sec "`nkeyValue"] .= LoopString "`n"
 			this.content[sec "`n" k] := v
 			idx := this.content[sec "`nnumber"] + 1
@@ -237,7 +243,7 @@ class INI {
 		}
 		return substr(rs,1,strlen(rs)-1)
 	}
-	; Insert_Down(section,Number,string) {{{2
+	; Insert(section,Number,string,d=1) {{{2
 	Insert(section,Number,string,d=1) {
 		this.CheckTime()
 		sl := this.GetSections()
@@ -258,6 +264,15 @@ class INI {
 		}
 		this.Read(rs)
 		this.Write()
+	}
+	iniwrite(section,key,string){
+		p := this.filePath
+		iniwrite,%string%,%p%,%section%,%key%
+	}
+	iniread(section,key,default=""){
+		p := this.filePath
+		iniread,v,%p%,%section%,%key%,%default%
+		return v
 	}
 
 	; GetINI() {{{2

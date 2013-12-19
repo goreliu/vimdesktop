@@ -1,4 +1,6 @@
 ﻿#NoTrayIcon
+Send_WM_COPYDATA("exitapp")
+FileEncoding,utf-8
 ExtensionsAHK := A_ScriptDir "\plugins\plugins.ahk"
 /*If Not FileExist(ExtensionsAHK)
 	FileAppend,,%ExtensionsAHK%
@@ -21,32 +23,37 @@ Loop,Parse,Extensions,`n,`r
 Filedelete,%ExtensionsAHK%
 FileAppend,%NewExtensions%,%ExtensionsAHK%
 ; 查询是否有新插件加入
-Loop,%A_ScriptDir%\Plugins\*.ahk
-{
-	If RegExMatch(A_LoopFileName,"i)^plugins\.ahk$")
-		Continue
-	Else
-	{
-		Match := "\t" ToMatch(A_LoopFileName) "\t"
-		If Not RegExMatch(ExtensionsNames,Match)
-			FileAppend,#include `%A_ScriptDir`%\plugins\%A_LoopFileName%`n , %ExtensionsAHK%
-	}
-}
+Loop,%A_ScriptDir%\Plugins\*.*,2
+	plugins .=  "#include `%A_ScriptDir`%\plugins\" A_LoopFileName "\" A_LoopFileName ".ahk`n"
+FileAppend,%plugins%,%ExtensionsAHK%
 ; 保存修改时间
 SaveTime := "/*`r`n[ExtensionsTime]`r`n"
-Loop,%A_ScriptDir%\plugins\*.ahk
+Loop,%A_ScriptDir%\plugins\*.*,2
 {
-	If RegExMatch(A_LoopFileName,"i)^plugins.ahk$")
-		Continue
-	FileGetTime,ExtensionsTime,%A_LoopFileFullPath%,M
-	SaveTime .= RegExReplace(A_LoopFileName,"i)\.ahk$") "=" ExtensionsTime "`r`n"
+	plugin :=  A_ScriptDir "\plugins\" A_LoopFileName "\" A_LoopFileName ".ahk"
+	FileGetTime,ExtensionsTime,%plugin%,M
+	SaveTime .= A_LoopFileName "=" ExtensionsTime "`r`n"
 }
 SaveTime .= "*/`r`n"
 FileAppend,%SaveTime%,%ExtensionsAHK%
 FileRead,Extensions,%ExtensionsAHK%
 Run %A_AHKPath% "%A_ScriptDir%\vimd.ahk"
 Exit
-
+Send_WM_COPYDATA(ByRef StringToSend, ByRef TargetScriptTitle="vimd.ahk ahk_class AutoHotkey")
+{
+    VarSetCapacity(CopyDataStruct, 3*A_PtrSize, 0)  
+    SizeInBytes := (StrLen(StringToSend) + 1) * (A_IsUnicode ? 2 : 1)
+    NumPut(SizeInBytes, CopyDataStruct, A_PtrSize) 
+    NumPut(&StringToSend, CopyDataStruct, 2*A_PtrSize)
+    Prev_DetectHiddenWindows := A_DetectHiddenWindows
+    Prev_TitleMatchMode := A_TitleMatchMode
+    DetectHiddenWindows On
+    SetTitleMatchMode 2
+    SendMessage, 0x4a, 0, &CopyDataStruct,, %TargetScriptTitle%  
+    DetectHiddenWindows %Prev_DetectHiddenWindows%  
+    SetTitleMatchMode %Prev_TitleMatchMode% 
+    return ErrorLevel  
+}
 
 
 ToMatch(str){
