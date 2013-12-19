@@ -5,7 +5,7 @@
 
 下载地址
 --------
-[VimDesktop 1.1.3](https://raw.github.com/victorwoo/vimdesktop/master/build/VimDesktop-1.1.3.zip)
+[VimDesktop 1.2.1](https://github.com/victorwoo/vimdesktop/archive/master.zip)
 
 运行要求
 --------
