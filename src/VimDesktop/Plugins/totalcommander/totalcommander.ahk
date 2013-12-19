@@ -90,6 +90,9 @@
 	;复制/移动到右侧 f取file的意思 filecopy
 	vim.map("fc","<cm_CopyOtherpanel>","TTOTAL_CMD")
 	vim.map("fx","<cm_MoveOnly>","TTOTAL_CMD")
+	;使用队列复制/移动到右侧 q-queue,如果没有快速按下q，则由用户确认 
+	vim.map("fcq","<CopyUseQueues>","TTOTAL_CMD")
+	vim.map("fxq","<MoveUseQueues>","TTOTAL_CMD")
 	;ff复制到剪切板 fz剪切到剪切板 fv粘贴
 	vim.map("ff","<cm_CopyToClipboard>","TTOTAL_CMD")
 	vim.map("fz","<cm_CutToClipboard>","TTOTAL_CMD")
@@ -1119,6 +1122,19 @@ gooncopy:
 	ControlFocus, %CurrentFocus% ,ahk_class TTOTAL_CMD
 	SendPos(3101)
 return
+
+
+;<CopyUseQueues>: >>无需确认，使用队列拷贝文件至另一窗口{{{2
+<CopyUseQueues>:
+	Send {F5}
+	Send {F2}
+Return
+
+;<MoveUseQueues>: >>无需确认，使用队列移动文件{{{2
+<MoveUseQueues>:
+	Send {F6}
+	Send {F2}
+Return
 
 ;<MoveDirectoryHotlist>: >>移动到常用文件夹{{{2
 <MoveDirectoryHotlist>:
