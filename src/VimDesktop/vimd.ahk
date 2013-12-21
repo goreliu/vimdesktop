@@ -22,6 +22,9 @@ Menu,Tray,Icon,viatc.ico
 ; Read Config {{{1
 If Not FileExist(A_ScriptDir "\vimd.ini")
 	FileAppend,,%A_ScriptDir%\vimd.ini
+If Not FileExist(A_ScriptDir "\plugins\plugins.ahk")
+	Run %A_ScriptDir%\check.ahk
+
 config := GetINIObj(A_ScriptDir "\vimd.ini")
 plog   := GetINIObj(A_ScriptDir "\plugins\plugins.ahk")
 
