@@ -1,0 +1,61 @@
+﻿[使用说明]
+如果您希望更改VimDesktop的默认配置，可执行如下操作：
+1.在当前路径复制本文件的拷贝，并重命名为：vimd.ini
+2.根据分号 ; 之后的提示内容进行相应修改
+
+;=====系统配置=============================
+[config]
+;?
+InvalidMode=1
+
+;更改*.ahk文件后，是否自动加载
+autoload=1
+
+
+;=====插件配置=============================
+[Plugins]
+;左侧为插件文件名，右侧为1表示启用该插件，否则禁用?
+General=1
+TotalCommander=1
+wps=0
+
+;=====全局快捷键配置=======================
+[Global]
+*<ctrl><esc>=<GeneralCopy>[=normal]
+*<lwin>e=<ToggleTC>[=normal]
+*<lwin>z=<Reload>[=normal]
+*<lwin>g=<config>[=normal]
+
+;=====全局禁用的应用程序配置================
+[Global_Exclude]
+;应用程序文件前缀?
+Notepad
+
+;=====Total Commander快捷键配置=============
+[TTOTAL_CMD]
+;热键定义语法
+;ff 热键 --按下两次f键
+;<cm_SearchFor> 对应的动作
+;[=normal] 在normal模式下生效
+ff=<cm_SearchFor>[=normal]
+
+;全选
+a=<cm_SelectAll>[=normal]
+
+;全部取消
+<shift>a=<cm_ClearAll>[=normal]
+
+;删除
+dd=<cm_Delete>[=normal]
+
+;编辑
+e=<cm_edit>[=normal]
+
+;弹出右键菜单
+<shift>e=<cm_ContextMenu>[=normal]
+
+;查看
+v=<cm_list>[=normal]
+
+;弹出USB设备,使用括号指定可执行文件
+dr=(D:\USB_Disk_Eject\USB_Disk_Eject.exe)[=normal]
