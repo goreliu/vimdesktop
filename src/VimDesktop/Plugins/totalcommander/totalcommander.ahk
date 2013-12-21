@@ -90,9 +90,9 @@
 	;复制/移动到右侧 f取file的意思 filecopy
 	vim.map("fc","<cm_CopyOtherpanel>","TTOTAL_CMD")
 	vim.map("fx","<cm_MoveOnly>","TTOTAL_CMD")
-	;使用队列复制/移动到右侧 q-queue,如果没有快速按下q，则由用户确认 
-	vim.map("fcq","<CopyUseQueues>","TTOTAL_CMD")
-	vim.map("fxq","<MoveUseQueues>","TTOTAL_CMD")
+	;使用队列复制/移动到右侧 q-queue,fcq会影响对fc的使用，改用fqc/fqx的方式
+	vim.map("fqc","<CopyUseQueues>","TTOTAL_CMD")
+	vim.map("fqx","<MoveUseQueues>","TTOTAL_CMD")
 	;ff复制到剪切板 fz剪切到剪切板 fv粘贴
 	vim.map("ff","<cm_CopyToClipboard>","TTOTAL_CMD")
 	vim.map("fz","<cm_CutToClipboard>","TTOTAL_CMD")
@@ -160,13 +160,21 @@
 	vim.map("|","<cm_ClearAll>","TTOTAL_CMD")
 	vim.map("-","<cm_SwitchSeparateTree>","TTOTAL_CMD")
 	vim.map("=","<cm_MatchSrc>","TTOTAL_CMD")
+	vim.map(";","<cm_FocusCmdLine>","TTOTAL_CMD")
 	vim.map(":","<cm_FocusCmdLine>","TTOTAL_CMD")
 	vim.map("G","<LastLine>","TTOTAL_CMD")
 	vim.map("ga","<cm_CloseAllTabs>","TTOTAL_CMD")
 	vim.map("gg","<GoToLine>","TTOTAL_CMD")
 	vim.map("g$","<LastLine>","TTOTAL_CMD")
-	vim.map("gn","<cm_SwitchToNextTab>","TTOTAL_CMD")
-	vim.map("gp","<cm_SwitchToPreviousTab>","TTOTAL_CMD")
+
+	;与vim保持一致
+	vim.map("gt","<cm_SwitchToNextTab>","TTOTAL_CMD")
+	vim.map("gT","<cm_SwitchToPreviousTab>","TTOTAL_CMD")
+
+	;将 h 和 l 键用于向前、向后切换 TC 标签页，符合“左移”、“右移”的体验。
+	vim.map("l","<cm_SwitchToNextTab>","TTOTAL_CMD")
+	vim.map("h","<cm_SwitchToPreviousTab>","TTOTAL_CMD")
+
 	vim.map("gc","<cm_CloseCurrentTab>","TTOTAL_CMD")
 	vim.map("gb","<cm_OpenDirInNewTabOther>","TTOTAL_CMD")
 	vim.map("ge","<cm_Exchange>","TTOTAL_CMD")
