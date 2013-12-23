@@ -28,8 +28,9 @@ wps=0
 
 ;=====全局禁用的应用程序配置================
 [Global_Exclude]
-;应用程序文件前缀?
+;应用程序类名
 Notepad
+Vim
 
 ;=====Total Commander快捷键配置=============
 [TTOTAL_CMD]
