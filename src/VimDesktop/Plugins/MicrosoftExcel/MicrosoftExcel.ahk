@@ -11,6 +11,8 @@ global SelectionFirstColumn ;当前选择内容首列
 global SelectionLastColumn ;当前选择内容末列
 global SelectionLastRow ;当前选择内容末行
 global SelectionType ; 当前选择单元格类型 1=A1  2=A1:B1 4=A1:A2 16=A1:B2  18=A1:B1 A1:B2 20=A1:A2 A1:B2
+global FontColor:= 0x0000ff ;填充字体颜色
+global CellColor:= 0xffff00 ;填充表格颜色
 
 	vim.comment("<Insert_Mode_XLMAIN>","insert模式")
 	vim.comment("<Normal_Mode_XLMAIN>","normal模式")
@@ -45,6 +47,11 @@ global SelectionType ; 当前选择单元格类型 1=A1  2=A1:B1 4=A1:A2 16=A1:B
 	vim.map("ZZ","<XLMAIN_SaveAndExit>","XLMAIN")
 	vim.map("ZQ","<XLMAIN_DiscardAndExit>","XLMAIN")
 
+	vim.map("cf","<XLMAIN_Color_Font>","XLMAIN")
+	vim.map("cc","<XLMAIN_Color_Cell>","XLMAIN")
+	vim.map("cmf","<XLMAIN_Color_Menu_Font>","XLMAIN")
+	vim.map("cmc","<XLMAIN_Color_Menu_Cell>","XLMAIN")
+
 
     ;边框
     vim.map("bd","<XLMAIN_边框下框线>","XLMAIN")
@@ -66,6 +73,10 @@ global SelectionType ; 当前选择单元格类型 1=A1  2=A1:B1 4=A1:A2 16=A1:B
     vim.map("T","<XLMAIN_编辑插入新列在左>","XLMAIN")
     vim.map("R","<XLMAIN_编辑替换>","XLMAIN")
 
+	vim.map("ys","<XLMAIN_Copy_Selection>","XLMAIN")
+	vim.map("yy","<XLMAIN_Copy_Row>","XLMAIN")
+	vim.map("yc","<XLMAIN_Copy_Col>","XLMAIN")
+
     vim.map("yl","<XLMAIN_编辑自左侧复制>","XLMAIN")
     vim.map("myl","<XLMAIN_逐行编辑自左侧复制>","XLMAIN")
     vim.map("yr","<XLMAIN_编辑自右侧复制>","XLMAIN")
@@ -73,6 +84,8 @@ global SelectionType ; 当前选择单元格类型 1=A1  2=A1:B1 4=A1:A2 16=A1:B
     vim.map("yu","<XLMAIN_编辑自上侧复制>","XLMAIN")
     vim.map("yd","<XLMAIN_编辑自下侧复制>","XLMAIN")
 
+	vim.map("p","<XLMAIN_Paste>","XLMAIN")
+	vim.map("P","<XLMAIN_Paste_Select>","XLMAIN")
 
 
     ;行指令
@@ -1301,6 +1314,65 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
     return
 }
 
+<XLMAIN_Copy_Selection>:
+{
+	send ^c
+	return
+}
+
+<XLMAIN_Copy_Row>:
+{
+	Excel_Selection()
+	Selection.EntireRow.Select
+	objrelease(excel)
+	send ^c
+	return
+}
+
+<XLMAIN_Copy_Col>:
+{
+	Excel_Selection()
+	Selection.EntireColumn.Select
+	objrelease(excel)
+	send ^c
+	return
+}
+
+<XLMAIN_Paste>:
+{
+	send ^v
+	return
+}
+
+<XLMAIN_Paste_Select>:
+{
+	send ^!v
+	return
+}
+
+<XLMAIN_Color_Font>:
+{
+	getExcel().Selection.Font.Color := 0x0000FF
+	return
+}
+
+
+
+<XLMAIN_Color_Cell>:
+{
+	getExcel().Selection.Interior.Color := CellColor
+	return
+}
+
+<XLMAIN_Color_Menu_Font>:
+{
+	return
+}
+
+<XLMAIN_Color_Menu_Cell>:
+{
+	return
+}
 
 ;编辑复制
 <XLMAIN_编辑自左侧复制>:
@@ -1731,6 +1803,13 @@ return
 
 
 ;===================================================================
+;直接获取Excel
+getExcel(){
+	objRelease(excel)    
+	excel := ComObjActive("Excel.Application") ; 创建Excel对象
+	return excel
+}
+
 Excel_GetCom()
 {
     objRelease(excel)    
