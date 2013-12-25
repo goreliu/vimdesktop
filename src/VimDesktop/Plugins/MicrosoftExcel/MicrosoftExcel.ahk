@@ -12,32 +12,39 @@ global SelectionLastColumn ;当前选择内容末列
 global SelectionLastRow ;当前选择内容末行
 global SelectionType ; 当前选择单元格类型 1=A1  2=A1:B1 4=A1:A2 16=A1:B2  18=A1:B1 A1:B2 20=A1:A2 A1:B2
 
-    vim.comment("<Insert_Mode_XLMAIN>","insert模式")
-    vim.comment("<Normal_Mode_XLMAIN>","normal模式")
-    vim.comment("<XLMAIN_SheetReName>","重命名当前工作表名称")
+	vim.comment("<Insert_Mode_XLMAIN>","insert模式")
+	vim.comment("<Normal_Mode_XLMAIN>","normal模式")
+	vim.comment("<XLMAIN_SheetReName>","重命名当前工作表名称")
+	vim.comment("<XLMAIN_GoTo>","跳转到指定行列值的表格")
+	vim.comment("<XLMAIN_SaveAndExit>","保存并退出")
+	vim.comment("<XLMAIN_DiscardAndExit>","放弃修改并退出")
 
-    ;insert模式及快捷键
-    vim.mode("insert","XLMAIN")
-    vim.map("<esc>","<Normal_Mode_XLMAIN>","XLMAIN")
+	;insert模式及快捷键
+	vim.mode("insert","XLMAIN")
+	vim.map("<esc>","<Normal_Mode_XLMAIN>","XLMAIN")
 
-    ;normal模式及快捷键
-    vim.mode("normal","XLMAIN")
-    vim.map("e","<Insert_Mode_XLMAIN>","XLMAIN")
-    vim.map("<esc>","<Normal_Mode_XLMAIN>","XLMAIN")
+	;normal模式及快捷键
+	vim.mode("normal","XLMAIN")
+	vim.map("e","<Insert_Mode_XLMAIN>","XLMAIN")
+	vim.map("<esc>","<Normal_Mode_XLMAIN>","XLMAIN")
 
-    vim.map("0","<0>","XLMAIN")
-    vim.map("1","<1>","XLMAIN")
-    vim.map("2","<2>","XLMAIN")
-    vim.map("3","<3>","XLMAIN")
-    vim.map("4","<4>","XLMAIN")
-    vim.map("5","<5>","XLMAIN")
-    vim.map("6","<6>","XLMAIN")
-    vim.map("7","<7>","XLMAIN")
-    vim.map("8","<8>","XLMAIN")
-    vim.map("9","<9>","XLMAIN")
+	vim.map("0","<0>","XLMAIN")
+	vim.map("1","<1>","XLMAIN")
+	vim.map("2","<2>","XLMAIN")
+	vim.map("3","<3>","XLMAIN")
+	vim.map("4","<4>","XLMAIN")
+	vim.map("5","<5>","XLMAIN")
+	vim.map("6","<6>","XLMAIN")
+	vim.map("7","<7>","XLMAIN")
+	vim.map("8","<8>","XLMAIN")
+	vim.map("9","<9>","XLMAIN")
 
-    vim.map("u","<undo>","XLMAIN")
-    vim.map("<ctrl>r","<redo>","XLMAIN")
+	vim.map("u","<excel_undo>","XLMAIN")
+	vim.map("<ctrl>r","<redo>","XLMAIN")
+
+	vim.map("ZZ","<XLMAIN_SaveAndExit>","XLMAIN")
+	vim.map("ZQ","<XLMAIN_DiscardAndExit>","XLMAIN")
+
 
     ;边框
     vim.map("bd","<XLMAIN_边框下框线>","XLMAIN")
@@ -217,7 +224,7 @@ return
 return
 
 
-<undo>:
+<excel_undo>:
 {
 	send ^z
 	return
@@ -1540,10 +1547,12 @@ return
 ;工作表
 <XLMAIN_SheetReName>:
 {
-	Excel_ActiveSheet()
 	InputBox, NewSheetName ,输入新的工作表名称
-	excel.ActiveSheet.Name := NewSheetName
-	objRelease(excel)
+	if StrLen(NewSheetName)>0 {
+		Excel_ActiveSheet()
+		excel.ActiveSheet.Name := NewSheetName
+		objRelease(excel)
+	}
 	return
 }
 
@@ -1617,6 +1626,22 @@ return
 	Excel_ActiveSheet()
 	InputBox, Reference , 输入跳转到的位置，如B5/b5：第二列，第5行
 	excel.ActiveSheet.Range(Reference).Select
+	objRelease(excel)
+	return
+}
+
+<XLMAIN_SaveAndExit>:
+{
+	send ^s
+	send !{F4}
+	return
+}
+
+<XLMAIN_DiscardAndExit>:
+{
+	Excel_GetCom()
+	excel.ActiveWorkbook.Saved := true
+	excel.Quit
 	objRelease(excel)
 	return
 }
@@ -1706,20 +1731,22 @@ return
 
 
 ;===================================================================
-Excel_ActoveWorkbook()
+Excel_GetCom()
 {
+    objRelease(excel)    
     excel := ComObjActive("Excel.Application") ; 创建Excel对象
-    Workbook  := excel.ActiveWorkbook  ; 当前工作簿
     return
 }
 Excel_ActiveSheet()
 {
+    objRelease(excel)    
     excel := ComObjActive("Excel.Application") ; 创建Excel对象
     Sheet := excel.ActiveSheet ; 当前工作表
     return
 }
 Excel_ActiveCell()
 {
+    objRelease(excel)    
     excel := ComObjActive("Excel.Application") ; 创建Excel对象
     Cell := excel.ActiveCell ; 当前单元格
     return
@@ -1727,6 +1754,7 @@ Excel_ActiveCell()
 
 Excel_Selection()
 {
+    objRelease(excel)    
     excel := ComObjActive("Excel.Application") ; 创建Excel对象
     Selection:=excel.Selection ;选择对象
     return
@@ -2062,18 +2090,6 @@ XLFind() {
 
 <excel_null>:
 return
-
-<excel_undo>:
-    Excel_Undo()
-return
-
-Excel_Undo() {
-    objExcel := Excel_GetObj()
-    app  := ObjExcel.Application
-    app.Undo
-    tooltip undo
-}
-
 
 <excel_replace>:
 {
