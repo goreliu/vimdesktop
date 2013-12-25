@@ -1,4 +1,4 @@
-﻿XLMAIN:
+﻿MicrosoftExcel:
 global Workbook
 global excel
 global Sheet
@@ -14,6 +14,7 @@ global SelectionType ; 当前选择单元格类型 1=A1  2=A1:B1 4=A1:A2 16=A1:B
 
     vim.comment("<Insert_Mode_XLMAIN>","insert模式")
     vim.comment("<Normal_Mode_XLMAIN>","normal模式")
+    vim.comment("<XLMAIN_SheetReName>","重命名当前工作表名称")
 
     ;insert模式及快捷键
     vim.mode("insert","XLMAIN")
@@ -161,13 +162,15 @@ global SelectionType ; 当前选择单元格类型 1=A1  2=A1:B1 4=A1:A2 16=A1:B
     ;vim.map("gch","<XLMAIN_moveRowLeft>","XLMAIN")
     ;vim.map("gce","<XLMAIN_定位尾列>","XLMAIN")
 
-    vim.map("gn","<XLMAIN_工作表跳转下一个>","XLMAIN")
-    vim.map("gp","<XLMAIN_工作表跳转上一个>","XLMAIN")
+    vim.map("gt","<XLMAIN_工作表跳转下一个>","XLMAIN")
+    vim.map("gT","<XLMAIN_工作表跳转上一个>","XLMAIN")
+
+    vim.map("go","<XLMAIN_GoTo>","XLMAIN")
 
 
     ;工作表
 
-    vim.map("wr","<XLMAIN_工作表修改名称>","XLMAIN")
+    vim.map("wr","<XLMAIN_SheetReName>","XLMAIN")
     vim.map("w)","<XLMAIN_工作表移动向后>","XLMAIN")
     vim.map("w(","<XLMAIN_工作表移动向前>","XLMAIN")
     vim.map("wn","<XLMAIN_工作表新建>","XLMAIN")
@@ -1535,19 +1538,19 @@ return
 
 
 ;工作表
-<XLMAIN_工作表修改名称>:
+<XLMAIN_SheetReName>:
 {
-Excel_ActiveSheet()
-excel.ActiveSheet.Name := excel.ActiveCell.Value
-objRelease(excel)
-return
+	Excel_ActiveSheet()
+	InputBox, NewSheetName ,输入新的工作表名称
+	excel.ActiveSheet.Name := NewSheetName
+	objRelease(excel)
+	return
 }
 
 <XLMAIN_工作表删除当前>:
 {
 Excel_ActiveSheet()
 excel.ActiveWindow.SelectedSheets.delete
-;excel.ActiveSheet.Name := excel.ActiveCell.Value
 objRelease(excel)
 return
 }
@@ -1557,7 +1560,6 @@ return
 Excel_ActiveSheet()
 After:=excel.ActiveSheet
 excel.ActiveSheet.Copy(After)
-;excel.ActiveSheet.Name := excel.ActiveCell.Value
 objRelease(excel)
 return
 }
@@ -1608,6 +1610,15 @@ return
         excel.ActiveSheet.Previous.Select
     objRelease(excel)
     return
+}
+
+<XLMAIN_GoTo>:
+{
+	Excel_ActiveSheet()
+	InputBox, Reference , 输入跳转到的位置，如B5/b5：第二列，第5行
+	excel.ActiveSheet.Range(Reference).Select
+	objRelease(excel)
+	return
 }
 
 
