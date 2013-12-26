@@ -11,8 +11,8 @@ global SelectionFirstColumn ;当前选择内容首列
 global SelectionLastColumn ;当前选择内容末列
 global SelectionLastRow ;当前选择内容末行
 global SelectionType ; 当前选择单元格类型 1=A1  2=A1:B1 4=A1:A2 16=A1:B2  18=A1:B1 A1:B2 20=A1:A2 A1:B2
-global FontColor:= 0x0000ff ;填充字体颜色
-global CellColor:= 0xffff00 ;填充表格颜色
+global FontColor:=-4165632  ;填充字体颜色-默认蓝色
+global CellColor:=-16711681 ;填充表格颜色-默认黄色
 
 	vim.comment("<Insert_Mode_XLMAIN>","insert模式")
 	vim.comment("<Normal_Mode_XLMAIN>","normal模式")
@@ -20,6 +20,16 @@ global CellColor:= 0xffff00 ;填充表格颜色
 	vim.comment("<XLMAIN_GoTo>","跳转到指定行列值的表格")
 	vim.comment("<XLMAIN_SaveAndExit>","保存并退出")
 	vim.comment("<XLMAIN_DiscardAndExit>","放弃修改并退出")
+	vim.comment("<excel_undo>","撤销")
+	vim.comment("<redo>","重做")
+	vim.comment("<XLMAIN_SaveAndExit>","保存后退出")
+	vim.comment("<XLMAIN_DiscardAndExit>","不保存退出")
+
+	vim.comment("<XLMAIN_Color_Font>","设置选中区域字体为上次颜色")
+	vim.comment("<XLMAIN_Color_Cell>","填充选中表格背景为上次颜色")
+	vim.comment("<XLMAIN_Color_All>","同时应用字体颜色、背景颜色")
+	vim.comment("<XLMAIN_Color_Menu_Font>","设置选中区域字体颜色")
+	vim.comment("<XLMAIN_Color_Menu_Cell>","填充选中表格背景颜色")
 
 	;insert模式及快捷键
 	vim.mode("insert","XLMAIN")
@@ -49,6 +59,7 @@ global CellColor:= 0xffff00 ;填充表格颜色
 
 	vim.map("cf","<XLMAIN_Color_Font>","XLMAIN")
 	vim.map("cc","<XLMAIN_Color_Cell>","XLMAIN")
+	vim.map("ca","<XLMAIN_Color_All>","XLMAIN")
 	vim.map("cmf","<XLMAIN_Color_Menu_Font>","XLMAIN")
 	vim.map("cmc","<XLMAIN_Color_Menu_Cell>","XLMAIN")
 
@@ -1352,7 +1363,7 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 
 <XLMAIN_Color_Font>:
 {
-	getExcel().Selection.Font.Color := 0x0000FF
+	getExcel().Selection.Font.Color := FontColor
 	return
 }
 
@@ -1364,13 +1375,25 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 	return
 }
 
+<XLMAIN_Color_All>:
+{
+	getExcel()
+	excel.Selection.Font.Color := FontColor
+	excel.Selection.Interior.Color := CellColor
+	return
+}
+
 <XLMAIN_Color_Menu_Font>:
 {
+	InputColor(FontColor,FontColor)
+	getExcel().Selection.Font.Color := FontColor
 	return
 }
 
 <XLMAIN_Color_Menu_Cell>:
 {
+	InputColor(CellColor,CellColor)
+	getExcel().Selection.Interior.Color := CellColor
 	return
 }
 
