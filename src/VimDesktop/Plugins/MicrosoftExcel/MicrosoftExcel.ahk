@@ -55,7 +55,7 @@ global CellColor:=-16711681 ;填充表格颜色-默认黄色
 
 	;normal模式及快捷键
 	vim.mode("normal","XLMAIN")
-	vim.map("e","<Insert_Mode_XLMAIN>","XLMAIN")
+	vim.map("i","<Insert_Mode_XLMAIN>","XLMAIN")
 	vim.map("<esc>","<Normal_Mode_XLMAIN>","XLMAIN")
 
 	vim.map("0","<0>","XLMAIN")
@@ -156,11 +156,12 @@ global CellColor:=-16711681 ;填充表格颜色-默认黄色
     vim.map("au","<XLMAIN_对齐顶>","XLMAIN")
     vim.map("ad","<XLMAIN_对齐底>","XLMAIN")
 
-    ;i 填充命令
-    vim.map("iu","<XLMAIN_填充向上>","XLMAIN")
-    vim.map("id","<XLMAIN_填充向下>","XLMAIN")
-    vim.map("il","<XLMAIN_填充向左>","XLMAIN")
-    vim.map("ir","<XLMAIN_填充向右>","XLMAIN")
+    ;F 填充命令
+    vim.map("Fk","<XLMAIN_填充向上>","XLMAIN")
+    vim.map("Fj","<XLMAIN_填充向下>","XLMAIN")
+    vim.map("Fh","<XLMAIN_填充向左>","XLMAIN")
+    vim.map("Fl","<XLMAIN_填充向右>","XLMAIN")
+
     ;f 过滤命令
     vim.map("ff","<XLMAIN_自动过滤开启>","XLMAIN")
     vim.map("fs","<XLMAIN_过滤等于当前单元格>","XLMAIN")
