@@ -6,6 +6,19 @@
 	Global TCPath := tcconfig.GetValue("Config","TCPath")
 	Global TCINI  := tcconfig.GetValue("Config","TCINI")
 	Global TCINIObj
+	;MsgBox,"%TCPath%"
+	If !FileExist(TCPath)
+	{	Process,Exist,totalcmd.exe
+		If ErrorLevel
+		{	WinGet,TCPath,ProcessPath,ahk_pid %ErrorLevel%
+			;MsgBox,% TCPath
+		}
+		Else
+		{	Process,Exist,totalcmd64.exe
+			If ErrorLevel
+				WinGet,TCPath,ProcessPath,ahk_pid %ErrorLevel%
+		}
+	}
 	If Not FileExist(TCPath)
 	{
 		RegRead,TCDir,HKEY_CURRENT_USER,Software\Ghisler\Total Commander,InstallDir
@@ -19,6 +32,7 @@
 		GUI,FindTC:Add,Button,w300 gTotalcomander_select_tcdir,TC目录路径不对? (&D)
 		GUI,FindTC:Show,,Total Commander 设置路径
 	}
+	Else IniWrite,%TCPath%,%A_ScriptDir%\plugins\totalcommander\totalcommander.ini,config,tcpath
 	If not FileExist(TCINI)
 	{
 		SplitPath,TCPath,,dir
@@ -341,6 +355,11 @@ azHistory2()
 			IniRead,history,%f%,LeftHistory
 		Else
 			IniRead,history,%TCINI%,LeftHistory
+		If RegExMatch(history,"RedirectSection=(.+)",HistoryRedirect)
+		{	StringReplace,HistoryRedirect1,HistoryRedirect1,`%COMMANDER_PATH`%,%TCPath%\..
+			;MsgBox,% HistoryRedirect1
+			IniRead,history,%HistoryRedirect1%,LeftHistory
+		}
 	}
 	Else
 	{
@@ -348,7 +367,13 @@ azHistory2()
 			IniRead,history,%f%,RightHistory
 		Else
 			IniRead,history,%TCINI%,RightHistory
+		If RegExMatch(history,"RedirectSection=(.+)",HistoryRedirect)
+		{	StringReplace,HistoryRedirect1,HistoryRedirect1,`%COMMANDER_PATH`%,%TCPath%\..
+			;MsgBox,% HistoryRedirect1
+			IniRead,history,%HistoryRedirect1%,RightHistory
+		}
 	}
+	;MsgBox,%f%_%TCINI%_%history%
 	history_obj := []
 	Global history_name_obj := []
 	Loop,Parse,history,`n
@@ -689,7 +714,9 @@ CreateNewFile()
 	Menu,FileTemp,Add ,1 文件夹,<cm_Mkdir>
 	Menu,FileTemp,Icon,1 文件夹,%A_WinDir%\system32\Shell32.dll,4
 	Menu,FileTemp,Add ,2 快捷方式,<cm_CreateShortcut>
-	Menu,FileTemp,Icon,2 快捷方式,%A_WinDir%\system32\Shell32.dll,264
+	If A_OSVersion in WIN_2000,WIN_XP
+		Menu,FileTemp,Icon,2 快捷方式,%A_WinDir%\system32\Shell32.dll,30 ;我测试xp下必须是30
+	Else Menu,FileTemp,Icon,2 快捷方式,%A_WinDir%\system32\Shell32.dll,264 ;原来是264，xp下反正是有问题
 	Menu,FileTemp,Add ,3 添加到新模板,<AddToTempFiles>
 	Menu,FileTemp,Icon,3 添加到新模板,%A_WinDir%\system32\Shell32.dll,-155
 	FileTempMenuCheck()
@@ -708,11 +735,14 @@ FileTempMenuCheck()
 		Menu,FileTemp,Add,%ft%,FileTempNew
 		Ext := "." . A_LoopFileExt
 		IconFile := RegGetNewFileIcon(Ext)
-		IconFIle := RegExReplace(IconFile,"i)%systemroot%",A_WinDir)
+		IconFile := RegExReplace(IconFile,"i)%systemroot%",A_WinDir)
 		IconFilePath := RegExReplace(IconFile,",-?\d*","")
+		StringReplace,IconFilePath,IconFilePath,",,A
 		IconFileIndex := RegExReplace(IconFile,".*,","")
+		IconFileIndex := IconFileIndex>=0?IconFileIndex+1:IconFileIndex
+		;MsgBox,%IconFile%_%IconFilePath%_%IconFileIndex%
 		If Not FileExist(IconFilePath)
-			Menu,FileTemp,Icon,%ft%,%A_WinDir%\system32\Shell32.dll,-152
+			Menu,FileTemp,Icon,%ft%,%A_WinDir%\system32\Shell32.dll,1 ;-152
 		Else
 			Menu,FileTemp,Icon,%ft%,%IconFilePath%,%IconFileIndex%
 	}
@@ -921,11 +951,14 @@ ReadNewFile()
 		Menu,CreateNewFile,Add,%MenuFile%,NewFile
 
 		IconFile := RegGetNewFileIcon(Exec)
-		IconFIle := RegExReplace(IconFile,"i)%systemroot%",A_WinDir)
+		IconFile := RegExReplace(IconFile,"i)%systemroot%",A_WinDir)
 		IconFilePath := RegExReplace(IconFile,",-?\d*","")
+		StringReplace,IconFilePath,IconFilePath,",,A
 		If Not FileExist(IconFilePath)
 			IconFilePath := ""
 		IconFileIndex := RegExReplace(IconFile,".*,","")
+		IconFileIndex := IconFileIndex>=0?IconFileIndex+1:IconFileIndex
+		;MsgBox,%IconFile%_%IconFilePath%_%IconFileIndex%
 		If Not RegExMatch(IconFileIndex,"^-?\d*$")
 			IconFileIndex := ""
 		If RegExMatch(Exec,"\.lnk")
