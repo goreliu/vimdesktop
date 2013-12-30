@@ -13,6 +13,8 @@
 */
 InputColor(ByRef color)
 {
+	color = null
+	Menu, MyMenu, Add, [&T]ransparent, MenuHandler
 	Menu, MyMenu, Add, [&H]Black, MenuHandler
 	Menu, MyMenu, Add, [&W]White, MenuHandler
 	Menu, MyMenu, Add, [&C]Gray, MenuHandler
@@ -27,7 +29,9 @@ InputColor(ByRef color)
 	return  ; 脚本的自动运行段结束.
 
 MenuHandler:
-	if A_ThisMenuItem = [&H]Black
+	if A_ThisMenuItem = [&T]ransparent
+		color = Transparent
+	else if A_ThisMenuItem = [&H]Black
 		color := 0x000000
 	else if A_ThisMenuItem = [&W]White
 		color := 0xffffff

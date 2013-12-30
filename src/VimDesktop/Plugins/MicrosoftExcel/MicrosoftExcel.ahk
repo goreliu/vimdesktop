@@ -44,6 +44,10 @@ global CellColor:=-16711681 ;填充表格颜色-默认黄色
 	vim.comment("<XLMAIN_FocusAreaUp>","定位到当前区域边缘-上")
 	vim.comment("<XLMAIN_FocusAreaDown>","定位到当前区域边缘-下")
 
+	vim.comment("<XLMAIN_SelectToAreaLeft>","选择到当前区域边缘-左")
+	vim.comment("<XLMAIN_SelectToAreaRight>","选择到当前区域边缘-右")
+	vim.comment("<XLMAIN_SelectToAreaUp>","选择到当前区域边缘-上")
+	vim.comment("<XLMAIN_SelectToAreaDown>","选择到当前区域边缘-下")
 
 	;insert模式及快捷键
 	vim.mode("insert","XLMAIN")
@@ -206,10 +210,14 @@ global CellColor:=-16711681 ;填充表格颜色-默认黄色
     vim.map("gre","<XLMAIN_FocusRowEnd>","XLMAIN")
     vim.map("gch","<XLMAIN_FocusColHome>","XLMAIN")
     vim.map("gce","<XLMAIN_FocusColEnd>","XLMAIN")
-    vim.map("gj","<XLMAIN_FocusAreaUp>","XLMAIN")
-    vim.map("gk","<XLMAIN_FocusAreaDown>","XLMAIN")
+    vim.map("gk","<XLMAIN_FocusAreaUp>","XLMAIN")
+    vim.map("gj","<XLMAIN_FocusAreaDown>","XLMAIN")
     vim.map("gh","<XLMAIN_FocusAreaLeft>","XLMAIN")
     vim.map("gl","<XLMAIN_FocusAreaRight>","XLMAIN")
+    vim.map("gK","<XLMAIN_SelectToAreaUp>","XLMAIN")
+    vim.map("gJ","<XLMAIN_SelectToAreaDown>","XLMAIN")
+    vim.map("gH","<XLMAIN_SelectToAreaLeft>","XLMAIN")
+    vim.map("gL","<XLMAIN_SelectToAreaRight>","XLMAIN")
 
     vim.map("gt","<XLMAIN_工作表跳转下一个>","XLMAIN")
     vim.map("gT","<XLMAIN_工作表跳转上一个>","XLMAIN")
@@ -1404,8 +1412,15 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 <XLMAIN_Color_Menu_Font>:
 {
 	InputColor(color)
-	if color = null
+
+	if color = null 
 		return
+	if color = Transparent
+	{
+		MsgBox 字体颜色不支持透明色
+		return
+	}
+
 	FontColor := ToBGR(color)
 	getExcel().Selection.Font.Color := FontColor
 	return
@@ -1414,8 +1429,16 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 <XLMAIN_Color_Menu_Cell>:
 {
 	InputColor(color)
+
 	if color = null
 		return
+
+	if color = Transparent
+	{
+		getExcel().Selection.Interior.Pattern := -4142
+		return
+	}
+
 	CellColor := ToBGR(color)
 	getExcel().Selection.Interior.Color := CellColor
 	return
@@ -1598,6 +1621,29 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 }
 
 
+<XLMAIN_SelectToAreaUp>:
+{
+	send,^+{Up}
+	return
+}
+
+<XLMAIN_SelectToAreaDown>:
+{
+	send,^+{Down}
+	return
+}
+
+<XLMAIN_SelectToAreaLeft>:
+{
+	send,^+{Left}
+	return
+}
+
+<XLMAIN_SelectToAreaRight>:
+{
+	send,^+{Right}
+	return
+}
 
 
 
