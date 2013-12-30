@@ -30,6 +30,20 @@ global CellColor:=-16711681 ;填充表格颜色-默认黄色
 	vim.comment("<XLMAIN_Color_All>","同时应用字体颜色、背景颜色")
 	vim.comment("<XLMAIN_Color_Menu_Font>","设置选中区域字体颜色")
 	vim.comment("<XLMAIN_Color_Menu_Cell>","填充选中表格背景颜色")
+	vim.comment("<XLMAIN_FocusHome>","定位到工作表开头")
+	vim.comment("<XLMAIN_FocusEnd>","定位到工作表最后一个单元格")
+
+	vim.comment("<XLMAIN_FocusRowHome>","定位到当前列首行")
+	vim.comment("<XLMAIN_FocusRowEnd>","定位到当前列尾行")
+
+	vim.comment("<XLMAIN_FocusColHome>","定位到当前行首列")
+	vim.comment("<XLMAIN_FocusColEnd>","定位到当前行尾列")
+
+	vim.comment("<XLMAIN_FocusAreaLeft>","定位到当前区域边缘-左")
+	vim.comment("<XLMAIN_FocusAreaRight>","定位到当前区域边缘-右")
+	vim.comment("<XLMAIN_FocusAreaUp>","定位到当前区域边缘-上")
+	vim.comment("<XLMAIN_FocusAreaDown>","定位到当前区域边缘-下")
+
 
 	;insert模式及快捷键
 	vim.mode("insert","XLMAIN")
@@ -57,11 +71,10 @@ global CellColor:=-16711681 ;填充表格颜色-默认黄色
 	vim.map("ZZ","<XLMAIN_SaveAndExit>","XLMAIN")
 	vim.map("ZQ","<XLMAIN_DiscardAndExit>","XLMAIN")
 
-	vim.map("cf","<XLMAIN_Color_Font>","XLMAIN")
-	vim.map("cc","<XLMAIN_Color_Cell>","XLMAIN")
-	vim.map("ca","<XLMAIN_Color_All>","XLMAIN")
-	vim.map("cmf","<XLMAIN_Color_Menu_Font>","XLMAIN")
-	vim.map("cmc","<XLMAIN_Color_Menu_Cell>","XLMAIN")
+	vim.map("""","<XLMAIN_Color_All>","XLMAIN")
+	vim.map("'","<XLMAIN_Color_Menu_Font>","XLMAIN")
+	vim.map(";","<XLMAIN_Color_Menu_Cell>","XLMAIN")
+
 
 
     ;边框
@@ -186,12 +199,17 @@ global CellColor:=-16711681 ;填充表格颜色-默认黄色
     vim.map("<shift>9n","<XLMAIN_名称工作簿定义>","XLMAIN")
     vim.map("<shift>9N","<XLMAIN_名称当前工作表定义>","XLMAIN")
 
-    vim.map("gg","<XLMAIN_定位首个单元格>","XLMAIN")
-    vim.map("G","<XLMAIN_定位尾个单元格>","XLMAIN")
-    vim.map("grh","<XLMAIN_定位首行>","XLMAIN")
-    vim.map("gre","<XLMAIN_定位尾行>","XLMAIN")
-    ;vim.map("gch","<XLMAIN_moveRowLeft>","XLMAIN")
-    ;vim.map("gce","<XLMAIN_定位尾列>","XLMAIN")
+    ;位置跳转类
+    vim.map("gg","<XLMAIN_FocusHome>","XLMAIN")
+    vim.map("G","<XLMAIN_FocusEnd>","XLMAIN")
+    vim.map("grh","<XLMAIN_FocusRowHome>","XLMAIN")
+    vim.map("gre","<XLMAIN_FocusRowEnd>","XLMAIN")
+    vim.map("gch","<XLMAIN_FocusColHome>","XLMAIN")
+    vim.map("gce","<XLMAIN_FocusColEnd>","XLMAIN")
+    vim.map("gau","<XLMAIN_FocusAreaUp>","XLMAIN")
+    vim.map("gad","<XLMAIN_FocusAreaDown>","XLMAIN")
+    vim.map("gal","<XLMAIN_FocusAreaLeft>","XLMAIN")
+    vim.map("gar","<XLMAIN_FocusAreaRight>","XLMAIN")
 
     vim.map("gt","<XLMAIN_工作表跳转下一个>","XLMAIN")
     vim.map("gT","<XLMAIN_工作表跳转上一个>","XLMAIN")
@@ -1385,14 +1403,20 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 
 <XLMAIN_Color_Menu_Font>:
 {
-	InputColor(FontColor,FontColor)
+	InputColor(color)
+	if color = null
+		return
+	FontColor := ToBGR(color)
 	getExcel().Selection.Font.Color := FontColor
 	return
 }
 
 <XLMAIN_Color_Menu_Cell>:
 {
-	InputColor(CellColor,CellColor)
+	InputColor(color)
+	if color = null
+		return
+	CellColor := ToBGR(color)
 	getExcel().Selection.Interior.Color := CellColor
 	return
 }
@@ -1483,49 +1507,96 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 
 
 ;定位
-<XLMAIN_定位首个单元格>:
+<XLMAIN_FocusHome>:
 {
     send,^{Home}
     return
 }
 
 
-<XLMAIN_定位尾个单元格>:
+<XLMAIN_FocusEnd>:
 {
-    Excel_Selection()
-    excel.Cells(excel.ActiveSheet.Rows.Count, excel.ActiveCell.Column).End(-4162).Activate
-    objRelease(excel)
+	send ^{End}
+	return
+}
+
+; 模拟输入9个Ctrl+Up,差不多能到行首了
+<XLMAIN_FocusRowHome>:
+{
+	send ^{Up}
+	send ^{Up}
+	send ^{Up}
+	send ^{Up}
+	send ^{Up}
+	send ^{Up}
+	send ^{Up}
+	send ^{Up}
+	send ^{Up}
+	return
+}
+
+
+; 模拟输入9个Ctrl+Down，差不多能到尾行了
+<XLMAIN_FocusRowEnd>:
+{
+	send ^{Down}
+	send ^{Down}
+	send ^{Down}
+	send ^{Down}
+	send ^{Down}
+	send ^{Down}
+	send ^{Down}
+	send ^{Down}
+	send ^{Down}
+	return
+}
+
+; 快捷键Home可直接定位到首列
+<XLMAIN_FocusColHome>:
+{
+    send,{Home}
     return
 }
 
-<XLMAIN_定位首行>:
+; 貌似没有快捷键直接定位到尾列--同时该功能貌似没什么作用...
+<XLMAIN_FocusColEnd>:
 {
-    Excel_Selection()
-    excel.Selection.End(-4159).Select
-    objRelease(excel)
-return
-}
-
-
-<XLMAIN_定位尾行>:
-{
-    Excel_Selection()
-    excel.Selection.End(-4161).Select
-    objRelease(excel)
-}
-
-<XLMAIN_定位首列>:
-{
-    send,^{left}
-    return
-}
-
-
-<XLMAIN_定位尾列>:
-{
+    send,^{Right}
+    send,^{Right}
+    send,^{Right}
+    send,^{Right}
+    send,^{Right}
+    send,^{Right}
+    send,^{Right}
+    send,^{Right}
     send,^{Right}
     return
 }
+
+<XLMAIN_FocusAreaUp>:
+{
+	send,^{Up}
+	return
+}
+
+<XLMAIN_FocusAreaDown>:
+{
+	send,^{Down}
+	return
+}
+
+<XLMAIN_FocusAreaLeft>:
+{
+	send,^{Left}
+	return
+}
+
+<XLMAIN_FocusAreaRight>:
+{
+	send,^{Right}
+	return
+}
+
 
 
 
