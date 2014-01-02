@@ -149,7 +149,6 @@
 	vim.map("D","<cm_OpenDesktop>","TTOTAL_CMD")
 	vim.map("e","<cm_ContextMenu>","TTOTAL_CMD")
 	vim.map("E","<cm_ExeCuteDOS>","TTOTAL_CMD")
-	vim.map("N","<cm_DirectoryHistory>","TTOTAL_CMD")
 	vim.map("n","<azHistory>","TTOTAL_CMD")
 	vim.map("m","<Mark>","TTOTAL_CMD")
 	vim.map("M","<Half>","TTOTAL_CMD")
