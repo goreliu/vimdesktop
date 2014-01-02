@@ -291,7 +291,11 @@ return
 {
     Excel_Selection()
     InputBox, OutputVar ,输入名称
+	If ErrorLevel
+		Return
     inputbox, comments ,输入注释
+	If ErrorLevel
+		Return
     address:=Selection.address
     Name:=OutputVar
     RefersToR1C1:=address
@@ -305,7 +309,11 @@ return
 {
     Excel_Selection()
     InputBox, OutputVar ,输入名称
+	If ErrorLevel
+		Return
     inputbox, comments ,输入注释
+	If ErrorLevel
+		Return
     address:=Selection.address
     Name:=OutputVar
     RefersToR1C1:=address
@@ -745,6 +753,8 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
     Excel_Selection()
     Default:=Selection.RowHeight
     InputBox, inputvar,输入行宽,,,,,,,,,%Default%
+	If ErrorLevel
+		Return
     ;InputBox, OutputVar Title  ,,,,,,,,,
     Selection.RowHeight:=inputvar
     tooltip,%inputvar%
@@ -803,6 +813,8 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
     Excel_Selection()
     Default:=Selection.ColumnWidth
     InputBox, inputvar,输入列宽,,,,,,,,,%Default%
+	If ErrorLevel
+		Return
     Selection.ColumnWidth:=inputvar
     tooltip,%inputvar%
     objRelease(excel)
@@ -1761,6 +1773,8 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 <XLMAIN_SheetReName>:
 {
 	InputBox, NewSheetName ,输入新的工作表名称
+	If ErrorLevel
+		Return
 	if StrLen(NewSheetName)>0 {
 		Excel_ActiveSheet()
 		excel.ActiveSheet.Name := NewSheetName
@@ -1838,6 +1852,8 @@ return
 {
 	Excel_ActiveSheet()
 	InputBox, Reference , 输入跳转到的位置，如B5/b5：第二列，第5行
+	If ErrorLevel
+		Return
 	excel.ActiveSheet.Range(Reference).Select
 	objRelease(excel)
 	return
