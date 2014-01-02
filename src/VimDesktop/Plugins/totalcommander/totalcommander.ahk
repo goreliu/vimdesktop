@@ -424,7 +424,7 @@ azHistory2()
 	Menu,az,deleteall
 	Loop,%max%
 	{
-		idx := max - A_Index
+		idx := A_Index - 1
 		name := history_obj[idx]
 		Menu,az,Add,%name%,azHistorySelect
 		Menu,az,icon,%name%,%A_ScriptDir%\plugins\totalcommander\a-zhistory.icl,%A_Index%
