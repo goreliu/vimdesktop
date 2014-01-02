@@ -15,7 +15,9 @@ tcini=D:\Portable\TotalCommander\wincmd.ini
 
 ;=====系统配置=============================
 [config]
-;?
+;双字母命令，第二个字母无效时应该退出命令列表
+;1 退出命令列表
+;0 如果第二个字母为有效单字母快捷键，则执行对应命令
 InvalidMode=1
 
 ;更改*.ahk文件后，是否自动加载
@@ -26,10 +28,12 @@ autoload=1
 [Plugins]
 ;左侧为插件文件名，右侧为1表示启用该插件，否则禁用?
 General=1
-TotalCommander=1
+TotalCommander=0
 wps=0
 
 ;=====全局快捷键配置=======================
+;带有*的快捷键全局有效
+;不带*的快捷键仅在非禁用的应用程序中有效
 [Global]
 *<ctrl><esc>=<GeneralCopy>[=normal]
 *<lwin>e=<ToggleTC>[=normal]
