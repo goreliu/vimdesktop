@@ -1,10 +1,9 @@
 ﻿totalcommander:
 ;=======================================================
-	If not fileexist(A_ScriptDir "\plugins\totalcommander\totalcommander.ini")
-		fileAppend,,%A_ScriptDir%\plugins\totalcommander\totalcommander.ini
-	Global tcconfig := GetINIObj(A_ScriptDir "\plugins\totalcommander\totalcommander.ini")
-	Global TCPath := tcconfig.GetValue("Config","TCPath")
-	Global TCINI  := tcconfig.GetValue("Config","TCINI")
+	Global ConfigPath := A_ScriptDir  "\vimd.ini"
+	Global tcconfig := GetINIObj(ConfigPath)
+	Global TCPath := tcconfig.GetValue("Path","TCPath")
+	Global TCINI  := tcconfig.GetValue("Path","TCINI")
 	Global TCINIObj
 	;MsgBox,"%TCPath%"
 	If !FileExist(TCPath)
@@ -18,8 +17,11 @@
 			If ErrorLevel
 				WinGet,TCPath,ProcessPath,ahk_pid %ErrorLevel%
 		}
+		If TCPath
+			IniWrite,%TCPath%,%ConfigPath%,Path,tcpath
 	}
-	If Not FileExist(TCPath)
+
+	If TCPath and Not FileExist(TCPath)
 	{
 		RegRead,TCDir,HKEY_CURRENT_USER,Software\Ghisler\Total Commander,InstallDir
 		If FileExist(TCDir "\totalcmd.exe")
@@ -32,12 +34,12 @@
 		GUI,FindTC:Add,Button,w300 gTotalcomander_select_tcdir,TC目录路径不对? (&D)
 		GUI,FindTC:Show,,Total Commander 设置路径
 	}
-	Else IniWrite,%TCPath%,%A_ScriptDir%\plugins\totalcommander\totalcommander.ini,config,tcpath
-	If not FileExist(TCINI)
+
+	If TCPath and not FileExist(TCINI)
 	{
 		SplitPath,TCPath,,dir
 		TCINI := dir "\wincmd.ini"
-		IniWrite,%TCINI%,%A_ScriptDir%\plugins\totalcommander\totalcommander.ini,config,tcini
+		IniWrite,%TCINI%,%ConfigPath%,Path,tcini
 	}
 	tciniobj    := GetINIObj(TCINI)
 	If RegExMatch(TcPath,"i)totalcmd64\.exe$")
@@ -96,21 +98,25 @@
 
 	vim.mode("insert","TTOTAL_CMD")
 	vim.SetTimeOut(800,"TTOTAL_CMD")
-    vim.map("<esc>","<Normal_Mode_TC>","TTOTAL_CMD")
+	vim.map("<esc>","<Normal_Mode_TC>","TTOTAL_CMD")
 	vim.mode("Search","TTOTAL_CMD")
-    vim.map("<esc>","<Normal_Mode_TC>","TTOTAL_CMD")
+	vim.map("<esc>","<Normal_Mode_TC>","TTOTAL_CMD")
 
 	vim.mode("normal","TTOTAL_CMD")
+
 	;复制/移动到右侧 f取file的意思 filecopy
 	vim.map("fc","<cm_CopyOtherpanel>","TTOTAL_CMD")
 	vim.map("fx","<cm_MoveOnly>","TTOTAL_CMD")
+
 	;使用队列复制/移动到右侧 q-queue,fcq会影响对fc的使用，改用fqc/fqx的方式
 	vim.map("fqc","<CopyUseQueues>","TTOTAL_CMD")
 	vim.map("fqx","<MoveUseQueues>","TTOTAL_CMD")
+
 	;ff复制到剪切板 fz剪切到剪切板 fv粘贴
 	vim.map("ff","<cm_CopyToClipboard>","TTOTAL_CMD")
 	vim.map("fz","<cm_CutToClipboard>","TTOTAL_CMD")
 	vim.map("fv","<cm_PasteFromClipboard>","TTOTAL_CMD")
+
 	;fb复制到收藏夹某个目录，fd移动到收藏夹的某个目录
 	vim.map("fb","<CopyDirectoryHotlist>","TTOTAL_CMD")
 	vim.map("fd","<MoveDirectoryHotlist>","TTOTAL_CMD")
@@ -184,10 +190,6 @@
 	;与vim保持一致
 	vim.map("gt","<cm_SwitchToNextTab>","TTOTAL_CMD")
 	vim.map("gT","<cm_SwitchToPreviousTab>","TTOTAL_CMD")
-
-	;将 h 和 l 键用于向前、向后切换 TC 标签页，符合“左移”、“右移”的体验。
-	vim.map("l","<cm_SwitchToNextTab>","TTOTAL_CMD")
-	vim.map("h","<cm_SwitchToPreviousTab>","TTOTAL_CMD")
 
 	vim.map("gc","<cm_CloseCurrentTab>","TTOTAL_CMD")
 	vim.map("gb","<cm_OpenDirInNewTabOther>","TTOTAL_CMD")
@@ -1239,9 +1241,8 @@ Totalcomander_select_tc(){
 	TCPath := dir "\totalcmd.exe"
 	TCINI  := dir "\wincmd.ini"
 	GUi,FindTC:Destroy
-	f := TCConfig.filepath
-	IniWrite,%TCPath%,%f%,config,tcpath
-	IniWrite,%TCINI%,%f%,config,tcini
+	IniWrite,%TCPath%,%ConfigPath%,Path,tcpath
+	IniWrite,%TCINI%,%ConfigPath%,Path,tcini
 }
 Totalcomander_select_tc64:
 	Totalcomander_select_tc64()
@@ -1252,9 +1253,8 @@ Totalcomander_select_tc64(){
 	TCPath := dir "\totalcmd64.exe"
 	TCINI  := dir "\wincmd.ini"
 	GUi,FindTC:Destroy
-	f := TCConfig.filepath
-	IniWrite,%TCPath%,%f%,config,tcpath
-	IniWrite,%TCINI%,%f%,config,tcini
+	IniWrite,%TCPath%,%ConfigPath%,Path,tcpath
+	IniWrite,%TCINI%,%ConfigPath%,Path,tcini
 }
 Totalcomander_select_tcdir:
 	Totalcomander_select_tcdir()

@@ -20,6 +20,9 @@ Menu,Tray,Add,退出(&X),GUI_Exit
 Menu,Tray,Icon,viatc.ico
 ;====================================================================
 ; Read Config {{{1
+
+FileEncoding,utf-8
+
 If Not FileExist(A_ScriptDir "\vimd.ini")
 	FileAppend,,%A_ScriptDir%\vimd.ini
 If Not FileExist(A_ScriptDir "\plugins\plugins.ahk")

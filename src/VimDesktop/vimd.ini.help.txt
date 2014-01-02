@@ -3,6 +3,16 @@
 1.在当前路径复制本文件的拷贝，并重命名为：vimd.ini
 2.根据分号 ; 之后的提示内容进行相应修改
 
+
+;=====应用路径=============================
+;提示: vimd会自动识别正在运行的TotalCommander路径
+;tcpath: TotalCommander可执行文件路径
+;tcini: TotalCommander配置文件路径
+[Path]
+tcpath=D:\Portable\TotalCommander\TOTALCMD.EXE
+tcini=D:\Portable\TotalCommander\wincmd.ini
+
+
 ;=====系统配置=============================
 [config]
 ;?
