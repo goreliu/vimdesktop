@@ -426,7 +426,7 @@ azHistory2()
 		idx := A_Index - 1
 		name := history_obj[idx]
 		Menu,az,Add,%name%,azHistorySelect
-		Menu,az,icon,%name%,%A_ScriptDir%\plugins\totalcommander\a-zhistory.icl,%A_Index%
+		Menu,az,icon,%name%,%A_ScriptDir%\plugins\totalcommander\a-zhistory.icl,%A_Index%,24
 	}
 	ControlGetFocus,TLB,ahk_class TTOTAL_CMD
 	ControlGetPos,xn,yn,wn,,%TLB%,ahk_class TTOTAL_CMD
