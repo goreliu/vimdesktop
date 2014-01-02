@@ -399,6 +399,11 @@ azHistory2()
 			name  :=  RegExReplace(Value,"::\{21EC2020\-3AEA\-1069\-A2DD\-08002B30309D\}\\::\{2227A280\-3AEA\-1069\-A2DE\-08002B30309D\}\|")
 			value := 2126
 		}
+		If RegExMatch(Value,"::\{208D2C60\-3AEA\-1069\-A2D7\-08002B30309D\}\|") ;NothingIsBig的是XP系统，网上邻居是这个调整
+		{
+			name := RegExReplace(Value,"::\{208D2C60\-3AEA\-1069\-A2D7\-08002B30309D\}\|")
+			value := 2125
+		}
 		If RegExMatch(Value,"::\{F02C1A0D\-BE21\-4350\-88B0\-7367FC96EF3C\}\|")
 		{
 			name := RegExReplace(Value,"::\{F02C1A0D\-BE21\-4350\-88B0\-7367FC96EF3C\}\|")
@@ -444,7 +449,7 @@ azHistorySelect()
 		GoSub,<cm_OpenDesktop>
 	Else If ( history_name_obj[A_ThisMenuItem] = 2126 ) or RegExMatch(A_ThisMenuItem,"::\{21EC2020\-3AEA\-1069\-A2DD\-08002B30309D\}\\::\{2227A280\-3AEA\-1069\-A2DE\-08002B30309D\}")
 		GoSub,<cm_OpenPrinters>
-	Else If ( history_name_obj[A_ThisMenuItem] = 2125 ) or RegExMatch(A_ThisMenuItem,"::\{F02C1A0D\-BE21\-4350\-88B0\-7367FC96EF3C\}")
+	Else If ( history_name_obj[A_ThisMenuItem] = 2125 ) or RegExMatch(A_ThisMenuItem,"::\{F02C1A0D\-BE21\-4350\-88B0\-7367FC96EF3C\}") or RegExMatch(A_ThisMenuItem,"::\{208D2C60\-3AEA\-1069\-A2D7\-08002B30309D\}\|") ;NothingIsBig的是XP系统，网上邻居是这个调整
 		GoSub,<cm_OpenNetwork>
 	Else If ( history_name_obj[A_ThisMenuItem] = 2123 ) or RegExMatch(A_ThisMenuItem,"::\{26EE0668\-A00A\-44D7\-9371\-BEB064C98683\}\\0")
 		GoSub,<cm_OpenControls>

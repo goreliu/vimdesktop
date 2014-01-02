@@ -256,4 +256,5 @@ Receive_WM_COPYDATA(wParam, lParam){
 #Include %A_ScriptDir%\lib\anchor.ahk
 #Include %A_ScriptDir%\lib\ini.ahk
 #Include %A_ScriptDir%\lib\watchdir.ahk
+#Include *i %A_ScriptDir%\lib\InputColor.ahk
 #Include *i %A_ScriptDir%\plugins\plugins.ahk

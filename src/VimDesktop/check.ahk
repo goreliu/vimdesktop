@@ -10,7 +10,7 @@ Loop,Parse,Extensions,`n,`r
 {
 	If Not RegExMatch(A_LoopField,"i)^#include")
 		Continue
-	If FileExist(RegExReplace(A_LoopField,"i)^#include\s%A_ScriptDir%\\"))
+	If FileExist(RegExReplace(A_LoopField,"i)^#include\s(\*i\s)?%A_ScriptDir%\\"))
 	{
 		Match := "\t" ToMatch(SubStr(A_LoopField,35)) "\t"
 		If Not RegExMatch(ExtensionsNames,Match)
@@ -24,7 +24,7 @@ Filedelete,%ExtensionsAHK%
 FileAppend,%NewExtensions%,%ExtensionsAHK%
 ; 查询是否有新插件加入
 Loop,%A_ScriptDir%\Plugins\*.*,2
-	plugins .=  "#include `%A_ScriptDir`%\plugins\" A_LoopFileName "\" A_LoopFileName ".ahk`n"
+	plugins .=  "#include *i `%A_ScriptDir`%\plugins\" A_LoopFileName "\" A_LoopFileName ".ahk`n"
 FileAppend,%plugins%,%ExtensionsAHK%
 ; 保存修改时间
 SaveTime := "/*`r`n[ExtensionsTime]`r`n"
