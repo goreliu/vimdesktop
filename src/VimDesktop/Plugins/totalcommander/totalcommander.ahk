@@ -414,7 +414,7 @@ azHistory2()
 			name := RegExReplace(Value,"::\{645FF040\-5081\-101B\-9F08\-00AA002F954E\}\|")
 			value := 2127
 		}
-		name .= A_Tab "[&"  chr(max-idx+64) "]"
+		name .= A_Tab "[&"  chr(idx+65) "]"
 		history_obj[idx] := name 
 		history_name_obj[name] := value
 	}
