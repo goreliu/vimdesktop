@@ -426,12 +426,15 @@ azHistory2()
 	Menu,az,UseErrorLevel
 	Menu,az,add
 	Menu,az,deleteall
+	size := TCConfig.GetValue("Config","MenuIconSize")
+	if not size
+		size := 16
 	Loop,%max%
 	{
 		idx := A_Index - 1
 		name := history_obj[idx]
 		Menu,az,Add,%name%,azHistorySelect
-		Menu,az,icon,%name%,%A_ScriptDir%\plugins\totalcommander\a-zhistory.icl,%A_Index%,24
+		Menu,az,icon,%name%,%A_ScriptDir%\plugins\totalcommander\a-zhistory.icl,%A_Index%,%size%
 	}
 	ControlGetFocus,TLB,ahk_class TTOTAL_CMD
 	ControlGetPos,xn,yn,wn,,%TLB%,ahk_class TTOTAL_CMD
