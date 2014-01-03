@@ -428,7 +428,7 @@ azHistory2()
 	Menu,az,deleteall
 	size := TCConfig.GetValue("Config","MenuIconSize")
 	if not size
-		size := 16
+		size := 20
 	Loop,%max%
 	{
 		idx := A_Index - 1
