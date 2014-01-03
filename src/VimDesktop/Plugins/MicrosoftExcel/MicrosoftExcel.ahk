@@ -273,7 +273,9 @@ return
 
 <Insert_Mode_XLMAIN>:
     vim.Mode("insert","XLMAIN")
-    getExcel().Application.StatusBar := "-- INSERT --"
+
+    ;插入模式下使用由Excel接管状态栏
+    getExcel().Application.StatusBar := blank
 return
 
 
