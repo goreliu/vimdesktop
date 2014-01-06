@@ -23,6 +23,9 @@ InvalidMode=1
 ;更改*.ahk文件后，是否自动加载
 autoload=1
 
+;是否显示热键提示
+ToShowComment=1
+
 ;弹出菜单中的图标尺寸
 ;目前仅用于TC中的AZHistory导航:可用尺寸16,20,24,32
 MenuIconSize=24
@@ -39,7 +42,7 @@ wps=0
 ;带有*的快捷键全局有效
 ;不带*的快捷键仅在非禁用的应用程序中有效
 [Global]
-*<ctrl><esc>=<GeneralCopy>[=normal]
+<ctrl><esc>=<GeneralCopy>[=normal]
 *<lwin>e=<ToggleTC>[=normal]
 *<lwin>z=<Reload>[=normal]
 *<lwin>g=<config>[=normal]

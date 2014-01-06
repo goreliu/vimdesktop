@@ -90,6 +90,7 @@
     vim.Comment("<Reload>","重启脚本")
     vim.Comment("<config>","打开配置界面")
     vim.Comment("<GeneralCopy>","复制General的热键到当前窗口")
+    vim.comment("<ToggleShowComment>","切换是否显示快捷键提示")
 return
 
 <1>:
@@ -786,4 +787,10 @@ return
 ;激活最后一个标签
 <ActivateTab0>:
      send ^{9}
+return
+
+;设置是否显示快捷键提示
+<ToggleShowComment>:
+	ToShowComment := not ToShowComment
+	IniWrite %ToShowComment%, %A_ScriptDir%\vimd.ini, Config, ToShowComment
 return

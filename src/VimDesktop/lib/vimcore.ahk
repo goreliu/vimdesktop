@@ -14,8 +14,11 @@ Setkeydelay,-1
 return
 
 
+
 ; 此函数可以根据自己的喜好进行修改
 ShowComment(more="") {
+    if not ToShowComment
+	return
     WinGetClass,win,A
     w := vim.Vaild(win)
     mode := w.GetMode()

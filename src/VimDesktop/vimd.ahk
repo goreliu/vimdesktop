@@ -32,6 +32,11 @@ config := GetINIObj(A_ScriptDir "\vimd.ini")
 plog   := GetINIObj(A_ScriptDir "\plugins\plugins.ahk")
 
 Global InvalidMode := config.GetValue("config","InvalidMode")
+
+;是否显示快捷键注释
+Global ToShowComment := true
+IniRead ToShowComment, %A_ScriptDir%\vimd.ini, Config, ToShowComment, true
+
 sub := plog.GetKeys("ExtensionsTime")
 Loop,Parse,Sub,`n
 {
