@@ -278,6 +278,9 @@ TTOTAL_CMD_CheckMode()
 ;		Return True
 ;	If RegExMatch(ctrl,TCEdit)
 ;		Return True
+
+	Ifinstring,ctrl,RichEdit20W1
+		Return False
 	Ifinstring,ctrl,%TCListBox% 
 		Return False
 	Return True
