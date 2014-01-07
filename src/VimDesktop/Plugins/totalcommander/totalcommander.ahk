@@ -329,6 +329,28 @@ return
     ;settimer,AUTHTC,on
 	;emptymem()
 return
+
+;激活TC，并定位到命令行
+<FocusTCCmd>:
+{
+	IfWinExist,AHK_CLASS TTOTAL_CMD
+		Winactivate,AHK_ClASS TTOTAL_CMD
+	Else
+	{
+		Run,%TCPath%
+		Loop,4
+		{
+			IfWinNotActive,AHK_CLASS TTOTAL_CMD
+				WinActivate,AHK_CLASS TTOTAL_CMD
+			Else
+				Break
+			Sleep,500
+		}
+	}
+	SendPos(4003)
+	return
+}
+
 AUTHTC:
     AUTHTC()
 return

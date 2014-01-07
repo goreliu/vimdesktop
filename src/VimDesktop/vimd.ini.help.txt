@@ -42,11 +42,21 @@ wps=0
 ;带有*的快捷键全局有效
 ;不带*的快捷键仅在非禁用的应用程序中有效
 [Global]
-;不带*号，实现在禁用的应用程序中，禁用Ctrl+ESC
+
+;激活通用快捷键
 <ctrl><esc>=<GeneralCopy>[=normal]
+
+;切换TC
 *<lwin>e=<ToggleTC>[=normal]
+
+;重新加载VimDesktop
 *<lwin>z=<Reload>[=normal]
+
+;打开VimDesktop配置界面
 *<lwin>g=<config>[=normal]
+
+;激活TC命令行
+*<ctrl>;=<FocusTCCmd>[=normal]
 
 ;=====全局禁用的应用程序配置================
 [Global_Exclude]
