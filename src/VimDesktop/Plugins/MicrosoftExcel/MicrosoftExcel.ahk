@@ -268,7 +268,7 @@ XLMAIN_CheckMode()
 
 <Normal_Mode_XLMAIN>:
     vim.Mode("normal","XLMAIN")
-    getExcel().Application.StatusBar := "-- NORMAL --"
+    getExcel().Application.StatusBar := "NORMAL"
 return
 
 <Insert_Mode_XLMAIN>:
