@@ -106,9 +106,6 @@ return
 
 return
 
-<reload>:
-	reload
-return
 <down>:
     send {down}
 return

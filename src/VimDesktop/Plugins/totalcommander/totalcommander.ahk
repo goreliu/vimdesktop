@@ -1,6 +1,5 @@
 ﻿totalcommander:
 ;=======================================================
-	Global ConfigPath := A_ScriptDir  "\vimd.ini"
 	Global tcconfig := GetINIObj(ConfigPath)
 	Global TCPath := tcconfig.GetValue("Path","TCPath")
 	Global TCINI  := tcconfig.GetValue("Path","TCINI")
@@ -429,7 +428,7 @@ azHistory2()
 	Menu,az,UseErrorLevel
 	Menu,az,add
 	Menu,az,deleteall
-	size := TCConfig.GetValue("Config","MenuIconSize")
+	size := TCConfig.GetValue("Config","TC.MenuIconSize")
 	if not size
 		size := 20
 	Loop,%max%
