@@ -55,7 +55,9 @@ global CellColor:=-16711681 ;填充表格颜色-默认黄色
 	vim.comment("<XLMAIN_PageDown>","向下翻页")
 	vim.comment("<XLMAIN_XLMAIN_Cut>","剪切")
 	vim.comment("<XLMAIN_Replace>","替换")
+	vim.comment("<XLMAIN_Find>","查找")
 
+	vim.comment("<Alt_Mode_XLMAIN>","alt命令模式")
 
 	;insert模式及快捷键
 	vim.mode("insert","XLMAIN")
@@ -65,6 +67,7 @@ global CellColor:=-16711681 ;填充表格颜色-默认黄色
 	vim.mode("normal","XLMAIN")
 	vim.map("i","<Insert_Mode_XLMAIN>","XLMAIN")
 	vim.map("<esc>","<Normal_Mode_XLMAIN>","XLMAIN")
+	vim.map("I","<Alt_Mode_XLMAIN>","XLMAIN")
 	
 	;数字计数
 	;vim.map("0","<0>","XLMAIN") vim中也没有0计数，0一般用于行首，建议注释掉
@@ -82,9 +85,9 @@ global CellColor:=-16711681 ;填充表格颜色-默认黄色
 	vim.map("u","<excel_undo>","XLMAIN")
 	vim.map("<ctrl>r","<redo>","XLMAIN")
 
-	;z保存与退出
-	vim.map("zz","<XLMAIN_SaveAndExit>","XLMAIN")
-	vim.map("zq","<XLMAIN_DiscardAndExit>","XLMAIN")
+	;Z保存与退出
+	vim.map("ZZ","<XLMAIN_SaveAndExit>","XLMAIN")
+	vim.map("ZQ","<XLMAIN_DiscardAndExit>","XLMAIN")
 	
 	;颜色
 	vim.map("""","<XLMAIN_Color_All>","XLMAIN")
@@ -98,9 +101,11 @@ global CellColor:=-16711681 ;填充表格颜色-默认黄色
 	vim.map("dc","<XLMAIN_删除选择列>","XLMAIN")
 	vim.map("dw","<XLMAIN_工作表删除当前>","XLMAIN")
 
-	;o插入
+	;o插入/O插入在右
 	vim.map("or","<XLMAIN_编辑插入新行在前>","XLMAIN")
 	vim.map("oc","<XLMAIN_编辑插入新列在左>","XLMAIN")
+	vim.map("Or","<XLMAIN_编辑插入新行在后>","XLMAIN")
+	vim.map("Oc","<XLMAIN_编辑插入新列在右>","XLMAIN")
 	vim.map("ow","<XLMAIN_工作表新建>","XLMAIN")
 	
 	;s选择
@@ -134,11 +139,10 @@ global CellColor:=-16711681 ;填充表格颜色-默认黄色
 	vim.map("fA","<XLMAIN_过滤取消所有列>","XLMAIN")	
 
 	;p粘贴
-	vim.map("P","<XLMAIN_Paste>","XLMAIN")
-	vim.map("pp","<XLMAIN_Paste>","XLMAIN")
-	vim.map("ps","<XLMAIN_Paste_Select>","XLMAIN")
+	vim.map("p","<XLMAIN_Paste>","XLMAIN")
+	vim.map("P","<XLMAIN_Paste_Select>","XLMAIN")
 	    ;pv希望以后用代码做，快捷键做会闪一下
-	vim.map("pv","<XLMAIN_Paste_Value>","XLMAIN")
+	    ;vim.map("v","<XLMAIN_Paste_Value>","XLMAIN")
 
 	;space翻页（PageUp）Shiht-space（PageDown）
 	vim.map("<space>","<XLMAIN_PageDown>","XLMAIN")
@@ -201,6 +205,9 @@ global CellColor:=-16711681 ;填充表格颜色-默认黄色
 	vim.map("rr","<XLMAIN_Replace>","XLMAIN")
 	vim.map("R","<XLMAIN_Replace>","XLMAIN")	
 	vim.map("rw","<XLMAIN_SheetReName>","XLMAIN")
+	
+	;/查找
+	vim.map("/","<XLMAIN_Find>","XLMAIN")
 
 	;w宽高/W指定值
 	vim.map("wr","<XLMAIN_自适应宽度选择行>","XLMAIN")
@@ -210,8 +217,8 @@ global CellColor:=-16711681 ;填充表格颜色-默认黄色
 
 	;工作表
 
-	vim.map(")w","<XLMAIN_工作表移动向后>","XLMAIN")
-	vim.map("(w","<XLMAIN_工作表移动向前>","XLMAIN")
+	vim.map(">w","<XLMAIN_工作表移动向后>","XLMAIN")
+	vim.map("<w","<XLMAIN_工作表移动向前>","XLMAIN")
    
 
     
@@ -253,13 +260,10 @@ global CellColor:=-16711681 ;填充表格颜色-默认黄色
 
 
 
-	;以下map均已注释掉了，action保留，如有需要请解除注释即可
 	
 
 	;编辑
     
-    	;vim.map("O","<XLMAIN_编辑插入新行在后>","XLMAIN")
-    	;vim.map("t","<XLMAIN_编辑插入新列在右>","XLMAIN")
     
     	;行指令
     	;vim.map("rh","<XLMAIN_隐藏选择行>","XLMAIN")
@@ -319,6 +323,16 @@ return
     getExcel().Application.StatusBar := blank
 return
 
+<Alt_Mode_XLMAIN>:
+    vim.Mode("insert","XLMAIN")
+
+    ;插入模式下使用由Excel接管状态栏
+    getExcel().Application.StatusBar := blank
+{
+	send {alt}
+	return
+}
+return
 
 <excel_undo>:
 {
@@ -371,7 +385,7 @@ return
     send,{AppsKey}
     send,i
     send,{enter}
-    sleep,500
+    sleep,5
     send,r
     send,{enter}
     return
@@ -382,7 +396,7 @@ return
     send,{AppsKey}
     send,i
     send,{enter}
-    sleep,500
+    sleep,5
     send,c
     send,{enter}
     return
@@ -468,6 +482,13 @@ return
 <XLMAIN_Replace>:
 {
     send,^h
+    return
+}
+
+;/查找
+<XLMAIN_Find>:
+{
+    send,^f
     return
 }
 
@@ -1459,7 +1480,7 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
     send,{AppsKey}
     send,i
     send,{enter}
-    sleep,500
+    sleep,5
     send,r
     send,{enter}
     return
@@ -1471,7 +1492,7 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
     send,{AppsKey}
     send,i
     send,{enter}
-    sleep,500
+    sleep,5
     send,c
     send,{enter}
     return
