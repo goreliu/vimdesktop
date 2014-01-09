@@ -48,6 +48,14 @@ global CellColor:=-16711681 ;填充表格颜色-默认黄色
 	vim.comment("<XLMAIN_SelectToAreaRight>","选择到当前区域边缘-右")
 	vim.comment("<XLMAIN_SelectToAreaUp>","选择到当前区域边缘-上")
 	vim.comment("<XLMAIN_SelectToAreaDown>","选择到当前区域边缘-下")
+	vim.comment("<XLMAIN_Delete>","删除（=Delete键）")
+	vim.comment("<XLMAIN_SelectAll>","选择全部=^a")
+	vim.comment("<XLMAIN_Paste_Value>","粘贴数值")
+	vim.comment("<XLMAIN_PageUp>","翻页")
+	vim.comment("<XLMAIN_PageDown>","向前翻页")
+	vim.comment("<XLMAIN_XLMAIN_Cut>","剪切")
+	vim.comment("<XLMAIN_Replace>","替换")
+
 
 	;insert模式及快捷键
 	vim.mode("insert","XLMAIN")
@@ -57,8 +65,9 @@ global CellColor:=-16711681 ;填充表格颜色-默认黄色
 	vim.mode("normal","XLMAIN")
 	vim.map("i","<Insert_Mode_XLMAIN>","XLMAIN")
 	vim.map("<esc>","<Normal_Mode_XLMAIN>","XLMAIN")
-
-	vim.map("0","<0>","XLMAIN")
+	
+	;数字计数
+	;vim.map("0","<0>","XLMAIN") vim中也没有0计数，0一般用于行首，建议注释掉
 	vim.map("1","<1>","XLMAIN")
 	vim.map("2","<2>","XLMAIN")
 	vim.map("3","<3>","XLMAIN")
@@ -68,188 +77,217 @@ global CellColor:=-16711681 ;填充表格颜色-默认黄色
 	vim.map("7","<7>","XLMAIN")
 	vim.map("8","<8>","XLMAIN")
 	vim.map("9","<9>","XLMAIN")
-
+	
+	;撤销与重复
 	vim.map("u","<excel_undo>","XLMAIN")
 	vim.map("<ctrl>r","<redo>","XLMAIN")
 
-	vim.map("ZZ","<XLMAIN_SaveAndExit>","XLMAIN")
-	vim.map("ZQ","<XLMAIN_DiscardAndExit>","XLMAIN")
-
+	;z保存与退出
+	vim.map("zz","<XLMAIN_SaveAndExit>","XLMAIN")
+	vim.map("zq","<XLMAIN_DiscardAndExit>","XLMAIN")
+	
+	;颜色
 	vim.map("""","<XLMAIN_Color_All>","XLMAIN")
 	vim.map("'","<XLMAIN_Color_Menu_Font>","XLMAIN")
 	vim.map(";","<XLMAIN_Color_Menu_Cell>","XLMAIN")
 
+	;d删除
+	vim.map("dd","<XLMAIN_Delete>","XLMAIN")
+    	vim.map("D","<XLMAIN_Delete>","XLMAIN")
+    	vim.map("dr","<XLMAIN_删除选择行>","XLMAIN")
+	vim.map("dc","<XLMAIN_删除选择列>","XLMAIN")
+	vim.map("dw","<XLMAIN_工作表删除当前>","XLMAIN")
 
+	;o插入
+	vim.map("or","<XLMAIN_编辑插入新行在前>","XLMAIN")
+	vim.map("oc","<XLMAIN_编辑插入新列在左>","XLMAIN")
+	vim.map("ow","<XLMAIN_工作表新建>","XLMAIN")
+	
+	;s选择
+	vim.map("sk","<XLMAIN_SelectToAreaUp>","XLMAIN")
+   	vim.map("sj","<XLMAIN_SelectToAreaDown>","XLMAIN")
+  	vim.map("sh","<XLMAIN_SelectToAreaLeft>","XLMAIN")
+  	vim.map("sl","<XLMAIN_SelectToAreaRight>","XLMAIN")
+        vim.map("sr","<XLMAIN_选择整行>","XLMAIN")
+	vim.map("sc","<XLMAIN_选择整列>","XLMAIN")
+	vim.map("sa","<XLMAIN_SelectAll>","XLMAIN")
 
-    ;边框
-    vim.map("bd","<XLMAIN_边框下框线>","XLMAIN")
-    vim.map("bu","<XLMAIN_边框上框线>","XLMAIN")
-    vim.map("bl","<XLMAIN_边框左框线>","XLMAIN")
-    vim.map("br","<XLMAIN_边框右框线>","XLMAIN")
-    vim.map("bs","<XLMAIN_边框四边框线>","XLMAIN")
-    vim.map("bt","<XLMAIN_边框四边粗匣框线>","XLMAIN")
+	;f过滤命令
+   	vim.map("ff","<XLMAIN_自动过滤开启>","XLMAIN")
+   	vim.map("fl","<XLMAIN_过滤当前列下拉菜单>","XLMAIN")
+   	vim.map("fd","<XLMAIN_过滤打开筛选对话框>","XLMAIN")
+   	vim.map("fo","<XLMAIN_过滤大于等于当前单元格>","XLMAIN")
+   	vim.map("fu","<XLMAIN_过滤小于等于当前单元格>","XLMAIN")
+   	vim.map("f.","<XLMAIN_过滤非空单元格>","XLMAIN")
+   	vim.map("fb","<XLMAIN_过滤空单元格>","XLMAIN")
+   
+	;因不区分数值型与文本型以及日期型的问题，以下过滤功能暂不完整
+	vim.map("fB","<XLMAIN_过滤开头包含当前单元格>","XLMAIN")
+   	vim.map("fE","<XLMAIN_过滤末尾包含当前单元格>","XLMAIN")
+	vim.map("fs","<XLMAIN_过滤等于当前单元格>","XLMAIN")
+   	vim.map("f<","<XLMAIN_过滤小于当前单元格>","XLMAIN")
+   	vim.map("f>","<XLMAIN_过滤大于当前单元格>","XLMAIN")
+   	vim.map("fi","<XLMAIN_过滤包含当前单元格>","XLMAIN")
+   	vim.map("fe","<XLMAIN_过滤不包含当前单元格>","XLMAIN")
+	;以下过滤功能2013版测试无效
+   	vim.map("fa","<XLMAIN_过滤取消当前列>","XLMAIN")
+	vim.map("fA","<XLMAIN_过滤取消所有列>","XLMAIN")	
 
-    vim.map("bn","<XLMAIN_边框无框线>","XLMAIN")
-    vim.map("ba","<XLMAIN_边框所有框线>","XLMAIN")
-    vim.map("ba","<XLMAIN_边框粗匣框线>","XLMAIN")
+	;p粘贴
+	vim.map("P","<XLMAIN_Paste>","XLMAIN")
+	vim.map("pp","<XLMAIN_Paste>","XLMAIN")
+	vim.map("ps","<XLMAIN_Paste_Select>","XLMAIN")
+	    ;pv希望以后用代码做，快捷键做会闪一下
+	vim.map("pv","<XLMAIN_Paste_Value>","XLMAIN")
 
-    ;vim.map("bd","<XLMAIN_边框上下框线>","XLMAIN")
-    ;编辑
-    vim.map("o","<XLMAIN_编辑插入新行在前>","XLMAIN")
-    vim.map("O","<XLMAIN_编辑插入新行在后>","XLMAIN")
-    vim.map("t","<XLMAIN_编辑插入新列在右>","XLMAIN")
-    vim.map("T","<XLMAIN_编辑插入新列在左>","XLMAIN")
-    vim.map("R","<XLMAIN_编辑替换>","XLMAIN")
+	;space翻页（PageUp）Shiht-space（PageDown）
+	vim.map("<space>","<XLMAIN_PageDown>","XLMAIN")
+	vim.map("<shift><space>","<XLMAIN_PageUp>","XLMAIN")
 
-	vim.map("ys","<XLMAIN_Copy_Selection>","XLMAIN")
-	vim.map("yy","<XLMAIN_Copy_Row>","XLMAIN")
+	;x剪切
+	vim.map("x","<XLMAIN_Cut>","XLMAIN")
+	
+	;y复制
+	vim.map("yy","<XLMAIN_Copy_Selection>","XLMAIN")	
+	vim.map("Y","<XLMAIN_Copy_Selection>","XLMAIN")
+	vim.map("yr","<XLMAIN_Copy_Row>","XLMAIN")
 	vim.map("yc","<XLMAIN_Copy_Col>","XLMAIN")
+	vim.map("yh","<XLMAIN_编辑自左侧复制>","XLMAIN")
+	vim.map("yl","<XLMAIN_编辑自右侧复制>","XLMAIN")
+    	vim.map("yk","<XLMAIN_编辑自上侧复制>","XLMAIN")
+    	vim.map("yj","<XLMAIN_编辑自下侧复制>","XLMAIN")
+	vim.map("myl","<XLMAIN_逐行编辑自左侧复制>","XLMAIN")
+    	vim.map("myr","<XLMAIN_逐行编辑自右侧复制>","XLMAIN")
+    	vim.map("yw","<XLMAIN_工作表复制当前>","XLMAIN")
+    	vim.map("yW","<XLMAIN_工作表复制对话框>","XLMAIN")
 
-    vim.map("yl","<XLMAIN_编辑自左侧复制>","XLMAIN")
-    vim.map("myl","<XLMAIN_逐行编辑自左侧复制>","XLMAIN")
-    vim.map("yr","<XLMAIN_编辑自右侧复制>","XLMAIN")
-     vim.map("myr","<XLMAIN_逐行编辑自右侧复制>","XLMAIN")
-    vim.map("yu","<XLMAIN_编辑自上侧复制>","XLMAIN")
-    vim.map("yd","<XLMAIN_编辑自下侧复制>","XLMAIN")
+	;上下左右映射
+    	vim.map("h","<left>","XLMAIN")
+    	vim.map("l","<right>","XLMAIN")
+    	vim.map("k","<up>","XLMAIN")
+    	vim.map("j","<down>","XLMAIN")
 
-	vim.map("p","<XLMAIN_Paste>","XLMAIN")
-	vim.map("P","<XLMAIN_Paste_Select>","XLMAIN")
+	;上下左右选择映射
+  	vim.map("H","<XLMAIN_向左选择>","XLMAIN")
+    	vim.map("L","<XLMAIN_向右选择>","XLMAIN")
+    	vim.map("K","<XLMAIN_向上选择>","XLMAIN")
+    	vim.map("J","<XLMAIN_向下选择>","XLMAIN")
 
+ 	;g位置跳转
+    	vim.map("gg","<XLMAIN_FocusHome>","XLMAIN")
+    	vim.map("G","<XLMAIN_FocusEnd>","XLMAIN")
+    	vim.map("grh","<XLMAIN_FocusRowHome>","XLMAIN")
+    	vim.map("gre","<XLMAIN_FocusRowEnd>","XLMAIN")
+    	vim.map("gch","<XLMAIN_FocusColHome>","XLMAIN")
+    	vim.map("gce","<XLMAIN_FocusColEnd>","XLMAIN")
+    	vim.map("gk","<XLMAIN_FocusAreaUp>","XLMAIN")
+    	vim.map("gj","<XLMAIN_FocusAreaDown>","XLMAIN")
+    	vim.map("gh","<XLMAIN_FocusAreaLeft>","XLMAIN")
+    	vim.map("gl","<XLMAIN_FocusAreaRight>","XLMAIN")
+    	vim.map("gwh","<XLMAIN_工作表选择首个>","XLMAIN")
+    	vim.map("gwe","<XLMAIN_工作表选择尾个>","XLMAIN")
+    	vim.map("gt","<XLMAIN_工作表跳转下一个>","XLMAIN")
+    	vim.map("gT","<XLMAIN_工作表跳转上一个>","XLMAIN")
 
-    ;行指令
-    vim.map("rh","<XLMAIN_隐藏选择行>","XLMAIN")
-    vim.map("rH","<XLMAIN_隐藏选择行取消>","XLMAIN")
-    vim.map("rW","<XLMAIN_自适应宽度选择行>","XLMAIN")
-    vim.map("rs","<XLMAIN_选择整行>","XLMAIN")
-    vim.map("rd","<XLMAIN_删除选择行>","XLMAIN")
-    vim.map("rw","<XLMAIN_编辑行宽指定值>","XLMAIN")
-    vim.map("rf","<XLMAIN_行填充>","XLMAIN")
-    ;列指令
-    vim.map("ch","<XLMAIN_隐藏选择列>","XLMAIN")
-    vim.map("cH","<XLMAIN_隐藏选择列取消>","XLMAIN")
-    vim.map("cW","<XLMAIN_自适应宽度选择列>","XLMAIN")
-    vim.map("cs","<XLMAIN_选择整列>","XLMAIN")
-    vim.map("cw","<XLMAIN_编辑列宽指定值>","XLMAIN")
+    	vim.map("go","<XLMAIN_GoTo>","XLMAIN")
 
+   	;F填充
+    	vim.map("Fk","<XLMAIN_填充向上>","XLMAIN")
+    	vim.map("Fj","<XLMAIN_填充向下>","XLMAIN")
+    	vim.map("Fh","<XLMAIN_填充向左>","XLMAIN")
+    	vim.map("Fl","<XLMAIN_填充向右>","XLMAIN")
 
-    ;vim.map("e","<XLMAIN_编辑行宽变窄>","XLMAIN")
-    ;vim.map("E","<XLMAIN_编辑行宽变宽>","XLMAIN")
-    ;vim.map("q","<XLMAIN_编辑列宽变窄>","XLMAIN")
-    ;vim.map("Q","<XLMAIN_编辑列宽变宽>","XLMAIN")
+	;r重命名/替换
+	vim.map("rr","<XLMAIN_Replace>","XLMAIN")
+	vim.map("R","<XLMAIN_Replace>","XLMAIN")	
+	vim.map("rw","<XLMAIN_SheetReName>","XLMAIN")
 
-    vim.map("h","<left>","XLMAIN")
-    vim.map("l","<right>","XLMAIN")
-    vim.map("k","<up>","XLMAIN")
-    vim.map("j","<down>","XLMAIN")
+	;w宽高/W指定值
+   	vim.map("wr","<XLMAIN_自适应宽度选择行>","XLMAIN")
+   	vim.map("wc","<XLMAIN_自适应宽度选择列>","XLMAIN")
+    	vim.map("Wr","<XLMAIN_编辑行宽指定值>","XLMAIN")
+    	vim.map("Wc","<XLMAIN_编辑列宽指定值>","XLMAIN")
 
-    vim.map("H","<XLMAIN_向左选择>","XLMAIN")
-    vim.map("L","<XLMAIN_向右选择>","XLMAIN")
-    vim.map("K","<XLMAIN_向上选择>","XLMAIN")
-    vim.map("J","<XLMAIN_向下选择>","XLMAIN")
+	;工作表
 
-    ;Selection.EntireRow.Hidden := True
-    ;a 对齐命令
-    vim.map("al","<XLMAIN_对齐左>","XLMAIN")
-    vim.map("ar","<XLMAIN_对齐右>","XLMAIN")
-    vim.map("ac","<XLMAIN_对齐水平中间>","XLMAIN")
-    vim.map("ao","<XLMAIN_对齐垂直中间>","XLMAIN")
-    vim.map("au","<XLMAIN_对齐顶>","XLMAIN")
-    vim.map("ad","<XLMAIN_对齐底>","XLMAIN")
+    	vim.map(")w","<XLMAIN_工作表移动向后>","XLMAIN")
+    	vim.map("(w","<XLMAIN_工作表移动向前>","XLMAIN")
+   
 
-    ;F 填充命令
-    vim.map("Fk","<XLMAIN_填充向上>","XLMAIN")
-    vim.map("Fj","<XLMAIN_填充向下>","XLMAIN")
-    vim.map("Fh","<XLMAIN_填充向左>","XLMAIN")
-    vim.map("Fl","<XLMAIN_填充向右>","XLMAIN")
-
-    ;f 过滤命令
-    vim.map("ff","<XLMAIN_自动过滤开启>","XLMAIN")
-    vim.map("fs","<XLMAIN_过滤等于当前单元格>","XLMAIN")
-    vim.map("fl","<XLMAIN_过滤当前列下拉菜单>","XLMAIN")
-    vim.map("fd","<XLMAIN_过滤打开筛选对话框>","XLMAIN")
-    vim.map("f<","<XLMAIN_过滤小于当前单元格>","XLMAIN")
-    vim.map("f>","<XLMAIN_过滤大于当前单元格>","XLMAIN")
-    vim.map("fo","<XLMAIN_过滤大于等于当前单元格>","XLMAIN")
-    vim.map("fu","<XLMAIN_过滤小于等于当前单元格>","XLMAIN")
-    vim.map("f.","<XLMAIN_过滤非空单元格>","XLMAIN")
-    vim.map("fb","<XLMAIN_过滤空单元格>","XLMAIN")
-    vim.map("fa","<XLMAIN_过滤取消当前列>","XLMAIN")
-    vim.map("fi","<XLMAIN_过滤包含当前单元格>","XLMAIN")
-    vim.map("fe","<XLMAIN_过滤不包含当前单元格>","XLMAIN")
-    vim.map("fB","<XLMAIN_过滤开头包含当前单元格>","XLMAIN")
-    vim.map("fE","<XLMAIN_过滤末尾包含当前单元格>","XLMAIN")
-    vim.map("fA","<XLMAIN_过滤取消所有列>","XLMAIN")
+    
 
 
 
-    ;:字体颜色命令
-
-    ;;单元格颜色命令
-
-    ;%页面设置命令
-
-    ;^设置格式命令
-
-    ;@视图指令
-
-    ;-横向线颜色命令
-
-    ;|纵向ActiveSheet.线颜色指令
-
-    ;`字体命令
-    vim.map("<shift>,","<XLmain_字体放大>","XLMAIN")
-    vim.map("<shift>.","<XLmain_字体缩小>","XLMAIN")
-
-    ;(名称
-    vim.map("<shift>9n","<XLMAIN_名称工作簿定义>","XLMAIN")
-    vim.map("<shift>9N","<XLMAIN_名称当前工作表定义>","XLMAIN")
-
-    ;位置跳转类
-    vim.map("gg","<XLMAIN_FocusHome>","XLMAIN")
-    vim.map("G","<XLMAIN_FocusEnd>","XLMAIN")
-    vim.map("grh","<XLMAIN_FocusRowHome>","XLMAIN")
-    vim.map("gre","<XLMAIN_FocusRowEnd>","XLMAIN")
-    vim.map("gch","<XLMAIN_FocusColHome>","XLMAIN")
-    vim.map("gce","<XLMAIN_FocusColEnd>","XLMAIN")
-    vim.map("gk","<XLMAIN_FocusAreaUp>","XLMAIN")
-    vim.map("gj","<XLMAIN_FocusAreaDown>","XLMAIN")
-    vim.map("gh","<XLMAIN_FocusAreaLeft>","XLMAIN")
-    vim.map("gl","<XLMAIN_FocusAreaRight>","XLMAIN")
-    vim.map("gK","<XLMAIN_SelectToAreaUp>","XLMAIN")
-    vim.map("gJ","<XLMAIN_SelectToAreaDown>","XLMAIN")
-    vim.map("gH","<XLMAIN_SelectToAreaLeft>","XLMAIN")
-    vim.map("gL","<XLMAIN_SelectToAreaRight>","XLMAIN")
-
-    vim.map("gt","<XLMAIN_工作表跳转下一个>","XLMAIN")
-    vim.map("gT","<XLMAIN_工作表跳转上一个>","XLMAIN")
-
-    vim.map("go","<XLMAIN_GoTo>","XLMAIN")
 
 
-    ;工作表
 
-    vim.map("wr","<XLMAIN_SheetReName>","XLMAIN")
-    vim.map("w)","<XLMAIN_工作表移动向后>","XLMAIN")
-    vim.map("w(","<XLMAIN_工作表移动向前>","XLMAIN")
-    vim.map("wn","<XLMAIN_工作表新建>","XLMAIN")
-    vim.map("wd","<XLMAIN_工作表删除当前>","XLMAIN")
-    vim.map("wp","<XLMAIN_工作表复制当前>","XLMAIN")
-    vim.map("w0","<XLMAIN_工作表选择首个>","XLMAIN")
-    vim.map("w$","<XLMAIN_工作表选择尾个>","XLMAIN")
-    vim.map("wc","<XLMAIN_工作表复制对话框>","XLMAIN")
 
-    ;m多区域逐行处理
-    vim.map("mr","<XLMAIN_逐行合并>","XLMAIN")
-    ;vim.map("mbd","<XLMAIN_逐行边框下框线>","XLMAIN")
-    ;vim.map("mbu","<XLMAIN_逐行边框上框线>","XLMAIN")
-    ;vim.map("mbs","<XLMAIN_逐行边框外侧框线>","XLMAIN")
-    ;vim.map("mbt","<XLMAIN_逐行边框粗匣框线>","XLMAIN")
-    vim.map("mR","<XLMAIN_取消逐行合并>","XLMAIN")
 
-    ;测试
-    vim.map("t5","<XLMIAN_获取活动工作表边界>","XLMAIN")
-    vim.map("t1","<LastRow>","XLMAIN")
-    vim.map("t2","<LastColumn>","XLMAIN")
+
+
+	;:字体颜色命令
+
+    	;;单元格颜色命令
+
+    	;%页面设置命令
+
+    	;^设置格式命令
+
+    	;@视图指令
+
+    	;-横向线颜色命令
+
+    	;|纵向ActiveSheet.线颜色指令
+
+    	;`字体命令
+    	vim.map("<shift>,","<XLmain_字体放大>","XLMAIN")
+    	vim.map("<shift>.","<XLmain_字体缩小>","XLMAIN")
+
+    	;(名称
+    	vim.map("<shift>9n","<XLMAIN_名称工作簿定义>","XLMAIN")
+    	vim.map("<shift>9N","<XLMAIN_名称当前工作表定义>","XLMAIN")
+
+
+
+
+
+
+
+	;以下map均已注释掉了，action保留，如有需要请解除注释即可
+	
+
+	;编辑
+    
+    	;vim.map("O","<XLMAIN_编辑插入新行在后>","XLMAIN")
+    	;vim.map("t","<XLMAIN_编辑插入新列在右>","XLMAIN")
+    
+    	;行指令
+    	;vim.map("rh","<XLMAIN_隐藏选择行>","XLMAIN")
+    	;vim.map("rH","<XLMAIN_隐藏选择行取消>","XLMAIN")
+
+	;行填充作用不明显
+        ;vim.map("rf","<XLMAIN_行填充>","XLMAIN")
+    	;列指令
+    	;vim.map("ch","<XLMAIN_隐藏选择列>","XLMAIN")
+    	;vim.map("cH","<XLMAIN_隐藏选择列取消>","XLMAIN")
+ 
+    	;vim.map("e","<XLMAIN_编辑行宽变窄>","XLMAIN")
+    	;vim.map("E","<XLMAIN_编辑行宽变宽>","XLMAIN")
+    	;vim.map("q","<XLMAIN_编辑列宽变窄>","XLMAIN")
+   	;vim.map("Q","<XLMAIN_编辑列宽变宽>","XLMAIN")
+
+   	;m多区域逐行处理
+    	;vim.map("mr","<XLMAIN_逐行合并>","XLMAIN")
+    	;vim.map("mbd","<XLMAIN_逐行边框下框线>","XLMAIN")
+    	;vim.map("mbu","<XLMAIN_逐行边框上框线>","XLMAIN")
+    	;vim.map("mbs","<XLMAIN_逐行边框外侧框线>","XLMAIN")
+    	;vim.map("mbt","<XLMAIN_逐行边框粗匣框线>","XLMAIN")
+    	;vim.map("mR","<XLMAIN_取消逐行合并>","XLMAIN")
+
+    	;测试
+    	vim.map("t5","<XLMIAN_获取活动工作表边界>","XLMAIN")
+    	vim.map("t1","<LastRow>","XLMAIN")
+    	vim.map("t2","<LastColumn>","XLMAIN")
 
 ;Comment
 
@@ -257,6 +295,9 @@ global CellColor:=-16711681 ;填充表格颜色-默认黄色
 ;XLMAIN
 return
 
+
+
+;Action 如要跳转，请使用查找功能/
 
 XLMAIN_CheckMode()
 {
@@ -289,6 +330,171 @@ return
 {
 	send ^y
 	return
+}
+
+
+;d删除
+<XLMAIN_Delete>:
+{
+    send,{Del}
+    return
+}
+
+;by dlt:改用快捷键方式，可被撤销
+<XLMAIN_删除选择行>:
+{
+	send ^-
+	send !r
+	send {Enter}
+	return
+}
+
+<XLMAIN_删除选择列>:
+{
+    Excel_Selection()
+    Selection.EntireColumn.Delete
+    objrelease(excel)
+    return
+}
+
+<XLMAIN_工作表删除当前>:
+{
+Excel_ActiveSheet()
+excel.ActiveWindow.SelectedSheets.delete
+objRelease(excel)
+return
+}
+
+;o插入
+<XLMAIN_编辑插入新行在前>:
+{
+    send,{AppsKey}
+    send,i
+    send,{enter}
+    sleep,500
+    send,r
+    send,{enter}
+    return
+}
+
+<XLMAIN_编辑插入新列在左>:
+{
+    send,{AppsKey}
+    send,i
+    send,{enter}
+    sleep,500
+    send,c
+    send,{enter}
+    return
+}
+
+<XLMAIN_工作表新建>:
+{
+    Excel_ActiveSheet()
+    excel.ActiveWorkbook.Sheets.Add
+    objRelease(excel)
+    return
+}
+
+
+;s选择
+<XLMAIN_SelectToAreaUp>:
+{
+	send,^+{Up}
+	return
+}
+
+<XLMAIN_SelectToAreaDown>:
+{
+	send,^+{Down}
+	return
+}
+
+<XLMAIN_SelectToAreaLeft>:
+{
+	send,^+{Left}
+	return
+}
+
+<XLMAIN_SelectToAreaRight>:
+{
+	send,^+{Right}
+	return
+}
+
+<XLMAIN_选择整行>:
+{
+    Excel_Selection()
+    Selection.EntireRow.Select
+    objrelease(excel)
+    return
+}
+
+<XLMAIN_选择整列>:
+{
+    Excel_Selection()
+    Selection.EntireColumn.Select
+    objrelease(excel)
+    return
+}
+
+<XLMAIN_SelectAll>:
+{
+    send,^a
+    return
+}
+
+;space翻页
+<XLMAIN_PageDown>:
+{
+    send,{PgDn}
+    return
+}
+
+<XLMAIN_PageUp>:
+{
+    send,{PgUp}
+    return
+}
+
+;x剪切
+<XLMAIN_Cut>:
+{
+    send,^x
+    return
+}
+
+;r置换
+<XLMAIN_Replace>:
+{
+    send,^h
+    return
+}
+
+;控制
+<XLMAIN_向左选择>:
+{
+    send,+{left}
+    return
+}
+
+
+<XLMAIN_向右选择>:
+{
+    send,+{right}
+    return
+}
+
+<XLMAIN_向上选择>:
+{
+    send,+{up}
+    return
+}
+
+<XLMAIN_向下选择>:
+{
+    send,+{down}
+    return
 }
 
 <XLMAIN_名称工作簿定义>:
@@ -326,33 +532,6 @@ return
     objRelease(excel)
     return
 }
-
-;控制
-<XLMAIN_向左选择>:
-{
-    send,+{left}
-    return
-}
-
-
-<XLMAIN_向右选择>:
-{
-    send,+{right}
-    return
-}
-
-<XLMAIN_向上选择>:
-{
-    send,+{up}
-    return
-}
-
-<XLMAIN_向下选择>:
-{
-    send,+{down}
-    return
-}
-
 
 <XLMAIN_定位空单元格>:
 {
@@ -480,15 +659,12 @@ XLMAIN_定位公式变量(value,indicate)
     FoundPosSeperate := RegExMatch(address,":")
     StringLeft, parta, address, FoundPosSeperate-1
     StringMid, partb, address, FoundPosSeperate+1 , 50
-    ;msgbox,%parta%
-    ;msgbox,%partb%
     RegExMatch(parta,"[A-Z]+",ColumnLeftName)
     RegExMatch(parta,"[0-9]+",RowUp)
     fid_first_column:=excel.ActiveSheet.Range(ColumnLeftName "1:" ColumnLeftName "1").Column
     fid:=excel.ActiveCell.Column - fid_first_column + 1
     value:=excel.ActiveCell.Value
     excel.Application.Dialogs(447).Show(fid, value)
-    ;msgbox,%RowUp%
     objrelease(excel)
     return
 }
@@ -582,7 +758,7 @@ XLMAIN_定位公式变量(value,indicate)
     Excel_ActiveSheet()
     value:=excel.ActiveCell.Value
     value=%value%*
-;msgbox,%value%
+    msgbox,%value%
     XLMAIN_CustomAutoFilter("=*",valve)
     objrelease(excel)
     return
@@ -638,7 +814,7 @@ XLMAIN_定位公式变量(value,indicate)
     RegExMatch(parta,"[0-9]+",RowUp)
     ;msgbox,%RowUp%
     column:=excel.ActiveCell.Column
-    msgbox,%column%
+    ;msgbox,%column%
     excel.ActiveSheet.Cells( RowUp , column ).Activate
     send,!{down}
     objrelease(excel)
@@ -717,14 +893,6 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 }
 
 
-;by dlt:改用快捷键方式，可被撤销
-<XLMAIN_删除选择行>:
-{
-	send ^-
-	send !r
-	send {Enter}
-	return
-}
 
 
 
@@ -744,13 +912,6 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
     return
 }
 
-<XLMAIN_选择整行>:
-{
-    Excel_Selection()
-    Selection.EntireRow.Select
-    objrelease(excel)
-    return
-}
 
 <XLMAIN_编辑行宽指定值>:
 {
@@ -769,21 +930,8 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 }
 
 ;列指令
-<XLMAIN_选择整列>:
-{
-    Excel_Selection()
-    Selection.EntireColumn.Select
-    objrelease(excel)
-    return
-}
 
-<XLMAIN_删除选择列>:
-{
-    Excel_Selection()
-    Selection.EntireColumn.Delete
-    objrelease(excel)
-    return
-}
+
 
 
 <XLMAIN_自适应宽度选择列>:
@@ -988,7 +1136,7 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
     Excel_ActiveCell()
     XLMAIN_GetSelectionType()
     XLMAIN_GetSelectionInfo()
-    msgbox,%SelectionType%
+    ;msgbox,%SelectionType%
     if SelectionType=1
         {
             excel.Selection.Borders(7).LineStyle := 1
@@ -1035,7 +1183,7 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
     Excel_ActiveCell()
     XLMAIN_GetSelectionType()
     XLMAIN_GetSelectionInfo()
-    msgbox,%SelectionType%
+    ;msgbox,%SelectionType%
     if SelectionType=1
         {
             excel.Selection.Borders(10).LineStyle := 1
@@ -1114,7 +1262,7 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
     Excel_ActiveCell()
     XLMAIN_GetSelectionType()
     XLMAIN_GetSelectionInfo()
-    msgbox,%SelectionType%
+    ;msgbox,%SelectionType%
     if SelectionType=1
         {
             excel.Selection.Borders(7).LineStyle := 1
@@ -1303,16 +1451,7 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 ;编辑
 
 
-<XLMAIN_编辑插入新行在前>:
-{
-    send,{AppsKey}
-    send,i
-    send,{enter}
-    sleep,500
-    send,r
-    send,{enter}
-    return
-}
+
 
 <XLMAIN_编辑插入新行在后>:
 {
@@ -1335,36 +1474,6 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
     sleep,500
     send,c
     send,{enter}
-    return
-}
-
-<XLMAIN_编辑插入新列在左>:
-{
-    send,{AppsKey}
-    send,i
-    send,{enter}
-    sleep,500
-    send,c
-    send,{enter}
-    return
-}
-
-
-<XLMAIN_编辑替换>:
-{
-    send,!u
-    send,fd
-    sleep,400
-    send,r
-    return
-}
-
-<XLMAIN_编辑查找>:
-{
-    send,!h
-    send,fd
-    sleep,400
-    send,f
     return
 }
 
@@ -1401,6 +1510,12 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 <XLMAIN_Paste_Select>:
 {
 	send ^!v
+	return
+}
+
+<XLMAIN_Paste_Value>:
+{
+	send ^!v!v{enter}
 	return
 }
 
@@ -1638,29 +1753,7 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 }
 
 
-<XLMAIN_SelectToAreaUp>:
-{
-	send,^+{Up}
-	return
-}
 
-<XLMAIN_SelectToAreaDown>:
-{
-	send,^+{Down}
-	return
-}
-
-<XLMAIN_SelectToAreaLeft>:
-{
-	send,^+{Left}
-	return
-}
-
-<XLMAIN_SelectToAreaRight>:
-{
-	send,^+{Right}
-	return
-}
 
 
 
@@ -1787,13 +1880,7 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 	return
 }
 
-<XLMAIN_工作表删除当前>:
-{
-Excel_ActiveSheet()
-excel.ActiveWindow.SelectedSheets.delete
-objRelease(excel)
-return
-}
+
 
 <XLMAIN_工作表复制当前>:
 {
@@ -1880,13 +1967,7 @@ return
 }
 
 
-<XLMAIN_工作表新建>:
-{
-    Excel_ActiveSheet()
-    excel.ActiveWorkbook.Sheets.Add
-    objRelease(excel)
-    return
-}
+
 
 
 <XLMAIN_工作表移动向后>:
