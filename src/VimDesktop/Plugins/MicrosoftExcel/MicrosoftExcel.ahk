@@ -93,8 +93,8 @@ global CellColor:=-16711681 ;填充表格颜色-默认黄色
 
 	;d删除
 	vim.map("dd","<XLMAIN_Delete>","XLMAIN")
-    	vim.map("D","<XLMAIN_Delete>","XLMAIN")
-    	vim.map("dr","<XLMAIN_删除选择行>","XLMAIN")
+	vim.map("D","<XLMAIN_Delete>","XLMAIN")
+	vim.map("dr","<XLMAIN_删除选择行>","XLMAIN")
 	vim.map("dc","<XLMAIN_删除选择列>","XLMAIN")
 	vim.map("dw","<XLMAIN_工作表删除当前>","XLMAIN")
 
@@ -105,32 +105,32 @@ global CellColor:=-16711681 ;填充表格颜色-默认黄色
 	
 	;s选择
 	vim.map("sk","<XLMAIN_SelectToAreaUp>","XLMAIN")
-   	vim.map("sj","<XLMAIN_SelectToAreaDown>","XLMAIN")
-  	vim.map("sh","<XLMAIN_SelectToAreaLeft>","XLMAIN")
-  	vim.map("sl","<XLMAIN_SelectToAreaRight>","XLMAIN")
+	vim.map("sj","<XLMAIN_SelectToAreaDown>","XLMAIN")
+	vim.map("sh","<XLMAIN_SelectToAreaLeft>","XLMAIN")
+	vim.map("sl","<XLMAIN_SelectToAreaRight>","XLMAIN")
         vim.map("sr","<XLMAIN_选择整行>","XLMAIN")
 	vim.map("sc","<XLMAIN_选择整列>","XLMAIN")
 	vim.map("sa","<XLMAIN_SelectAll>","XLMAIN")
 
 	;f过滤命令
-   	vim.map("ff","<XLMAIN_自动过滤开启>","XLMAIN")
-   	vim.map("fl","<XLMAIN_过滤当前列下拉菜单>","XLMAIN")
-   	vim.map("fd","<XLMAIN_过滤打开筛选对话框>","XLMAIN")
-   	vim.map("fo","<XLMAIN_过滤大于等于当前单元格>","XLMAIN")
-   	vim.map("fu","<XLMAIN_过滤小于等于当前单元格>","XLMAIN")
-   	vim.map("f.","<XLMAIN_过滤非空单元格>","XLMAIN")
-   	vim.map("fb","<XLMAIN_过滤空单元格>","XLMAIN")
+	vim.map("ff","<XLMAIN_自动过滤开启>","XLMAIN")
+	vim.map("fl","<XLMAIN_过滤当前列下拉菜单>","XLMAIN")
+	vim.map("fd","<XLMAIN_过滤打开筛选对话框>","XLMAIN")
+	vim.map("fo","<XLMAIN_过滤大于等于当前单元格>","XLMAIN")
+	vim.map("fu","<XLMAIN_过滤小于等于当前单元格>","XLMAIN")
+	vim.map("f.","<XLMAIN_过滤非空单元格>","XLMAIN")
+	vim.map("fb","<XLMAIN_过滤空单元格>","XLMAIN")
    
 	;因不区分数值型与文本型以及日期型的问题，以下过滤功能暂不完整
 	vim.map("fB","<XLMAIN_过滤开头包含当前单元格>","XLMAIN")
-   	vim.map("fE","<XLMAIN_过滤末尾包含当前单元格>","XLMAIN")
+	vim.map("fE","<XLMAIN_过滤末尾包含当前单元格>","XLMAIN")
 	vim.map("fs","<XLMAIN_过滤等于当前单元格>","XLMAIN")
-   	vim.map("f<","<XLMAIN_过滤小于当前单元格>","XLMAIN")
-   	vim.map("f>","<XLMAIN_过滤大于当前单元格>","XLMAIN")
-   	vim.map("fi","<XLMAIN_过滤包含当前单元格>","XLMAIN")
-   	vim.map("fe","<XLMAIN_过滤不包含当前单元格>","XLMAIN")
+	vim.map("f<","<XLMAIN_过滤小于当前单元格>","XLMAIN")
+	vim.map("f>","<XLMAIN_过滤大于当前单元格>","XLMAIN")
+	vim.map("fi","<XLMAIN_过滤包含当前单元格>","XLMAIN")
+	vim.map("fe","<XLMAIN_过滤不包含当前单元格>","XLMAIN")
 	;以下过滤功能2013版测试无效
-   	vim.map("fa","<XLMAIN_过滤取消当前列>","XLMAIN")
+	vim.map("fa","<XLMAIN_过滤取消当前列>","XLMAIN")
 	vim.map("fA","<XLMAIN_过滤取消所有列>","XLMAIN")	
 
 	;p粘贴
@@ -154,48 +154,48 @@ global CellColor:=-16711681 ;填充表格颜色-默认黄色
 	vim.map("yc","<XLMAIN_Copy_Col>","XLMAIN")
 	vim.map("yh","<XLMAIN_编辑自左侧复制>","XLMAIN")
 	vim.map("yl","<XLMAIN_编辑自右侧复制>","XLMAIN")
-    	vim.map("yk","<XLMAIN_编辑自上侧复制>","XLMAIN")
-    	vim.map("yj","<XLMAIN_编辑自下侧复制>","XLMAIN")
+	vim.map("yk","<XLMAIN_编辑自上侧复制>","XLMAIN")
+	vim.map("yj","<XLMAIN_编辑自下侧复制>","XLMAIN")
 	vim.map("myl","<XLMAIN_逐行编辑自左侧复制>","XLMAIN")
-    	vim.map("myr","<XLMAIN_逐行编辑自右侧复制>","XLMAIN")
-    	vim.map("yw","<XLMAIN_工作表复制当前>","XLMAIN")
-    	vim.map("yW","<XLMAIN_工作表复制对话框>","XLMAIN")
+	vim.map("myr","<XLMAIN_逐行编辑自右侧复制>","XLMAIN")
+	vim.map("yw","<XLMAIN_工作表复制当前>","XLMAIN")
+	vim.map("yW","<XLMAIN_工作表复制对话框>","XLMAIN")
 
 	;上下左右映射
-    	vim.map("h","<left>","XLMAIN")
-    	vim.map("l","<right>","XLMAIN")
-    	vim.map("k","<up>","XLMAIN")
-    	vim.map("j","<down>","XLMAIN")
+	vim.map("h","<left>","XLMAIN")
+	vim.map("l","<right>","XLMAIN")
+	vim.map("k","<up>","XLMAIN")
+	vim.map("j","<down>","XLMAIN")
 
 	;上下左右选择映射
-  	vim.map("H","<XLMAIN_向左选择>","XLMAIN")
-    	vim.map("L","<XLMAIN_向右选择>","XLMAIN")
-    	vim.map("K","<XLMAIN_向上选择>","XLMAIN")
-    	vim.map("J","<XLMAIN_向下选择>","XLMAIN")
+	vim.map("H","<XLMAIN_向左选择>","XLMAIN")
+	vim.map("L","<XLMAIN_向右选择>","XLMAIN")
+	vim.map("K","<XLMAIN_向上选择>","XLMAIN")
+	vim.map("J","<XLMAIN_向下选择>","XLMAIN")
 
  	;g位置跳转
-    	vim.map("gg","<XLMAIN_FocusHome>","XLMAIN")
-    	vim.map("G","<XLMAIN_FocusEnd>","XLMAIN")
-    	vim.map("grh","<XLMAIN_FocusRowHome>","XLMAIN")
-    	vim.map("gre","<XLMAIN_FocusRowEnd>","XLMAIN")
-    	vim.map("gch","<XLMAIN_FocusColHome>","XLMAIN")
-    	vim.map("gce","<XLMAIN_FocusColEnd>","XLMAIN")
-    	vim.map("gk","<XLMAIN_FocusAreaUp>","XLMAIN")
-    	vim.map("gj","<XLMAIN_FocusAreaDown>","XLMAIN")
-    	vim.map("gh","<XLMAIN_FocusAreaLeft>","XLMAIN")
-    	vim.map("gl","<XLMAIN_FocusAreaRight>","XLMAIN")
-    	vim.map("gwh","<XLMAIN_工作表选择首个>","XLMAIN")
-    	vim.map("gwe","<XLMAIN_工作表选择尾个>","XLMAIN")
-    	vim.map("gt","<XLMAIN_工作表跳转下一个>","XLMAIN")
-    	vim.map("gT","<XLMAIN_工作表跳转上一个>","XLMAIN")
+	vim.map("gg","<XLMAIN_FocusHome>","XLMAIN")
+	vim.map("G","<XLMAIN_FocusEnd>","XLMAIN")
+	vim.map("grh","<XLMAIN_FocusRowHome>","XLMAIN")
+	vim.map("gre","<XLMAIN_FocusRowEnd>","XLMAIN")
+	vim.map("gch","<XLMAIN_FocusColHome>","XLMAIN")
+	vim.map("gce","<XLMAIN_FocusColEnd>","XLMAIN")
+	vim.map("gk","<XLMAIN_FocusAreaUp>","XLMAIN")
+	vim.map("gj","<XLMAIN_FocusAreaDown>","XLMAIN")
+	vim.map("gh","<XLMAIN_FocusAreaLeft>","XLMAIN")
+	vim.map("gl","<XLMAIN_FocusAreaRight>","XLMAIN")
+	vim.map("gwh","<XLMAIN_工作表选择首个>","XLMAIN")
+	vim.map("gwe","<XLMAIN_工作表选择尾个>","XLMAIN")
+	vim.map("gt","<XLMAIN_工作表跳转下一个>","XLMAIN")
+	vim.map("gT","<XLMAIN_工作表跳转上一个>","XLMAIN")
 
-    	vim.map("go","<XLMAIN_GoTo>","XLMAIN")
+	vim.map("go","<XLMAIN_GoTo>","XLMAIN")
 
-   	;F填充
-    	vim.map("Fk","<XLMAIN_填充向上>","XLMAIN")
-    	vim.map("Fj","<XLMAIN_填充向下>","XLMAIN")
-    	vim.map("Fh","<XLMAIN_填充向左>","XLMAIN")
-    	vim.map("Fl","<XLMAIN_填充向右>","XLMAIN")
+	;F填充
+	vim.map("Fk","<XLMAIN_填充向上>","XLMAIN")
+	vim.map("Fj","<XLMAIN_填充向下>","XLMAIN")
+	vim.map("Fh","<XLMAIN_填充向左>","XLMAIN")
+	vim.map("Fl","<XLMAIN_填充向右>","XLMAIN")
 
 	;r重命名/替换
 	vim.map("rr","<XLMAIN_Replace>","XLMAIN")
@@ -203,15 +203,15 @@ global CellColor:=-16711681 ;填充表格颜色-默认黄色
 	vim.map("rw","<XLMAIN_SheetReName>","XLMAIN")
 
 	;w宽高/W指定值
-   	vim.map("wr","<XLMAIN_自适应宽度选择行>","XLMAIN")
-   	vim.map("wc","<XLMAIN_自适应宽度选择列>","XLMAIN")
-    	vim.map("Wr","<XLMAIN_编辑行宽指定值>","XLMAIN")
-    	vim.map("Wc","<XLMAIN_编辑列宽指定值>","XLMAIN")
+	vim.map("wr","<XLMAIN_自适应宽度选择行>","XLMAIN")
+	vim.map("wc","<XLMAIN_自适应宽度选择列>","XLMAIN")
+	vim.map("Wr","<XLMAIN_编辑行宽指定值>","XLMAIN")
+	vim.map("Wc","<XLMAIN_编辑列宽指定值>","XLMAIN")
 
 	;工作表
 
-    	vim.map(")w","<XLMAIN_工作表移动向后>","XLMAIN")
-    	vim.map("(w","<XLMAIN_工作表移动向前>","XLMAIN")
+	vim.map(")w","<XLMAIN_工作表移动向后>","XLMAIN")
+	vim.map("(w","<XLMAIN_工作表移动向前>","XLMAIN")
    
 
     
@@ -227,25 +227,25 @@ global CellColor:=-16711681 ;填充表格颜色-默认黄色
 
 	;:字体颜色命令
 
-    	;;单元格颜色命令
+	;;单元格颜色命令
 
-    	;%页面设置命令
+	;%页面设置命令
 
-    	;^设置格式命令
+	;^设置格式命令
 
-    	;@视图指令
+	;@视图指令
 
-    	;-横向线颜色命令
+	;-横向线颜色命令
 
-    	;|纵向ActiveSheet.线颜色指令
+	;|纵向ActiveSheet.线颜色指令
 
-    	;`字体命令
-    	vim.map("<shift>,","<XLmain_字体放大>","XLMAIN")
-    	vim.map("<shift>.","<XLmain_字体缩小>","XLMAIN")
+	;`字体命令
+	vim.map("<shift>,","<XLmain_字体放大>","XLMAIN")
+	vim.map("<shift>.","<XLmain_字体缩小>","XLMAIN")
 
-    	;(名称
-    	vim.map("<shift>9n","<XLMAIN_名称工作簿定义>","XLMAIN")
-    	vim.map("<shift>9N","<XLMAIN_名称当前工作表定义>","XLMAIN")
+	;(名称
+	vim.map("<shift>9n","<XLMAIN_名称工作簿定义>","XLMAIN")
+	vim.map("<shift>9N","<XLMAIN_名称当前工作表定义>","XLMAIN")
 
 
 
