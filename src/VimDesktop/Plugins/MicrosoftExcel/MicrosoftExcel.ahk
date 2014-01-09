@@ -51,8 +51,8 @@ global CellColor:=-16711681 ;填充表格颜色-默认黄色
 	vim.comment("<XLMAIN_Delete>","删除（=Delete键）")
 	vim.comment("<XLMAIN_SelectAll>","选择全部=^a")
 	vim.comment("<XLMAIN_Paste_Value>","粘贴数值")
-	vim.comment("<XLMAIN_PageUp>","翻页")
-	vim.comment("<XLMAIN_PageDown>","向前翻页")
+	vim.comment("<XLMAIN_PageUp>","向上翻页")
+	vim.comment("<XLMAIN_PageDown>","向下翻页")
 	vim.comment("<XLMAIN_XLMAIN_Cut>","剪切")
 	vim.comment("<XLMAIN_Replace>","替换")
 
