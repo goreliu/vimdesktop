@@ -95,7 +95,7 @@ for class ,k in vim.vimWindows
 IniRead, trigger, %ConfigPath%, Config, Reload.Trigger, null
 if trigger <> null
 {	
-	MsgBox, , 提示, %trigger%, 2
+	MsgBox, , 提示 -- 两秒后自动关闭.., %trigger%, 2
 
 	IniDelete, %ConfigPath%, Config, Reload.Trigger
 }
