@@ -24,11 +24,9 @@
 		    file := A_LoopField
 		}
 		WinWait ,%file% - KeePass ahk_class WindowsForms10.Window.8.app.0.33c0d9d,,9
+		;超时退出
 		if ErrorLevel
-		{
-			msgbox error
 			return
-		}
 		
 		winhide,ahk_class WindowsForms10.Window.8.app.0.33c0d9d
 		WinActivate,ahk_class %class%
