@@ -1,42 +1,103 @@
-﻿;激活TC，并定位到命令行
-
+﻿
+;自动输入用户名/密码信息
 <KeePassAutoType>:
 {
-	Process, Exist, KeePass.exe
-	if ErrorLevel = 0
+	If not WinExist("ahk_exe KeePass.exe")
 	{
-		kp := ""
-		IniRead kp, %ConfigPath%, Config, KeePass.Run, ""
-		if kp = ""
+		WinGetClass, class, A
+
+		pid := OpenKeePass()
+		if pid = 0
+			return
+		
+		;检测直到确认打开了数据库
+		data :=""
+		IniRead data, %ConfigPath%, KeePass_Config, DataPath, ""
+		if data = ""
 		{
-			msgbox, 尚未配置KeePass的启动参数：KeePass.Run=KeePass.exe路径 数据文件路径
+			msgbox, 尚未配置KeePass的数据路径：KeePass_Config/DataPath
 			return
 		}
-
-		Run, %kp%
-
-		pid := 0
-		Loop,4
+		file := ""
+		Loop, parse, data, `\
 		{
-			Process, Exist, KeePass.exe
-			pid := ErrorLevel
-			if pid
-				break
-			Sleep,500
+		    file := A_LoopField
+		}
+		WinWait ,%file% - KeePass ahk_class WindowsForms10.Window.8.app.0.33c0d9d,,9
+		if ErrorLevel
+		{
+			msgbox error
+			return
 		}
 		
-		if pid = 0
-		{
-			MsgBox 未能启动KeePass，请参考帮助文件配置启动参数
-			return
-		}
-
-		return
+		winhide,ahk_class WindowsForms10.Window.8.app.0.33c0d9d
+		WinActivate,ahk_class %class%
 	}
 
-	IniRead key, %ConfigPath%, config, KeePass.GlobalAutoType, ""
-	if key
-		send %key%
+	
+	AutoType()
 	return
 }
 
+<KeePassOpen>:
+{
+	if not WinExist("ahk_exe KeePass.exe")
+		OpenKeePass()	
+
+	WinShow , ahk_class WindowsForms10.Window.8.app.0.33c0d9d
+	WinActivate ,ahk_class WindowsForms10.Window.8.app.0.33c0d9d
+	return
+}
+
+
+;打开KeePass
+OpenKeePass(){
+	app := ""
+	IniRead app, %ConfigPath%, KeePass_Config, AppPath, ""
+	if app = ""
+	{
+		msgbox, 尚未配置KeePass的执行路径：KeePass_Config/Path
+		return 0
+	}
+	
+	data :=""
+	IniRead data, %ConfigPath%, KeePass_Config, DataPath, ""
+	if data = ""
+	{
+		msgbox, 尚未配置KeePass的数据路径：KeePass_Config/DataPath
+		return 0
+	}
+
+	Run, %app% %data%
+
+	pid := 0
+	Loop,4
+	{
+		Process, Exist, KeePass.exe
+		pid := ErrorLevel
+		if pid
+			return pid
+		Sleep,500
+	}
+
+	if pid = 0
+	{
+		MsgBox 未能启动KeePass，请参考帮助文件配置启动参数
+		return 0
+	}
+
+
+	return pid
+}
+
+AutoType(){
+	app := ""
+	IniRead app, %ConfigPath%, KeePass_Config, AppPath, ""
+	if app = ""
+	{
+		msgbox, 尚未配置KeePass的执行路径：KeePass_Config/Path
+		return 0
+	}
+	
+	Run, %app% -auto-type 
+}
