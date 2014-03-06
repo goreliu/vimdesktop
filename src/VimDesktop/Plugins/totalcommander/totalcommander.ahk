@@ -912,12 +912,14 @@ NewFileOK()
 		DstPath := A_Desktop
 	NewFile := DstPath . "\" . NewFileName
 	If FileExist(NewFile)
-	{
-		MsgBox, 4, 新建文件, 新建文件已存在，是否覆盖？
+	{	MsgBox, 4, 新建文件, 新建文件已存在，是否覆盖？
 		IfMsgBox No
 			Return
 	}
-		FileCopy,%SrcPath%,%NewFile%,1
+	If !FileExist(SrcPath)
+		Run,fsutil file createnew "%NewFile%" 0,,Hide
+
+	Else	FileCopy,%SrcPath%,%NewFile%,1
 	Gui,Destroy
 	WinActivate,AHK_CLASS TTOTAL_CMD
 	ControlGetFocus,FocusCtrl,AHK_Class TTOTAL_CMD
@@ -945,7 +947,9 @@ ReadNewFile()
 	SetBatchLines -1
 	Loop,HKEY_CLASSES_ROOT ,,1,0
 	{
-		If RegExMatch(A_LoopRegName,"^\..*")
+		If A_LoopRegName=.lnk ;让新建快捷方式无效
+			Continue
+		Else If RegExMatch(A_LoopRegName,"^\..*")
 		{
 			Reg := A_LoopRegName
 			Loop,HKEY_CLASSES_ROOT,%Reg%,1,1
@@ -985,6 +989,7 @@ ReadNewFile()
 
 		IconFile := RegGetNewFileIcon(Exec)
 		IconFile := RegExReplace(IconFile,"i)%systemroot%",A_WinDir)
+		IconFile := RegExReplace(IconFile,"i)%ProgramFiles%",A_ProgramFiles)
 		IconFilePath := RegExReplace(IconFile,",-?\d*","")
 		StringReplace,IconFilePath,IconFilePath,",,A
 		If Not FileExist(IconFilePath)
