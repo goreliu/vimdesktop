@@ -10,7 +10,7 @@
 		if pid = 0
 			return
 		
-		;检测直到确认打开了数据库
+		;读取数据文件路径并解析到底文件名
 		data :=""
 		IniRead data, %ConfigPath%, KeePass_Config, DataPath, ""
 		if data = ""
@@ -23,7 +23,11 @@
 		{
 		    file := A_LoopField
 		}
+
+
+		;检测直到确认打开了数据库
 		WinWait ,%file% - KeePass ahk_class WindowsForms10.Window.8.app.0.33c0d9d,,9
+
 		;超时退出
 		if ErrorLevel
 			return
