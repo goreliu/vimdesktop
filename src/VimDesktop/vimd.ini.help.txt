@@ -56,7 +56,10 @@ wps=0
 *<lwin>g=<config>[=normal]
 
 ;激活TC命令行
-*<ctrl>;=<FocusTCCmd>[=normal]
+*<ctrl>;=<FocusTCCmd>
+
+;激活TC作为文件选择框，再次按下该快捷键可执行文件打开操作
+*<lwin>o=<OpenTCDialog>
 
 ;=====全局禁用的应用程序配置================
 [Global_Exclude]

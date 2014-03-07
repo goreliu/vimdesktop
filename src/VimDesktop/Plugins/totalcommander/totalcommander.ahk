@@ -4,6 +4,10 @@
 	Global TCPath := tcconfig.GetValue("Path","TCPath")
 	Global TCINI  := tcconfig.GetValue("Path","TCINI")
 	Global TCINIObj
+
+	;用于记录文件打开对话框所属窗体
+	global CallerClass := ""
+
 	;MsgBox,"%TCPath%"
 	If !FileExist(TCPath)
 	{	Process,Exist,totalcmd.exe
@@ -41,6 +45,12 @@
 		IniWrite,%TCINI%,%ConfigPath%,Path,tcini
 	}
 	tciniobj    := GetINIObj(TCINI)
+
+	
+	;添加将TC作为打开文件对话框的快捷键
+	IniWriteIfNull(ConfigPath,"Global","*<lwin>o","<OpenTCDialog>")
+	IniWriteIfNull(ConfigPath,"Global","*<ctrl>;","<FocusTCCmd>")
+
 	If RegExMatch(TcPath,"i)totalcmd64\.exe$")
 	{
 		Global TCListBox := "LCLListBox"
@@ -62,6 +72,9 @@
 	vim.Comment("<Normal_Mode_TC>","返回正常模式")
 	vim.Comment("<Insert_Mode_TC>","进入插入模式")
 	vim.Comment("<ToggleTC>","打开/激活TC")
+
+	vim.comment("<FocusTCCmd>","激活TC，并定位到命令行")
+	vim.comment("<OpenTCDialog>","激活TC选择文件,需再次按下快捷键触发对话框打开事件")
 
 	vim.Comment("<azHistory>","a-z历史导航")
 	vim.Comment("<DownSelect>","向下选择")
@@ -350,6 +363,53 @@ return
 	SendPos(4003)
 	return
 }
+
+; * 非TC窗口按下后激活TC窗口
+; * TC窗口按下后复制当前选中文件返回原窗口后粘贴
+<OpenTCDialog>:
+{
+	WinGetClass, class, A
+	
+	;在Total Commander按下快捷键时，激活调用窗体并执行粘贴操作
+	if class = TTOTAL_CMD
+	{
+		SendPos(2021)
+		sleep 500
+		files := ""
+		Loop, parse, clipboard, `n, `r
+			files .= " """ A_LoopField  """"
+		clipboard := files
+		WinActivate,ahk_class %CallerClass%
+		WinWait,ahk_class %CallerClass%
+		send, ^v
+		send, {Enter}
+		CallerClass := ""
+		return
+	}
+
+	if class <> TTOTAL_CMD
+	{
+		CallerClass := class
+		IfWinExist,AHK_CLASS TTOTAL_CMD
+			Winactivate,AHK_ClASS TTOTAL_CMD
+		Else
+		{
+			Run,%TCPath%
+			Loop,4
+			{
+				IfWinNotActive,AHK_CLASS TTOTAL_CMD
+					WinActivate,AHK_CLASS TTOTAL_CMD
+				Else
+					Break
+				Sleep,500
+			}
+		}
+		return
+	}
+
+	return
+}
+
 
 AUTHTC:
     AUTHTC()

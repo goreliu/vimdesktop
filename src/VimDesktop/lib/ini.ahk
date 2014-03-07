@@ -491,3 +491,19 @@ GlobalSetEnvs(e,v){
 		globalenv := []
 	globalenv[e] := v
 }
+
+;在配置文件中增加默认映射，如果当前配置中不存在
+IniWriteIfNull(ini,section,key,value){
+	
+	hasKey := 0
+	config := GetINIObj(ini)
+	keylist := config.GetKeys(section)
+	Loop,Parse,keylist,`n
+	{
+		str := config.GetValue(section,Trim(A_LoopField))
+		IfInString,str,%value%
+			hasKey := 1
+	}
+	if hasKey = 0
+		IniWrite,%value%,%ini%,%section%,%key%
+}
