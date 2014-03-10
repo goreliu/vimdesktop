@@ -112,6 +112,8 @@
 
 	vim.mode("normal","TTOTAL_CMD")
 
+<TC_Normal_Map>:
+
 	;复制/移动到右侧 f取file的意思 filecopy
 	vim.map("fc","<cm_CopyOtherpanel>","TTOTAL_CMD")
 	vim.map("fx","<cm_MoveOnly>","TTOTAL_CMD")
