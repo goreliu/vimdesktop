@@ -1,7 +1,7 @@
 ﻿TotalCommander_Dialog:
 ;本插件尝试将TotalCommander作为文件打开对话框
 ; * 默认添加快捷键<lwin>o ,在文件对话框或任意文字编辑界面按下快捷键跳转至TC--TC中选定文件后再次按下快捷键可实现文件打开功能
-; * 尝试在打开文件对话框时，自动跳转到TC进行文件选择
+; * 尝试在打开文件对话框时，自动跳转到TC进行文件选择：#32770，焦点Edit1且内无文字
 ; * 增加select模式，按下回车可直接选定文件
 
 vim.comment("<OpenTCDialog>","激活TC选择文件,需再次按下快捷键触发对话框打开事件")
@@ -43,6 +43,11 @@ return
 		
 	ControlGetFocus,ct, ahk_class #32770
 	if ct <> Edit1
+		return
+
+	;以此排除“另存为”，或其它已经包含文字的对话框
+	ControlGetText,str,Edit1,ahk_class #32770
+	if StrLen(str) > 0
 		return
 	
 	id := WinExist("A")
@@ -91,7 +96,7 @@ return
 	sleep 500
 	files := ""
 	Loop, parse, clipboard, `n, `r
-		files .= " """ A_LoopField  """"
+		files .= """" A_LoopField  """ "
 	clipboard := files
 
 	;未发现可激活的调用窗体时，最小化TC
