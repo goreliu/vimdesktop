@@ -23,15 +23,23 @@ global CallerId := 0
 ;等待OpenFileDialog出现
 SetTimer, <CheckFileDialog>, 1000
 
-vim.mode("select","TTOTAL_CMD")
-gosub,<TC_Normal_Map>
-vim.map("<enter>","<TC_Selected>","TTOTAL_CMD")
-
-vim.mode("normal","TTOTAL_CMD")
 return
 
 
 ;===============================================
+
+;仅在执行文件选定时，开启select模式
+;拷贝normal全部快捷键，并增加回车确认功能
+<Select_Mode_TC>:
+	vim.mode("select","TTOTAL_CMD")
+
+	if Select_Copyed = 1
+		return
+	
+	Select_Copyed := 1
+	vim.CopyMode("TTOTAL_CMD","normal","select")
+	vim.map("<enter>","<TC_Selected>","TTOTAL_CMD")
+	return
 
 
 ;发现标准打开文件对话框，未记录，焦点控件为Edit1=>记录，并激活TC
@@ -58,7 +66,7 @@ return
 
 	CallerId := id	
 	gosub,<FocusTC>
-	vim.mode("select","TTOTAL_CMD")
+	gosub,<Select_Mode_TC>
 	return
 }
 
@@ -82,7 +90,7 @@ return
 			return
 
 		gosub,<FocusTC>
-		vim.mode("select","TTOTAL_CMD")
+		gosub,<Select_Mode_TC>
 		return
 	}
 

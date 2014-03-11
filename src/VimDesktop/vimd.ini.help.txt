@@ -4,17 +4,11 @@
 2.根据分号 ; 之后的提示内容进行相应修改
 
 
-;=====应用路径=============================
-;提示: vimd会自动识别正在运行的TotalCommander路径
-;tcpath: TotalCommander可执行文件路径
-;tcini: TotalCommander配置文件路径
-[Path]
-tcpath=D:\Portable\TotalCommander\TOTALCMD.EXE
-tcini=D:\Portable\TotalCommander\wincmd.ini
+
 
 
 ;=====系统配置=============================
-[config]
+[Config]
 ;是否放弃无效命令 假设gx为无效命令，x删除文件
 ;1 放弃无效命令 -- 如果用户输入gx，不执行任何操作
 ;0 执行后续有效命令：如果用户输入gx，则执行x对应命令-删除文件
@@ -26,9 +20,23 @@ autoload=1
 ;是否显示热键提示
 ToShowComment=1
 
+
+;=====TotalCommander配置信息=============================
+[TotalCommander_Config]
+
+;TCPath: TotalCommander可执行文件路径--TC运行时，可被自动识别
+TCPath=D:\Portable\TotalCommander\TOTALCMD.EXE
+
+;TCINI: TotalCommander配置文件路径--TC运行时，可被自动识别
+TCINI=D:\Portable\TotalCommander\wincmd.ini
+
+;设置为 1 -- 将使用TC作为文件选择对话框，打开文件选择对话框时，会自动跳转到TC
+;选定文件后，回车打开选定文件
+AsOpenFileDialog=1
+
 ;弹出菜单中的图标尺寸
 ;目前仅用于TC中的AZHistory导航:可用尺寸16,20,24,32
-TC.MenuIconSize=24
+MenuIconSize=24
 
 
 ;=====插件配置=============================

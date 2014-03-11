@@ -217,6 +217,17 @@ Class vimcore {
         return True
 	}
 
+	CopyMode(win,mode,to) {
+		w := This.Vaild(win)
+		If strlen(mode) = 0
+			return
+
+		vim.mode(to,win)
+		m := w.winmode[mode]
+		For k , l in m.KeyBody
+			vim.map(k,l,win)
+	}
+
     Control(switch,win="") {
         w := This.Vaild(win)
         If switch = on

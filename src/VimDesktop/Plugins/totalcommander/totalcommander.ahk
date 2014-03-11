@@ -1,8 +1,8 @@
 ﻿TotalCommander:
 ;=======================================================
 	Global tcconfig := GetINIObj(ConfigPath)
-	Global TCPath := tcconfig.GetValue("Path","TCPath")
-	Global TCINI  := tcconfig.GetValue("Path","TCINI")
+	Global TCPath := tcconfig.GetValue("TotalCommander_Config","TCPath")
+	Global TCINI  := tcconfig.GetValue("TotalCommander_Config","TCINI")
 	Global TCINIObj
 
 
@@ -19,7 +19,7 @@
 				WinGet,TCPath,ProcessPath,ahk_pid %ErrorLevel%
 		}
 		If TCPath
-			IniWrite,%TCPath%,%ConfigPath%,Path,tcpath
+			IniWrite,%TCPath%,%ConfigPath%,TotalCommander_Config,TCPath
 	}
 
 	If TCPath and Not FileExist(TCPath)
@@ -40,7 +40,7 @@
 	{
 		SplitPath,TCPath,,dir
 		TCINI := dir "\wincmd.ini"
-		IniWrite,%TCINI%,%ConfigPath%,Path,tcini
+		IniWrite,%TCINI%,%ConfigPath%,TotalCommander_Config,TCINI
 	}
 	tciniobj    := GetINIObj(TCINI)
 
@@ -111,8 +111,6 @@
 	vim.map("<esc>","<Normal_Mode_TC>","TTOTAL_CMD")
 
 	vim.mode("normal","TTOTAL_CMD")
-
-<TC_Normal_Map>:
 
 	;复制/移动到右侧 f取file的意思 filecopy
 	vim.map("fc","<cm_CopyOtherpanel>","TTOTAL_CMD")
@@ -468,7 +466,7 @@ azHistory2()
 	Menu,az,UseErrorLevel
 	Menu,az,add
 	Menu,az,deleteall
-	size := TCConfig.GetValue("Config","TC.MenuIconSize")
+	size := TCConfig.GetValue("TotalCommander_Config","MenuIconSize")
 	if not size
 		size := 20
 	Loop,%max%
@@ -1295,8 +1293,8 @@ Totalcomander_select_tc(){
 	TCPath := dir "\totalcmd.exe"
 	TCINI  := dir "\wincmd.ini"
 	GUi,FindTC:Destroy
-	IniWrite,%TCPath%,%ConfigPath%,Path,tcpath
-	IniWrite,%TCINI%,%ConfigPath%,Path,tcini
+	IniWrite,%TCPath%,%ConfigPath%,TotalCommander_Config,TCPath
+	IniWrite,%TCINI%,%ConfigPath%,TotalCommander_Config,TCINI
 }
 Totalcomander_select_tc64:
 	Totalcomander_select_tc64()
@@ -1307,8 +1305,8 @@ Totalcomander_select_tc64(){
 	TCPath := dir "\totalcmd64.exe"
 	TCINI  := dir "\wincmd.ini"
 	GUi,FindTC:Destroy
-	IniWrite,%TCPath%,%ConfigPath%,Path,tcpath
-	IniWrite,%TCINI%,%ConfigPath%,Path,tcini
+	IniWrite,%TCPath%,%ConfigPath%,TotalCommander_Config,TCPath
+	IniWrite,%TCINI%,%ConfigPath%,TotalCommander_Config,TCINI
 }
 Totalcomander_select_tcdir:
 	Totalcomander_select_tcdir()
