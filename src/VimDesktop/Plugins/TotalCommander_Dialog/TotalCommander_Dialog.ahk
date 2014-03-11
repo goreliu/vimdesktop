@@ -39,7 +39,25 @@ return
 	Select_Copyed := 1
 	vim.CopyMode("TTOTAL_CMD","normal","select")
 	vim.map("<enter>","<TC_Selected>","TTOTAL_CMD")
+	vim.map("<esc>","<Return_To_Caller>","TTOTAL_CMD")
 	return
+
+;返回调用者
+<Return_To_Caller>:
+	gosub,<Normal_Mode_TC>
+	;未发现可激活的调用窗体时，最小化TC
+	if CallerId = 0
+	{
+		Winminimize,AHK_CLASS TTOTAL_CMD
+		sleep,500
+		CallerId := WinExist("A")
+		if CallerId = 0
+			return
+	}
+
+	WinActivate,ahk_id %CallerId%
+	return
+	
 
 
 ;发现标准打开文件对话框，未记录，焦点控件为Edit1=>记录，并激活TC
