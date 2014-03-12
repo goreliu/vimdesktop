@@ -17,6 +17,10 @@ IniRead,AsOpenFileDialog,%ConfigPath%,TotalCommander_Config,AsOpenFileDialog,1
 if AsOpenFileDialog <> 1
 	return
 
+;未发现TC路径时自动禁用该功能
+if StrLen(TCPath) = 0
+	return
+
 ;用于记录文件打开对话框所属窗体
 global CallerId := 0
 
