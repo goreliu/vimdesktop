@@ -129,7 +129,7 @@ return
 
 <TC_PreSelected>:
 	SendPos(2021)
-	sleep,100
+	clipwait
 
 	;未多选
 	IfNotInString,clipboard,`n
@@ -149,7 +149,7 @@ return
 {
 	vim.mode("normal","TTOTAL_CMD")
 	SendPos(2021)
-	sleep,100
+	clipwait
 
 	;仅在多选时两侧增加双引号
 	IfInString,clipboard,`n
