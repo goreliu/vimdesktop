@@ -70,7 +70,10 @@ OpenKeePass(){
 		return 0
 	}
 
-	Run, %app% %data%
+	;加载命令行参数
+	IniRead options,%ConfigPath%,KeePass_Config,CommandLineOptions,""
+
+	Run, %app% %data% %options%
 
 	pid := 0
 	Loop,4
