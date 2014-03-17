@@ -492,18 +492,27 @@ GlobalSetEnvs(e,v){
 	globalenv[e] := v
 }
 
-;在配置文件中增加默认映射，如果当前配置中不存在
+;在配置文件中增加配置，如果当前配置中不存在对应的键名称
 IniWriteIfNull(ini,section,key,value){
-	
-	hasKey := 0
+	config := GetINIObj(ini)
+	keylist := config.GetKeys(section)
+	Loop,Parse,keylist,`n
+	{
+		IfInString,A_LoopField,%key%
+			return
+	}
+	IniWrite,%value%,%ini%,%section%,%key%
+}
+
+;在配置文件中增加配置，如果当前配置中不存在对应的键值
+IniWriteIfNullValue(ini,section,key,value){
 	config := GetINIObj(ini)
 	keylist := config.GetKeys(section)
 	Loop,Parse,keylist,`n
 	{
 		str := config.GetValue(section,Trim(A_LoopField))
 		IfInString,str,%value%
-			hasKey := 1
+			return
 	}
-	if hasKey = 0
-		IniWrite,%value%,%ini%,%section%,%key%
+	IniWrite,%value%,%ini%,%section%,%key%
 }

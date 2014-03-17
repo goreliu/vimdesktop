@@ -46,7 +46,7 @@
 
 	
 	;添加将TC作为打开文件对话框的快捷键
-	IniWriteIfNull(ConfigPath,"Global","*<ctrl>;","<FocusTCCmd>")
+	IniWriteIfNullValue(ConfigPath,"Global","*<ctrl>;","<FocusTCCmd>")
 
 	If RegExMatch(TcPath,"i)totalcmd64\.exe$")
 	{

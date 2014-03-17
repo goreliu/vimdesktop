@@ -7,7 +7,7 @@
 vim.comment("<OpenTCDialog>","激活TC选择文件,需再次按下快捷键触发对话框打开事件")
 
 ;初始化设置：全局快捷键跳转到TC
-IniWriteIfNull(ConfigPath,"Global","*<lwin>o","<OpenTCDialog>")
+IniWriteIfNullValue(ConfigPath,"Global","*<lwin>o","<OpenTCDialog>")
 
 ;初始化设置：自动跳转到TC作为文件选择对话框
 IniWriteIfNull(ConfigPath,"TotalCommander_Config","AsOpenFileDialog","1")
@@ -129,7 +129,7 @@ return
 
 <TC_PreSelected>:
 	SendPos(2021)
-	clipwait
+	sleep,100 ; 此处用clipwait貌似会出错？
 
 	;未多选
 	IfNotInString,clipboard,`n
@@ -149,7 +149,7 @@ return
 {
 	vim.mode("normal","TTOTAL_CMD")
 	SendPos(2021)
-	clipwait
+	sleep,100
 
 	;仅在多选时两侧增加双引号
 	IfInString,clipboard,`n
