@@ -30,14 +30,19 @@ TCPath=D:\Portable\TotalCommander\TOTALCMD.EXE
 ;TCINI: TotalCommander配置文件路径--TC运行时，可被自动识别
 TCINI=D:\Portable\TotalCommander\wincmd.ini
 
+
+;弹出菜单中的图标尺寸
+;目前仅用于TC中的AZHistory导航:可用尺寸16,20,24,32
+MenuIconSize=24
+
 ;设置为 1 -- 将使用TC作为文件选择对话框，打开文件选择对话框时，会自动跳转到TC
 ;设置为 0 -- 将禁用TC作为文件选择对话框，此时仍可使用<lwin>o激活TC进行文件选择
 ;选定文件后，回车打开选定文件
 AsOpenFileDialog=1
 
-;弹出菜单中的图标尺寸
-;目前仅用于TC中的AZHistory导航:可用尺寸16,20,24,32
-MenuIconSize=24
+;含有指定字符串的窗体被打开时，禁用自动跳转到TC的功能,以逗号间隔
+OpenFileDialogExclude = password , 密码
+
 
 
 ;=====插件配置=============================

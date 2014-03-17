@@ -12,10 +12,26 @@ IniWriteIfNullValue(ConfigPath,"Global","*<lwin>o","<OpenTCDialog>")
 ;初始化设置：自动跳转到TC作为文件选择对话框
 IniWriteIfNull(ConfigPath,"TotalCommander_Config","AsOpenFileDialog","1")
 
+;初始化设置：还有下面文字的窗口将排除TC作为文件选择对话框--由于不支持中文，无法初始化"密码"，在后面代码中添加
+IniWriteIfNull(ConfigPath,"TotalCommander_Config","OpenFileDialogExclude","password,pwd")
+
 ;读取配置参数，禁用时直接跳过
 IniRead,AsOpenFileDialog,%ConfigPath%,TotalCommander_Config,AsOpenFileDialog,1
 if AsOpenFileDialog <> 1
 	return
+
+;读取排除窗体文字
+;IniRead,OpenFileDialogExclude,%ConfigPath%,TotalCommander_Config,OpenFileDialogExclude,"密码,password"
+Loop, read, %ConfigPath%
+{
+	ifInString, A_LoopReadLine, OpenFileDialogExclude
+	{
+		OpenFileDialogExclude := SubStr(A_LoopReadLine,InStr(A_LoopReadLine,"=")+1)
+		IfNotInString, OpenFileDialogExclude, 密码
+			OpenFileDialogExclude .= ",密码"
+		break
+	}
+}
 
 ;未发现TC路径时自动禁用该功能
 if StrLen(TCPath) = 0
@@ -81,12 +97,15 @@ return
 	if StrLen(str) > 0
 		return
 
-	;排除含有密码、password等内容的对话框
+	;排除用户自定义窗体
 	WinGetText,str,ahk_class #32770
-	IfInString,str,密码
-		return
-	IfInString,str,password
-		return
+	Loop, parse, OpenFileDialogExclude, `,, %A_Space%%A_Tab%
+	{
+		If StrLen(A_LoopField) = 0 
+			continue
+		IfInString,str,%A_LoopField%
+			return
+	}
 	
 	id := WinExist("A")
 	if id = 0
