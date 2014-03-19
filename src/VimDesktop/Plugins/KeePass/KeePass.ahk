@@ -26,7 +26,7 @@
 
 
 		;检测直到确认打开了数据库
-		WinWait ,%file% - KeePass ahk_class WindowsForms10.Window.8.app.0.33c0d9d,,9
+		WinWait ,%file% - KeePass ahk_class WindowsForms10.Window.8.app.0.33c0d9d,,20
 
 		;超时退出
 		if ErrorLevel
@@ -36,7 +36,6 @@
 		}
 		
 		winhide,ahk_class WindowsForms10.Window.8.app.0.33c0d9d
-		msgbox %PreClass%
 		WinActivate,ahk_class %PreClass%
 	}
 
