@@ -505,7 +505,14 @@ IniWriteIfNull(ini,section,key,value){
 }
 
 ;在配置文件中增加配置，如果当前配置中不存在对应的键值
+;实现方法并不严谨
 IniWriteIfNullValue(ini,section,key,value){
+	Loop,read,%ini%
+	{
+		IfInString,A_LoopReadLine,%value%
+			return
+	}
+	/*
 	config := GetINIObj(ini)
 	keylist := config.GetKeys(section)
 	Loop,Parse,keylist,`n
@@ -514,5 +521,6 @@ IniWriteIfNullValue(ini,section,key,value){
 		IfInString,str,%value%
 			return
 	}
+	*/
 	IniWrite,%value%,%ini%,%section%,%key%
 }
