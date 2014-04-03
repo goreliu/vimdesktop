@@ -4,7 +4,7 @@
 {
 	If not WinExist("ahk_exe KeePass.exe")
 	{
-		WinGetClass, PreClass, A
+		WinGet, PreActiveId, ID, A
 
 		pid := OpenKeePass()
 		if pid = 0
@@ -36,7 +36,7 @@
 		}
 		
 		winhide,ahk_class WindowsForms10.Window.8.app.0.33c0d9d
-		WinActivate,ahk_class %PreClass%
+		winactivate,ahk_id %PreActiveId%
 	}
 
 	
