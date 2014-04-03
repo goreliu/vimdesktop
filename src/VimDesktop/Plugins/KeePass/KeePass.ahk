@@ -44,6 +44,19 @@
 	return
 }
 
+<ToggleKeePass>:
+{
+	WinGetClass,class,A
+	if class = WindowsForms10.Window.8.app.0.33c0d9d
+	{
+		WinMinimize,ahk_class WindowsForms10.Window.8.app.0.33c0d9d
+		winhide,ahk_class WindowsForms10.Window.8.app.0.33c0d9d
+		return
+	}
+
+	;无需return，继续向下执行
+}
+
 <KeePassOpen>:
 {
 	if not WinExist("ahk_exe KeePass.exe")
