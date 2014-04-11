@@ -99,6 +99,8 @@ return
 
 	;排除用户自定义窗体
 	WinGetText,str,ahk_class #32770
+	WinGetTitle,title,ahk_class #32770
+	str .= title
 	Loop, parse, OpenFileDialogExclude, `,, %A_Space%%A_Tab%
 	{
 		If StrLen(A_LoopField) = 0 
