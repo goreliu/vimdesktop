@@ -10,7 +10,7 @@ vim.comment("<OpenTCDialog>","激活TC选择文件,需再次按下快捷键触�
 IniWriteIfNullValue(ConfigPath,"Global","*<lwin>o","<OpenTCDialog>")
 
 ;初始化设置：自动跳转到TC作为文件选择对话框
-IniWriteIfNull(ConfigPath,"TotalCommander_Config","AsOpenFileDialog","1")
+IniWriteIfNull(ConfigPath,"TotalCommander_Config","AsOpenFileDialog","0")
 
 ;初始化设置：还有下面文字的窗口将排除TC作为文件选择对话框--由于不支持中文，无法初始化"密码"，在后面代码中添加
 IniWriteIfNull(ConfigPath,"TotalCommander_Config","OpenFileDialogExclude","password,pwd")
