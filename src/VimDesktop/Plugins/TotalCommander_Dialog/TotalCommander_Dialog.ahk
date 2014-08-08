@@ -100,6 +100,8 @@ return
 	;排除用户自定义窗体
 	WinGetText,str,ahk_class #32770
 	WinGetTitle,title,ahk_class #32770
+	if StrLen(title)=0
+		return
 	str .= title
 	Loop, parse, OpenFileDialogExclude, `,, %A_Space%%A_Tab%
 	{
