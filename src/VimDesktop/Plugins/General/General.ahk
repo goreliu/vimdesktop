@@ -160,6 +160,7 @@ return
 GeneralCopy() {
 	WinGetClass,win,A
 	vim.copy("General",win)
+	vim.mode("normal",win)
 	WinGet,Path,ProcessPath,A
 	Splitpath,Path,,,,name
 	Tooltip,%Name%启用VIM模式
