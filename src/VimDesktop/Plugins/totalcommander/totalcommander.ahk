@@ -78,6 +78,7 @@
 	vim.Comment("<Mark>","标记功能")
 	vim.Comment("<ForceDelete>","强制删除")
 	vim.Comment("<ListMark>","显示标记")
+	vim.Comment("<Toggle_50_100Percent>","切换当前窗口显示状态50%~100%")
 	vim.Comment("<WinMaxLeft>","最大化左侧窗口")
 	vim.Comment("<WinMaxRight>","最大化右侧窗口")
 	vim.Comment("<GoLastTab>","切换到最后一个标签")
@@ -239,7 +240,7 @@
 	vim.map("Vf","<cm_VisKeyButtons>","TTOTAL_CMD")
 	vim.map("Vw","<cm_VisDirTabs>","TTOTAL_CMD")
 	vim.map("Ve","<cm_CommandBrowser>","TTOTAL_CMD")
-	vim.map("zz","<cm_50Percent>","TTOTAL_CMD")
+	vim.map("zz","<Toggle_50_100Percent>","TTOTAL_CMD")
 	vim.map("zi","<WinMaxLeft>","TTOTAL_CMD")
 	vim.map("zo","<WinMaxRight>","TTOTAL_CMD")
 	vim.map("zt","<AlwayOnTop>","TTOTAL_CMD")
@@ -1316,6 +1317,26 @@ Totalcomander_select_tcdir(){
 	GuiControl,,Edit1,%tcdir%
 }
 
+;切换显示比例50%-100%
+<Toggle_50_100Percent>:
+	ControlGetPos, , , wp,hp, TPanel1, ahk_class TTOTAL_CMD
+	ControlGetPos, , , w1, h1, TMyListBox1, ahk_class TTOTAL_CMD
+	ControlGetPos, , , w2, h2, TMyListBox2, ahk_class TTOTAL_CMD
+	if ( wp  < hp) 	;纵向
+		{
+		if  ( abs(w1 - w2) > 2  )
+			SendPos(909)
+		else
+			SendPos(910)
+		}
+	else	;横向
+		{
+		if  ( abs(h1 - h2)  > 2  )
+			SendPos(909)
+		else
+			SendPos(910)
+		}
+	Return
 
 
 
