@@ -44,7 +44,9 @@ Loop,Parse,Sub,`n
 {
 	If IsLabel(A_LoopField) And Strlen(A_LoopField){
 		Enabled := strlen(config.GetValue("plugins",A_LoopField)) ? config.GetValue("plugins",A_LoopField) : 1
-		GoSub,%A_LoopField%
+		if Enabled{
+			GoSub,%A_LoopField%
+		}
 	}
 }
 keylist := config.GetKeys("Global")
@@ -53,7 +55,7 @@ Loop,Parse,keylist,`n
 	If not strlen(A_LoopField)
 		continue
 	value := config.GetValue("Global",Trim(A_LoopField))
-	If RegExMatch(value,"\[=[^\[\]]*\]",mode)
+	If RegExMatch(value,"\[=[^\[\]]*\]",mode)Plugins
 		vim.mode(Substr(mode,3,strlen(mode)-3))
 	If RegExMatch(Trim(A_LoopField),"^\*")
 		vim.smap(SubStr(Trim(A_LoopField),2),RegExReplace(value,"\[=[^\[\]]*\]"))
