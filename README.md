@@ -7,6 +7,12 @@
 
 开发版本：https://github.com/goreliu/vimdesktop/archive/develop.zip
 
+### VimDesktop介绍
+
+[中文版](https://github.com/goreliu/vimdesktop/wiki)
+
+[English version](https://github.com/goreliu/vimdesktop/wiki/VimDesktop-Introduction-%5BEnglish-Version%5D)
+
 ### 其他版本的VimDesktop
 [linxinhong](http://git.oschina.net/linxinhong) 的原版VimDesktop（仍在更新）：[oschina地址](http://git.oschina.net/linxinhong/VimDesktop) [github地址（已弃用）](https://github.com/linxinhong/VimDesktop)
 
