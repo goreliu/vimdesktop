@@ -6,4 +6,4 @@
 [VimDesktop开发版](https://github.com/goreliu/vimdesktop/archive/develop.zip)
 
 ### 其他版本的VimDesktop
-[linxinhong](http://git.oschina.net/linxinhong)的原版VimDesktop：http://git.oschina.net/linxinhong/VimDesktop
+[linxinhong](http://git.oschina.net/linxinhong) 的原版VimDesktop：http://git.oschina.net/linxinhong/VimDesktop
