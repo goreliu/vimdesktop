@@ -6,7 +6,3 @@
 下载地址
 --------
 [VimDesktop开发版](https://github.com/goreliu/vimdesktop/archive/develop.zip)
-
-运行要求
---------
-[AutoHotkey](http://ahkscript.org/download/ahk-install.exe)
