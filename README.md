@@ -12,4 +12,4 @@
 
 [linxinhong](http://git.oschina.net/linxinhong) 的ViATc（VimDesktop的前身，已停止更新）：[github地址](https://github.com/linxinhong/ViATc) [sourceforge地址](https://sourceforge.net/p/viatc/home/%E4%B8%BB%E9%A1%B5/)
 
-[victorwoo](https://github.com/victorwoo) 的VimDesktop（已经一年多无更新）：https://github.com/victorwoo/vimdesktop
+[victorwoo](https://github.com/victorwoo) 的VimDesktop（已经一年多无更新）：[github地址](https://github.com/victorwoo/vimdesktop)
