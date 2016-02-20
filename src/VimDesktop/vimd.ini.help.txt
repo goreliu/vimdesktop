@@ -1,11 +1,7 @@
-﻿[使用说明]
-如果您希望更改VimDesktop的默认配置，可执行如下操作：
-1.在当前路径复制本文件的拷贝，并重命名为：vimd.ini
-2.根据分号 ; 之后的提示内容进行相应修改
-
-
-
-
+﻿;[使用说明]
+;如果您希望更改VimDesktop的默认配置，可执行如下操作：
+;1.在当前路径复制本文件的拷贝，并重命名为：vimd.ini
+;2.根据分号 ; 之后的提示内容进行相应修改
 
 ;=====系统配置=============================
 [Config]
@@ -14,42 +10,41 @@
 ;0 执行后续有效命令：如果用户输入gx，则执行x对应命令-删除文件
 InvalidMode=1
 
-;更改*.ahk文件后，是否自动加载
-autoload=1
+;更改*.ahk文件后，是否自动加载，可能导致运行中的VimDesktop异常退出
+autoload=0
 
 ;是否显示热键提示
 ToShowComment=1
 
 
-;=====TotalCommander配置信息=============================
+;=====TotalCommander配置信息===============
 [TotalCommander_Config]
 
 ;TCPath: TotalCommander可执行文件路径--TC运行时，可被自动识别
-TCPath=D:\Portable\TotalCommander\TOTALCMD.EXE
+TCPath=C:\mine\app\totalcmd\totalcmd.exe
 
 ;TCINI: TotalCommander配置文件路径--TC运行时，可被自动识别
-TCINI=D:\Portable\TotalCommander\wincmd.ini
-
+TCINI=C:\mine\app\totalcmd\wincmd.ini
 
 ;弹出菜单中的图标尺寸
 ;目前仅用于TC中的AZHistory导航:可用尺寸16,20,24,32
-MenuIconSize=24
+MenuIconSize=20
 
 ;设置为 1 -- 将使用TC作为文件选择对话框，打开文件选择对话框时，会自动跳转到TC
 ;设置为 0 -- 将禁用TC作为文件选择对话框，此时仍可使用<lwin>o激活TC进行文件选择
-AsOpenFileDialog=1
+AsOpenFileDialog=0
 
 ;含有指定字符串的窗体被打开时，禁用自动跳转到TC的功能,以逗号间隔
 OpenFileDialogExclude = password , 密码
 
 
-
 ;=====插件配置=============================
 [Plugins]
-;左侧为插件文件名，右侧为1表示启用该插件，否则禁用?
+;左侧为插件文件名，右侧为1 表示启用该插件，0 表示禁用，默认启用
 General=1
-TotalCommander=0
+TotalCommander=1
 wps=0
+
 
 ;=====全局快捷键配置=======================
 ;带有*的快捷键全局有效
@@ -57,24 +52,25 @@ wps=0
 ;分号作为前缀，可禁用自动添加的全局快捷键
 [Global]
 
-;激活通用快捷键
-<ctrl><esc>=<GeneralCopy>[=normal]
+;激活TC命令行
+;*<ctrl>;=<FocusTCCmd>
+;*<lwin>e=(c:\mine\app\totalcmd\tc.ahk)[=normal]
+;*<lwin>w=(mintty /bin/dash -c "cd;exec zsh")[=normal]
+;*<lwin>u=(c:\mine\app\AutoHotkey\tool\left_up.ahk)[=normal]
 
+;激活通用快捷键
+*<lwin>t=<GeneralCopy>[=normal]
 ;切换TC
 *<lwin>e=<ToggleTC>[=normal]
-
 ;重新加载VimDesktop
-*<lwin>z=<Reload>[=normal]
-
-;打开VimDesktop配置界面
-*<lwin>g=<config>[=normal]
-
-;激活TC命令行
-*<ctrl>;=<FocusTCCmd>
-
-;以分号为前缀，下面的全局快捷键已被禁用
+*<lwin>y=<Reload>[=normal]
+;*<lwin>f=(firefox)[=normal]
+;*<lwin>w=(mintty -e ~/.bin/tmux_starter)[=normal]
+;*<lwin>c=(explorer)[=normal]
+;*<lwin>a=(c:\mine\app\foobar2000\foobar2000.exe)[=normal]
 ;激活TC作为文件选择框，再次按下该快捷键可执行文件打开操作
-;*<lwin>o=<OpenTCDialog>
+*<lwin>o=<OpenTCDialog>
+
 
 ;=====全局禁用的应用程序配置================
 [Global_Exclude]
@@ -82,31 +78,39 @@ wps=0
 Notepad
 Vim
 
+
 ;=====Total Commander快捷键配置=============
 [TTOTAL_CMD]
 ;热键定义语法
 ;ff 热键 --按下两次f键
 ;<cm_SearchFor> 对应的动作
 ;[=normal] 在normal模式下生效
+
+;l=<cm_GoToDir>[=normal]
+;b=<cm_MoveOnly>[=normal]
+;<shift>b=<cm_CopyOtherpanel>[=normal]
+
 ff=<cm_SearchFor>[=normal]
-
-;全选
-a=<cm_SelectAll>[=normal]
-
-;全部取消
+<shift>f=<cm_SearchFor>[=normal]
 <shift>a=<cm_ClearAll>[=normal]
-
-;删除
-dd=<cm_Delete>[=normal]
-
-;编辑
 e=<cm_edit>[=normal]
+o=<cm_ContextMenu>[=normal]
+h=<GoToParentEx>[=normal]
+l=<cm_Return>[=normal]
+c=<cm_MkDir>[=normal]
+m=<cm_SrcThumbs>[=normal]
+<ctrl>h=<left>[=normal]
+<ctrl>l=<right>[=normal]
+<ctrl>j=<down>[=normal]
+<ctrl>k=<up>[=normal]
+i=<CreateNewFile>[=normal]
+u=<cm_CloseCurrentTab>[=normal]
+<shift>h=<cm_GotoPreviousDir>[=normal]
+<shift>l=<cm_GotoNextDir>[=normal]
+<shift>c=<cm_CompareFilesByContent>[=normal]
+p=<cm_PackFiles>[=normal]
+b=<cm_UnpackFiles>[=normal]
+<shift>p=<cm_Properties>[=normal]
 
-;弹出右键菜单
-<shift>e=<cm_ContextMenu>[=normal]
+;未使用：B I M N O Q W Z
 
-;查看
-v=<cm_list>[=normal]
-
-;弹出USB设备,使用括号指定可执行文件
-dr=(D:\USB_Disk_Eject\USB_Disk_Eject.exe)[=normal]
