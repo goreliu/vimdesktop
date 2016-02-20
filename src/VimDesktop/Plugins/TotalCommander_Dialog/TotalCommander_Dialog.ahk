@@ -58,7 +58,8 @@ return
 	
 	Select_Copyed := 1
 	vim.CopyMode("TTOTAL_CMD","normal","select")
-	vim.map("<enter>","<TC_PreSelected>","TTOTAL_CMD")
+	;怀疑这里会导致tc里边回车失效，先去掉
+	;vim.map("<enter>","<TC_PreSelected>","TTOTAL_CMD")
 	vim.map("<ctrl><enter>","<TC_Selected>","TTOTAL_CMD")
 	vim.map("<esc>","<Return_To_Caller>","TTOTAL_CMD")
 	return
