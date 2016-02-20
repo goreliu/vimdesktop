@@ -3,7 +3,8 @@
 让所有 Windows 桌面程序拥有 Vim 操作风格的辅助工具
 
 ### 下载地址
-[VimDesktop开发版](https://github.com/goreliu/vimdesktop/archive/develop.zip)
+[最新版本]https://github.com/goreliu/vimdesktop/releases/latest
+[开发版本](https://github.com/goreliu/vimdesktop/archive/develop.zip)
 
 ### 其他版本的VimDesktop
 [linxinhong](http://git.oschina.net/linxinhong) 的原版VimDesktop（仍在更新）：[oschina地址](http://git.oschina.net/linxinhong/VimDesktop) [github地址（已弃用）](https://github.com/linxinhong/VimDesktop)
