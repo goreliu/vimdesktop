@@ -13,6 +13,8 @@
 
 [English version](https://github.com/goreliu/vimdesktop/wiki/VimDesktop-Introduction-%5BEnglish-Version%5D)
 
+[TC 快捷键列表](https://github.com/goreliu/vimdesktop/wiki/TC%E5%BF%AB%E6%8D%B7%E9%94%AE%E5%88%97%E8%A1%A8)
+
 ### 其他版本的VimDesktop
 [linxinhong](http://git.oschina.net/linxinhong) 的原版VimDesktop（仍在更新）：[oschina地址](http://git.oschina.net/linxinhong/VimDesktop) [github地址（已弃用）](https://github.com/linxinhong/VimDesktop)
 
