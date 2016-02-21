@@ -1620,6 +1620,7 @@ TCCOMMAND:
   vim.Comment("<cm_SysInfo>","系统信息")
   vim.Comment("<cm_OpenTransferManager>","后台传输管理器")
   vim.Comment("<cm_SearchFor>","搜索文件")
+  vim.Comment("<cm_SearchStandalone>","在单独进程搜索文件")
   vim.Comment("<cm_FileSync>","同步文件夹")
   vim.Comment("<cm_Associate>","文件关联")
   vim.Comment("<cm_InternalAssociate>","定义内部关联")
@@ -2910,6 +2911,10 @@ Return
 ;<cm_SearchFor>: >>搜索文件{{{2
 <cm_SearchFor>:
 	SendPos(501)
+Return
+;<cm_SearchStandalone>: >>在单独进程搜索文件{{{2
+<cm_SearchStandalone>:
+	SendPos(545)
 Return
 ;<cm_FileSync>: >>同步文件夹{{{2
 <cm_FileSync>:
