@@ -1337,6 +1337,11 @@ Totalcomander_select_tcdir(){
 			SendPos(910)
 		}
 	Return
+    
+;使用外部查看器打开（alt+f3）
+<OpenWithAlternateViewer>:
+    send !{f3}
+Return
 
 
 
