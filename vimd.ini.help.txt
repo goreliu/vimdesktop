@@ -90,8 +90,7 @@ Vim
 ;b=<cm_MoveOnly>[=normal]
 ;<shift>b=<cm_CopyOtherpanel>[=normal]
 
-ff=<cm_SearchFor>[=normal]
-<shift>f=<cm_SearchFor>[=normal]
+<shift>f=<cm_SearchStandAlone>[=normal]
 <shift>a=<cm_ClearAll>[=normal]
 e=<cm_edit>[=normal]
 o=<cm_ContextMenu>[=normal]
@@ -107,10 +106,22 @@ i=<CreateNewFile>[=normal]
 u=<cm_CloseCurrentTab>[=normal]
 <shift>h=<cm_GotoPreviousDir>[=normal]
 <shift>l=<cm_GotoNextDir>[=normal]
-<shift>c=<cm_CompareFilesByContent>[=normal]
 p=<cm_PackFiles>[=normal]
 b=<cm_UnpackFiles>[=normal]
 <shift>p=<cm_Properties>[=normal]
+<ctrl>f=<pgdn>[=normal]
+<ctrl>b=<pgup>[=normal]
+<shift>b=<cm_DirBranch>[=normal]
+<shift>m=<cm_FileSync>[=normal]
+<ctrl>m=<cm_CompareDirs>[=normal]
+<shift>o=<cm_SrcUserDef>[=normal]
+<shift>c=<cm_CompareFilesByContent>[=normal]
+<shift>w=<cm_IntCompareFilesByContent>[=normal]
+<shift>z=<cm_Config>[=normal]
+;<shift>q=(c:\mine\app\totalcmd\language\replace_mnu.sh)[=normal]
+<shift>n=<cm_SwitchToNextTab>[=normal]
+<shift>i=<OpenWithAlternateViewer>[=normal]
+<ctrl>y=<cm_CopyFileDetailsToClip>[=normal]
 
-;未使用：B I M N O Q W Z
-
+;未使用：ctrl+g
+;可用：ctrl+d ctrl+e ctrl+n ctrl+q ctrl+s ctrl+t ctrl+w
