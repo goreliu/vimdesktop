@@ -126,6 +126,13 @@ return
 <right>:
     send {right}
 return
+<pgup>:
+    send {pgup}
+return
+<pgdn>:
+    send {pgdn}
+return
+
 
 <ControlOn>:
 	vim.control("on")
