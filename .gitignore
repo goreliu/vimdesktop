@@ -26,3 +26,4 @@ $RECYCLE.BIN/
 Session.vim
 .netrwhist
 *~
+*.exe
