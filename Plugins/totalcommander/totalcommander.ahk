@@ -188,6 +188,7 @@
     vim.map("=","<cm_MatchSrc>","TTOTAL_CMD")
     vim.map(";","<cm_FocusCmdLine>","TTOTAL_CMD")
     vim.map(":","<cm_FocusCmdLine>","TTOTAL_CMD")
+    vim.map("``","<cm_SysInfo>","TTOTAL_CMD")
     vim.map("G","<LastLine>","TTOTAL_CMD")
     vim.map("ga","<cm_CloseAllTabs>","TTOTAL_CMD")
     vim.map("gg","<GoToLine>","TTOTAL_CMD")
