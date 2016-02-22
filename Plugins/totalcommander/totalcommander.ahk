@@ -92,6 +92,8 @@
     vim.comment("<GotoPreviousDirOther>","后退另一侧")
     vim.comment("<GotoNextDirOther>","前进另一侧")
     vim.comment("<Search>","连续搜索")
+    vim.comment("<CopyUseQueues>","无需确认，使用队列拷贝文件至另一窗口")
+    vim.comment("<MoveUseQueues>","无需确认，使用队列移动文件至另一窗口")
 
     vim.mode("normal","TQUICKSEARCH")
     vim.map("J","<Down>","TQUICKSEARCH")
@@ -180,6 +182,9 @@
     vim.map("\","<cm_ExchangeSelection>","TTOTAL_CMD")
     vim.map("|","<cm_ClearAll>","TTOTAL_CMD")
     vim.map("-","<cm_SwitchSeparateTree>","TTOTAL_CMD")
+    vim.map(",","<Mark>","TTOTAL_CMD")
+    vim.map("_","<cm_Split>","TTOTAL_CMD")
+    vim.map("+","<cm_Combine>","TTOTAL_CMD")
     vim.map("=","<cm_MatchSrc>","TTOTAL_CMD")
     vim.map(";","<cm_FocusCmdLine>","TTOTAL_CMD")
     vim.map(":","<cm_FocusCmdLine>","TTOTAL_CMD")
@@ -1224,7 +1229,7 @@ return
     Send {F2}
 Return
 
-;<MoveUseQueues>: >>无需确认，使用队列移动文件{{{2
+;<MoveUseQueues>: >>无需确认，使用队列移动文件至另一窗口{{{2
 <MoveUseQueues>:
     Send {F6}
     Send {F2}
@@ -1429,7 +1434,7 @@ TCCOMMAND:
     vim.Comment("<cm_Edit>","编辑")
     vim.Comment("<cm_Copy>","复制")
     vim.Comment("<cm_CopySamepanel>","复制到当前窗口")
-    vim.Comment("<cm_CopyOtherpanel>","复制到另一窗口")
+    vim.Comment("<cm_CopyOtherpanel>","复制到另一窗口(F5)")
     vim.Comment("<cm_RenMov>","重命名/移动")
     vim.Comment("<cm_MkDir>","新建文件夹")
     vim.Comment("<cm_Delete>","删除")
@@ -1438,7 +1443,7 @@ TCCOMMAND:
     vim.Comment("<cm_UnpackFiles>","解压文件")
     vim.Comment("<cm_RenameOnly>","重命名(Shift+F6)")
     vim.Comment("<cm_RenameSingleFile>","重命名当前文件")
-    vim.Comment("<cm_MoveOnly>","移动(F6)")
+    vim.Comment("<cm_MoveOnly>","移动到另一个窗口(F6)")
     vim.Comment("<cm_Properties>","显示属性")
     vim.Comment("<cm_CreateShortcut>","创建快捷方式")
     vim.Comment("<cm_Return>","模仿按 ENTER 键")
@@ -2148,7 +2153,7 @@ Return
 <cm_RenameSingleFile>:
     SendPos(1007)
 Return
-;<cm_MoveOnly>: >>移动(F6){{{2
+;<cm_MoveOnly>: >>移动到另一个窗口(F6){{{2
 <cm_MoveOnly>:
     SendPos(1005)
 Return
