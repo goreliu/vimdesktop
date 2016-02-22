@@ -1343,6 +1343,13 @@ Totalcomander_select_tcdir(){
     send !{f3}
 Return
 
+;定位到地址栏（用于直接输入路径，或者复制当前路径）
+<LocateToAddressBar>:
+    send {home}
+    ;<cm_RenameOnly>
+	SendPos(1002)
+Return
+
 
 
 
