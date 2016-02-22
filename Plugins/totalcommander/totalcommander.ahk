@@ -1340,6 +1340,10 @@ Totalcomander_select_tcdir(){
     send !{f3}
 Return
 
+;使用查看器打开光标所在文件（shift+f3）
+<ViewFileUnderCursor>:
+    send +{f3}
+Return
 
 
 

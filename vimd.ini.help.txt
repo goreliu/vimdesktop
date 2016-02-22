@@ -82,16 +82,16 @@ Vim
 ;=====Total Commander快捷键配置=============
 [TTOTAL_CMD]
 ;热键定义语法
+;ff=<cm_SearchFor>[=normal]
 ;ff 热键 --按下两次f键
 ;<cm_SearchFor> 对应的动作
 ;[=normal] 在normal模式下生效
 
-;l=<cm_GoToDir>[=normal]
 ;b=<cm_MoveOnly>[=normal]
 ;<shift>b=<cm_CopyOtherpanel>[=normal]
 
 <shift>f=<cm_SearchStandAlone>[=normal]
-<shift>a=<cm_ClearAll>[=normal]
+<ctrl>d=<cm_ClearAll>[=normal]
 e=<cm_edit>[=normal]
 o=<cm_ContextMenu>[=normal]
 h=<GoToParentEx>[=normal]
@@ -108,7 +108,7 @@ u=<cm_CloseCurrentTab>[=normal]
 <shift>l=<cm_GotoNextDir>[=normal]
 p=<cm_PackFiles>[=normal]
 b=<cm_UnpackFiles>[=normal]
-<shift>p=<cm_Properties>[=normal]
+<ctrl>s=<cm_CountDirContent>[=normal]
 <ctrl>f=<pgdn>[=normal]
 <ctrl>b=<pgup>[=normal]
 <shift>b=<cm_DirBranch>[=normal]
@@ -118,10 +118,12 @@ b=<cm_UnpackFiles>[=normal]
 <shift>w=<cm_CompareFilesByContent>[=normal]
 <shift>c=<cm_IntCompareFilesByContent>[=normal]
 <shift>z=<cm_Config>[=normal]
-;<shift>q=(c:\mine\app\totalcmd\language\replace_mnu.sh)[=normal]
 <shift>n=<cm_SwitchToNextTab>[=normal]
+<shift>p=<cm_SwitchToPreviousTab>[=normal]
 <shift>i=<OpenWithAlternateViewer>[=normal]
 <ctrl>y=<cm_CopyFileDetailsToClip>[=normal]
-<ctrl>g=<LocateToAddressBar>[=normal]
-
-;可用：ctrl+d ctrl+n ctrl+q ctrl+s
+<ctrl>g=<cm_CopySrcPathToClip>[=normal]
+<ctrl>n=<cm_FtpConnect>[=normal]
+<ctrl>q=<cm_CommandBrowser>[=normal]
+<shift>a=<ViewFileUnderCursor>[=normal]
+;<shift>q=(c:\mine\app\totalcmd\language\replace_mnu.sh)[=normal]
