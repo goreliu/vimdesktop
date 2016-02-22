@@ -94,6 +94,9 @@
     vim.comment("<Search>","连续搜索")
     vim.comment("<CopyUseQueues>","无需确认，使用队列拷贝文件至另一窗口")
     vim.comment("<MoveUseQueues>","无需确认，使用队列移动文件至另一窗口")
+    vim.comment("<Repeat>","重复上次操作")
+    vim.comment("<ViewFileUnderCursor>","使用查看器打开光标所在文件(shift+f3)")
+    vim.comment("<OpenWithAlternateViewer>","使用外部查看器打开(alt+f3)")
 
     vim.mode("normal","TQUICKSEARCH")
     vim.map("J","<Down>","TQUICKSEARCH")

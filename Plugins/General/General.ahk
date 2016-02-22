@@ -1,74 +1,74 @@
 ﻿General:
     ; 通用功能
     Global FullScreenID := []
-	; 无任何快捷键定义，退出之前所有模式
-	vim.mode("disable","General")
+    ; 无任何快捷键定义，退出之前所有模式
+    vim.mode("disable","General")
 
-	;插入模式
-	vim.mode("insert","General")
-	vim.map("<esc>","<General_mode_normal>","General")
-	vim.map("<ctrl><esc>","<General_mode_disable>","General")
+    ;插入模式
+    vim.mode("insert","General")
+    vim.map("<esc>","<General_mode_normal>","General")
+    vim.map("<ctrl><esc>","<General_mode_disable>","General")
 
-	;normal模式
-	vim.mode("normal","General")
-	vim.map("<ctrl><esc>","<General_mode_disable>","General")
-	vim.map("i","<General_mode_insert>","General")
-	vim.map("0","<0>","General")
-	vim.map("1","<1>","General")
-	vim.map("2","<2>","General")
-	vim.map("3","<3>","General")
-	vim.map("4","<4>","General")
-	vim.map("5","<5>","General")
-	vim.map("6","<6>","General")
-	vim.map("7","<7>","General")
-	vim.map("8","<8>","General")
-	vim.map("9","<9>","General")
-	vim.map("k","<up>","General")
-	vim.map("d","<GoToDesktop>","General")
-	vim.map("r","<GoToRun>","General")
-	vim.map("e","<GoToExplorer>","General")
-	vim.map("j","<down>","General")
-	vim.map("k","<up>","General")
-	vim.map("h","<left>","General")
-	vim.map("l","<right>","General")
-	vim.map("zj","<WindowMoveDown>","General")
-	vim.map("zk","<WindowMoveUp>","General")
-	vim.map("zh","<WindowMoveLeft>","General")
-	vim.map("zl","<WindowMoveRight>","General")
-	vim.map("zc","<WindowMoveCenter>","General")
-	vim.map("zf","<fullscreen>","General")
-	vim.map("zm","<WindowMax>","General")
-	vim.map("zn","<WindowMin>","General")
-	vim.map("zr","<WindowRestore>","General")
-	vim.map("t","<NewTab>","General")
-	vim.map("x","<CloseTab>","General")
-	vim.map("gn","<NextTab>","General")
-	vim.map("gp","<PrevTab>","General")
-	vim.map("g1","<ActivateTab1>","General")
-	vim.map("g2","<ActivateTab2>","General")
-	vim.map("g3","<ActivateTab3>","General")
-	vim.map("g4","<ActivateTab4>","General")
-	vim.map("g5","<ActivateTab5>","General")
-	vim.map("g6","<ActivateTab6>","General")
-	vim.map("g7","<ActivateTab7>","General")
-	vim.map("g8","<ActivateTab8>","General")
-	vim.map("g9","<ActivateTab9>","General")
-	vim.map("g0","<ActivateTab0>","General")
+    ;normal模式
+    vim.mode("normal","General")
+    vim.map("<ctrl><esc>","<General_mode_disable>","General")
+    vim.map("i","<General_mode_insert>","General")
+    vim.map("0","<0>","General")
+    vim.map("1","<1>","General")
+    vim.map("2","<2>","General")
+    vim.map("3","<3>","General")
+    vim.map("4","<4>","General")
+    vim.map("5","<5>","General")
+    vim.map("6","<6>","General")
+    vim.map("7","<7>","General")
+    vim.map("8","<8>","General")
+    vim.map("9","<9>","General")
+    vim.map("k","<up>","General")
+    vim.map("d","<GoToDesktop>","General")
+    vim.map("r","<GoToRun>","General")
+    vim.map("e","<GoToExplorer>","General")
+    vim.map("j","<down>","General")
+    vim.map("k","<up>","General")
+    vim.map("h","<left>","General")
+    vim.map("l","<right>","General")
+    vim.map("zj","<WindowMoveDown>","General")
+    vim.map("zk","<WindowMoveUp>","General")
+    vim.map("zh","<WindowMoveLeft>","General")
+    vim.map("zl","<WindowMoveRight>","General")
+    vim.map("zc","<WindowMoveCenter>","General")
+    vim.map("zf","<fullscreen>","General")
+    vim.map("zm","<WindowMax>","General")
+    vim.map("zn","<WindowMin>","General")
+    vim.map("zr","<WindowRestore>","General")
+    vim.map("t","<NewTab>","General")
+    vim.map("x","<CloseTab>","General")
+    vim.map("gn","<NextTab>","General")
+    vim.map("gp","<PrevTab>","General")
+    vim.map("g1","<ActivateTab1>","General")
+    vim.map("g2","<ActivateTab2>","General")
+    vim.map("g3","<ActivateTab3>","General")
+    vim.map("g4","<ActivateTab4>","General")
+    vim.map("g5","<ActivateTab5>","General")
+    vim.map("g6","<ActivateTab6>","General")
+    vim.map("g7","<ActivateTab7>","General")
+    vim.map("g8","<ActivateTab8>","General")
+    vim.map("g9","<ActivateTab9>","General")
+    vim.map("g0","<ActivateTab0>","General")
 
-	vim.comment("<NextTab>","下一个标签")
-	vim.comment("<PrevTab>","前一个标签")
-	vim.comment("<CloseTab>","关闭当前标签")
-	vim.comment("<NewTab>","新建标签")
-	vim.comment("<ActivateTab1>","激活第一个标签")
-	vim.comment("<ActivateTab2>","激活第二个标签")
-	vim.comment("<ActivateTab3>","激活第三个标签")
-	vim.comment("<ActivateTab4>","激活第四个标签")
-	vim.comment("<ActivateTab5>","激活第五个标签")
-	vim.comment("<ActivateTab6>","激活第六个标签")
-	vim.comment("<ActivateTab7>","激活第七个标签")
-	vim.comment("<ActivateTab8>","激活第八个标签")
-	vim.comment("<ActivateTab9>","激活第九个标签")
-	vim.comment("<ActivateTab0>","激活最后一个标签")
+    vim.comment("<NextTab>","下一个标签")
+    vim.comment("<PrevTab>","前一个标签")
+    vim.comment("<CloseTab>","关闭当前标签")
+    vim.comment("<NewTab>","新建标签")
+    vim.comment("<ActivateTab1>","激活第一个标签")
+    vim.comment("<ActivateTab2>","激活第二个标签")
+    vim.comment("<ActivateTab3>","激活第三个标签")
+    vim.comment("<ActivateTab4>","激活第四个标签")
+    vim.comment("<ActivateTab5>","激活第五个标签")
+    vim.comment("<ActivateTab6>","激活第六个标签")
+    vim.comment("<ActivateTab7>","激活第七个标签")
+    vim.comment("<ActivateTab8>","激活第八个标签")
+    vim.comment("<ActivateTab9>","激活第九个标签")
+    vim.comment("<ActivateTab0>","激活最后一个标签")
     vim.Comment("<1>","计数前缀1")
     vim.Comment("<2>","计数前缀2")
     vim.Comment("<3>","计数前缀3")
@@ -99,6 +99,9 @@
     vim.Comment("<config>","打开配置界面")
     vim.Comment("<GeneralCopy>","复制General的热键到当前窗口")
     vim.comment("<ToggleShowComment>","切换是否显示快捷键提示")
+    vim.comment("<pgup>","上一页")
+    vim.comment("<pgdn>","下一页")
+    vim.comment("<Pass>","退出快捷提示")
 return
 
 <1>:
@@ -135,47 +138,47 @@ return
 
 
 <ControlOn>:
-	vim.control("on")
+    vim.control("on")
 return
 
 <ControlOff>:
-	vim.control("off")
+    vim.control("off")
 return
 
 <General_mode_normal>:
-	WinGetClass,win,A
+    WinGetClass,win,A
     vim.mode("normal",win)
 return
 
 <General_mode_disable>:
-	WinGetClass,win,A
-	vim.mode("disable",win)
-	WinGet,Path,ProcessPath,A
-	Splitpath,Path,,,,name
-	Tooltip,%Name%禁用VIM模式
-	settimer,VIMOK,-1400
-	return
+    WinGetClass,win,A
+    vim.mode("disable",win)
+    WinGet,Path,ProcessPath,A
+    Splitpath,Path,,,,name
+    Tooltip,%Name%禁用VIM模式
+    settimer,VIMOK,-1400
+    return
 
 <General_mode_insert>:
-	WinGetClass,win,A
+    WinGetClass,win,A
     vim.mode("Insert",win)
 return
 
 <GeneralCopy>:
-	GeneralCopy()
+    GeneralCopy()
 return
 GeneralCopy() {
-	WinGetClass,win,A
-	vim.copy("General",win)
-	vim.mode("normal",win)
-	WinGet,Path,ProcessPath,A
-	Splitpath,Path,,,,name
-	Tooltip,%Name%启用VIM模式
-	settimer,VIMOK,-1400
+    WinGetClass,win,A
+    vim.copy("General",win)
+    vim.mode("normal",win)
+    WinGet,Path,ProcessPath,A
+    Splitpath,Path,,,,name
+    Tooltip,%Name%启用VIM模式
+    settimer,VIMOK,-1400
 }
 
 VIMOK:
-	Tooltip
+    Tooltip
 return
 
 <GoToDesktop>:
@@ -813,6 +816,10 @@ return
 
 ;设置是否显示快捷键提示
 <ToggleShowComment>:
-	ToShowComment := not ToShowComment
-	IniWrite %ToShowComment%, %A_ScriptDir%\vimd.ini, Config, ToShowComment
+    ToShowComment := not ToShowComment
+    IniWrite %ToShowComment%, %A_ScriptDir%\vimd.ini, Config, ToShowComment
+return
+
+;空操作
+<Pass>:
 return
