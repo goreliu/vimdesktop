@@ -5,7 +5,7 @@
 ### 下载地址
 [最新版本](https://github.com/goreliu/vimdesktop/releases/latest)
 
-[开发版本（请使用ahk运行，自带exe只有新版本发布时更新）](https://github.com/goreliu/vimdesktop/archive/develop.zip)
+[开发版本（无exe，请使用ahk运行）](https://github.com/goreliu/vimdesktop/archive/develop.zip)
 
 ### VimDesktop介绍
 
