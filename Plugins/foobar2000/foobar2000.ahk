@@ -26,6 +26,8 @@
     vim.map("l","<enter>",foobar2000_class)
     vim.map("gg", "<home>", foobar2000_class)
     vim.map("G", "<end>", foobar2000_class)
+    vim.map("<ctrl>f", "<pgdn>", foobar2000_class)
+    vim.map("<ctrl>b", "<pgup>", foobar2000_class)
     vim.map("/", "<foobar2000_search>", foobar2000_class)
     vim.map("t", "<foobar2000_tree>", foobar2000_class)
     vim.map("m", "<foobar2000_list>", foobar2000_class)    
