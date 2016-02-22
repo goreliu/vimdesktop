@@ -101,6 +101,9 @@
     vim.comment("<ToggleShowComment>","切换是否显示快捷键提示")
     vim.comment("<pgup>","上一页")
     vim.comment("<pgdn>","下一页")
+    vim.comment("<home>","按下Home键")
+    vim.comment("<end>","按下End键")
+    vim.comment("<enter>","按下回车键")
     vim.comment("<Pass>","退出快捷提示")
 return
 
@@ -135,6 +138,16 @@ return
 <pgdn>:
     send {pgdn}
 return
+<enter>:
+    send {enter}
+return
+<home>:
+    send {home}
+return
+<end>:
+    send {end}
+return
+
 
 
 <ControlOn>:
