@@ -1,4 +1,4 @@
-## ![icon](assets/images/vimdesktop_32.jpg) VimDesktop
+## ![icon](images/vimdesktop_32.jpg) VimDesktop
 
 让所有 Windows 桌面程序拥有 Vim 操作风格的辅助工具
 
