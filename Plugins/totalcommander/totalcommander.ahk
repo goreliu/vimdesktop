@@ -421,7 +421,7 @@ azHistory()
         idx := RegExReplace(A_LoopField,"=.*$")
         value := RegExReplace(A_LoopField,"^\d\d?=")
         ;避免&被识别成快捷键
-        name := StrReplace(value, "&", "＆")
+        name := StrReplace(value, "&", ":＆:")
         If RegExMatch(Value,"::\{20D04FE0\-3AEA\-1069\-A2D8\-08002B30309D\}\|")
         {
             name  := RegExReplace(Value,"::\{20D04FE0\-3AEA\-1069\-A2D8\-08002B30309D\}\|")
@@ -499,7 +499,7 @@ azHistorySelect()
     Else
     {
         ThisMenuItem := RegExReplace(A_ThisMenuItem,"\t.*$")
-        ThisMenuItem := StrReplace(ThisMenuItem, "＆", "&")
+        ThisMenuItem := StrReplace(ThisMenuItem, ":＆:", "&")
         ControlSetText,%TCEdit%,cd %ThisMenuItem%,ahk_class TTOTAL_CMD
         ControlSend,%TCEdit%,{enter},ahk_class TTOTAL_CMD
     }
