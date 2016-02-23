@@ -288,15 +288,15 @@ TTOTAL_CMD_CheckMode()
         return True
     ControlGetFocus,ctrl,AHK_CLASS TTOTAL_CMD
 ;    If RegExMatch(ctrl,TInEdit)
-;        Return True
+;        return True
 ;    If RegExMatch(ctrl,TCEdit)
-;        Return True
+;        return True
 
     Ifinstring,ctrl,RichEdit20W1
-        Return False
+        return False
     Ifinstring,ctrl,%TCListBox% 
-        Return False
-    Return True
+        return False
+    return True
 }
 
 <ExcSubOK>:
@@ -525,11 +525,11 @@ return
 ; <WinMaxLeft> {{{1
 <WinMaxLeft>:
     WinMaxLR(true)
-Return
+return
 ; <WinMaxRight> {{{1
 <WinMaxRight>:
     WinMaxLR(false)
-Return
+return
 WinMaxLR(lr)
 {
     If lr
@@ -560,7 +560,7 @@ return
 ; <CopyNameOnly> {{{1
 <CopyNameOnly>:
         CopyNameOnly()
-Return
+return
 CopyNameOnly()
 {
     clipboard :=
@@ -618,7 +618,7 @@ GotoLine(Index)
 ; 移动到窗口中间
 <Half>:
         Half()
-Return
+return
 Half()
 {
     winget,tid,id,ahk_class TTOTAL_CMD
@@ -637,7 +637,7 @@ Half()
 ; 标记功能
 <Mark>:
     Mark()
-Return
+return
 Mark()
 {
     vim.mode("insert")
@@ -649,7 +649,7 @@ Mark()
 }
 <MarkTimer>:
     MarkTimer()
-Return
+return
 MarkTimer()
 {
     ControlGetFocus,ThisControl,AHK_CLASS TTOTAL_CMD
@@ -659,7 +659,7 @@ MarkTimer()
     {
         vim.mode("normal")
         Settimer,<MarkTimer>,Off
-        Return
+        return
     }
     If RegExMatch(OutVar,"i)^m.+")
     {
@@ -700,58 +700,58 @@ MarkTimer()
 }
 <AddMark>:
     AddMark()
-Return
+return
 AddMark()
 {
     ThisMenuItem := SubStr(A_ThisMenuItem,5,StrLen(A_ThisMenuItem))
     If RegExMatch(ThisMenuItem,"i)\\\\桌面$")
     {
         Postmessage 1075, 2121, 0, , ahk_class TTOTAL_CMD
-        Return
+        return
     }
     If RegExMatch(ThisMenuItem,"i)\\\\计算机$")
     {
         Postmessage 1075, 2122, 0, , ahk_class TTOTAL_CMD
-        Return
+        return
     }
     If RegExMatch(ThisMenuItem,"i)\\\\所有控制面板项$")
     {
         Postmessage 1075, 2123, 0, , ahk_class TTOTAL_CMD
-        Return
+        return
     }
     If RegExMatch(ThisMenuItem,"i)\\\\Fonts$")
     {
         Postmessage 1075, 2124, 0, , ahk_class TTOTAL_CMD
-        Return
+        return
     }
     If RegExMatch(ThisMenuItem,"i)\\\\网络$")
     {
         Postmessage 1075, 2125, 0, , ahk_class TTOTAL_CMD
-        Return
+        return
     }
     If RegExMatch(ThisMenuItem,"i)\\\\打印机$")
     {
         Postmessage 1075, 2126, 0, , ahk_class TTOTAL_CMD
-        Return
+        return
     }
     If RegExMatch(ThisMenuItem,"i)\\\\回收站$")
     {
         Postmessage 1075, 2127, 0, , ahk_class TTOTAL_CMD
-        Return
+        return
     }
     ControlSetText, %TCEdit%, cd %ThisMenuItem%, ahk_class TTOTAL_CMD
     ControlSend, %TCEdit%, {Enter}, ahk_class TTOTAL_CMD
-    Return
+    return
 }
 ; <ListMark> {{{1
 ; 显示标记
 <ListMark>:
     ListMark()
-Return
+return
 ListMark()
 {
     If Not Mark["ms"]
-        Return
+        return
     ControlGetFocus,TLB,ahk_class TTOTAL_CMD
     ControlGetPos,xn,yn,,,%TLB%,ahk_class TTOTAL_CMD
     Menu,MarkMenu,Show,%xn%,%yn%
@@ -818,12 +818,12 @@ AddToTempFiles()
     If clipboard
         AddPath := clipboard
     Else
-        Return
+        return
     clipboard := ClipSaved
     If FileExist(AddPath)
         Splitpath,AddPath,filename,,fileext,filenamenoext
     else
-        Return
+        return
     Gui, Destroy
     Gui, Add, Text, Hidden, %AddPath%
     Gui, Add, Text, x12 y20 w50 h20 +Center, 模板源
@@ -919,27 +919,27 @@ NewFileOK()
     If clipboard
         DstPath := Clipboard
     Else
-        Return
+        return
     clipboard := ClipSaved
         If RegExMatch(DstPath,"^\\\\计算机$")
-        Return
+        return
     If RegExMatch(DstPath,"i)\\\\所有控制面板项$")
-        Return
+        return
     If RegExMatch(DstPath,"i)\\\\Fonts$")
-        Return
+        return
     If RegExMatch(DstPath,"i)\\\\网络$")
-        Return
+        return
     If RegExMatch(DstPath,"i)\\\\打印机$")
-        Return
+        return
     If RegExMatch(DstPath,"i)\\\\回收站$")
-        Return
+        return
     If RegExmatch(DstPath,"^\\\\桌面$")
         DstPath := A_Desktop
     NewFile := DstPath . "\" . NewFileName
     If FileExist(NewFile)
     {    MsgBox, 4, 新建文件, 新建文件已存在，是否覆盖？
         IfMsgBox No
-            Return
+            return
     }
     If !FileExist(SrcPath)
         Run,fsutil file createnew "%NewFile%" 0,,Hide
@@ -1038,10 +1038,10 @@ RegGetNewFilePath(reg)
 {
     RegRead,GetRegPath,HKEY_CLASSES_ROOT,%Reg%,FileName
     IF Not ErrorLevel
-        Return GetRegPath
+        return GetRegPath
     RegRead,GetRegPath,HKEY_CLASSES_ROOT,%Reg%,NullFile
     IF Not ErrorLevel
-        Return "NullFile"
+        return "NullFile"
 }
 ; RegGetNewFileType(reg)
 ; 获取新建文件类型名
@@ -1050,7 +1050,7 @@ RegGetNewFileType(reg)
 {
     RegRead,FileType,HKEY_CLASSES_ROOT,%Reg%
     If Not ErrorLevel
-        Return FileType
+        return FileType
 }
 ; 获取文件描述
 ; reg 为后缀
@@ -1059,7 +1059,7 @@ RegGetNewFileDescribe(reg)
     FileType := RegGetNewFileType(reg)
     RegRead,FileDesc,HKEY_CLASSES_ROOT,%FileType%
     If Not ErrorLevel
-        Return FileDesc
+        return FileDesc
 }
 ; 获取文件对应的图标
 ; reg 为后缀
@@ -1068,7 +1068,7 @@ RegGetNewFileIcon(reg)
     IconPath := RegGetNewFileType(reg) . "\DefaultIcon"
     RegRead,FileIcon,HKEY_CLASSES_ROOT,%IconPath%
     If Not ErrorLevel
-        Return FileIcon
+        return FileIcon
 }
 ; <GoToParentEx> {{{1
 ; 返回到上层文件夹，可返回到我的电脑
@@ -1105,7 +1105,7 @@ IsRootDir()
 }
 <AlwayOnTop>:
     AlwayOnTop()
-Return
+return
 AlwayOnTop()
 {
     WinGet,ExStyle,ExStyle,ahk_class TTOTAL_CMD
@@ -1147,7 +1147,7 @@ LeftRight(){
         SendPos(131)
     else
         SendPos(231)
-Return
+return
 
 ;<OpenDriveThis>: >>打开驱动器列表:本侧{{{2
 <OpenDriveThat>:
@@ -1158,7 +1158,7 @@ Return
         SendPos(231)
     else
         SendPos(131)
-Return
+return
 
 ;<DirectoryHotlistother>: >>常用文件夹:另一侧{{{2
 <DirectoryHotlistother>:
@@ -1191,7 +1191,7 @@ WaitMenuOff3:
 return
 goonhot:
 ControlFocus, %CurrentFocus% ,ahk_class TTOTAL_CMD
-Return
+return
 
 ;<CopyDirectoryHotlist>: >>复制到常用文件夹{{{2
 <CopyDirectoryHotlist>:
@@ -1232,13 +1232,13 @@ return
 <CopyUseQueues>:
     Send {F5}
     Send {F2}
-Return
+return
 
 ;<MoveUseQueues>: >>无需确认，使用队列移动文件至另一窗口{{{2
 <MoveUseQueues>:
     Send {F6}
     Send {F2}
-Return
+return
 
 ;<MoveDirectoryHotlist>: >>移动到常用文件夹{{{2
 <MoveDirectoryHotlist>:
@@ -1280,14 +1280,14 @@ return
     Send {Tab}
     SendPos(570)
     Send {Tab}
-Return
+return
 
 ;<GotoNextDirOther>: >>前进另一侧{{{2
 <GotoNextDirOther>:
     Send {Tab}
     SendPos(571)
     Send {Tab}
-Return
+return
 
 <Totalcomander_GUI>:
 return
@@ -1343,17 +1343,17 @@ Totalcomander_select_tcdir(){
         else
             SendPos(910)
         }
-    Return
+    return
     
 ;使用外部查看器打开（alt+f3）
 <OpenWithAlternateViewer>:
     send !{f3}
-Return
+return
 
 ;使用查看器打开光标所在文件（shift+f3）
 <ViewFileUnderCursor>:
     send +{f3}
-Return
+return
 
 
 
@@ -1828,1865 +1828,1865 @@ SendPos(Number)
 ;<cm_SrcComments>: >>来源窗口: 显示文件备注{{{2
 <cm_SrcComments>:
     SendPos(300)
-Return
+return
 ;<cm_SrcShort>: >>来源窗口: 列表{{{2
 <cm_SrcShort>:
     SendPos(301)
-Return
+return
 ;<cm_SrcLong>: >>来源窗口: 详细信息{{{2
 <cm_SrcLong>:
     SendPos(302)
-Return
+return
 ;<cm_SrcTree>: >>来源窗口: 文件夹树{{{2
 <cm_SrcTree>:
     SendPos(303)
 ;<cm_SrcQuickview>: >>来源窗口: 快速查看{{{2
 <cm_SrcQuickview>:
     SendPos(304)
-Return
+return
 ;<cm_VerticalPanels>: >>纵向排列{{{2
 <cm_VerticalPanels>:
     SendPos(305)
-Return
+return
 ;<cm_SrcQuickInternalOnly>: >>来源窗口: 快速查看(不用插件){{{2
 <cm_SrcQuickInternalOnly>:
     SendPos(306)
-Return
+return
 ;<cm_SrcHideQuickview>: >>来源窗口: 关闭快速查看窗口{{{2
 <cm_SrcHideQuickview>:
     SendPos(307)
-Return
+return
 ;<cm_SrcExecs>: >>来源窗口: 可执行文件{{{2
 <cm_SrcExecs>:
     SendPos(311)
-Return
+return
 ;<cm_SrcAllFiles>: >>来源窗口: 所有文件{{{2
 <cm_SrcAllFiles>:
     SendPos(312)
-Return
+return
 ;<cm_SrcUserSpec>: >>来源窗口: 上次选中的文件{{{2
 <cm_SrcUserSpec>:
     SendPos(313)
-Return
+return
 ;<cm_SrcUserDef>: >>来源窗口: 自定义类型{{{2
 <cm_SrcUserDef>:
     SendPos(314)
-Return
+return
 ;<cm_SrcByName>: >>来源窗口: 按文件名排序{{{2
 <cm_SrcByName>:
     SendPos(321)
-Return
+return
 ;<cm_SrcByExt>: >>来源窗口: 按扩展名排序{{{2
 <cm_SrcByExt>:
     SendPos(322)
-Return
+return
 ;<cm_SrcBySize>: >>来源窗口: 按大小排序{{{2
 <cm_SrcBySize>:
     SendPos(323)
-Return
+return
 ;<cm_SrcByDateTime>: >>来源窗口: 按日期时间排序{{{2
 <cm_SrcByDateTime>:
     SendPos(324)
-Return
+return
 ;<cm_SrcUnsorted>: >>来源窗口: 不排序{{{2
 <cm_SrcUnsorted>:
     SendPos(325)
-Return
+return
 ;<cm_SrcNegOrder>: >>来源窗口: 反向排序{{{2
 <cm_SrcNegOrder>:
     SendPos(330)
-Return
+return
 ;<cm_SrcOpenDrives>: >>来源窗口: 打开驱动器列表{{{2
 <cm_SrcOpenDrives>:
     SendPos(331)
-Return
+return
 ;<cm_SrcThumbs>: >>来源窗口: 缩略图{{{2
 <cm_SrcThumbs>:
     SendPos(269    )
-Return
+return
 ;<cm_SrcCustomViewMenu>: >>来源窗口: 自定义视图菜单{{{2
 <cm_SrcCustomViewMenu>:
     SendPos(270)
-Return
+return
 ;<cm_SrcPathFocus>: >>来源窗口: 焦点置于路径上{{{2
 <cm_SrcPathFocus>:
     SendPos(332)
-Return
+return
 ;左窗口 =========================================
-Return
+return
 ;<cm_LeftComments>: >>左窗口: 显示文件备注{{{2
 <cm_LeftComments>:
     SendPos(100)
-Return
+return
 ;<cm_LeftShort>: >>左窗口: 列表{{{2
 <cm_LeftShort>:
     SendPos(101)
-Return
+return
 ;<cm_LeftLong>: >>左窗口: 详细信息{{{2
 <cm_LeftLong>:
     SendPos(102)
-Return
+return
 ;<cm_LeftTree>: >>左窗口: 文件夹树{{{2
 <cm_LeftTree>:
     SendPos(103)
-Return
+return
 ;<cm_LeftQuickview>: >>左窗口: 快速查看{{{2
 <cm_LeftQuickview>:
     SendPos(104)
-Return
+return
 ;<cm_LeftQuickInternalOnly>: >>左窗口: 快速查看(不用插件){{{2
 <cm_LeftQuickInternalOnly>:
     SendPos(106)
-Return
+return
 ;<cm_LeftHideQuickview>: >>左窗口: 关闭快速查看窗口{{{2
 <cm_LeftHideQuickview>:
     SendPos(107)
-Return
+return
 ;<cm_LeftExecs>: >>左窗口: 可执行文件{{{2
 <cm_LeftExecs>:
     SendPos(111)
-Return
+return
 ;<cm_LeftAllFiles>: >>    左窗口: 所有文件{{{2
 <cm_LeftAllFiles>:
     SendPos(112)
-Return
+return
 ;<cm_LeftUserSpec>: >>左窗口: 上次选中的文件{{{2
 <cm_LeftUserSpec>:
     SendPos(113)
-Return
+return
 ;<cm_LeftUserDef>: >>左窗口: 自定义类型{{{2
 <cm_LeftUserDef>:
     SendPos(114)
-Return
+return
 ;<cm_LeftByName>: >>左窗口: 按文件名排序{{{2
 <cm_LeftByName>:
     SendPos(121)
-Return
+return
 ;<cm_LeftByExt>: >>左窗口: 按扩展名排序{{{2
 <cm_LeftByExt>:
     SendPos(122)
-Return
+return
 ;<cm_LeftBySize>: >>左窗口: 按大小排序{{{2
 <cm_LeftBySize>:
     SendPos(123)
-Return
+return
 ;<cm_LeftByDateTime>: >>左窗口: 按日期时间排序{{{2
 <cm_LeftByDateTime>:
     SendPos(124)
-Return
+return
 ;<cm_LeftUnsorted>: >>左窗口: 不排序{{{2
 <cm_LeftUnsorted>:
     SendPos(125)
-Return
+return
 ;<cm_LeftNegOrder>: >>左窗口: 反向排序{{{2
 <cm_LeftNegOrder>:
     SendPos(130)
-Return
+return
 ;<cm_LeftOpenDrives>: >>左窗口: 打开驱动器列表{{{2
 <cm_LeftOpenDrives>:
     SendPos(131)
-Return
+return
 ;<cm_LeftPathFocus>: >>左窗口: 焦点置于路径上{{{2
 <cm_LeftPathFocus>:
     SendPos(132)
-Return
+return
 ;<cm_LeftDirBranch>: >>左窗口: 展开所有文件夹{{{2
 <cm_LeftDirBranch>:
     SendPos(203)
-Return
+return
 ;<cm_LeftDirBranchSel>: >>    左窗口: 只展开选中的文件夹{{{2
 <cm_LeftDirBranchSel>:
     SendPos(204)
-Return
+return
 ;<cm_LeftThumbs>: >>窗口: 缩略图{{{2
 <cm_LeftThumbs>:
     SendPos(69)
-Return
+return
 ;<cm_LeftCustomViewMenu>: >>    窗口: 自定义视图菜单{{{2
 <cm_LeftCustomViewMenu>:
     SendPos(70)
-Return
+return
 ;右窗口 =========================================
-Return
+return
 ;<cm_RightComments>: >>右窗口: 显示文件备注{{{2
 <cm_RightComments>:
     SendPos(200)
-Return
+return
 ;<cm_RightShort>: >>右窗口: 列表{{{2
 <cm_RightShort>:
     SendPos(201)
-Return
+return
 ;<cm_RightLong>: >> 详细信息{{{2
 <cm_RightLong>:
     SendPos(202)
-Return
+return
 ;<cm_RightTre>: >>    右窗口: 文件夹树{{{2
 <cm_RightTre>:
         SendPos(203)
-Return
+return
 ;<cm_RightQuickvie>: >>    右窗口: 快速查看{{{2
 <cm_RightQuickvie>:
         SendPos(204)
-Return
+return
 ;<cm_RightQuickInternalOnl>: >>    右窗口: 快速查看(不用插件){{{2
 <cm_RightQuickInternalOnl>:
         SendPos(206)
-Return
+return
 ;<cm_RightHideQuickvie>: >>    右窗口: 关闭快速查看窗口{{{2
 <cm_RightHideQuickvie>:
         SendPos(207)
-Return
+return
 ;<cm_RightExec>: >>    右窗口: 可执行文件{{{2
 <cm_RightExec>:
         SendPos(211)
-Return
+return
 ;<cm_RightAllFile>: >>    右窗口: 所有文件{{{2
 <cm_RightAllFile>:
         SendPos(212)
-Return
+return
 ;<cm_RightUserSpe>: >>    右窗口: 上次选中的文件{{{2
 <cm_RightUserSpe>:
         SendPos(213)
-Return
+return
 ;<cm_RightUserDe>: >>    右窗口: 自定义类型{{{2
 <cm_RightUserDe>:
         SendPos(214)
-Return
+return
 ;<cm_RightByNam>: >>    右窗口: 按文件名排序{{{2
 <cm_RightByNam>:
         SendPos(221)
-Return
+return
 ;<cm_RightByEx>: >>    右窗口: 按扩展名排序{{{2
 <cm_RightByEx>:
         SendPos(222)
-Return
+return
 ;<cm_RightBySiz>: >>    右窗口: 按大小排序{{{2
 <cm_RightBySiz>:
         SendPos(223)
-Return
+return
 ;<cm_RightByDateTim>: >>    右窗口: 按日期时间排序{{{2
 <cm_RightByDateTim>:
         SendPos(224)
-Return
+return
 ;<cm_RightUnsorte>: >>    右窗口: 不排序{{{2
 <cm_RightUnsorte>:
         SendPos(225)
-Return
+return
 ;<cm_RightNegOrde>: >>    右窗口: 反向排序{{{2
 <cm_RightNegOrde>:
         SendPos(230)
-Return
+return
 ;<cm_RightOpenDrive>: >>    右窗口: 打开驱动器列表{{{2
 <cm_RightOpenDrives>:
         SendPos(231)
-Return
+return
 ;<cm_RightPathFocu>: >>    右窗口: 焦点置于路径上{{{2
 <cm_RightPathFocu>:
         SendPos(232)
-Return
+return
 ;<cm_RightDirBranch>: >>右窗口: 展开所有文件夹{{{2
 <cm_RightDirBranch>:
     SendPos(2035)
-Return
+return
 ;<cm_RightDirBranchSel>: >>右窗口: 只展开选中的文件夹{{{2
 <cm_RightDirBranchSel>:
     SendPos(2048)
-Return
+return
 ;<cm_RightThumb>: >>    右窗口: 缩略图{{{2
 <cm_RightThumb>:
     SendPos(169)
-Return
+return
 ;<cm_RightCustomViewMen>: >>    右窗口: 自定义视图菜单{{{2
 <cm_RightCustomViewMen>:
     SendPos(170)
-Return
+return
 ;文件操作 =========================================
-Return
+return
 ;<cm_List>: >>    查看(用查看程序){{{2
 <cm_List>:
     SendPos(903)
-Return
+return
 ;<cm_ListInternalOnly>: >>查看(用查看程序, 但不用插件/多媒体){{{2
 <cm_ListInternalOnly>:
     SendPos(1006)
-Return
+return
 ;<cm_Edit>: >>    编辑{{{2
 <cm_Edit>:
         SendPos(904)
-Return
+return
 ;<cm_Copy>: >>复制{{{2
 <cm_Copy>:
     SendPos(905)
-Return
+return
 ;<cm_CopySamepanel>: >>复制到当前窗口{{{2
 <cm_CopySamepanel>:
     SendPos(3100)
-Return
+return
 ;<cm_CopyOtherpanel>: >>复制到另一窗口{{{2
 <cm_CopyOtherpanel>:
     SendPos(3101)
-Return
+return
 ;<cm_RenMov>: >>重命名/移动{{{2
 <cm_RenMov>:
     SendPos(906)
-Return
+return
 ;<cm_MkDir>: >>新建文件夹{{{2
 <cm_MkDir>:
     SendPos(907)
-Return
+return
 ;<cm_Delete>: >>删除{{{2
 <cm_Delete>:
     SendPos(908)
-Return
+return
 ;<cm_TestArchive>: >>测试压缩包{{{2
 <cm_TestArchive>:
     SendPos(518)
-Return
+return
 ;<cm_PackFiles>: >>压缩文件{{{2
 <cm_PackFiles>:
     SendPos(508)
-Return
+return
 ;<cm_UnpackFiles>: >>解压文件{{{2
 <cm_UnpackFiles>:
     SendPos(509)
-Return
+return
 ;<cm_RenameOnly>: >>重命名(Shift+F6){{{2
 <cm_RenameOnly>:
     SendPos(1002)
-Return
+return
 ;<cm_RenameSingleFile>: >>重命名当前文件{{{2
 <cm_RenameSingleFile>:
     SendPos(1007)
-Return
+return
 ;<cm_MoveOnly>: >>移动到另一个窗口(F6){{{2
 <cm_MoveOnly>:
     SendPos(1005)
-Return
+return
 ;<cm_Properties>: >>显示属性{{{2
 <cm_Properties>:
     SendPos(1003)
-Return
+return
 ;<cm_CreateShortcut>: >>创建快捷方式{{{2
 <cm_CreateShortcut>:
     SendPos(1004)
-Return
+return
 ;<cm_Return>: >>模仿按 ENTER 键{{{2
 <cm_Return>:
     SendPos(1001)
-Return
+return
 ;<cm_OpenAsUser>: >>以其他用户身份运行光标处的程序{{{2
 <cm_OpenAsUser>:
     SendPos(2800)
-Return
+return
 ;<cm_Split>: >>分割文件{{{2
 <cm_Split>:
     SendPos(560)
-Return
+return
 ;<cm_Combine>: >>合并文件{{{2
 <cm_Combine>:
     SendPos(561)
-Return
+return
 ;<cm_Encode>: >>编码文件(MIME/UUE/XXE 格式){{{2
 <cm_Encode>:
     SendPos(562)
-Return
+return
 ;<cm_Decode>: >>解码文件(MIME/UUE/XXE/BinHex 格式){{{2
 <cm_Decode>:
     SendPos(563)
-Return
+return
 ;<cm_CRCcreate>: >>创建校验文件{{{2
 <cm_CRCcreate>:
     SendPos(564)
-Return
+return
 ;<cm_CRCcheck>: >>验证校验和{{{2
 <cm_CRCcheck>:
     SendPos(565)
-Return
+return
 ;<cm_SetAttrib>: >>更改属性{{{2
 <cm_SetAttrib>:
     SendPos(502)
-Return
+return
 ;配置 =========================================
-Return
+return
 ;<cm_Config>: >>配置: 布局{{{2
 <cm_Config>:
     SendPos(490)
-Return
+return
 ;<cm_DisplayConfig>: >>配置: 显示{{{2
 <cm_DisplayConfig>:
     SendPos(486)
-Return
+return
 ;<cm_IconConfig>: >>配置: 图标{{{2
 <cm_IconConfig>:
     SendPos(477)
-Return
+return
 ;<cm_FontConfig>: >>配置: 字体{{{2
 <cm_FontConfig>:
     SendPos(492)
-Return
+return
 ;<cm_ColorConfig>: >>配置: 颜色{{{2
 <cm_ColorConfig>:
     SendPos(494)
-Return
+return
 ;<cm_ConfTabChange>: >>配置: 制表符{{{2
 <cm_ConfTabChange>:
     SendPos(497)
-Return
+return
 ;<cm_DirTabsConfig>: >>配置: 文件夹标签{{{2
 <cm_DirTabsConfig>:
     SendPos(488)
-Return
+return
 ;<cm_CustomColumnConfig>: >>配置: 自定义列{{{2
 <cm_CustomColumnConfig>:
     SendPos(483)
-Return
+return
 ;<cm_CustomColumnDlg>: >>更改当前自定义列{{{2
 <cm_CustomColumnDlg>:
     SendPos(2920)
-Return
+return
 ;<cm_LanguageConfig>: >>配置: 语言{{{2
 <cm_LanguageConfig>:
     SendPos(499)
-Return
+return
 ;<cm_Config2>: >>配置: 操作方式{{{2
 <cm_Config2>:
     SendPos(516)
-Return
+return
 ;<cm_EditConfig>: >>配置: 编辑/查看{{{2
 <cm_EditConfig>:
     SendPos(496)
-Return
+return
 ;<cm_CopyConfig>: >>配置: 复制/删除{{{2
 <cm_CopyConfig>:
     SendPos(487)
-Return
+return
 ;<cm_RefreshConfig>: >>配置: 刷新{{{2
 <cm_RefreshConfig>:
     SendPos(478)
-Return
+return
 ;<cm_QuickSearchConfig>: >>配置: 快速搜索{{{2
 <cm_QuickSearchConfig>:
     SendPos(479)
-Return
+return
 ;<cm_FtpConfig>: >>配置: FTP{{{2
 <cm_FtpConfig>:
     SendPos(489)
-Return
+return
 ;<cm_PluginsConfig>: >>配置: 插件{{{2
 <cm_PluginsConfig>:
     SendPos(484)
-Return
+return
 ;<cm_ThumbnailsConfig>: >>配置: 缩略图{{{2
 <cm_ThumbnailsConfig>:
     SendPos(482)
-Return
+return
 ;<cm_LogConfig>: >>配置: 日志文件{{{2
 <cm_LogConfig>:
     SendPos(481)
-Return
+return
 ;<cm_IgnoreConfig>: >>配置: 隐藏文件{{{2
 <cm_IgnoreConfig>:
     SendPos(480)
-Return
+return
 ;<cm_PackerConfig>: >>配置: 压缩程序{{{2
 <cm_PackerConfig>:
     SendPos(491)
-Return
+return
 ;<cm_ZipPackerConfig>: >>配置: ZIP 压缩程序{{{2
 <cm_ZipPackerConfig>:
     SendPos(485)
-Return
+return
 ;<cm_Confirmation>: >>配置: 其他/确认{{{2
 <cm_Confirmation>:
     SendPos(495)
-Return
+return
 ;<cm_ConfigSavePos>: >>保存位置{{{2
 <cm_ConfigSavePos>:
     SendPos(493)
-Return
+return
 ;<cm_ButtonConfig>: >>更改工具栏{{{2
 <cm_ButtonConfig>:
     SendPos(498)
-Return
+return
 ;<cm_ConfigSaveSettings>: >>保存设置{{{2
 <cm_ConfigSaveSettings>:
     SendPos(580)
-Return
+return
 ;<cm_ConfigChangeIniFiles>: >>直接修改配置文件{{{2
 <cm_ConfigChangeIniFiles>:
     SendPos(581)
-Return
+return
 ;<cm_ConfigSaveDirHistory>: >>保存文件夹历史记录{{{2
 <cm_ConfigSaveDirHistory>:
     SendPos(582)
-Return
+return
 ;<cm_ChangeStartMenu>: >>更改开始菜单{{{2
 <cm_ChangeStartMenu>:
     SendPos(700)
-Return
+return
 ;网络 =========================================
-Return
+return
 ;<cm_NetConnect>: >>映射网络驱动器{{{2
 <cm_NetConnect>:
     SendPos(512)
-Return
+return
 ;<cm_NetDisconnect>: >>断开网络驱动器{{{2
 <cm_NetDisconnect>:
     SendPos(513)
-Return
+return
 ;<cm_NetShareDir>: >>共享当前文件夹{{{2
 <cm_NetShareDir>:
     SendPos(514)
-Return
+return
 ;<cm_NetUnshareDir>: >>取消文件夹共享{{{2
 <cm_NetUnshareDir>:
     SendPos(515)
-Return
+return
 ;<cm_AdministerServer>: >>显示系统共享文件夹{{{2
 <cm_AdministerServer>:
     SendPos(2204)
-Return
+return
 ;<cm_ShowFileUser>: >>显示本地文件的远程用户{{{2
 <cm_ShowFileUser>:
     SendPos(2203)
-Return
+return
 ;其他 =========================================
-Return
+return
 ;<cm_GetFileSpace>: >>计算占用空间{{{2
 <cm_GetFileSpace>:
     SendPos(503)
-Return
+return
 ;<cm_VolumeId>: >>设置卷标{{{2
 <cm_VolumeId>:
     SendPos(505)
-Return
+return
 ;<cm_VersionInfo>: >>版本信息{{{2
 <cm_VersionInfo>:
     SendPos(510)
-Return
+return
 ;<cm_ExecuteDOS>: >>打开命令提示符窗口{{{2
 <cm_ExecuteDOS>:
     SendPos(511)
-Return
+return
 ;<cm_CompareDirs>: >>比较文件夹{{{2
 <cm_CompareDirs>:
     SendPos(533)
-Return
+return
 ;<cm_CompareDirsWithSubdirs>: >>比较文件夹(同时标出另一窗口没有的子文件夹){{{2
 <cm_CompareDirsWithSubdirs>:
     SendPos(536)
-Return
+return
 ;<cm_ContextMenu>: >>显示快捷菜单{{{2
 <cm_ContextMenu>:
     SendPos(2500)
-Return
+return
 ;<cm_ContextMenuInternal>: >>显示快捷菜单(内部关联){{{2
 <cm_ContextMenuInternal>:
     SendPos(2927)
-Return
+return
 ;<cm_ContextMenuInternalCursor>: >>显示光标处文件的内部关联快捷菜单{{{2
 <cm_ContextMenuInternalCursor>:
     SendPos(2928)
-Return
+return
 ;<cm_ShowRemoteMenu>: >>媒体中心遥控器播放/暂停键快捷菜单{{{2
 <cm_ShowRemoteMenu>:
     SendPos(2930)
-Return
+return
 ;<cm_SyncChangeDir>: >>两边窗口同步更改文件夹{{{2
 <cm_SyncChangeDir>:
     SendPos(2600)
-Return
+return
 ;<cm_EditComment>: >>编辑文件备注{{{2
 <cm_EditComment>:
     SendPos(2700)
-Return
+return
 ;<cm_FocusLeft>: >>焦点置于左窗口{{{2
 <cm_FocusLeft>:
     SendPos(4001)
-Return
+return
 ;<cm_FocusRight>: >>焦点置于右窗口{{{2
 <cm_FocusRight>:
     SendPos(4002)
-Return
+return
 ;<cm_FocusCmdLine>: >>焦点置于命令行{{{2
 <cm_FocusCmdLine>:
     SendPos(4003)
-Return
+return
 ;<cm_FocusButtonBar>: >>焦点置于工具栏{{{2
 <cm_FocusButtonBar>:
     SendPos(4004)
-Return
+return
 ;<cm_CountDirContent>: >>计算所有文件夹占用的空间{{{2
 <cm_CountDirContent>:
     SendPos(2014)
-Return
+return
 ;<cm_UnloadPlugins>: >>卸载所有插件{{{2
 <cm_UnloadPlugins>:
     SendPos(2913)
-Return
+return
 ;<cm_DirMatch>: >>标出新文件, 隐藏相同者{{{2
 <cm_DirMatch>:
     SendPos(534)
-Return
+return
 ;<cm_Exchange>: >>交换左右窗口{{{2
 <cm_Exchange>:
     SendPos(531)
-Return
+return
 ;<cm_MatchSrc>: >>目标 = 来源{{{2
 <cm_MatchSrc>:
     SendPos(532)
-Return
+return
 ;<cm_ReloadSelThumbs>: >>刷新选中文件的缩略图{{{2
 <cm_ReloadSelThumbs>:
     SendPos(2918)
-Return
+return
 ;并口 =========================================
-Return
+return
 ;<cm_DirectCableConnect>: >>直接电缆连接{{{2
 <cm_DirectCableConnect>:
     SendPos(2300)
-Return
+return
 ;<cm_NTinstallDriver>: >>加载 NT 并口驱动程序{{{2
 <cm_NTinstallDriver>:
     SendPos(2301)
-Return
+return
 ;<cm_NTremoveDriver>: >>卸载 NT 并口驱动程序{{{2
 <cm_NTremoveDriver>:
     SendPos(2302)
-Return
+return
 ;打印 =========================================
-Return
+return
 ;<cm_PrintDir>: >>打印文件列表{{{2
 <cm_PrintDir>:
     SendPos(2027)
-Return
+return
 ;<cm_PrintDirSub>: >>打印文件列表(含子文件夹){{{2
 <cm_PrintDirSub>:
     SendPos(2028)
-Return
+return
 ;<cm_PrintFile>: >>打印文件内容{{{2
 <cm_PrintFile>:
     SendPos(504)
-Return
+return
 ;选择 =========================================
-Return
+return
 ;<cm_SpreadSelection>: >>选择一组文件{{{2
 <cm_SpreadSelection>:
     SendPos(521)
-Return
+return
 ;<cm_SelectBoth>: >>选择一组: 文件和文件夹{{{2
 <cm_SelectBoth>:
     SendPos(3311)
-Return
+return
 ;<cm_SelectFiles>: >>选择一组: 仅文件{{{2
 <cm_SelectFiles>:
     SendPos(3312)
-Return
+return
 ;<cm_SelectFolders>: >>选择一组: 仅文件夹{{{2
 <cm_SelectFolders>:
     SendPos(3313)
-Return
+return
 ;<cm_ShrinkSelection>: >>不选一组文件{{{2
 <cm_ShrinkSelection>:
     SendPos(522)
-Return
+return
 ;<cm_ClearFiles>: >>不选一组: 仅文件{{{2
 <cm_ClearFiles>:
     SendPos(3314)
-Return
+return
 ;<cm_ClearFolders>: >>不选一组: 仅文件夹{{{2
 <cm_ClearFolders>:
     SendPos(3315)
-Return
+return
 ;<cm_ClearSelCfg>: >>不选一组: 文件和/或文件夹(视配置而定){{{2
 <cm_ClearSelCfg>:
     SendPos(3316)
-Return
+return
 ;<cm_SelectAll>: >>全部选择: 文件和/或文件夹(视配置而定){{{2
 <cm_SelectAll>:
     SendPos(523)
-Return
+return
 ;<cm_SelectAllBoth>: >>全部选择: 文件和文件夹{{{2
 <cm_SelectAllBoth>:
     SendPos(3301)
-Return
+return
 ;<cm_SelectAllFiles>: >>全部选择: 仅文件{{{2
 <cm_SelectAllFiles>:
     SendPos(3302)
-Return
+return
 ;<cm_SelectAllFolders>: >>全部选择: 仅文件夹{{{2
 <cm_SelectAllFolders>:
     SendPos(3303)
-Return
+return
 ;<cm_ClearAll>: >>全部取消: 文件和文件夹{{{2
 <cm_ClearAll>:
     SendPos(524)
-Return
+return
 ;<cm_ClearAllFiles>: >>全部取消: 仅文件{{{2
 <cm_ClearAllFiles>:
     SendPos(3304)
-Return
+return
 ;<cm_ClearAllFolders>: >>全部取消: 仅文件夹{{{2
 <cm_ClearAllFolders>:
     SendPos(3305)
-Return
+return
 ;<cm_ClearAllCfg>: >>全部取消: 文件和/或文件夹(视配置而定){{{2
 <cm_ClearAllCfg>:
     SendPos(3306)
-Return
+return
 ;<cm_ExchangeSelection>: >>反向选择{{{2
 <cm_ExchangeSelection>:
     SendPos(525)
-Return
+return
 ;<cm_ExchangeSelBoth>: >>反向选择: 文件和文件夹{{{2
 <cm_ExchangeSelBoth>:
     SendPos(3321)
-Return
+return
 ;<cm_ExchangeSelFiles>: >>反向选择: 仅文件{{{2
 <cm_ExchangeSelFiles>:
     SendPos(3322)
-Return
+return
 ;<cm_ExchangeSelFolders>: >>反向选择: 仅文件夹{{{2
 <cm_ExchangeSelFolders>:
     SendPos(3323)
-Return
+return
 ;<cm_SelectCurrentExtension>: >>选择扩展名相同的文件{{{2
 <cm_SelectCurrentExtension>:
     SendPos(527)
-Return
+return
 ;<cm_UnselectCurrentExtension>: >>不选扩展名相同的文件{{{2
 <cm_UnselectCurrentExtension>:
     SendPos(528)
-Return
+return
 ;<cm_SelectCurrentName>: >>选择文件名相同的文件{{{2
 <cm_SelectCurrentName>:
     SendPos(541)
-Return
+return
 ;<cm_UnselectCurrentName>: >>不选文件名相同的文件{{{2
 <cm_UnselectCurrentName>:
     SendPos(542)
-Return
+return
 ;<cm_SelectCurrentNameExt>: >>选择文件名和扩展名相同的文件{{{2
 <cm_SelectCurrentNameExt>:
     SendPos(543)
-Return
+return
 ;<cm_UnselectCurrentNameExt>: >>不选文件名和扩展名相同的文件{{{2
 <cm_UnselectCurrentNameExt>:
     SendPos(544)
-Return
+return
 ;<cm_SelectCurrentPath>: >>选择同一路径下的文件(展开文件夹+搜索文件){{{2
 <cm_SelectCurrentPath>:
     SendPos(537)
-Return
+return
 ;<cm_UnselectCurrentPath>: >>不选同一路径下的文件(展开文件夹+搜索文件){{{2
 <cm_UnselectCurrentPath>:
     SendPos(538)
-Return
+return
 ;<cm_RestoreSelection>: >>恢复选择列表{{{2
 <cm_RestoreSelection>:
     SendPos(529)
-Return
+return
 ;<cm_SaveSelection>: >>保存选择列表{{{2
 <cm_SaveSelection>:
     SendPos(530)
-Return
+return
 ;<cm_SaveSelectionToFile>: >>导出选择列表{{{2
 <cm_SaveSelectionToFile>:
     SendPos(2031)
-Return
+return
 ;<cm_SaveSelectionToFileA>: >>导出选择列表(ANSI){{{2
 <cm_SaveSelectionToFileA>:
     SendPos(2041)
-Return
+return
 ;<cm_SaveSelectionToFileW>: >>导出选择列表(Unicode){{{2
 <cm_SaveSelectionToFileW>:
     SendPos(2042)
-Return
+return
 ;<cm_SaveDetailsToFile>: >>导出详细信息{{{2
 <cm_SaveDetailsToFile>:
     SendPos(2039)
-Return
+return
 ;<cm_SaveDetailsToFileA>: >>导出详细信息(ANSI){{{2
 <cm_SaveDetailsToFileA>:
     SendPos(2043)
-Return
+return
 ;<cm_SaveDetailsToFileW>: >>导出详细信息(Unicode){{{2
 <cm_SaveDetailsToFileW>:
     SendPos(2044)
-Return
+return
 ;<cm_LoadSelectionFromFile>: >>导入选择列表(从文件){{{2
 <cm_LoadSelectionFromFile>:
     SendPos(2032)
-Return
+return
 ;<cm_LoadSelectionFromClip>: >>导入选择列表(从剪贴板){{{2
 <cm_LoadSelectionFromClip>:
     SendPos(2033)
-Return
+return
 ;安全 =========================================
-Return
+return
 ;<cm_EditPermissionInfo>: >>设置权限(NTFS){{{2
 <cm_EditPermissionInfo>:
     SendPos(2200)
-Return
+return
 ;<cm_EditAuditInfo>: >>审核文件(NTFS){{{2
 <cm_EditAuditInfo>:
     SendPos(2201)
-Return
+return
 ;<cm_EditOwnerInfo>: >>获取所有权(NTFS){{{2
 <cm_EditOwnerInfo>:
     SendPos(2202)
-Return
+return
 ;剪贴板 =========================================
-Return
+return
 ;<cm_CutToClipboard>: >>剪切选中的文件到剪贴板{{{2
 <cm_CutToClipboard>:
     SendPos(2007)
-Return
+return
 ;<cm_CopyToClipboard>: >>复制选中的文件到剪贴板{{{2
 <cm_CopyToClipboard>:
     SendPos(2008)
-Return
+return
 ;<cm_PasteFromClipboard>: >>从剪贴板粘贴到当前文件夹{{{2
 <cm_PasteFromClipboard>:
     SendPos(2009)
-Return
+return
 ;<cm_CopyNamesToClip>: >>复制文件名{{{2
 <cm_CopyNamesToClip>:
     SendPos(2017)
-Return
+return
 ;<cm_CopyFullNamesToClip>: >>复制文件名及完整路径{{{2
 <cm_CopyFullNamesToClip>:
     SendPos(2018)
-Return
+return
 ;<cm_CopyNetNamesToClip>: >>复制文件名及网络路径{{{2
 <cm_CopyNetNamesToClip>:
     SendPos(2021)
-Return
+return
 ;<cm_CopySrcPathToClip>: >>复制来源路径{{{2
 <cm_CopySrcPathToClip>:
     SendPos(2029)
-Return
+return
 ;<cm_CopyTrgPathToClip>: >>复制目标路径{{{2
 <cm_CopyTrgPathToClip>:
     SendPos(2030)
-Return
+return
 ;<cm_CopyFileDetailsToClip>: >>复制文件详细信息{{{2
 <cm_CopyFileDetailsToClip>:
     SendPos(2036)
-Return
+return
 ;<cm_CopyFpFileDetailsToClip>: >>复制文件详细信息及完整路径{{{2
 <cm_CopyFpFileDetailsToClip>:
     SendPos(2037)
-Return
+return
 ;<cm_CopyNetFileDetailsToClip>: >>复制文件详细信息及网络路径{{{2
 <cm_CopyNetFileDetailsToClip>:
     SendPos(2038)
-Return
+return
 ;FTP =========================================
-Return
+return
 ;<cm_FtpConnect>: >>FTP 连接{{{2
 <cm_FtpConnect>:
     SendPos(550)
-Return
+return
 ;<cm_FtpNew>: >>新建 FTP 连接{{{2
 <cm_FtpNew>:
     SendPos(551)
-Return
+return
 ;<cm_FtpDisconnect>: >>断开 FTP 连接{{{2
 <cm_FtpDisconnect>:
     SendPos(552)
-Return
+return
 ;<cm_FtpHiddenFiles>: >>显示隐藏文件{{{2
 <cm_FtpHiddenFiles>:
     SendPos(553)
-Return
+return
 ;<cm_FtpAbort>: >>中止当前 FTP 命令{{{2
 <cm_FtpAbort>:
     SendPos(554)
-Return
+return
 ;<cm_FtpResumeDownload>: >>续传{{{2
 <cm_FtpResumeDownload>:
     SendPos(555)
-Return
+return
 ;<cm_FtpSelectTransferMode>: >>选择传输模式{{{2
 <cm_FtpSelectTransferMode>:
     SendPos(556)
-Return
+return
 ;<cm_FtpAddToList>: >>添加到下载列表{{{2
 <cm_FtpAddToList>:
     SendPos(557)
-Return
+return
 ;<cm_FtpDownloadList>: >>按列表下载{{{2
 <cm_FtpDownloadList>:
     SendPos(558)
-Return
+return
 ;导航 =========================================
-Return
+return
 ;<cm_GotoPreviousDir>: >>后退{{{2
 <cm_GotoPreviousDir>:
     SendPos(570)
-Return
+return
 ;<cm_GotoNextDir>: >>前进{{{2
 <cm_GotoNextDir>:
     SendPos(571)
-Return
+return
 ;<cm_DirectoryHistory>: >>文件夹历史记录{{{2
 <cm_DirectoryHistory>:
     Vim_HotkeyCount := 0
     SendPos(572)
-Return
+return
 ;<cm_GotoPreviousLocalDir>: >>后退(非 FTP){{{2
 <cm_GotoPreviousLocalDir>:
     SendPos(573)
-Return
+return
 ;<cm_GotoNextLocalDir>: >>前进(非 FTP){{{2
 <cm_GotoNextLocalDir>:
     SendPos(574)
-Return
+return
 ;<cm_DirectoryHotlist>: >>常用文件夹{{{2
 <cm_DirectoryHotlist>:
     Vim_HotkeyCount := 0
     SendPos(526)
-Return
+return
 ;<cm_GoToRoot>: >>转到根文件夹{{{2
 <cm_GoToRoot>:
     SendPos(2001)
-Return
+return
 ;<cm_GoToParent>: >>转到上层文件夹{{{2
 <cm_GoToParent>:
     SendPos(2002)
-Return
+return
 ;<cm_GoToDir>: >>打开光标处的文件夹或压缩包{{{2
 <cm_GoToDir>:
     SendPos(2003)
-Return
+return
 ;<cm_OpenDesktop>: >>桌面{{{2
 <cm_OpenDesktop>:
     SendPos(2121)
-Return
+return
 ;<cm_OpenDrives>: >>我的电脑{{{2
 <cm_OpenDrives>:
     SendPos(2122)
-Return
+return
 ;<cm_OpenControls>: >>控制面板{{{2
 <cm_OpenControls>:
     SendPos(2123)
-Return
+return
 ;<cm_OpenFonts>: >>字体{{{2
 <cm_OpenFonts>:
     SendPos(2124)
-Return
+return
 ;<cm_OpenNetwork>: >>网上邻居{{{2
 <cm_OpenNetwork>:
     SendPos(2125)
-Return
+return
 ;<cm_OpenPrinters>: >>打印机{{{2
 <cm_OpenPrinters>:
     SendPos(2126)
-Return
+return
 ;<cm_OpenRecycled>: >>回收站{{{2
 <cm_OpenRecycled>:
     SendPos(2127)
-Return
+return
 ;<cm_CDtree>: >>更改文件夹{{{2
 <cm_CDtree>:
     SendPos(500)
-Return
+return
 ;<cm_TransferLeft>: >>在左窗口打开光标处的文件夹或压缩包{{{2
 <cm_TransferLeft>:
     SendPos(2024)
-Return
+return
 ;<cm_TransferRight>: >>在右窗口打开光标处的文件夹或压缩包{{{2
 <cm_TransferRight>:
     SendPos(2025)
-Return
+return
 ;<cm_EditPath>: >>编辑来源窗口的路径{{{2
 <cm_EditPath>:
     SendPos(2912)
-Return
+return
 ;<cm_GoToFirstFile>: >>光标移到列表中的第一个文件{{{2
 <cm_GoToFirstFile>:
     SendPos(2050)
-Return
+return
 ;<cm_GotoNextDrive>: >>转到下一个驱动器{{{2
 <cm_GotoNextDrive>:
     SendPos(2051)
-Return
+return
 ;<cm_GotoPreviousDrive>: >>转到上一个驱动器{{{2
 <cm_GotoPreviousDrive>:
     SendPos(2052)
-Return
+return
 ;<cm_GotoNextSelected>: >>转到下一个选中的文件{{{2
 <cm_GotoNextSelected>:
     SendPos(2053)
-Return
+return
 ;<cm_GotoPrevSelected>: >>转到上一个选中的文件{{{2
 <cm_GotoPrevSelected>:
     SendPos(2054)
-Return
+return
 ;<cm_GotoDriveA>: >>转到驱动器 A{{{2
 <cm_GotoDriveA>:
     SendPos(2061)
-Return
+return
 ;<cm_GotoDriveC>: >>转到驱动器 C{{{2
 <cm_GotoDriveC>:
     SendPos(2063)
-Return
+return
 ;<cm_GotoDriveD>: >>转到驱动器 D{{{2
 <cm_GotoDriveD>:
     SendPos(2064)
-Return
+return
 ;<cm_GotoDriveE>: >>转到驱动器 E{{{2
 <cm_GotoDriveE>:
     SendPos(2065)
-Return
+return
 ;<cm_GotoDriveF>: >>可自定义其他驱动器{{{2
 <cm_GotoDriveF>:
     SendPos(2066)
-Return
+return
 ;<cm_GotoDriveZ>: >>最多 26 个{{{2
 <cm_GotoDriveZ>:
     SendPos(2086)
-Return
+return
 ;帮助 =========================================
-Return
+return
 ;<cm_HelpIndex>: >>帮助索引{{{2
 <cm_HelpIndex>:
     SendPos(610)
-Return
+return
 ;<cm_Keyboard>: >>快捷键列表{{{2
 <cm_Keyboard>:
     SendPos(620)
-Return
+return
 ;<cm_Register>: >>注册信息{{{2
 <cm_Register>:
     SendPos(630)
-Return
+return
 ;<cm_VisitHomepage>: >>访问 Totalcmd 网站{{{2
 <cm_VisitHomepage>:
     SendPos(640)
-Return
+return
 ;<cm_About>: >>关于 Total Commander{{{2
 <cm_About>:
     SendPos(690)
-Return
+return
 ;窗口 =========================================
-Return
+return
 ;<cm_Exit>: >>退出 Total Commander{{{2
 <cm_Exit>:
     SendPos(24340)
-Return
+return
 ;<cm_Minimize>: >>最小化 Total Commander{{{2
 <cm_Minimize>:
     SendPos(2000)
-Return
+return
 ;<cm_Maximize>: >>最大化 Total Commander{{{2
 <cm_Maximize>:
     SendPos(2015)
-Return
+return
 ;<cm_Restore>: >>恢复正常大小{{{2
 <cm_Restore>:
     SendPos(2016)
-Return
+return
 ;命令行 =========================================
-Return
+return
 ;<cm_ClearCmdLine>: >>清除命令行{{{2
 <cm_ClearCmdLine>:
     SendPos(2004)
-Return
+return
 ;<cm_NextCommand>: >>下一条命令{{{2
 <cm_NextCommand>:
     SendPos(2005)
-Return
+return
 ;<cm_PrevCommand>: >>上一条命令{{{2
 <cm_PrevCommand>:
     SendPos(2006)
-Return
+return
 ;<cm_AddPathToCmdline>: >>将路径复制到命令行{{{2
 <cm_AddPathToCmdline>:
     SendPos(2019)
-Return
+return
 ;工具 =========================================
-Return
+return
 ;<cm_MultiRenameFiles>: >>批量重命名{{{2
 <cm_MultiRenameFiles>:
     SendPos(2400)
-Return
+return
 ;<cm_SysInfo>: >>系统信息{{{2
 <cm_SysInfo>:
     SendPos(506)
-Return
+return
 ;<cm_OpenTransferManager>: >>后台传输管理器{{{2
 <cm_OpenTransferManager>:
     SendPos(559)
-Return
+return
 ;<cm_SearchFor>: >>搜索文件{{{2
 <cm_SearchFor>:
     SendPos(501)
-Return
+return
 ;<cm_SearchStandalone>: >>在单独进程搜索文件{{{2
 <cm_SearchStandalone>:
     SendPos(545)
-Return
+return
 ;<cm_FileSync>: >>同步文件夹{{{2
 <cm_FileSync>:
     SendPos(2020)
-Return
+return
 ;<cm_Associate>: >>文件关联{{{2
 <cm_Associate>:
     SendPos(507)
-Return
+return
 ;<cm_InternalAssociate>: >>定义内部关联{{{2
 <cm_InternalAssociate>:
     SendPos(519)
-Return
+return
 ;<cm_CompareFilesByContent>: >>比较文件内容{{{2
 <cm_CompareFilesByContent>:
     SendPos(2022)
-Return
+return
 ;<cm_IntCompareFilesByContent>: >>使用内部比较程序{{{2
 <cm_IntCompareFilesByContent>:
     SendPos(2040)
-Return
+return
 ;<cm_CommandBrowser>: >>浏览内部命令{{{2
 <cm_CommandBrowser>:
     SendPos(2924)
-Return
+return
 ;视图 =========================================
-Return
+return
 ;<cm_VisButtonbar>: >>显示/隐藏: 工具栏{{{2
 <cm_VisButtonbar>:
     SendPos(2901)
-Return
+return
 ;<cm_VisDriveButtons>: >>显示/隐藏: 驱动器按钮{{{2
 <cm_VisDriveButtons>:
     SendPos(2902)
-Return
+return
 ;<cm_VisTwoDriveButtons>: >>显示/隐藏: 两个驱动器按钮栏{{{2
 <cm_VisTwoDriveButtons>:
     SendPos(2903)
-Return
+return
 ;<cm_VisFlatDriveButtons>: >>切换: 平坦/立体驱动器按钮{{{2
 <cm_VisFlatDriveButtons>:
     SendPos(2904)
-Return
+return
 ;<cm_VisFlatInterface>: >>切换: 平坦/立体用户界面{{{2
 <cm_VisFlatInterface>:
     SendPos(2905)
-Return
+return
 ;<cm_VisDriveCombo>: >>显示/隐藏: 驱动器列表{{{2
 <cm_VisDriveCombo>:
     SendPos(2906)
-Return
+return
 ;<cm_VisCurDir>: >>显示/隐藏: 当前文件夹{{{2
 <cm_VisCurDir>:
     SendPos(2907)
-Return
+return
 ;<cm_VisBreadCrumbs>: >>显示/隐藏: 路径导航栏{{{2
 <cm_VisBreadCrumbs>:
     SendPos(2926)
-Return
+return
 ;<cm_VisTabHeader>: >>显示/隐藏: 排序制表符{{{2
 <cm_VisTabHeader>:
     SendPos(2908)
-Return
+return
 ;<cm_VisStatusbar>: >>显示/隐藏: 状态栏{{{2
 <cm_VisStatusbar>:
     SendPos(2909)
-Return
+return
 ;<cm_VisCmdLine>: >>显示/隐藏: 命令行{{{2
 <cm_VisCmdLine>:
     SendPos(2910)
-Return
+return
 ;<cm_VisKeyButtons>: >>显示/隐藏: 功能键按钮{{{2
 <cm_VisKeyButtons>:
     SendPos(2911)
-Return
+return
 ;<cm_ShowHint>: >>显示文件提示{{{2
 <cm_ShowHint>:
     SendPos(2914)
-Return
+return
 ;<cm_ShowQuickSearch>: >>显示快速搜索窗口{{{2
 <cm_ShowQuickSearch>:
     SendPos(2915)
-Return
+return
 ;<cm_SwitchLongNames>: >>开启/关闭: 长文件名显示{{{2
 <cm_SwitchLongNames>:
     SendPos(2010)
-Return
+return
 ;<cm_RereadSource>: >>刷新来源窗口{{{2
 <cm_RereadSource>:
     SendPos(540)
-Return
+return
 ;<cm_ShowOnlySelected>: >>仅显示选中的文件{{{2
 <cm_ShowOnlySelected>:
     SendPos(2023)
-Return
+return
 ;<cm_SwitchHidSys>: >>开启/关闭: 隐藏或系统文件显示{{{2
 <cm_SwitchHidSys>:
     SendPos(2011)
-Return
+return
 ;<cm_Switch83Names>: >>开启/关闭: 8.3 式文件名小写显示{{{2
 <cm_Switch83Names>:
     SendPos(2013)
-Return
+return
 ;<cm_SwitchDirSort>: >>开启/关闭: 文件夹按名称排序{{{2
 <cm_SwitchDirSort>:
     SendPos(2012)
-Return
+return
 ;<cm_DirBranch>: >>展开所有文件夹{{{2
 <cm_DirBranch>:
     SendPos(2026)
-Return
+return
 ;<cm_DirBranchSel>: >>只展开选中的文件夹{{{2
 <cm_DirBranchSel>:
     SendPos(2046)
-Return
+return
 ;<cm_50Percent>: >>窗口分隔栏位于 50%{{{2
 <cm_50Percent>:
     SendPos(909)
-Return
+return
 ;<cm_100Percent>: >>窗口分隔栏位于 100%{{{2
 <cm_100Percent>:
     SendPos(910)
-Return
+return
 ;<cm_VisDirTabs>: >>显示/隐藏: 文件夹标签{{{2
 <cm_VisDirTabs>:
     SendPos(2916)
-Return
+return
 ;<cm_VisXPThemeBackground>: >>显示/隐藏: XP 主题背景{{{2
 <cm_VisXPThemeBackground>:
     SendPos(2923)
-Return
+return
 ;<cm_SwitchOverlayIcons>: >>开启/关闭: 叠置图标显示{{{2
 <cm_SwitchOverlayIcons>:
     SendPos(2917)
-Return
+return
 ;<cm_VisHistHotButtons>: >>显示/隐藏: 文件夹历史记录和常用文件夹按钮{{{2
 <cm_VisHistHotButtons>:
     SendPos(2919)
-Return
+return
 ;<cm_SwitchWatchDirs>: >>启用/禁用: 文件夹自动刷新{{{2
 <cm_SwitchWatchDirs>:
     SendPos(2921)
-Return
+return
 ;<cm_SwitchIgnoreList>: >>启用/禁用: 自定义隐藏文件{{{2
 <cm_SwitchIgnoreList>:
     SendPos(2922)
-Return
+return
 ;<cm_SwitchX64Redirection>: >>开启/关闭: 32 位 system32 目录重定向(64 位 Windows){{{2
 <cm_SwitchX64Redirection>:
     SendPos(2925)
-Return
+return
 ;<cm_SeparateTreeOff>: >>关闭独立文件夹树面板{{{2
 <cm_SeparateTreeOff>:
     SendPos(3200)
-Return
+return
 ;<cm_SeparateTree1>: >>一个独立文件夹树面板{{{2
 <cm_SeparateTree1>:
     SendPos(3201)
-Return
+return
 ;<cm_SeparateTree2>: >>两个独立文件夹树面板{{{2
 <cm_SeparateTree2>:
     SendPos(3202)
-Return
+return
 ;<cm_SwitchSeparateTree>: >>切换独立文件夹树面板状态{{{2
 <cm_SwitchSeparateTree>:
     SendPos(3203)
-Return
+return
 ;<cm_ToggleSeparateTree1>: >>开启/关闭: 一个独立文件夹树面板{{{2
 <cm_ToggleSeparateTree1>:
     SendPos(3204)
-Return
+return
 ;<cm_ToggleSeparateTree2>: >>开启/关闭: 两个独立文件夹树面板{{{2
 <cm_ToggleSeparateTree2>:
     SendPos(3205)
-Return
+return
 ;用户 =========================================
-Return
+return
 ;<cm_UserMenu1>: >>用户菜单 1{{{2
 <cm_UserMenu1>:
     SendPos(701)
-Return
+return
 ;<cm_UserMenu2>: >>用户菜单 2{{{2
 <cm_UserMenu2>:
     SendPos(702)
-Return
+return
 ;<cm_UserMenu3>: >>用户菜单 3{{{2
 <cm_UserMenu3>:
     SendPos(703)
-Return
+return
 ;<cm_UserMenu4>: >>...{{{2
 <cm_UserMenu4>:
     SendPos(704)
-Return
+return
 ;<cm_UserMenu5>: >>5{{{2
 <cm_UserMenu5>:
     SendPos(70)
-Return
+return
 ;<cm_UserMenu6>: >>6{{{2
 <cm_UserMenu6>:
     SendPos(70)
-Return
+return
 ;<cm_UserMenu7>: >>7{{{2
 <cm_UserMenu7>:
     SendPos(70)
-Return
+return
 ;<cm_UserMenu8>: >>8{{{2
 <cm_UserMenu8>:
     SendPos(70)
-Return
+return
 ;<cm_UserMenu9>: >>9{{{2
 <cm_UserMenu9>:
     SendPos(70)
-Return
+return
 ;<cm_UserMenu10>: >>可定义其他用户菜单{{{2
 <cm_UserMenu10>:
     SendPos(710)
-Return
+return
 ;标签 =========================================
-Return
+return
 ;<cm_OpenNewTab>: >>新建标签{{{2
 <cm_OpenNewTab>:
     SendPos(3001)
-Return
+return
 ;<cm_OpenNewTabBg>: >>新建标签(在后台){{{2
 <cm_OpenNewTabBg>:
     SendPos(3002)
-Return
+return
 ;<cm_OpenDirInNewTab>: >>新建标签(并打开光标处的文件夹){{{2
 <cm_OpenDirInNewTab>:
     SendPos(3003)
-Return
+return
 ;<cm_OpenDirInNewTabOther>: >>新建标签(在另一窗口打开文件夹){{{2
 <cm_OpenDirInNewTabOther>:
     SendPos(3004)
-Return
+return
 ;<cm_SwitchToNextTab>: >>下一个标签(Ctrl+Tab){{{2
 <cm_SwitchToNextTab>:
     SendPos(3005)
-Return
+return
 ;<cm_SwitchToPreviousTab>: >>上一个标签(Ctrl+Shift+Tab){{{2
 <cm_SwitchToPreviousTab>:
     SendPos(3006)
-Return
+return
 ;<cm_CloseCurrentTab>: >>关闭当前标签{{{2
 <cm_CloseCurrentTab>:
     SendPos(3007)
-Return
+return
 ;<cm_CloseAllTabs>: >>关闭所有标签{{{2
 <cm_CloseAllTabs>:
     SendPos(3008)
-Return
+return
 ;<cm_DirTabsShowMenu>: >>显示标签菜单{{{2
 <cm_DirTabsShowMenu>:
     SendPos(3009)
-Return
+return
 ;<cm_ToggleLockCurrentTab>: >>锁定/解锁当前标签{{{2
 <cm_ToggleLockCurrentTab>:
     SendPos(3010)
-Return
+return
 ;<cm_ToggleLockDcaCurrentTab>: >>锁定/解锁当前标签(可更改文件夹){{{2
 <cm_ToggleLockDcaCurrentTab>:
     SendPos(3012)
-Return
+return
 ;<cm_ExchangeWithTabs>: >>交换左右窗口及其标签{{{2
 <cm_ExchangeWithTabs>:
     SendPos(535)
-Return
+return
 ;<cm_GoToLockedDir>: >>转到锁定标签的根文件夹{{{2
 <cm_GoToLockedDir>:
     SendPos(3011)
-Return
+return
 ;<cm_SrcActivateTab1>: >>来源窗口: 激活标签 1{{{2
 <cm_SrcActivateTab1>:
     SendPos(5001)
-Return
+return
 ;<cm_SrcActivateTab2>: >>来源窗口: 激活标签 2{{{2
 <cm_SrcActivateTab2>:
     SendPos(5002)
-Return
+return
 ;<cm_SrcActivateTab3>: >>...{{{2
 <cm_SrcActivateTab3>:
     SendPos(5003)
-Return
+return
 ;<cm_SrcActivateTab4>: >>最多 99 个{{{2
 <cm_SrcActivateTab4>:
     SendPos(5004)
-Return
+return
 ;<cm_SrcActivateTab5>: >>5{{{2
 <cm_SrcActivateTab5>:
     SendPos(5005)
-Return
+return
 ;<cm_SrcActivateTab6>: >>6{{{2
 <cm_SrcActivateTab6>:
     SendPos(5006)
-Return
+return
 ;<cm_SrcActivateTab7>: >>7{{{2
 <cm_SrcActivateTab7>:
     SendPos(5007)
-Return
+return
 ;<cm_SrcActivateTab8>: >>8{{{2
 <cm_SrcActivateTab8>:
     SendPos(5008)
-Return
+return
 ;<cm_SrcActivateTab9>: >>9{{{2
 <cm_SrcActivateTab9>:
     SendPos(5009)
-Return
+return
 ;<cm_SrcActivateTab10>: >>0{{{2
 <cm_SrcActivateTab10>:
     SendPos(5010)
-Return
+return
 ;<cm_TrgActivateTab1>: >>目标窗口: 激活标签 1{{{2
 <cm_TrgActivateTab1>:
     SendPos(5101)
-Return
+return
 ;<cm_TrgActivateTab2>: >>目标窗口: 激活标签 2{{{2
 <cm_TrgActivateTab2>:
     SendPos(5102)
-Return
+return
 ;<cm_TrgActivateTab3>: >>...{{{2
 <cm_TrgActivateTab3>:
     SendPos(5103)
-Return
+return
 ;<cm_TrgActivateTab4>: >>最多 99 个{{{2
 <cm_TrgActivateTab4>:
     SendPos(5104)
-Return
+return
 ;<cm_TrgActivateTab5>: >>5{{{2
 <cm_TrgActivateTab5>:
     SendPos(5105)
-Return
+return
 ;<cm_TrgActivateTab6>: >>6{{{2
 <cm_TrgActivateTab6>:
     SendPos(5106)
-Return
+return
 ;<cm_TrgActivateTab7>: >>7{{{2
 <cm_TrgActivateTab7>:
     SendPos(5107)
-Return
+return
 ;<cm_TrgActivateTab8>: >>8{{{2
 <cm_TrgActivateTab8>:
     SendPos(5108)
-Return
+return
 ;<cm_TrgActivateTab9>: >>9{{{2
 <cm_TrgActivateTab9>:
     SendPos(5109)
-Return
+return
 ;<cm_TrgActivateTab10>: >>0{{{2
 <cm_TrgActivateTab10>:
     SendPos(5110)
-Return
+return
 ;<cm_LeftActivateTab1>: >>左窗口: 激活标签 1{{{2
 <cm_LeftActivateTab1>:
     SendPos(5201)
-Return
+return
 ;<cm_LeftActivateTab2>: >>左窗口: 激活标签 2{{{2
 <cm_LeftActivateTab2>:
     SendPos(5202)
-Return
+return
 ;<cm_LeftActivateTab3>: >>...{{{2
 <cm_LeftActivateTab3>:
     SendPos(5203)
-Return
+return
 ;<cm_LeftActivateTab4>: >>最多 99 个{{{2
 <cm_LeftActivateTab4>:
     SendPos(5204)
-Return
+return
 ;<cm_LeftActivateTab5>: >>5{{{2
 <cm_LeftActivateTab5>:
     SendPos(5205)
-Return
+return
 ;<cm_LeftActivateTab6>: >>6{{{2
 <cm_LeftActivateTab6>:
     SendPos(5206)
-Return
+return
 ;<cm_LeftActivateTab7>: >>7{{{2
 <cm_LeftActivateTab7>:
     SendPos(5207)
-Return
+return
 ;<cm_LeftActivateTab8>: >>8{{{2
 <cm_LeftActivateTab8>:
     SendPos(5208)
-Return
+return
 ;<cm_LeftActivateTab9>: >>9{{{2
 <cm_LeftActivateTab9>:
     SendPos(5209)
-Return
+return
 ;<cm_LeftActivateTab10>: >>0{{{2
 <cm_LeftActivateTab10>:
     SendPos(5210)
-Return
+return
 ;<cm_RightActivateTab1>: >>右窗口: 激活标签 1{{{2
 <cm_RightActivateTab1>:
     SendPos(5301)
-Return
+return
 ;<cm_RightActivateTab2>: >>右窗口: 激活标签 2{{{2
 <cm_RightActivateTab2>:
     SendPos(5302)
-Return
+return
 ;<cm_RightActivateTab3>: >>...{{{2
 <cm_RightActivateTab3>:
     SendPos(5303)
-Return
+return
 ;<cm_RightActivateTab4>: >>最多 99 个{{{2
 <cm_RightActivateTab4>:
     SendPos(5304)
-Return
+return
 ;<cm_RightActivateTab5>: >>5{{{2
 <cm_RightActivateTab5>:
     SendPos(5305)
-Return
+return
 ;<cm_RightActivateTab6>: >>6{{{2
 <cm_RightActivateTab6>:
     SendPos(5306)
-Return
+return
 ;<cm_RightActivateTab7>: >>7{{{2
 <cm_RightActivateTab7>:
     SendPos(5307)
-Return
+return
 ;<cm_RightActivateTab8>: >>8{{{2
 <cm_RightActivateTab8>:
     SendPos(5308)
-Return
+return
 ;<cm_RightActivateTab9>: >>9{{{2
 <cm_RightActivateTab9>:
     SendPos(5309)
-Return
+return
 ;<cm_RightActivateTab10>: >>0{{{2
 <cm_RightActivateTab10>:
     SendPos(5310)
-Return
+return
 ;排序 =========================================
-Return
+return
 ;<cm_SrcSortByCol1>: >>来源窗口: 按第 1 列排序{{{2
 <cm_SrcSortByCol1>:
     SendPos(6001)
-Return
+return
 ;<cm_SrcSortByCol2>: >>来源窗口: 按第 2 列排序{{{2
 <cm_SrcSortByCol2>:
     SendPos(6002)
-Return
+return
 ;<cm_SrcSortByCol3>: >>...{{{2
 <cm_SrcSortByCol3>:
     SendPos(6003)
-Return
+return
 ;<cm_SrcSortByCol4>: >>最多 99 列{{{2
 <cm_SrcSortByCol4>:
     SendPos(6004)
-Return
+return
 ;<cm_SrcSortByCol5>: >>5{{{2
 <cm_SrcSortByCol5>:
     SendPos(6005)
-Return
+return
 ;<cm_SrcSortByCol6>: >>6{{{2
 <cm_SrcSortByCol6>:
     SendPos(6006)
-Return
+return
 ;<cm_SrcSortByCol7>: >>7{{{2
 <cm_SrcSortByCol7>:
     SendPos(6007)
-Return
+return
 ;<cm_SrcSortByCol8>: >>8{{{2
 <cm_SrcSortByCol8>:
     SendPos(6008)
-Return
+return
 ;<cm_SrcSortByCol9>: >>9{{{2
 <cm_SrcSortByCol9>:
     SendPos(6009)
-Return
+return
 ;<cm_SrcSortByCol10>: >>0{{{2
 <cm_SrcSortByCol10>:
     SendPos(6010)
-Return
+return
 ;<cm_SrcSortByCol99>: >>9{{{2
 <cm_SrcSortByCol99>:
     SendPos(6099)
-Return
+return
 ;<cm_TrgSortByCol1>: >>目标窗口: 按第 1 列排序{{{2
 <cm_TrgSortByCol1>:
     SendPos(6101)
-Return
+return
 ;<cm_TrgSortByCol2>: >>目标窗口: 按第 2 列排序{{{2
 <cm_TrgSortByCol2>:
     SendPos(6102)
-Return
+return
 ;<cm_TrgSortByCol3>: >>...{{{2
 <cm_TrgSortByCol3>:
     SendPos(6103)
-Return
+return
 ;<cm_TrgSortByCol4>: >>最多 99 列{{{2
 <cm_TrgSortByCol4>:
     SendPos(6104)
-Return
+return
 ;<cm_TrgSortByCol5>: >>5{{{2
 <cm_TrgSortByCol5>:
     SendPos(6105)
-Return
+return
 ;<cm_TrgSortByCol6>: >>6{{{2
 <cm_TrgSortByCol6>:
     SendPos(6106)
-Return
+return
 ;<cm_TrgSortByCol7>: >>7{{{2
 <cm_TrgSortByCol7>:
     SendPos(6107)
-Return
+return
 ;<cm_TrgSortByCol8>: >>8{{{2
 <cm_TrgSortByCol8>:
     SendPos(6108)
-Return
+return
 ;<cm_TrgSortByCol9>: >>9{{{2
 <cm_TrgSortByCol9>:
     SendPos(6109)
-Return
+return
 ;<cm_TrgSortByCol10>: >>0{{{2
 <cm_TrgSortByCol10>:
     SendPos(6110)
-Return
+return
 ;<cm_TrgSortByCol99>: >>9{{{2
 <cm_TrgSortByCol99>:
     SendPos(6199)
-Return
+return
 ;<cm_LeftSortByCol1>: >>左窗口: 按第 1 列排序{{{2
 <cm_LeftSortByCol1>:
     SendPos(6201)
-Return
+return
 ;<cm_LeftSortByCol2>: >>左窗口: 按第 2 列排序{{{2
 <cm_LeftSortByCol2>:
     SendPos(6202)
-Return
+return
 ;<cm_LeftSortByCol3>: >>...{{{2
 <cm_LeftSortByCol3>:
     SendPos(6203)
-Return
+return
 ;<cm_LeftSortByCol4>: >>最多 99 列{{{2
 <cm_LeftSortByCol4>:
     SendPos(6204)
-Return
+return
 ;<cm_LeftSortByCol5>: >>5{{{2
 <cm_LeftSortByCol5>:
     SendPos(6205)
-Return
+return
 ;<cm_LeftSortByCol6>: >>6{{{2
 <cm_LeftSortByCol6>:
     SendPos(6206)
-Return
+return
 ;<cm_LeftSortByCol7>: >>7{{{2
 <cm_LeftSortByCol7>:
     SendPos(6207)
-Return
+return
 ;<cm_LeftSortByCol8>: >>8{{{2
 <cm_LeftSortByCol8>:
     SendPos(6208)
-Return
+return
 ;<cm_LeftSortByCol9>: >>9{{{2
 <cm_LeftSortByCol9>:
     SendPos(6209)
-Return
+return
 ;<cm_LeftSortByCol10>: >>0{{{2
 <cm_LeftSortByCol10>:
     SendPos(6210)
-Return
+return
 ;<cm_LeftSortByCol99>: >>9{{{2
 <cm_LeftSortByCol99>:
     SendPos(6299)
-Return
+return
 ;<cm_RightSortByCol1>: >>右窗口: 按第 1 列排序{{{2
 <cm_RightSortByCol1>:
     SendPos(6301)
-Return
+return
 ;<cm_RightSortByCol2>: >>右窗口: 按第 2 列排序{{{2
 <cm_RightSortByCol2>:
     SendPos(6302)
-Return
+return
 ;<cm_RightSortByCol3>: >>...{{{2
 <cm_RightSortByCol3>:
     SendPos(6303)
-Return
+return
 ;<cm_RightSortByCol4>: >>最多 99 列{{{2
 <cm_RightSortByCol4>:
     SendPos(6304)
-Return
+return
 ;<cm_RightSortByCol5>: >>5{{{2
 <cm_RightSortByCol5>:
     SendPos(6305)
-Return
+return
 ;<cm_RightSortByCol6>: >>6{{{2
 <cm_RightSortByCol6>:
     SendPos(6306)
-Return
+return
 ;<cm_RightSortByCol7>: >>7{{{2
 <cm_RightSortByCol7>:
     SendPos(6307)
-Return
+return
 ;<cm_RightSortByCol8>: >>8{{{2
 <cm_RightSortByCol8>:
     SendPos(6308)
-Return
+return
 ;<cm_RightSortByCol9>: >>9{{{2
 <cm_RightSortByCol9>:
     SendPos(6309)
-Return
+return
 ;<cm_RightSortByCol10>: >>0{{{2
 <cm_RightSortByCol10>:
     SendPos(6310)
-Return
+return
 ;<cm_RightSortByCol99>: >>9{{{2
 <cm_RightSortByCol99>:
     SendPos(6399)
-Return
+return
 ;自定义列视图 =========================================
-Return
+return
 ;<cm_SrcCustomView1>: >>来源窗口: 自定义列视图 1{{{2
 <cm_SrcCustomView1>:
     SendPos(271)
-Return
+return
 ;<cm_SrcCustomView2>: >>来源窗口: 自定义列视图 2{{{2
 <cm_SrcCustomView2>:
     SendPos(272)
-Return
+return
 ;<cm_SrcCustomView3>: >>...{{{2
 <cm_SrcCustomView3>:
     SendPos(273)
-Return
+return
 ;<cm_SrcCustomView4>: >>最多 29 个{{{2
 <cm_SrcCustomView4>:
     SendPos(274)
-Return
+return
 ;<cm_SrcCustomView5>: >>5{{{2
 <cm_SrcCustomView5>:
     SendPos(275)
-Return
+return
 ;<cm_SrcCustomView6>: >>6{{{2
 <cm_SrcCustomView6>:
     SendPos(276)
-Return
+return
 ;<cm_SrcCustomView7>: >>7{{{2
 <cm_SrcCustomView7>:
     SendPos(277)
-Return
+return
 ;<cm_SrcCustomView8>: >>8{{{2
 <cm_SrcCustomView8>:
     SendPos(278)
-Return
+return
 ;<cm_SrcCustomView9>: >>9{{{2
 <cm_SrcCustomView9>:
     SendPos(279)
-Return
+return
 ;<cm_LeftCustomView1>: >>左窗口: 自定义列视图 1{{{2
 <cm_LeftCustomView1>:
     SendPos(710)
-Return
+return
 ;<cm_LeftCustomView2>: >>左窗口: 自定义列视图 2{{{2
 <cm_LeftCustomView2>:
     SendPos(72)
-Return
+return
 ;<cm_LeftCustomView3>: >>...{{{2
 <cm_LeftCustomView3>:
     SendPos(73)
-Return
+return
 ;<cm_LeftCustomView4>: >>最多 29 个{{{2
 <cm_LeftCustomView4>:
     SendPos(74)
-Return
+return
 ;<cm_LeftCustomView5>: >>5{{{2
 <cm_LeftCustomView5>:
     SendPos(75)
-Return
+return
 ;<cm_LeftCustomView6>: >>6{{{2
 <cm_LeftCustomView6>:
     SendPos(76)
-Return
+return
 ;<cm_LeftCustomView7>: >>7{{{2
 <cm_LeftCustomView7>:
     SendPos(77)
-Return
+return
 ;<cm_LeftCustomView8>: >>8{{{2
 <cm_LeftCustomView8>:
     SendPos(78)
-Return
+return
 ;<cm_LeftCustomView9>: >>9{{{2
 <cm_LeftCustomView9>:
     SendPos(79)
-Return
+return
 ;<cm_RightCustomView1>: >>右窗口: 自定义列视图 1{{{2
 <cm_RightCustomView1>:
     SendPos(171)
-Return
+return
 ;<cm_RightCustomView2>: >>右窗口: 自定义列视图 2{{{2
 <cm_RightCustomView2>:
     SendPos(172)
-Return
+return
 ;<cm_RightCustomView3>: >>...{{{2
 <cm_RightCustomView3>:
     SendPos(173)
-Return
+return
 ;<cm_RightCustomView4>: >>最多 29 个{{{2
 <cm_RightCustomView4>:
     SendPos(174)
-Return
+return
 ;<cm_RightCustomView5>: >>5{{{2
 <cm_RightCustomView5>:
     SendPos(175)
-Return
+return
 ;<cm_RightCustomView6>: >>6{{{2
 <cm_RightCustomView6>:
     SendPos(176)
-Return
+return
 ;<cm_RightCustomView7>: >>7{{{2
 <cm_RightCustomView7>:
     SendPos(177)
-Return
+return
 ;<cm_RightCustomView8>: >>8{{{2
 <cm_RightCustomView8>:
     SendPos(178)
-Return
+return
 ;<cm_RightCustomView9>: >>9{{{2
 <cm_RightCustomView9>:
     SendPos(179)
-Return
+return
 ;<cm_SrcNextCustomView>: >>来源窗口: 下一个自定义视图{{{2
 <cm_SrcNextCustomView>:
     SendPos(5501)
-Return
+return
 ;<cm_SrcPrevCustomView>: >>来源窗口: 上一个自定义视图{{{2
 <cm_SrcPrevCustomView>:
     SendPos(5502)
-Return
+return
 ;<cm_TrgNextCustomView>: >>目标窗口: 下一个自定义视图{{{2
 <cm_TrgNextCustomView>:
     SendPos(5503)
-Return
+return
 ;<cm_TrgPrevCustomView>: >>目标窗口: 上一个自定义视图{{{2
 <cm_TrgPrevCustomView>:
     SendPos(5504)
-Return
+return
 ;<cm_LeftNextCustomView>: >>左窗口: 下一个自定义视图{{{2
 <cm_LeftNextCustomView>:
     SendPos(5505)
-Return
+return
 ;<cm_LeftPrevCustomView>: >>左窗口: 上一个自定义视图{{{2
 <cm_LeftPrevCustomView>:
     SendPos(5506)
-Return
+return
 ;<cm_RightNextCustomView>: >>右窗口: 下一个自定义视图{{{2
 <cm_RightNextCustomView>:
     SendPos(5507)
-Return
+return
 ;<cm_RightPrevCustomView>: >>右窗口: 上一个自定义视图{{{2
 <cm_RightPrevCustomView>:
     SendPos(5508)
-Return
+return
 ;<cm_LoadAllOnDemandFields>: >>所有文件都按需加载备注{{{2
 <cm_LoadAllOnDemandFields>:
     SendPos(5512)
-Return
+return
 ;<cm_LoadSelOnDemandFields>: >>仅选中的文件按需加载备注{{{2
 <cm_LoadSelOnDemandFields>:
     SendPos(5513)
-Return
+return
 ;<cm_ContentStopLoadFields>: >>停止后台加载备注{{{2
 <cm_ContentStopLoadFields>:
     SendPos(5514)
-Return
+return

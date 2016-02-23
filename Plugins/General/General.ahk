@@ -227,16 +227,16 @@ return
 
 <WindowMoveDown>:
     WindowPadMove("0, +1,  1.0, 0.5")
-Return
+return
 <WindowMoveUp>:
     WindowPadMove("0, -1,  1.0, 0.5")
-Return
+return
 <WindowMoveLeft>:
     WindowPadMove("-1,  0,  0.5, 1.0")
-Return
+return
 <WindowMoveRight>:
     WindowPadMove("+1,  0,  0.5, 1.0")
-Return
+return
 <WindowMoveCenter>:
     WindowPadMove("0,  0,  0.5, 0.7")
 return
