@@ -64,10 +64,6 @@ wps=0
 *<lwin>e=<ToggleTC>[=normal]
 ;重新加载VimDesktop
 *<lwin>y=<Reload>[=normal]
-;*<lwin>f=(firefox)[=normal]
-;*<lwin>w=(mintty -e ~/.bin/tmux_starter)[=normal]
-;*<lwin>c=(explorer)[=normal]
-;*<lwin>a=(c:\mine\app\foobar2000\foobar2000.exe)[=normal]
 ;激活TC作为文件选择框，再次按下该快捷键可执行文件打开操作
 *<lwin>o=<OpenTCDialog>
 
@@ -123,7 +119,6 @@ b=<cm_UnpackFiles>[=normal]
 <ctrl>n=<cm_FtpConnect>[=normal]
 <ctrl>q=<cm_CommandBrowser>[=normal]
 <shift>a=<ViewFileUnderCursor>[=normal]
-;<shift>q=(c:\mine\app\totalcmd\language\replace_mnu.sh)[=normal]
 f<esc>=<Pass>[=normal]
 g<esc>=<Pass>[=normal]
 s<esc>=<Pass>[=normal]
