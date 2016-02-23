@@ -1,4 +1,4 @@
-﻿TotalCommander_Dialog:
+﻿TCDialog:
 ; 本插件尝试将TotalCommander作为文件打开、保存对话框
 ; * 默认添加快捷键<lwin>o
 ;   在文件对话框或任意文字编辑界面按下快捷键跳转至TC
