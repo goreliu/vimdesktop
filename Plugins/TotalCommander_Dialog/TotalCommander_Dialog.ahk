@@ -1,11 +1,21 @@
 ﻿TotalCommander_Dialog:
-; 本插件尝试将TotalCommander作为文件打开对话框
-; * 默认添加快捷键<lwin>o , 在文件对话框或任意文字编辑界面按下快捷键跳转至TC
+; 本插件尝试将TotalCommander作为文件打开、保存对话框
+; * 默认添加快捷键<lwin>o
+;   在文件对话框或任意文字编辑界面按下快捷键跳转至TC
 ;   TC中选定文件后再次按下快捷键可实现文件打开功能
 ; * 尝试在打开文件对话框时，自动跳转到TC进行文件选择：
 ;   #32770，焦点Edit1且内无文字, 对话框内不含密码、password等内容
-; * 按下回车或Ctrl+回车均可直接选定文件
-;   未多选情况下在文件夹上按下回车时，进入该文件夹而非选定
+; * 快捷键：
+;   lwin + o：在文件对话框或任意文字编辑界面按下快捷键跳转至TC
+;   esc：离开TC，回到调用者
+;   ctrl + 回车：将选择结果返回调用者
+;   shift + 回车：将当前目录返回调用者（一般用于保存文件）
+;   回车：和ctrl + 回车类似，但当仅选择一个目录时，进入目录而不返回调用者
+; * 已知问题：
+;   当返回的路径名过长（一般发生在多选时），返回的字符串会被截断为254字节
+;   因为临时修改的esc、ctrl + 回车、shift + 回车，返回时会重置
+;       如果用户重新映射了这些快捷键，会被还原回去，去掉select模式的原因，
+;       是因为切换会normal模式后这些快捷键继续有效，怀疑是bug，未查明
 
 vim.comment("<OpenTCDialog>", "激活TC选择文件, 需再次按下快捷键触发对话框打开事件")
 
@@ -151,6 +161,7 @@ return
 return
 
 <TC_PreSelected>:
+    ; cm_CopyNetNamesToClip
     SendPos(2021)
     sleep, 100 ; 此处用clipwait貌似会出错？
 
@@ -161,6 +172,7 @@ return
         StringRight, str, clipboard, 1
         IfInString, str, \
             {
+                ; cm_GoToDir
                 SendPos(2003)
                 return
             }
