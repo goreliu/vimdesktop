@@ -31,17 +31,22 @@ WizNote:
     vim.map("t", "<Wiz_List>", "WizNoteMainFrame")
 
     ; 定义注释
-    vim.Comment("<Wiz_NewNote>", "新建笔记")
-    vim.Comment("<Wiz_NewDesktopNote>", "新建桌面便签")
-    vim.Comment("<Wiz_Cal>", "打开日历")
-    vim.Comment("<Wiz_Delete>", "删除笔记")
-    vim.Comment("<Wiz_CopyOrMove>", "复制或移动笔记")
-    vim.Comment("<Wiz_Task>", "打开任务")
-    vim.Comment("<Wiz_FullScreen>", "全屏")
-    vim.Comment("<Wiz_Edit>", "编辑笔记")
-    vim.Comment("<Wiz_CloseTab>", "关闭当前标签")
-    vim.Comment("<Wiz_NextNote>", "下一个笔记")
-    vim.Comment("<Wiz_PrevNote>", "上一个笔记")
+    vim.comment("<Normal_Mode_WizNoteMainFrame>", "进入normal模式")
+    vim.comment("<Insert_Mode_WizNoteMainFrame>", "进入insert模式")
+    vim.comment("<Wiz_NewNote>", "新建笔记")
+    vim.comment("<Wiz_NewDesktopNote>", "新建桌面便签")
+    vim.comment("<Wiz_Cal>", "打开日历")
+    vim.comment("<Wiz_Delete>", "删除笔记")
+    vim.comment("<Wiz_CopyOrMove>", "复制或移动笔记")
+    vim.comment("<Wiz_Task>", "打开任务")
+    vim.comment("<Wiz_FullScreen>", "全屏")
+    vim.comment("<Wiz_Edit>", "编辑笔记")
+    vim.comment("<Wiz_CloseTab>", "关闭当前标签")
+    vim.comment("<Wiz_NextNote>", "下一个笔记")
+    vim.comment("<Wiz_PrevNote>", "上一个笔记")
+    vim.comment("<Wiz_List>", "定位到左侧目录")
+    vim.comment("<Wiz_PrevNote>", "上一个笔记")
+    vim.comment("<Wiz_PrevNote>", "上一个笔记")
 return
 
 ; 检查模式, 用于检查焦点Edit1这个控件内激活insert模式, 而不用normal模式
@@ -55,11 +60,11 @@ WizNote_CheckMode()
 }
 
 <Normal_Mode_WizNoteMainFrame>:
-    vim.Mode("normal", "WizNoteMainFrame")
+    vim.mode("normal", "WizNoteMainFrame")
 return
 
 <Insert_Mode_WizNoteMainFrame>:
-    vim.Mode("insert", "WizNoteMainFrame")
+    vim.mode("insert", "WizNoteMainFrame")
 return
 
 <Wiz_NewNote>:
