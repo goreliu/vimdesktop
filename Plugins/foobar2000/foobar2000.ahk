@@ -58,8 +58,6 @@
     vim.map("g9","<ActivateTab9>",foobar2000_class)
     vim.map("g0","<ActivateTab0>",foobar2000_class)
 
-    ;vim.map("x","<CloseTab>",foobar2000_class)
-    
     vim.Comment("<foobar2000_search>","打开搜索窗口")
     vim.Comment("<foobar2000_tree>","定位到目录窗口")
     vim.Comment("<foobar2000_list>","定位到播放列表")
