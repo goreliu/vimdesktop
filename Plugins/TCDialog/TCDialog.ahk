@@ -1,44 +1,42 @@
 ﻿TCDialog:
+    vim.comment("<OpenTCDialog>", "激活TC选择文件, 需再次按下快捷键触发对话框打开事件")
 
-vim.comment("<OpenTCDialog>", "激活TC选择文件, 需再次按下快捷键触发对话框打开事件")
+    ;初始化设置：全局快捷键跳转到TC
+    IniWriteIfNullValue(ConfigPath, "Global", "*<lwin>o", "<OpenTCDialog>")
 
-;初始化设置：全局快捷键跳转到TC
-IniWriteIfNullValue(ConfigPath, "Global", "*<lwin>o", "<OpenTCDialog>")
+    ;初始化设置：自动跳转到TC作为文件选择对话框
+    IniWriteIfNull(ConfigPath, "TotalCommander_Config", "AsOpenFileDialog", "0")
 
-;初始化设置：自动跳转到TC作为文件选择对话框
-IniWriteIfNull(ConfigPath, "TotalCommander_Config", "AsOpenFileDialog", "0")
+    ;初始化设置：还有下面文字的窗口将排除TC作为文件选择对话框
+    ;由于不支持中文，无法初始化"密码"，在后面代码中添加
+    IniWriteIfNull(ConfigPath, "TotalCommander_Config", "OpenFileDialogExclude", "password, pwd")
 
-;初始化设置：还有下面文字的窗口将排除TC作为文件选择对话框
-;由于不支持中文，无法初始化"密码"，在后面代码中添加
-IniWriteIfNull(ConfigPath, "TotalCommander_Config", "OpenFileDialogExclude", "password, pwd")
+    ;读取配置参数，禁用时直接跳过
+    IniRead, AsOpenFileDialog, %ConfigPath%, TotalCommander_Config, AsOpenFileDialog, 1
+    if AsOpenFileDialog <> 1
+        return
 
-;读取配置参数，禁用时直接跳过
-IniRead, AsOpenFileDialog, %ConfigPath%, TotalCommander_Config, AsOpenFileDialog, 1
-if AsOpenFileDialog <> 1
-    return
-
-;读取排除窗体文字
-;IniRead, OpenFileDialogExclude, %ConfigPath%, TotalCommander_Config, OpenFileDialogExclude, "密码, password"
-Loop, read, %ConfigPath%
-{
-    ifInString, A_LoopReadLine, OpenFileDialogExclude
+    ;读取排除窗体文字
+    Loop, read, %ConfigPath%
     {
-        OpenFileDialogExclude := SubStr(A_LoopReadLine, InStr(A_LoopReadLine, "=")+1)
-        IfNotInString, OpenFileDialogExclude, 密码
-            OpenFileDialogExclude .= ", 密码"
-        break
+        ifInString, A_LoopReadLine, OpenFileDialogExclude
+        {
+            OpenFileDialogExclude := SubStr(A_LoopReadLine, InStr(A_LoopReadLine, "=")+1)
+            IfNotInString, OpenFileDialogExclude, 密码
+                OpenFileDialogExclude .= ", 密码"
+            break
+        }
     }
-}
 
-;未发现TC路径时自动禁用该功能
-if StrLen(TCPath) = 0
-    return
+    ;未发现TC路径时自动禁用该功能
+    if StrLen(TCPath) = 0
+        return
 
-;用于记录文件打开对话框所属窗体
-global CallerId := 0
+    ;用于记录文件打开对话框所属窗体
+    global CallerId := 0
 
-;等待OpenFileDialog出现
-SetTimer, <CheckFileDialog>, 1000
+    ;等待OpenFileDialog出现
+    SetTimer, <CheckFileDialog>, 1000
 
 return
 
