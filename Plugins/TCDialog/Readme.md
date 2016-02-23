@@ -5,7 +5,8 @@ Name=TCDialog
 Comment=将TotalCommander作为文件打开、选择对话框
 Author=杜立涛
 Version=2014-8-8
-Url=https://github.com/victorwoo/vimdesktop/blob/master/src/VimDesktop/Plugins/TotalCommander_Dialog/TotalCommander_Dialog.ahk
+Url=https://raw.githubusercontent.com/victorwoo/vimdesktop/develop/src/VimDesktop/
+    Plugins/TotalCommander_Dialog/TotalCommander_Dialog.ahk
 ```
 
 ## 帮助
@@ -49,6 +50,11 @@ OpenFileDialogExclude = password , 密码
 ## 更新历史
 
 ```
+2016-2-23 @陌辞寒
+--------------------------
+不再新增select模式，改为重新映射快捷键，返回调用方前再清楚快捷键，绕过normal模式下快捷键依然有效的bug
+支持将当前目录返回调用方（用于保存文件对话框）
+
 2014-8-8 @杜立涛
 --------------------------
 跳过对标题栏为空的文件选择对话框--如Eclipse的已打开文件的列表
