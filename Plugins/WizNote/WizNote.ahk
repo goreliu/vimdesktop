@@ -35,7 +35,6 @@ WizNote:
     vim.comment("<Insert_Mode_WizNoteMainFrame>", "进入insert模式")
     vim.comment("<Wiz_NewNote>", "新建笔记")
     vim.comment("<Wiz_NewDesktopNote>", "新建桌面便签")
-    vim.comment("<Wiz_Cal>", "打开日历")
     vim.comment("<Wiz_Delete>", "删除笔记")
     vim.comment("<Wiz_CopyOrMove>", "复制或移动笔记")
     vim.comment("<Wiz_Task>", "打开任务")
@@ -55,8 +54,8 @@ WizNote_CheckMode()
 {
     ControlGetFocus, ctrl, AHK_CLASS WizNoteMainFrame
     If RegExMatch(ctrl, "Edit1")
-        return True
-    return False
+        return true
+    return false
 }
 
 <Normal_Mode_WizNoteMainFrame>:
@@ -68,80 +67,50 @@ return
 return
 
 <Wiz_NewNote>:
-{
-    send, ^n
-    return
-}
+    Send, ^n
+return
 
 <Wiz_NewDesktopNote>:
-{
-    send, ^!d
-    return
-}
-
-<Wiz_Cal>:
-{
-    send, {F10}
-    send, t
-    send, c
-    return
-}
+    Send, ^!d
+return
 
 <Wiz_Delete>:
-{
-    send, {Del}
-    return
-}
+    Send, {Del}
+return
 
 <Wiz_Task>:
-{
-    send, ^!y
-    return
-}
+    Send, ^!y
+return
 
 <Wiz_CopyOrMove>:
-{
-    send, ^m
-    return
-}
+    Send, ^m
+return
 
 <Wiz_FullScreen>:
-{
-    send, {F11}
-    return
-}
+    Send, {F11}
+return
 
 <Wiz_Edit>:
-{
-    send, ^e
-    return
-}
+    Send, ^e
+return
 
 <Wiz_CloseTab>:
-{
-    send, ^w
-    return
-}
+    Send, ^w
+return
 
 <Wiz_List>:
-{
     ControlFocus, WizListCtrl1
-    return
-}
+return
 
 <Wiz_NextNote>:
-{
     Gosub, <Wiz_List>
-    send {down}
-    return
-}
+    Send, {down}
+return
 
 <Wiz_PrevNote>:
-{
     Gosub, <Wiz_List>
-    send {up}
-    return
-}
+    Send, {up}
+return
 
 /*
 原始快捷键列表:
