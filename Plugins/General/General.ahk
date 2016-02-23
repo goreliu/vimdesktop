@@ -105,6 +105,10 @@
     vim.comment("<end>","按下End键")
     vim.comment("<enter>","按下回车键")
     vim.comment("<Pass>","退出快捷提示")
+    vim.comment("<Media_Next>","播放下一首")
+    vim.comment("<Media_Prev>","播放上一首")
+    vim.comment("<Media_Play_Pause>","播放/停止")
+    vim.comment("<Media_Stop>","停止播放")
 return
 
 <1>:
@@ -146,6 +150,18 @@ return
 return
 <end>:
     send {end}
+return
+<Media_Next>:
+    send {Media_Next}
+return
+<Media_Prev>:
+    send {Media_Prev}
+return
+<Media_Stop>:
+    send {Media_Stop}
+return
+<Media_Play_Pause>:
+    send {Media_Play_Pause}
 return
 
 
