@@ -1,50 +1,50 @@
 ﻿/*
 API 函数列表：
-vim.mode("模式","ahk_class")  ; 设置运行的模式
-vim.map("热键","Label标签","ahk_class")  ;映射热键
-vim.settimeout("按键超时时间","ahk_class")  ;设置按键超时时间
+vim.mode("模式", "ahk_class")  ; 设置运行的模式
+vim.map("热键", "Label标签", "ahk_class")  ;映射热键
+vim.settimeout("按键超时时间", "ahk_class")  ;设置按键超时时间
 vim.listkey("ahk_class")  ;显示所有映射的热键体
-vim.control("on/off","ahk_class")  ;启用/禁用映射的热键
-vim.comment("标签","描述","是否允许多次运行（0/1)")
+vim.control("on/off", "ahk_class")  ;启用/禁用映射的热键
+vim.comment("标签", "描述", "是否允许多次运行（0/1)")
 内置Label:
 <Repeat> 重复上一次动作
 */
+
 #UseHook On
-Setkeydelay,-1
+Setkeydelay, -1
 return
-
-
 
 ; 此函数可以根据自己的喜好进行修改
 ShowComment(more="") {
     if not ToShowComment
-	return
-    WinGetClass,win,A
+        return
+
+    WinGetClass, win, A
     w := vim.Vaild(win)
     mode := w.GetMode()
     msg := mode.KeyTemp "`n=============================`n"
-;	GUIControl,,Edit1,%msg%
+    ;GUIControl, , Edit1, %msg%
 
-    If Strlen(more)
+    if Strlen(more)
     {
-        Loop,Parse,more,`n
+        Loop, Parse, more, `n
         {
             key := Trim(A_LoopField)
             action := mode.KeyBody[key]
             ;comment := vim.CommentList[action]
             comment := GetCommentDest(action)
-            If Strlen(comment)
+            if Strlen(comment)
                 msg .= key "  >>  " comment "`n"
-            Else
+            else
                 msg .= key "  >>  " action "`n"
 
         }
         Tooltip % msg
-		;GUI,VIMINFO:Show
+        ;GUI, VIMINFO:Show
     }
-    Else
+    else
         Tooltip
-		;GUI,VIMINFO:Show,Hide
+        ;GUI, VIMINFO:Show, Hide
 }
 
 
@@ -57,8 +57,8 @@ ShowComment(more="") {
 
 ; 初始化 vimcore
 Init() {
-	OnMessage(0x05,"GuiSize")
-    GoSub,vimnew
+    OnMessage(0x05, "GuiSize")
+    GoSub, vimnew
 }
 
 vimnew:
@@ -72,11 +72,11 @@ Class vimcore {
        This.vimWindows := []
        This.vimGlobal  := new This.vimClass("")
        This.TimeOutClass := ""
-	   This.ExcludeList := []
-	   ;This.ExcludeList["AutoHotkey"] := True
+       This.ExcludeList := []
+       ;This.ExcludeList["AutoHotkey"] := True
        This.CommentList := []
        This.CommentType := []
-	   This.UseHotkey   := []
+       This.UseHotkey   := []
     }
 
     Vaild(win) {
@@ -85,16 +85,16 @@ Class vimcore {
         w := This.vimWindows[win]
         if w.winVaild
             return w
-        Else
+        else
             return This.vimGlobal
     }
 
-    mode(mode,win="") {
+    mode(mode, win="") {
         if Strlen(win) = 0
             w := This.vimGlobal
-        Else
+        else
             w := This.vimWindows[win]
-        If not w.winVaild
+        if not w.winVaild
         {
             w := new This.vimClass(win)
             This.vimWindows[win] := w
@@ -103,85 +103,86 @@ Class vimcore {
         ShowComment()
     }
 
-	sMap(key,label,win=""){
-		This.UseHotkey[key] := True
-    	this.Map(key,label,win)
-	}
-    Map(key,label,win="") {
-		If not RegExMatch(Key,"[^\s]")
-			return
+    sMap(key, label, win=""){
+        This.UseHotkey[key] := True
+        this.Map(key, label, win)
+    }
+
+    Map(key, label, win="") {
+        if not RegExMatch(Key, "[^\s]")
+            return
         if Strlen(win) = 0
             w := This.vimGlobal
-        Else
+        else
             w := This.vimWindows[win]
-        If not w.winVaild
+        if not w.winVaild
         {
             w := new This.vimClass(win)
             This.vimWindows[win] := w
         }
         mode := w.GetMode()
-        mode.SetHotkey(key,label)
+        mode.SetHotkey(key, label)
     }
 
-    Comment(action,desc,complex=1) {
+    Comment(action, desc, complex=1) {
         This.CommentList[action] := desc
         This.CommentType[action] := complex
     }
 
     do() {
-        WinGetClass,win,A
+        WinGetClass, win, A
         w := This.Vaild(win)
-		m := w.GetMode()
-		If This.ExcludeList[win] And not this.UseHotkey[m.GetThisHotkey()]
-		{
-			Send,% m.TransSendKey(A_ThisHotkey)
-			return
-		}
-        If w.winVaild {
+        m := w.GetMode()
+        if This.ExcludeList[win] And not this.UseHotkey[m.GetThisHotkey()]
+        {
+            Send, % m.TransSendKey(A_ThisHotkey)
+            return
+        }
+        if w.winVaild {
             mode := w.GetMode()
-			If Mode.KeyList[A_ThisHotkey]
-            	mode.Try()
-			Else
-			{
-				w := This.vimGlobal
-				mode := w.GetMode()
-				mode.Try()
-			}
+            if Mode.KeyList[A_ThisHotkey]
+                mode.Try()
+            else
+            {
+                w := This.vimGlobal
+                mode := w.GetMode()
+                mode.Try()
+            }
         }
     }
 
-	Filter(String) {
+    Filter(String) {
 
-        WinGetClass,win,A
+        WinGetClass, win, A
 
-		If This.ExcludeList[win]
-			return
+        if This.ExcludeList[win]
+            return
         w := This.Vaild(win)
 
-        If w.winVaild {
+        if w.winVaild {
             mode := w.GetMode()
-			mode.query(string)
+            mode.query(string)
         }
     }
 
-	Exclude(win) {
-		This.ExcludeList[win] := True
-	}
+    Exclude(win) {
+        This.ExcludeList[win] := True
+    }
 
-	Include(win) {
-		This.ExcludeList[win] := False
-	}
+    Include(win) {
+        This.ExcludeList[win] := False
+    }
 
 
-    ListKey(win="",mode="") {
+    ListKey(win="", mode="") {
         w := This.Vaild(win)
-        If strlen(mode) {
+        if strlen(mode) {
             m := w.winmode[mode]
             For k , l in m.KeyBody
                 msg .= k "  " l "`n"
             return msg
         }
-        Else {
+        else {
             For n , m  in w.winMode
             {
                 msg .= "====`n" n "`n----`n"
@@ -193,62 +194,62 @@ Class vimcore {
         }
     }
 
-	copy(win1,win2) {
+    copy(win1, win2) {
 
         w2 := This.vimWindows[win2]
 
-        If w2.winVaild
+        if w2.winVaild
             return False
 
-		w1 := This.Vaild(win1)
-		w1.winName := win2
-		For n , m in w1.WinMode
-		{
-			mode := m
-			mode.win := win2
-			w1.WinMode[n] := mode
-			For k , l in m.KeyList
+        w1 := This.Vaild(win1)
+        w1.winName := win2
+        For n , m in w1.WinMode
+        {
+            mode := m
+            mode.win := win2
+            w1.WinMode[n] := mode
+            For k , l in m.KeyList
             {
-				Hotkey,IfWinActive,ahk_class %win2%
-                Hotkey,%k%,<HotkeyLabel>
+                Hotkey, IfWinActive, ahk_class %win2%
+                Hotkey, %k%, <HotkeyLabel>
             }
-		}
-		This.vimWindows[win2] := w1
+        }
+        This.vimWindows[win2] := w1
         return True
-	}
+    }
 
-	CopyMode(win,mode,to) {
-		w := This.Vaild(win)
-		If strlen(mode) = 0
-			return
-
-		vim.mode(to,win)
-		m := w.winmode[mode]
-		For k , l in m.KeyBody
-			vim.map(k,l,win)
-	}
-
-    Control(switch,win="") {
+    CopyMode(win, mode, to) {
         w := This.Vaild(win)
-        If switch = on
+        if strlen(mode) = 0
+            return
+
+        vim.mode(to, win)
+        m := w.winmode[mode]
+        For k , l in m.KeyBody
+            vim.map(k, l, win)
+    }
+
+    Control(switch, win="") {
+        w := This.Vaild(win)
+        if switch = on
         {
             For n , m  in w.winMode
             {
                 mode := m
                 For k , l in m.KeyList
                 {
-                    Hotkey,%k%,on
+                    Hotkey, %k%, on
                 }
             }
         }
-        If switch = off
+        if switch = off
         {
             For n , m  in w.winMode
             {
                 mode := m
                 For k , l in m.KeyList
                 {
-                    Hotkey,%k%,off
+                    Hotkey, %k%, off
                 }
             }
         }
@@ -258,9 +259,9 @@ Class vimcore {
         msgbox vim test
     }
 
-    SetTimeOut(tick,win="") {
+    SetTimeOut(tick, win="") {
         w := This.Vaild(win)
-        If not w.winVaild
+        if not w.winVaild
         {
             w := new This.vimClass(win)
             This.vimWindows[win] := w
@@ -272,35 +273,35 @@ Class vimcore {
         w := This.Vaild(This.TimeOutClass)
         mode := w.GetMode()
         mode.KeyTemp := ""
-        ;GoSub,% mode.TimeOutAction
+        ;GoSub, % mode.TimeOutAction
         mode.ExecSub(mode.TimeOutAction)
         ;    ShowComment()
         mode.TimeOutAction := ""
     }
 
     Repeat() {
-        WinGetClass,win,A
+        WinGetClass, win, A
         w := This.vimWindows[win]
-        If not w.winVaild
+        if not w.winVaild
             w := This.vimGlobal
-        If w.winVaild {
+        if w.winVaild {
             mode := w.GetMode()
             mode.KeyCount := w.winRepeatCount
-            mode.ExecSub(w.winRepeat,Ture)
+            mode.ExecSub(w.winRepeat, Ture)
         }
     }
 
     GetWin() {
-        WinGetClass,win,A
+        WinGetClass, win, A
         Return This.Vaild(win)
     }
 
-	GetCount() {
-		w := This.GetWin()
-		m := w.GetMode()
-		Return m.KeyCount ? m.KeyCount : 1
-	}
-	
+    GetCount() {
+        w := This.GetWin()
+        m := w.GetMode()
+        Return m.KeyCount ? m.KeyCount : 1
+    }
+
     Class vimClass {
 
         __New(win) {
@@ -318,12 +319,12 @@ Class vimcore {
         ;设置窗口类下的模式
         SetMode(md) {
             m := This.winMode[md]
-            If Strlen(m.Mode) = 0 {
+            if Strlen(m.Mode) = 0 {
                 This.winThisMode := md
-                m := new This.Mode(md,This.winName)
+                m := new This.Mode(md, This.winName)
                 This.winMode[md] := m
             }
-            Else
+            else
                 This.winThisMode := md
             return m
         }
@@ -335,14 +336,13 @@ Class vimcore {
         }
 
 
-
         Class Mode {
-            __New(mode,win) {
+            __New(mode, win) {
                 This.Mode := mode
                 This.win  := win ;可变
-                If Strlen(win)
+                if Strlen(win)
                     This.CheckMode := win "_CheckMode"
-                Else
+                else
                     This.CheckMode := "CheckMode"
                 This.KeyTemp   := ""
                 This.KeyString := ""
@@ -360,82 +360,82 @@ Class vimcore {
             }
 
             Try(){
-				checkMode := This.CheckMode
-                settimer,<TimeOutLabel>,off
+                checkMode := This.CheckMode
+                settimer, <TimeOutLabel>, off
                 Key := This.GetThisHotkey()
-                If ( Not This.KeyList[A_ThisHotkey] ) or ( IsFunc(CheckMode) AND (%CheckMode%()) ) {
-                    Send,% This.TransSendKey(A_ThisHotkey)
+                if ( Not This.KeyList[A_ThisHotkey] ) or ( IsFunc(CheckMode) AND (%CheckMode%()) ) {
+                    Send, % This.TransSendKey(A_ThisHotkey)
                     ShowComment()
-					return
-				}
+                    return
+                }
                 _SaveKeyTemp := This.KeyTemp
                 This.KeyTemp .= Key
                 P := 1
                 more := ""
                 moreCount := 0
                 Loop {
-                    P := RegExMatch(This.KeyString,"i)\t" This.ToMatch(This.keyTemp) "[^\t]*",m,P)
-                    If P {
+                    P := RegExMatch(This.KeyString, "i)\t" This.ToMatch(This.keyTemp) "[^\t]*", m, P)
+                    if P {
                         ;msgbox % This.KeyString "`np=" p "`nm=" m
                         more .= m "`n"
                         P += Strlen(m)
                         moreCount++
                     }
-                    Else
+                    else
                         Break
                 }
-                more := RTrim(more,"`n")
-                If moreCount = 0
+                more := RTrim(more, "`n")
+                if moreCount = 0
                 {
-                	This.KeyTemp := ""
-					
+                    This.KeyTemp := ""
+
                     action := This.KeyBody[_SaveKeyTemp]
-                    If Strlen(action) {
+                    if Strlen(action) {
                         This.ExecSub(Action)
                     }
-                    Else {
+                    else {
                         action := This.KeyBody[Key]
-                        If Strlen(action) {
-							If InvalidMode
-                            	ShowComment()
-							Else
-                            	This.ExecSub(Action)
-						}
-                        Else {
-							If RegExMatch(This.KeyString,"i)\t" This.ToMatch(key) "[^\t]*")
-							{
-								If InvalidMode
-                            		ShowComment()
-								Else
-                        			This.Try()
-							}
-							Else
-							{
-                            	Send,% This.TransSendKey(A_ThisHotkey)
-                            	ShowComment()
-							}
-							return
+                        if Strlen(action) {
+                            if InvalidMode
+                                ShowComment()
+                            else
+                                This.ExecSub(Action)
+                        }
+                        else {
+                            if RegExMatch(This.KeyString, "i)\t" This.ToMatch(key) "[^\t]*")
+                            {
+                                if InvalidMode
+                                    ShowComment()
+                                else
+                                    This.Try()
+                            }
+                            else
+                            {
+                                Send, % This.TransSendKey(A_ThisHotkey)
+                                ShowComment()
+                            }
+                            return
                         }
                     }
                 }
-                Else If moreCount = 1
+                else if moreCount = 1
                 {
                     Action := This.KeyBody[This.KeyTemp]
-                    If Strlen(Action) {
+                    if Strlen(Action) {
                         This.ExecSub(Action)
                         This.KeyTemp := ""
                     }
-                    Else
+                    else
                         ShowComment(more)
                 }
-                Else
+                else
                 {
                     TimeOut := 0 - GetTimeOutClass(This.win)
-                    If Timeout And This.KeyBody[This.KeyTemp]{
+                    if Timeout And This.KeyBody[This.KeyTemp]{
                         This.TimeOutAction := This.KeyBody[This.KeyTemp]
                         This.TimeOutTick   := A_TickCount
                         SetTimeOutClass(This.win)
-                        Settimer,<TimeOutLabel>,%TimeOut%
+                        Settimer, <TimeOutLabel>, %TimeOut%
                     }
                     ErrorLevel := True
                     ShowComment(more)
@@ -446,93 +446,93 @@ Class vimcore {
 
             ExecSub(action) {
                 w := vim.vaild(This.win)
-                If RegExMatch(Action,"(?<=^<)\d(?=>$)",cnt) {
+                if RegExMatch(Action, "(?<=^<)\d(?=>$)", cnt) {
                         This.KeyCount := This.KeyCount * 10 + cnt
                         MaxCount := w.winMaxCount
-                        If This.KeyCount > MaxCount
+                        if This.KeyCount > MaxCount
                             This.KeyCount := MaxCount
                         Tooltip % This.KeyCount
                         return false
                 }
-                Else {
+                else {
                     ShowComment()
-                    If This.KeyCount And GetCommentType(Action)
+                    if This.KeyCount And GetCommentType(Action)
                         cnt := This.KeyCount
-                    Else
+                    else
                         cnt := 1
                     ;cnt := This.KeyCount ? This.KeyCount : 1
-                    If RegExMatch(action,"^<.*>$") {
-                        If IsLabel(action) {
-                            Loop,%cnt%
+                    if RegExMatch(action, "^<.*>$") {
+                        if IsLabel(action) {
+                            Loop, %cnt%
                                 GoSub % Action
                         }
-                        Else {
+                        else {
                             Msgbox %Action%不存在，请检查脚本
                             Return
                         }
                     }
-                    If RegExMatch(action,"^\(.*\)$") {
-						file := SubStr(action,2,Strlen(action)-2)
-                        Run,%File%,,UseErrorLevel,ExecID
-                        If ErrorLevel
+                    if RegExMatch(action, "^\(.*\)$") {
+                        file := SubStr(action, 2, Strlen(action)-2)
+                        Run, %File%, , UseErrorLevel, ExecID
+                        if ErrorLevel
                         {
                             msgbox 运行%file%失败
                             return
                         }
-                        Else
+                        else
                         {
-                            WinWait,AHK_PID %ExecID%,,1
-                            WinActivate,AHK_PID %ExecID%
+                            WinWait, AHK_PID %ExecID%, , 1
+                            WinActivate, AHK_PID %ExecID%
                         }
                     }
-                    If RegExMatch(Action,"^\{.*\}$") {
-                        Text := Substr(Action,2,Strlen(Action)-2)
-                        Loop,%cnt%
-                            Send,%Text%
+                    if RegExMatch(Action, "^\{.*\}$") {
+                        Text := Substr(Action, 2, Strlen(Action)-2)
+                        Loop, %cnt%
+                            Send, %Text%
                     }
 
                     This.KeyCount := 0
-                    If rpt
+                    if rpt
                         return
-                    If not RegExMatch(action,"i)^<repeat>$") {
+                    if not RegExMatch(action, "i)^<repeat>$") {
                         w.winRepeatCount := cnt
                         w.winRepeat := Action
                     }
                 }
-				EmptyMem()
+                EmptyMem()
             }
 
-            SetHotkey(key,label) {
+            SetHotkey(key, label) {
                 ;msgbox % This.win
-                If Strlen(This.win) > 0 {
+                if Strlen(This.win) > 0 {
                     class := This.win
-                    Hotkey,IfWinActive,ahk_class %class%
+                    Hotkey, IfWinActive, ahk_class %class%
                 }
-                Else
-                    Hotkey,IfWinActive
+                else
+                    Hotkey, IfWinActive
 
                 mKey := ""
-                Loop,Parse,Key
+                Loop, Parse, Key
                 {
-                    If Asc(A_LoopField) >= 65 And Asc(A_LoopField) <= 90
+                    if Asc(A_LoopField) >= 65 And Asc(A_LoopField) <= 90
                         mKey .= "<shift>" . Chr(Asc(A_LoopField)+32)
-                    Else
+                    else
                         mKey .= A_LoopField
                 }
                 Hotkey_OK := True
                 ;Idx := This.KeyList[0] ? This.KeyList[0] : 1
                 cnt := 1
                 _SaveList := []
-                for,i,k in This.ResolveHotkey(mKey)
+                for, i, k in This.ResolveHotkey(mKey)
                 {
-                    Hotkey,%k%,<HotkeyLabel>,On,UseErrorLevel
-                    If ErrorLevel
+                    Hotkey, %k%, <HotkeyLabel>, On, UseErrorLevel
+                    if ErrorLevel
                     {
                         Msgbox 映射错误
                         Hotkey_OK := False
                         Break
                     }
-                    ;If Not This.KeyList[k] {
+                    ;if Not This.KeyList[k] {
                     ;    This.KeyList[idx] := k
                     ;    idx++
                     ;}
@@ -541,18 +541,18 @@ Class vimcore {
                     This.KeyList[k] := This.KeyList[k] ? This.KeyList[k] + 1 : 1
                 }
                 ;This.KeyList[0] := idx
-                If Not Hotkey_OK {
+                if Not Hotkey_OK {
                     For i , k IN _SaveList
                     {
                         This.KeyList[k] := This.KeyList[k] - 1
-                        If This.KeyList[k] = 0 {
-                            Hotkey,%k%,off
+                        if This.KeyList[k] = 0 {
+                            Hotkey, %k%, off
                         }
                     }
                 }
-                Else {
+                else {
                     This.KeyBody[mkey] := label
-                    If not RegExMatch(This.KeyString,"\t" This.ToMatch(mKey) "[^\t]*")
+                    if not RegExMatch(This.KeyString, "\t" This.ToMatch(mKey) "[^\t]*")
                         This.KeyString .= A_Tab mKey A_Tab
                 }
             }
@@ -564,39 +564,39 @@ Class vimcore {
                 n := 1
                 Loop
                 {
-                    Pos := RegExMatch(KeyList,"<[^<>]*>",A_Index)
-                    If Pos
+                    Pos := RegExMatch(KeyList, "<[^<>]*>", A_Index)
+                    if Pos
                     {
-                        LoopKey := SubStr(KeyList,1,Pos-1)
-                        Loop,Parse,LoopKey
+                        LoopKey := SubStr(KeyList, 1, Pos-1)
+                        Loop, Parse, LoopKey
                         {
-                            If Asc(A_LoopField) >= 65 And Asc(A_LoopField) <= 90
+                            if Asc(A_LoopField) >= 65 And Asc(A_LoopField) <= 90
                             {
                                 Keys[n] := "shift"
                                 n++
                                 Keys[n] := Chr(Asc(A_LoopField)+32)
                             }
-                            Else
+                            else
                                 Keys[n] := A_LoopField
                             n++
                         }
-                        KeyList := SubStr(KeyList,Pos,Strlen(KeyList))
-                        Pos := RegExMatch(KeyList,">")
-                        Keys[n] := SubStr(KeyList,2,Pos-2)
-                        KeyList := SubStr(KeyList,Pos+1,Strlen(KeyList))
+                        KeyList := SubStr(KeyList, Pos, Strlen(KeyList))
+                        Pos := RegExMatch(KeyList, ">")
+                        Keys[n] := SubStr(KeyList, 2, Pos-2)
+                        KeyList := SubStr(KeyList, Pos+1, Strlen(KeyList))
                         n++
                     }
-                    Else
+                    else
                     {
-                        Loop,Parse,KeyList
+                        Loop, Parse, KeyList
                         {
-                            If Asc(A_LoopField) >= 65 And Asc(A_LoopField) <= 90
+                            if Asc(A_LoopField) >= 65 And Asc(A_LoopField) <= 90
                             {
                                 Keys[n] := "shift"
                                 n++
                                 Keys[n] := Chr(Asc(A_LoopField)+32)
                             }
-                            Else
+                            else
                                 Keys[n] := A_LoopField
                             n++
                         }
@@ -604,14 +604,14 @@ Class vimcore {
                     }
                 }
                 n := 1
-                For,i,key in Keys
+                For, i, key in Keys
                 {
-                    If RegExMatch(key,"i)(l|r)?(ctrl|shift|win|alt)")
+                    if RegExMatch(key, "i)(l|r)?(ctrl|shift|win|alt)")
                     {
                         List .= Key " & "
                         Continue
                     }
-                    Else
+                    else
                     {
                         List .= Key
                         NewKeyList[n] := List
@@ -624,28 +624,28 @@ Class vimcore {
 
             GetThisHotkey(G_ThisHotkey="")
             {
-                If Strlen(G_ThisHotkey) = 0
+                if Strlen(G_ThisHotkey) = 0
                     G_ThisHotkey := A_ThisHotkey
-                GetKeyState,Var,CapsLock,T
-                If Var = D
+                GetKeyState, Var, CapsLock, T
+                if Var = D
                 {
-                    If RegExMatch(ThisHotkey,"i)^(l|r)?shift\s&\s[a-z]$")
-                        ThisHotkey := Substr(ThisHotkey,0)
-                    Else If RegExMatch(G_ThisHotkey,"^[a-z]$")
+                    if RegExMatch(ThisHotkey, "i)^(l|r)?shift\s&\s[a-z]$")
+                        ThisHotkey := Substr(ThisHotkey, 0)
+                    else if RegExMatch(G_ThisHotkey, "^[a-z]$")
                         ThisHotkey := "shift & " . G_ThisHotkey
-					Else
-						ThisHotkey := A_ThisHotkey
+                    else
+                        ThisHotkey := A_ThisHotkey
                 }
-                Else
+                else
                     ThisHotkey := G_ThisHotkey
                 Loop
                 {
-                    If RegExMatch(ThisHotkey,"(?<!<)(((l|r)?(ctrl|control|alt|win|shift))|(f\d\d?)|esc|escape|space|tab|enter|bs|del|ins|home|end|pgup|pgdn|up|down|left|right|((?<=&\s)[<>]$))(?!>)",m) {
-                        ThisHotkey := RegExReplace(ThisHotkey,This.ToMatch(m),"<" m ">")
+                    if RegExMatch(ThisHotkey, "(?<!<)(((l|r)?(ctrl|control|alt|win|shift))|(f\d\d?)|esc|escape|space|tab|enter|bs|del|ins|home|end|pgup|pgdn|up|down|left|right|((?<=&\s)[<>]$))(?!>)", m) {
+                        ThisHotkey := RegExReplace(ThisHotkey, This.ToMatch(m), "<" m ">")
                     }
-                    Else
+                    else
                     {
-                        ThisHotkey := RegExReplace(ThisHotkey,"\s&\s")
+                        ThisHotkey := RegExReplace(ThisHotkey, "\s&\s")
                         Break
                     }
                 }
@@ -659,41 +659,41 @@ Class vimcore {
             {
                 Loop
                 {
-                    If RegExMatch(Hotkey,"i)^(f\d\d?)|esc|escpa|space|tab|enter|bs|del|ins|home|end|pgup|pgdn|up|down|left|right|!|#|\+|\^|\{|\}$")
+                    if RegExMatch(Hotkey, "i)^(f\d\d?)|esc|escpa|space|tab|enter|bs|del|ins|home|end|pgup|pgdn|up|down|left|right|!|#|\+|\^|\{|\}$")
                     {
                         Hotkey := "{" . Hotkey . "}"
                         Break
                     }
-                    If StrLen(hotkey) > 1 AND Not RegExMatch(Hotkey,"^\+.$")
+                    if StrLen(hotkey) > 1 AND Not RegExMatch(Hotkey, "^\+.$")
                     {
                         Hotkey := "{" . hotkey . "}"
-                        If RegExMatch(hotkey,"i)(shift|lshift|rshift)(\s\&\s)?.+$")
-                            Hotkey := "+" . RegExReplace(hotkey,"i)(shift|lshift|rshift)(\s\&\s)?")
-                        If RegExMatch(hotkey,"i)(ctrl|lctrl|rctrl|control|lcontrol|rcontrol)(\s\&\s)?.+$")
-                            Hotkey := "^" . RegExReplace(hotkey,"i)(ctrl|lctrl|rctrl|control|lcontrol|rcontrol)(\s\&\s)?")
-                        If RegExMatch(hotkey,"i)(lwin|rwin)(\s\&\s)?.+$")
-                            Hotkey := "#" . RegExReplace(hotkey,"i)(lwin|rwin)(\s\&\s)?")
-                        If RegExMatch(hotkey,"i)(alt|lalt|ralt)(\s\&\s)?.+$")
-                            Hotkey := "!" . RegExReplace(hotkey,"i)(alt|lalt|ralt)(\s\&\s)?")A
+                        if RegExMatch(hotkey, "i)(shift|lshift|rshift)(\s\&\s)?.+$")
+                            Hotkey := "+" . RegExReplace(hotkey, "i)(shift|lshift|rshift)(\s\&\s)?")
+                        if RegExMatch(hotkey, "i)(ctrl|lctrl|rctrl|control|lcontrol|rcontrol)(\s\&\s)?.+$")
+                            Hotkey := "^" . RegExReplace(hotkey, "i)(ctrl|lctrl|rctrl|control|lcontrol|rcontrol)(\s\&\s)?")
+                        if RegExMatch(hotkey, "i)(lwin|rwin)(\s\&\s)?.+$")
+                            Hotkey := "#" . RegExReplace(hotkey, "i)(lwin|rwin)(\s\&\s)?")
+                        if RegExMatch(hotkey, "i)(alt|lalt|ralt)(\s\&\s)?.+$")
+                            Hotkey := "!" . RegExReplace(hotkey, "i)(alt|lalt|ralt)(\s\&\s)?")A
                     }
-                    If RegExMatch(Hotkey,"^\+.$")
+                    if RegExMatch(Hotkey, "^\+.$")
                     {
-                        Hotkey := SubStr(Hotkey,1,1) . "{" . SubStr(Hotkey,2) . "}"
+                        Hotkey := SubStr(Hotkey, 1, 1) . "{" . SubStr(Hotkey, 2) . "}"
                     }
-                    GetKeyState,Var,CapsLock,T
-                    If Var = D
+                    GetKeyState, Var, CapsLock, T
+                    if Var = D
                     {
-                        If RegExMatch(Hotkey,"^\+\{[a-z]\}$")
+                        if RegExMatch(Hotkey, "^\+\{[a-z]\}$")
                         {
-                            Hotkey := SubStr(Hotkey,2)
+                            Hotkey := SubStr(Hotkey, 2)
                             Break
                         }
-                        If RegExMatch(Hotkey,"^[a-z]$")
+                        if RegExMatch(Hotkey, "^[a-z]$")
                         {
                             Hotkey := "+{" . Hotkey . "}"
                             Break
                         }
-                        If RegExMatch(Hotkey,"^\{[a-z]\}$")
+                        if RegExMatch(Hotkey, "^\{[a-z]\}$")
                         {
                             Hotkey := "+" . Hotkey
                             Break
@@ -706,8 +706,8 @@ Class vimcore {
 
             ToMatch(Key)
             {
-                Key := RegExReplace(Key,"\+|\?|\.|\*|\{|\}|\(|\)|\||\^|\$|\[|\]|\\","\$0")
-                Return RegExReplace(Key,"\s","\s")
+                Key := RegExReplace(Key, "\+|\?|\.|\*|\{|\}|\(|\)|\||\^|\$|\[|\]|\\", "\$0")
+                Return RegExReplace(Key, "\s", "\s")
             }
 
         }
@@ -727,9 +727,9 @@ GetCommentDest(action) {
 }
 GetCommentType(action) {
     Type := vim.CommentType[action]
-    If Strlen(Type)
+    if Strlen(Type)
         return Type
-    Else
+    else
         return true
 }
 EmptyMem(PID="AHK Rocks")
