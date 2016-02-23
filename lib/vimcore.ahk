@@ -15,7 +15,7 @@ Setkeydelay, -1
 return
 
 ; 此函数可以根据自己的喜好进行修改
-ShowComment(more="") {
+ShowComment(more = "") {
     if not ToShowComment
         return
 
@@ -89,7 +89,7 @@ Class vimcore {
             return This.vimGlobal
     }
 
-    mode(mode, win="") {
+    mode(mode, win = "") {
         if Strlen(win) = 0
             w := This.vimGlobal
         else
@@ -103,12 +103,12 @@ Class vimcore {
         ShowComment()
     }
 
-    sMap(key, label, win=""){
+    sMap(key, label, win = ""){
         This.UseHotkey[key] := True
         this.Map(key, label, win)
     }
 
-    Map(key, label, win="") {
+    Map(key, label, win = "") {
         if not RegExMatch(Key, "[^\s]")
             return
         if Strlen(win) = 0
@@ -174,15 +174,14 @@ Class vimcore {
     }
 
 
-    ListKey(win="", mode="") {
+    ListKey(win = "", mode = "") {
         w := This.Vaild(win)
         if strlen(mode) {
             m := w.winmode[mode]
             For k , l in m.KeyBody
                 msg .= k "  " l "`n"
             return msg
-        }
-        else {
+        } else {
             For n , m  in w.winMode
             {
                 msg .= "====`n" n "`n----`n"
@@ -229,7 +228,7 @@ Class vimcore {
             vim.map(k, l, win)
     }
 
-    Control(switch, win="") {
+    Control(switch, win = "") {
         w := This.Vaild(win)
         if switch = on
         {
@@ -259,7 +258,7 @@ Class vimcore {
         msgbox vim test
     }
 
-    SetTimeOut(tick, win="") {
+    SetTimeOut(tick, win = "") {
         w := This.Vaild(win)
         if not w.winVaild
         {
@@ -376,7 +375,7 @@ Class vimcore {
                 Loop {
                     P := RegExMatch(This.KeyString, "i)\t" This.ToMatch(This.keyTemp) "[^\t]*", m, P)
                     if P {
-                        ;msgbox % This.KeyString "`np=" p "`nm=" m
+                        ;msgbox % This.KeyString "`np = " p "`nm = " m
                         more .= m "`n"
                         P += Strlen(m)
                         moreCount++
@@ -622,7 +621,7 @@ Class vimcore {
                 Return NewKeyList
             }
 
-            GetThisHotkey(G_ThisHotkey="")
+            GetThisHotkey(G_ThisHotkey = "")
             {
                 if Strlen(G_ThisHotkey) = 0
                     G_ThisHotkey := A_ThisHotkey
@@ -732,10 +731,10 @@ GetCommentType(action) {
     else
         return true
 }
-EmptyMem(PID="AHK Rocks")
+EmptyMem(PID = "AHK Rocks")
 {
-    pid:=(pid="AHK Rocks") ? DllCall("GetCurrentProcessId") : pid
-    h:=DllCall("OpenProcess", "UInt", 0x001F0FFF, "Int", 0, "Int", pid)
+    pid := (pid = "AHK Rocks") ? DllCall("GetCurrentProcessId") : pid
+    h := DllCall("OpenProcess", "UInt", 0x001F0FFF, "Int", 0, "Int", pid)
     DllCall("SetProcessWorkingSetSize", "UInt", h, "Int", -1, "Int", -1)
     DllCall("CloseHandle", "Int", h)
 }
