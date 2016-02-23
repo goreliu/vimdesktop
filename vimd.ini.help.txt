@@ -54,9 +54,6 @@ wps=0
 
 ;激活TC命令行
 ;*<ctrl>;=<FocusTCCmd>
-;*<lwin>e=(c:\mine\app\totalcmd\tc.ahk)[=normal]
-;*<lwin>w=(mintty /bin/dash -c "cd;exec zsh")[=normal]
-;*<lwin>u=(c:\mine\app\AutoHotkey\tool\left_up.ahk)[=normal]
 
 ;激活通用快捷键
 *<lwin>t=<GeneralCopy>[=normal]
