@@ -461,7 +461,7 @@ Class vimcore {
                         cnt := 1
                     ;cnt := This.KeyCount ? This.KeyCount : 1
                     if RegExMatch(action, "^<.*>$") {
-                        if IsLabel(action) {
+                        if (action = "<>" or IsLabel(action)) {
                             Loop, %cnt%
                                 GoSub % Action
                         }
@@ -524,7 +524,15 @@ Class vimcore {
                 _SaveList := []
                 for, i, k in This.ResolveHotkey(mKey)
                 {
-                    Hotkey, %k%, <HotkeyLabel>, On, UseErrorLevel
+                    if (label <> "<>")
+                    {
+                        Hotkey, %k%, <HotkeyLabel>, On, UseErrorLevel
+                    }
+                    else
+                    {
+                        Hotkey, %k%, Off, UseErrorLevel
+                    }
+
                     if ErrorLevel
                     {
                         Msgbox 映射错误
