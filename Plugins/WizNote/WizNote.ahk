@@ -44,19 +44,18 @@ WizNote:
     vim.comment("<Wiz_NextNote>", "下一个笔记")
     vim.comment("<Wiz_PrevNote>", "上一个笔记")
     vim.comment("<Wiz_List>", "定位到左侧目录")
-    vim.comment("<Wiz_PrevNote>", "上一个笔记")
-    vim.comment("<Wiz_PrevNote>", "上一个笔记")
 return
 
-; 检查模式, 用于检查焦点Edit1这个控件内激活insert模式, 而不用normal模式
-; 模式检查，此段代码可以直接复制，但请修改ahk_class的值              
-WizNote_CheckMode()
+/*
+; 对指定控件使用insert模式
+WizNoteMainFrame_CheckMode()
 {
     ControlGetFocus, ctrl, AHK_CLASS WizNoteMainFrame
     If RegExMatch(ctrl, "Edit1")
         return true
     return false
 }
+*/
 
 <Normal_Mode_WizNoteMainFrame>:
     vim.mode("normal", "WizNoteMainFrame")
