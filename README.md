@@ -24,4 +24,4 @@
 
 [victorwoo](https://github.com/victorwoo) 的VimDesktop（已经一年多无更新）：[github地址](https://github.com/victorwoo/vimdesktop)
 
-没有基于/参与[linxinhong版本](http://git.oschina.net/linxinhong/VimDesktop)开发的原因，是因为最开始我试用过此版本和linxinhong版本后，感觉此版本的`TotalCommander_Dialog`插件很有用，而并未考虑过修改代码。但使用过程中慢慢发现一些问题，或者有功能缺失，就慢慢改了很多代码。然后发现两个版本的VimDesktop代码差异比较大，难以合并，就继续改这个版本好了。
+没有基于/参与 [linxinhong版本](http://git.oschina.net/linxinhong/VimDesktop) 开发的原因，是因为最开始我试用过此版本和linxinhong版本后，感觉此版本的`TotalCommander_Dialog`插件很有用，而并未考虑过修改代码。但使用过程中慢慢发现一些问题，或者有功能缺失，就慢慢改了很多代码。然后发现两个版本的VimDesktop代码差异比较大，难以合并，就继续改这个版本好了。
