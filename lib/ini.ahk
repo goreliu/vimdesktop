@@ -438,7 +438,7 @@ class INI {
 	}
 }
 
-; GetINIObj(p) {{{1
+; GetINIObj(i) {{{1
 GetINIObj(i){
 	global SaveINIObj
 	p := ConvertPath(i)

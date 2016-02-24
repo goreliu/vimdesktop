@@ -1,7 +1,9 @@
 ﻿TotalCommander:
-    Global tcconfig := GetINIObj(ConfigPath)
-    Global TCPath   := tcconfig.GetValue("TotalCommander_Config","TCPath")
-    Global TCINI    := tcconfig.GetValue("TotalCommander_Config","TCINI")
+    global TCPath
+    global TCINI
+
+    IniRead, TCPath, %ConfigPath%, TotalCommander_Config, TCPath
+    IniRead, TCINI, %ConfigPath%, TotalCommander_Config, TCINI
 
     If !FileExist(TCPath)
     {
@@ -295,8 +297,8 @@ TTOTAL_CMD_CheckMode()
     If RegExMatch(ctrl,TCEdit)
         return True
 
-	Ifinstring,ctrl,%TCListBox%
-		Return False
+    Ifinstring,ctrl,%TCListBox%
+        Return False
     Ifinstring,ctrl,RichEdit20W1
         return False
     Ifinstring,ctrl,%TCListBox% 
@@ -304,16 +306,17 @@ TTOTAL_CMD_CheckMode()
     return True
 }
 */
+
 TC_BeforeActionDo()
 {
-	Global TC_SendPos
-	WinGet, MenuID, ID, AHK_CLASS #32768
-	If MenuID And (TC_SendPos <> 572)
-		return True
-	ControlGetFocus, ctrl, AHK_CLASS TTOTAL_CMD
-	Ifinstring, ctrl, %TCListBox%
-		Return False
-	Return True
+    Global TC_SendPos
+    WinGet, MenuID, ID, AHK_CLASS #32768
+    If MenuID And (TC_SendPos <> 572)
+        return True
+    ControlGetFocus, ctrl, AHK_CLASS TTOTAL_CMD
+    Ifinstring, ctrl, %TCListBox%
+        Return False
+    Return True
 }
 
 <ExcSubOK>:
@@ -400,7 +403,6 @@ AUTHTC()
     {
         RegExMatch(string,"\d",idx)
         ControlClick,TButton%idx%,ahk_class TNASTYNAGSCREEN,,,,NA
-        ;msgbox % idx
         settimer,AUTHTC,off
     }
 }
@@ -415,26 +417,30 @@ azHistory()
     history := ""
     If Mod(LeftRight(),2)
     {
-        If FileExist(f := tcconfig.GetValue("redirect","LeftHistory"))
+        IniRead, f, %ConfigPath%, redirect, LeftHistory
+
+        If FileExist(f)
             IniRead,history,%f%,LeftHistory
         Else
             IniRead,history,%TCINI%,LeftHistory
+
         If RegExMatch(history,"RedirectSection=(.+)",HistoryRedirect)
         { 
             StringReplace,HistoryRedirect1,HistoryRedirect1,`%COMMANDER_PATH`%,%TCPath%\..
-            ;MsgBox,% HistoryRedirect1
             IniRead,history,%HistoryRedirect1%,LeftHistory
         }
     }
     Else
     {
-        If FileExist(f := tcconfig.GetValue("redirect","RightHistory"))
+        IniRead, f, %ConfigPath%, redirect, RightHistory
+        If FileExist(f)
             IniRead,history,%f%,RightHistory
         Else
             IniRead,history,%TCINI%,RightHistory
+
         If RegExMatch(history,"RedirectSection=(.+)",HistoryRedirect)
-        {    StringReplace,HistoryRedirect1,HistoryRedirect1,`%COMMANDER_PATH`%,%TCPath%\..
-            ;MsgBox,% HistoryRedirect1
+        {
+            StringReplace,HistoryRedirect1,HistoryRedirect1,`%COMMANDER_PATH`%,%TCPath%\..
             IniRead,history,%HistoryRedirect1%,RightHistory
         }
     }

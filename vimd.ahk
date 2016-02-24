@@ -50,7 +50,7 @@ CheckPlugin()
     global vim
     dc := GetVimdConfig()
     for plugin, bold in dc.plugins
-        If bold
+        if bold
             vim.LoadPlugin(plugin)
 }
 
@@ -62,14 +62,13 @@ CheckHotKey()
     for i , k in ini.global
     {
         if not strlen(i)
-            Continue
+            continue
         if RegExMatch(k, "\[=[^\[\]]*\]", mode)
         {
             this_mode := Substr(mode, 3, strlen(mode)-3)
             vim.Mode(this_mode)
             this_action := RegExReplace(k, "\[=[^\[\]]*\]")
-            ;vim.map(i, this_action)
-            If RegExMatch(this_action, "^((run)|(key))\|")
+            if RegExMatch(this_action, "^((run)|(key))\|")
             {
                 vim.map(i, "VIMD_CMD")
                 arr_vimd[i] := this_action
@@ -90,8 +89,8 @@ CheckHotKey()
 
     for i , k in ini
     {
-        If RegExMatch(i, "i)(config)|(exclude)|(global)|(plugins)")
-            Continue
+        if RegExMatch(i, "i)(config)|(exclude)|(global)|(plugins)")
+            continue
 
         win := vim.SetWin(i, k.set_class, k.set_file)
         vim.SetTimeOut(k.set_time_out, i)
@@ -100,10 +99,10 @@ CheckHotKey()
         for m , n in k
         {
             if not strlen(m)
-                Continue
+                continue
 
             if RegExMatch(m, "i)(set_class)|(set_file)|(set_time_out)|(set_Max_count)|(set_show_info)")
-                Continue
+                continue
 
             if RegExMatch(n, "\[=[^\[\]]*\]", mode)
             {
@@ -112,7 +111,7 @@ CheckHotKey()
                 this_action := RegExReplace(n, "\[=[^\[\]]*\]")
                 vim.map(m, this_action, i)
             }
-            else If RegExMatch(n, "i)^((run)|(key))\|")
+            else if RegExMatch(n, "i)^((run)|(key))\|")
             {
                 vim.mode("normal", i)
 
@@ -131,11 +130,11 @@ VIMD_CMD()
 {
     global arr_vimd
     obj := GetLastAction()
-    If RegExMatch(arr_vimd[obj.keytemp], "i)^(run)\|", m)
+    if RegExMatch(arr_vimd[obj.keytemp], "i)^(run)\|", m)
     {
-        run, % substr(arr_vimd[obj.keytemp], strlen(m1) + 2)
+        Run, % substr(arr_vimd[obj.keytemp], strlen(m1) + 2)
     }
-    Else If RegExMatch(arr_vimd[obj.keytemp], "i)^(key)\|", m)
+    else if RegExMatch(arr_vimd[obj.keytemp], "i)^(key)\|", m)
     {
         Send, % substr(arr_vimd[obj.keytemp], strlen(m1) + 2)
     }
@@ -148,7 +147,7 @@ Receive_WM_COPYDATA(wParam, lParam)
     StringAddress := NumGet(lParam + 2 * A_PtrSize) 
     ; 从结构中复制字符串.
     AHKReturn := StrGet(StringAddress)
-    If RegExMatch(AHKReturn, "i)reload")
+    if RegExMatch(AHKReturn, "i)reload")
     {
         Settimer, VIMD_Reload, 500
         return true
@@ -165,11 +164,11 @@ RunAsAdmin()
     local params, uacrep
     Loop %0%
         params .= " " (InStr(%A_Index%, " ") ? """" %A_Index% """" : %A_Index%)
-    If(A_IsCompiled)
+    if(A_IsCompiled)
         uacrep := DllCall("shell32\ShellExecute", uint, 0, str, "RunAs", str, A_ScriptFullPath, str, "/r" params, str, A_WorkingDir, int, 1)
     else
         uacrep := DllCall("shell32\ShellExecute", uint, 0, str, "RunAs", str, A_AhkPath, str, "/r """ A_ScriptFullPath """" params, str, A_WorkingDir, int, 1)
-    If(uacrep = 42) ;UAC Prompt confirmed, application may run as admin
+    if(uacrep = 42) ;UAC Prompt confirmed, application may run as admin
         ExitApp
     else
         MsgBox 未能获取管理员权限，这可能导致部分功能无法运行。
