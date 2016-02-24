@@ -739,5 +739,5 @@ return
 
 <RemoveToolTip>:
     SetTimer, <RemoveToolTip>, Off
-	ToolTip
+    ToolTip
 return
