@@ -14,6 +14,8 @@ VimDesktop 1.4.0 (2016-02-??)
     - 添加foobar2000插件。
     - 添加WizNote插件。
     - 增加WinMerge插件。
+    - 添加BeyondCompare4插件。
+    - 添加TCCompare插件。
 
 缺陷修复
 --------
