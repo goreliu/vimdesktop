@@ -48,9 +48,6 @@
 
     vim.map("``", "<foobar2000_ToggleShowInfo>", foobar2000_class)
 
-    ; 不显示帮助信息
-    vim.GetWin(foobar2000_class).SetInfo(0)
-
     vim.BeforeActionDo("ForceNormalMode_foobar2000", foobar2000_class)
 return
 

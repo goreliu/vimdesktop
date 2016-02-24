@@ -818,7 +818,8 @@ Class __win
 		this.MaxCount  := 99
 		this.Count     := 0
 		this.TimeOut   := 0
-		this.Info := True
+		;this.Info := True
+		this.Info := default_set_show_info
 		this.BeforeActionDoFunc := ""
 		this.AfterActionDoFunc   := ""
 		this.ShowInfoFunc := "ShowInfo"

@@ -16,13 +16,16 @@ Menu, Tray, Add, 重启(&R), <Reload>
 Menu, Tray, Add, 退出(&X), <Exit>
 iniWrite, %A_ScriptHwnd%, %A_Temp%\vimd_auto.ini, auto, hwnd
 
-Global ConfigPath := A_ScriptDir "\vimd.ini"
+global ConfigPath := A_ScriptDir "\vimd.ini"
 
 ; 启用vim
 vim := class_vim()
 ini := class_EasyINI(A_ScriptDir "\vimd.ini")
 act := vim.SetAction("VIMD_CMD", "VIMD命令执行")
 act.SetFunction("VIMD_CMD")
+
+global default_set_show_info
+default_set_show_info := ini.config.default_set_show_info
 
 ;vim.Debug(true)
 
