@@ -46,12 +46,14 @@
 return
 
 <Normal_Mode_foobar2000>:
-    global foobar2000_class
+    ToolTip % "进入 normal 模式"
+    SetTimer, <RemoveToolTip>, 600
     vim.mode("normal", foobar2000_class)
 return
 
 <Insert_Mode_foobar2000>:
-    global foobar2000_class
+    ToolTip % "进入 insert 模式"
+    SetTimer, <RemoveToolTip>, 600
     vim.mode("insert", foobar2000_class)
 return
 
