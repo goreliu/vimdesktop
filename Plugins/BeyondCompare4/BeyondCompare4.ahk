@@ -1,4 +1,17 @@
 ﻿BeyondCompare4:
+    ; 定义注释
+    vim.comment("<Normal_Mode_TViewForm>", "进入normal模式")
+    vim.comment("<Insert_Mode_TViewForm>", "进入insert模式")
+    vim.comment("<BeyondCompare4_NextDiffSection>", "下一处不同")
+    vim.comment("<BeyondCompare4_PrevDiffSection>", "上一处不同")
+    vim.comment("<BeyondCompare4_NextDiff>", "下一行不同")
+    vim.comment("<BeyondCompare4_PrevDiff>", "上一行不同")
+    vim.comment("<BeyondCompare4_Home>", "跳转到文件开头")
+    vim.comment("<BeyondCompare4_End>", "跳转到文件结尾")
+    vim.comment("<BeyondCompare4_Search>", "搜索内容")
+    vim.comment("<BeyondCompare4_CopyToLeft>", "复制到左侧")
+    vim.comment("<BeyondCompare4_CopyToRight>", "复制到右侧")
+
     ; insert模式
     vim.mode("insert", "TViewForm")
 
@@ -20,18 +33,6 @@
     vim.map("/", "<BeyondCompare4_Search>", "TViewForm")
     vim.map("h", "<BeyondCompare4_CopyToLeft>", "TViewForm")
     vim.map("l", "<BeyondCompare4_CopyToRight>", "TViewForm")
-
-    ; 定义注释
-    vim.comment("<Normal_Mode_TViewForm>", "进入normal模式")
-    vim.comment("<Insert_Mode_TViewForm>", "进入insert模式")
-    vim.comment("<BeyondCompare4_NextDiffSection>", "下一处不同")
-    vim.comment("<BeyondCompare4_PrevDiffSection>", "上一处不同")
-    vim.comment("<BeyondCompare4_NextDiff>", "下一行不同")
-    vim.comment("<BeyondCompare4_PrevDiff>", "上一行不同")
-    vim.comment("<BeyondCompare4_Home>", "跳转到文件开头")
-    vim.comment("<BeyondCompare4_End>", "跳转到文件结尾")
-    vim.comment("<BeyondCompare4_CopyToLeft>", "复制到左侧")
-    vim.comment("<BeyondCompare4_CopyToRight>", "复制到右侧")
 return
 
 ; 对符合条件的控件使用insert模式，而不是normal模式

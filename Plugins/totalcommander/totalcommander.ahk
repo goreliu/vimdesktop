@@ -43,7 +43,7 @@
 
     
     ;添加将TC作为打开文件对话框的快捷键
-    IniWriteIfNullValue(ConfigPath,"Global","*<ctrl>;","<FocusTCCmd>")
+    ;IniWriteIfNullValue(ConfigPath,"Global","*<ctrl>;","<FocusTCCmd>")
 
     If RegExMatch(TcPath,"i)totalcmd64\.exe$")
     {
@@ -97,6 +97,7 @@
     vim.comment("<Repeat>","重复上次操作")
     vim.comment("<ViewFileUnderCursor>","使用查看器打开光标所在文件(shift+f3)")
     vim.comment("<OpenWithAlternateViewer>","使用外部查看器打开(alt+f3)")
+    GoSub,TCCOMMAND
 
     vim.mode("normal","TQUICKSEARCH")
     vim.map("J","<Down>","TQUICKSEARCH")
@@ -192,7 +193,7 @@
     vim.map(";","<cm_FocusCmdLine>","TTOTAL_CMD")
     vim.map(":","<cm_FocusCmdLine>","TTOTAL_CMD")
     vim.map("~","<cm_SysInfo>","TTOTAL_CMD")
-    vim.map("``","<ToggleShowComment>","TTOTAL_CMD")
+    ;vim.map("``","<ToggleShowComment>","TTOTAL_CMD")
     vim.map("G","<LastLine>","TTOTAL_CMD")
     vim.map("ga","<cm_CloseAllTabs>","TTOTAL_CMD")
     vim.map("gg","<GoToLine>","TTOTAL_CMD")
@@ -252,6 +253,8 @@
     vim.map("zv","<cm_VerticalPanels>","TTOTAL_CMD")
     vim.map("zv","<cm_VerticalPanels>","TTOTAL_CMD")
     vim.map(".","<Repeat>","TTOTAL_CMD")
+
+    vim.BeforeActionDo("TC_BeforeActionDo","TTOTAL_CMD")
     /*
     ;vim.map("zs","<TransParent>","TTOTAL_CMD")
     KeyList := vim.listKey("TTOTAL_CMD")
@@ -264,7 +267,6 @@
     */
     ;; 默认按键完
     ReadNewFile()
-    GoSub,TCCOMMAND
 return
 
 <TC_0>:
@@ -281,22 +283,37 @@ return
 return
 
 ; TTOTAL_CMD_CheckMode()
+/*
 TTOTAL_CMD_CheckMode()
 {
     WinGet,MenuID,ID,AHK_CLASS #32768
     If MenuID
         return True
     ControlGetFocus,ctrl,AHK_CLASS TTOTAL_CMD
-;    If RegExMatch(ctrl,TInEdit)
-;        return True
-;    If RegExMatch(ctrl,TCEdit)
-;        return True
+    If RegExMatch(ctrl,TInEdit)
+        return false
+    If RegExMatch(ctrl,TCEdit)
+        return True
 
+	Ifinstring,ctrl,%TCListBox%
+		Return False
     Ifinstring,ctrl,RichEdit20W1
         return False
     Ifinstring,ctrl,%TCListBox% 
         return False
     return True
+}
+*/
+TC_BeforeActionDo()
+{
+	Global TC_SendPos
+	WinGet, MenuID, ID, AHK_CLASS #32768
+	If MenuID And (TC_SendPos <> 572)
+		return True
+	ControlGetFocus, ctrl, AHK_CLASS TTOTAL_CMD
+	Ifinstring, ctrl, %TCListBox%
+		Return False
+	Return True
 }
 
 <ExcSubOK>:

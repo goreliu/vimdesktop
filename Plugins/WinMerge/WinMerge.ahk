@@ -1,4 +1,19 @@
 ﻿WinMerge:
+    ; 定义注释
+    vim.comment("<Normal_Mode_WinMergeWindowClassW>", "进入normal模式")
+    vim.comment("<Insert_Mode_WinMergeWindowClassW>", "进入insert模式")
+    vim.comment("<WinMerge_NextDiff>", "下一处不同")
+    vim.comment("<WinMerge_PrevDiff>", "上一处不同")
+    vim.comment("<WinMerge_FirstDiff>", "第一处不同")
+    vim.comment("<WinMerge_LastDiff>", "最后一处不同")
+    vim.comment("<WinMerge_Search>", "打开搜索窗口")
+    vim.comment("<WinMerge_CopyToLeft>", "复制到左侧")
+    vim.comment("<WinMerge_CopyToRight>", "复制到右侧")
+    vim.comment("<WinMerge_CopyToLeftAndGoOn>", "复制到左侧并继续")
+    vim.comment("<WinMerge_CopyToRightAndGoOn>", "复制到右侧并继续")
+    vim.comment("<WinMerge_CopyToLeftAll>", "全部复制到左侧")
+    vim.comment("<WinMerge_CopyToRightAll>", "全部复制到右侧")
+
     ; insert模式
     vim.mode("insert", "WinMergeWindowClassW")
 
@@ -23,19 +38,6 @@
     vim.map("<ctrl>h", "<WinMerge_CopyToLeftAll>", "WinMergeWindowClassW")
     vim.map("<ctrl>l", "<WinMerge_CopyToRightAll>", "WinMergeWindowClassW")
 
-    ; 定义注释
-    vim.comment("<Normal_Mode_WinMergeWindowClassW>", "进入normal模式")
-    vim.comment("<Insert_Mode_WinMergeWindowClassW>", "进入insert模式")
-    vim.comment("<WinMerge_NextDiff>", "下一处不同")
-    vim.comment("<WinMerge_PrevDiff>", "上一处不同")
-    vim.comment("<WinMerge_FirstDiff>", "第一处不同")
-    vim.comment("<WinMerge_LastDiff>", "最后一处不同")
-    vim.comment("<WinMerge_CopyToLeft>", "复制到左侧")
-    vim.comment("<WinMerge_CopyToRight>", "复制到右侧")
-    vim.comment("<WinMerge_CopyToLeftAndGoOn>", "复制到左侧并继续")
-    vim.comment("<WinMerge_CopyToRightAndGoOn>", "复制到右侧并继续")
-    vim.comment("<WinMerge_CopyToLeftAll>", "全部复制到左侧")
-    vim.comment("<WinMerge_CopyToRightAll>", "全部复制到右侧")
 return
 
 /*
@@ -45,7 +47,7 @@ WinMergeWindowClassW_CheckMode()
 {
     ControlGetFocus, ctrl, AHK_CLASS WinMergeWindowClassW
     ; msgbox, ctrl
-    if RegExMatch(ctrl, "Edit1")
+    If RegExMatch(ctrl, "Afx")
         return true
     return false
 }

@@ -1,288 +1,211 @@
-﻿; Version 1.0.3
-
-#Persistent, ON
-#SingleInstance, Force
-
-SetWorkingDir, %A_ScriptDir%
-SetControlDelay, -1
-Detecthiddenwindows, on
-Coordmode, Menu, Window
-
-OnMessage(0x4a, "Receive_WM_COPYDATA")
-
-Init()
-
-; Tray Menu {{{1
-Menu, Tray, NoStandard
-Menu, Tray, Add, 显示热键(&Q), GUI_ListHotkey
-Menu, Tray, Default, 显示热键(&Q)
-Menu, Tray, Add
-Menu, Tray, Add, 主页(&M), GUI_GotoWeb
-Menu, Tray, Add, 提交问题(&I), GUI_GotoIssue
-Menu, Tray, Add
-Menu, Tray, Add, 重启(&R), <reload>
-Menu, Tray, Add, 退出(&X), GUI_Exit
-Menu, Tray, Icon, viatc.ico
-;====================================================================
-; Read Config {{{1
-
-FileEncoding, utf-8
-
+﻿#SingleInstance,Force
+CoordMode, Tooltip, Screen
+CoordMode, Mouse, Screen
+Coordmode, Menu,Window
+SetControlDelay,-1
+SetKeyDelay,-1
+Detecthiddenwindows,on
+Menu,Tray,Icon,%A_ScriptDir%\viatc.ico
+Menu,Tray,NoStandard
+Menu,Tray,Add,查看热键(&K),<vc_Keymap>
+Menu,Tray,Add,查看插件(&P),<vc_Plugin>
+Menu,Tray,Add,
+Menu,Tray,Add,重启(&R),<Reload>
+Menu,Tray,Add,退出(&X),<Exit>
+iniWrite,%A_ScriptHwnd%,%A_Temp%\vimd_auto.ini,auto,hwnd
+; 启用vim
+vim := class_vim()
+;vim.SetAction("VIMD_CMD","执行命令")
 Global ConfigPath := A_ScriptDir  "\vimd.ini"
+ini := class_EasyINI(A_ScriptDir "\vimd.ini")
+;vimdrc := yaml(A_ScriptDir "\config.yaml")
+;vimdrc := Class_EasyINI(A_ScriptDir "\.INI")
+;
+act := vim.SetAction("VIMD_CMD","VIMD命令执行")
+act.SetFunction("VIMD_CMD")
+;vim.Debug(true)
+CheckPlugin()
+CheckHotKey()
+; 用于接收来自cehck.ahk的信息
+OnMessage(0x4a, "Receive_WM_COPYDATA")
+return
 
-If Not FileExist(ConfigPath)
-    FileAppend, , %ConfigPath%
-If Not FileExist(A_ScriptDir "\plugins\plugins.ahk")
-    Run %A_ScriptDir%\check.ahk
-
-config := GetINIObj(ConfigPath)
-plog   := GetINIObj(A_ScriptDir "\plugins\plugins.ahk")
-
-Global InvalidMode := config.GetValue("config", "InvalidMode")
-
-;是否显示快捷键注释
-Global ToShowComment := true
-IniRead ToShowComment, %ConfigPath%, Config, ToShowComment, true
-
-sub := plog.GetKeys("ExtensionsTime")
-Loop, Parse, Sub, `n
+GetVimdConfig()
 {
-    If IsLabel(A_LoopField) And Strlen(A_LoopField){
-        Enabled := strlen(config.GetValue("plugins", A_LoopField)) ? config.GetValue("plugins", A_LoopField) : 1
-        if Enabled{
-            GoSub, %A_LoopField%
-        }
-    }
-}
-keylist := config.GetKeys("Global")
-Loop, Parse, keylist, `n
-{
-    If not strlen(A_LoopField)
-        continue
-    value := config.GetValue("Global", Trim(A_LoopField))
-    If RegExMatch(value, "\[=[^\[\]]*\]", mode)Plugins
-        vim.mode(Substr(mode, 3, strlen(mode)-3))
-    If RegExMatch(Trim(A_LoopField), "^\*")
-        vim.smap(SubStr(Trim(A_LoopField), 2), RegExReplace(value, "\[=[^\[\]]*\]"))
-    Else
-        vim.map(Trim(A_LoopField), RegExReplace(value, "\[=[^\[\]]*\]"))
+  ;Global vimdrc
+  ;return vimdrc
+  Global ini
+  return ini
 }
 
-keylist := config.GetKeys("Global_Exclude")
-Loop, Parse, keylist, `n
+SaveVimdConfig()
 {
-    If Strlen(A_LoopField)
-        vim.Exclude(A_LoopField)
-    Else
-        continue
+  Global ini
+  ini.save()
+  ;Global vimdrc
+  ;yaml_Save(vimdrc,A_ScriptDir "\config.yaml")
 }
 
-for class , k in vim.vimWindows
+CheckPlugin()
 {
-    If strlen(config.GetKeyValue(class))
+  global vim
+  dc := GetVimdConfig()
+  for plugin , bold in dc.plugins
+    If bold
+      vim.LoadPlugin(plugin)
+}
+CheckHotKey()
+{
+    global vim, arr_vimd
+    arr_vimd := IsObject(arr_vimd) ? arr_vimd : []
+    ini := GetVimdConfig()
+    for i , k in ini.global
     {
-        keylist := config.GetKeys(class)
-        Loop, Parse, keylist, `n
-        {
-            If not strlen(A_LoopField)
-                continue
-            value := config.GetValue(class, Trim(A_LoopField))
-            If RegExMatch(value, "\[=[^\[\]]*\]", mode)
-                vim.mode(Substr(mode, 3, strlen(mode)-3))
-            If RegExMatch(Trim(A_LoopField), "^\*")
-                vim.smap(SubStr(Trim(A_LoopField), 2), RegExReplace(value, "\[=[^\[\]]*\]"), class)
-            Else
-                vim.map(Trim(A_LoopField), RegExReplace(value, "\[=[^\[\]]*\]"), class)
-        }
-    }
-}
-
-
-;检查是否触发了重启操作
-IniRead, trigger, %ConfigPath%, Config, Reload.Trigger, null
-if trigger <> null
-{
-    ;感觉这个提示没有用，调试时很麻烦，先去掉
-    ;MsgBox, , 提示 -- 两秒后自动关闭.., %trigger%, 2
-
-    IniDelete, %ConfigPath%, Config, Reload.Trigger
-}
-
-WatchDirectory(A_ScriptDir , 1)
-autoload := strlen(config.GetValue("config", "autoload")) ? config.GetValue("config", "autoload") : 1
-If autoload
-    SetTimer, WatchPlugins, 1000
-EmptyMem()
-return
-
-;====================================================================
-WatchPlugins:
-    WatchDirectory("PluginsChange")
-return
-PluginsChange(a, f, i){
-    IniWrite, 插件或配置的变更已被成功应用！, %ConfigPath%, Config, Reload.Trigger
-    Run %A_ScriptDir%\check.ahk
-    ;SetTimer, WatchPlugins, off
-    ExitApp
-}
-; GUI {{{1
-; GUI_Config() {{{2
-<Config>:
-    GUI_Config()
-return
-GUI_Config() {
-    GUI, Config:Destroy
-    GUI, Config:Font, s9 , Microsoft YaHei
-    Gui, Config:+Delimiter`n +hwndconfig +LastFound +Resize
-    GUI, Config:Add, ListBox, w200 h200
-    GUI, Config:Show
-    WinMove, ahk_id %config%, , , , 626, 500
-}
-
-; GUI_ListHotkey() {{{2
-GUI_ListHotkey() {
-    win := "全局" "`n"
-    For i , k in vim.vimWindows
-        win .= i "`n"
-    ;GUI, ListHotkey:Add, Edit
-    GUI, ListHotkey:Destroy
-    GUI, ListHotkey:Font, s9 , Microsoft YaHei
-    Gui, ListHotkey:+Delimiter`n +hwndlhk +LastFound +Resize
-    GUI, ListHotkey:Add, Text, x7 y8, 窗口:
-    GUI, ListHotkey:Add, DropDownList, x45 y5 w560 choose1 gGUI_ListHotKey_Win, %win%
-    GUI, ListHotkey:Add, Text, x7 y38, 模式:
-    GUI, ListHotKey:Add, DropDownList, x45 y35 w560 choose1 gGUI_ListHotKey_Mode
-    GUI, ListHotKey:Add, ListView, x5 w600 h400 , 热键`n动作`n说明
-    GUI, ListHotkey:Default
-    LV_ModifyCol(1, "100")
-    LV_ModifyCol(2, "200")
-    LV_ModifyCol(3, "300")
-    GUI, ListHOtkey:Show
-    WinMove, ahk_id %lhk%, , , , 626
-    GoSub, GUI_ListHotkey_Win
-}
-
-GUI_ListHotkey_Win:
-    GUI_ListHotkey_Win()
-return
-; GUI_ListHotkey_Win() {{{2
-GUI_ListHotkey_Win() {
-    GUI, ListHotkey:Default
-    GUIControlGet, win, , ComboBox1
-    win := win = 全局 ? "" : win
-    m := vim.ListKey(win)
-    mode := "`n"
-    Loop, Parse, m, `n
-    {
-        If IsMode
-            mode .= A_LoopField "`n"
-        If A_LoopField = ====
-            IsMode := True
-        ELse
-            IsMode := False
-    }
-    GUIControl, , ComboBox2, %mode%
-    GUIControl, Choose, ComboBox2, 1
-    GoSub, GUI_ListHotkey_Mode
-}
-GUI_ListHotkey_Mode:
-    GUI_ListHotkey_Mode()
-return
-; GUI_ListHotkey_Mode() {{{2
-GUI_ListHotkey_Mode() {
-    GUI, ListHOtkey:Default
-    GUIControlGet, win, , ComboBox1
-    GUIControlGet, Mode, , ComboBox2
-    m := vim.ListKey(win, Mode)
-    m0 := 1
-    LV_Delete()
-    Loop, Parse, m, `n
-    {
-        If Strlen(A_LoopField) = 0
+        if not strlen(i)
             Continue
-        m1 := ""
-        m2 := ""
-        Loop, Parse, A_LoopField, %A_Space%
+        if RegExMatch(k,"\[=[^\[\]]*\]",mode)
         {
-            If Strlen(m1)
-                m2 := A_LoopField
-            Else
-                m1 := A_LoopField
+            this_mode := Substr(mode,3,strlen(mode)-3)
+						vim.Mode(this_mode)
+            this_action := RegExReplace(k,"\[=[^\[\]]*\]")
+            ;vim.map(i, this_action)
+            If RegExMatch(this_action,"^((run)|(key))\|")
+            {
+                vim.map(i,"VIMD_CMD")
+                arr_vimd[i] := this_action
+            }
+            else
+            {
+                vim.map(i, this_action)
+            }
+
         }
-        m3 := vim.CommentList[m2]
-        If LV_Add("", m1, m2, m3)
-            m0 := m0 + 1
     }
-}
-; GUISize(w, p){{{2
-GUISize(w, p){
-    GUI, ListHotkey:+hwndlhk 
-    IfWinActive ahk_id %lhk%
+    for i , k in ini.exclude
     {
-        Anchor("combobox1", "w")
-        Anchor("combobox2", "w")
-        Anchor("SysListView321", "wh")
-        GUI, ListHotkey:Default
-        GUI, ListView, SysListView321
-        ControlGetPos , , , w, , SysListView321, ahk_id %lhk%
-        LV_ModifyCol(3, w-221)
+        vim.Setwin(i,i)
+        vim.excludeWin(i,True)
+    }
+    for i , k in ini
+    {
+        If RegExMatch(i, "i)(config)|(exclude)|(global)|(plugins)")
+            Continue
+        win := vim.SetWin(i, k.set_class, k.set_file)
+        vim.SetTimeOut(k.set_time_out, i)
+        vim.SetMaxCount(k.set_Max_count, i)
+        win.SetInfo(k.set_show_info)
+        for m , n in k
+        {
+						if not strlen(m)
+								Continue
+            if RegExMatch(m, "i)(set_class)|(set_file)|(set_time_out)|(set_Max_count)|(set_show_info)")
+								Continue
+						if RegExMatch(n,"\[=[^\[\]]*\]",mode)
+						{
+								this_mode := Substr(mode,3,strlen(mode)-3)
+								vim.mode(this_mode, i)
+								this_action := RegExReplace(n,"\[=[^\[\]]*\]")
+								vim.map(m, this_action, i)
+						}
+            else If RegExMatch(n,"i)^((run)|(key))\|")
+            {
+								vim.mode("normal", i)
+                                    /*
+                                    <c-j> 记事本 run|notepad.exe
+                                    */
+
+                vim.map(m,"VIMD_CMD",i)
+                arr_vimd[m] := n
+            }
+        }
     }
 }
+/*
+  global vim,arr_vimd
+  arr_vimd := IsObject(arr_vimd) ? arr_vimd : []
+  dc := GetVimdConfig()
+  for win , winobj in dc.keymap
+  {
+    If IsObject(winObj)
+    {
+      If win = global
+        win := ""
+      Else
+      {
+        set := winObj.set
+        w := vim.SetWin(win, set.class, set.filepath, set.title)
+        vim.SetMaxCount(set.maxcount, win)
+        vim.SetTimeOut(set.TimeOut, win)
+        w.SetInfo(set.Info)
+      }
+      for mode , keyobj in winObj
+      {
+        if mode = set
+          Continue
+        vim.SetMode(mode,win)
+        for key, action in keyObj
+        {
+          If RegExMatch(action,"i)^((run)|(key))\|")
+          {
+            vim.Map(key,"VIMD_CMD",win)
+            arr_vimd[key] := action
+          }
+          Else
+            vim.Map(key,action,win)
+        }
+      }
+    }
+  }
+}
+*/
 
-GUI_ListHotkey:
-    GUI_ListHotkey()
-return
 
-GUI_Listline:
-    Listlines
-return
-
-<reload>:
-    IniWrite, VimDesktop 重启完成！, %ConfigPath%, Config, Reload.Trigger
-    Reload
-return
-
-GUI_Exit:
-    ExitApp
-return
-
-GUI_GotoWeb:
-    run "https://github.com/victorwoo/vimdesktop"
-return
-
-GUI_GotoIssue:
-    run "https://github.com/victorwoo/vimdesktop/issues"
-return
-
-GUI_VIMINFO:
-    GUI_VIMINFO()
-return
-GUI_VIMINFO()
+VIMD_CMD()
 {
-    GUI, Query:Default
-    GUIControlGet, Key, , Edit1
-    GUIControlGet, Win, , Static1
-    w := vim.Vaild(win)
-    mode := w.GetMode()
-    If Strlen(Key)
-    {
-        Msgbox % win Key
-    }
-    Else
-        GUI, Query:Destroy
+  global arr_vimd
+  obj := GetLastAction()
+  If RegExMatch(arr_vimd[obj.keytemp],"i)^(run)\|",m)
+  {
+    run,% substr(arr_vimd[obj.keytemp],strlen(m1)+2)
+  }
+  If RegExMatch(arr_vimd[obj.keytemp],"i)^(key)\|",m)
+  {
+    Send,% substr(arr_vimd[obj.keytemp],strlen(m1)+2)
+  }
 }
+
 ; Receive_WM_COPYDATA(wParam, lParam) {{{2
 Receive_WM_COPYDATA(wParam, lParam){
     StringAddress := NumGet(lParam + 2*A_PtrSize)  ; 获取 CopyDataStruct 的 lpData 成员.
     AHKReturn := StrGet(StringAddress)  ; 从结构中复制字符串.
-    If RegExMatch(AHKReturn, "i)exitapp")
-        ExitApp
+	If RegExMatch(AHKReturn,"i)reload")
+  {
+		Settimer,VIMD_Reload,500
     return true
+  }
+}
+VIMD_Reload:
+  Reload
+return
+
+RunAsAdmin()
+{
+    local params, uacrep
+    Loop %0%
+        params .= " " (InStr(%A_Index%, " ") ? """" %A_Index% """" : %A_Index%)
+    If(A_IsCompiled)
+        uacrep := DllCall("shell32\ShellExecute", uint, 0, str, "RunAs", str, A_ScriptFullPath, str, "/r" params, str, A_WorkingDir, int, 1)
+    else
+        uacrep := DllCall("shell32\ShellExecute", uint, 0, str, "RunAs", str, A_AhkPath, str, "/r """ A_ScriptFullPath """" params, str, A_WorkingDir, int, 1)
+    If(uacrep = 42) ;UAC Prompt confirmed, application may run as admin
+        ExitApp
+    else
+        MsgBox 未能获取管理员权限，这可能导致部分功能无法运行。
 }
 
-#Include %A_ScriptDir%\lib\vimcore.ahk
-#Include %A_ScriptDir%\lib\anchor.ahk
-#Include %A_ScriptDir%\lib\ini.ahk
-#Include %A_ScriptDir%\lib\watchdir.ahk
-#Include *i %A_ScriptDir%\lib\InputColor.ahk
-#Include *i %A_ScriptDir%\plugins\plugins.ahk
+#Include %A_ScriptDir%\lib\class_EasyINI.ahk
+#Include %A_ScriptDir%\lib\class_vim.ahk
+#Include %A_ScriptDir%\lib\acc.ahk
+#Include %A_ScriptDir%\Lib\ini.ahk
+#Include %A_ScriptDir%\lib\gdip.ahk
+#Include %A_ScriptDir%\Lib\VIMD_plugins.ahk

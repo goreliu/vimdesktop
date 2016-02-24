@@ -1,0 +1,968 @@
+﻿<!doctype html public '-//W3C//DTD HTML 4.0 Transitional //EN'>
+<html>
+<head>
+<title>api</title>
+<meta charset='UTF-8' />
+<meta name='generator' content='EverEdit' />
+<link href='E:\Program Files\EverEdit\mode\markdown\default.css' rel='stylesheet'></link>
+<link href='E:\Program Files\EverEdit\mode\markdown\prettify.css' rel='stylesheet'></link>
+<script type='text/javascript' src='E:\Program Files\EverEdit\mode\markdown\prettify.js'></script>
+<script type='text/javascript' src='E:\Program Files\EverEdit\mode\markdown\jquery-1.10.2.min.js'></script>
+<script type='text/javascript' src='E:\Program Files\EverEdit\mode\markdown\toc.js'></script>
+</head>
+<body>
+<div id='generated-toc'></div>
+<h3>API 列表</h3>
+
+<hr />
+
+<h3>Class __vim</h3>
+
+<p>__vim 是vimd中的顶级对象。vimd 具有以下属性</p>
+
+<table>
+<thead>
+<tr>
+  <th>属性</th>
+  <th>说明</th>
+</tr>
+</thead>
+<tr>
+  <td>pluginList</td>
+  <td>存放插件（plugin）对象，如 vim.pluginList[&#8221;totalcmd&#8221;]返回 &#8220;totalcmd&#8221; 的插件对象， 具体的plugin 对象请看 class __plugin部分。</td>
+</tr>
+<tr>
+  <td>winList</td>
+  <td>存放窗口（win）对象，如 vim.winList[&#8221;TC&#8221;]返回&#8221;TC&#8221;的窗口对象，具体的 win 对象请看 class __win 部分。</td>
+</tr>
+<tr>
+  <td>winInfo</td>
+  <td>存放当前窗口(win)对象相关的说明信息， <em>SetWin()</em> 函数会将数据保存这个属性中。通常不需要用到这个对象，只有 <em>CheckWin()</em> 需要用到这个属性</td>
+</tr>
+<tr>
+  <td>ActionList</td>
+  <td>存放动作（Action)对象，如 vim.ActionList[&#8221;&#8221;]会返回&#8221;&#8221;的动作对象，具对的Action对象请看 class __Action 部分。</td>
+</tr>
+<tr>
+  <td>ActionFromPlugin</td>
+  <td>声明某个动作（Action）是由哪个插件定义的。如 vim.ActionList[&#8221;&#8221;] 返回 &#8220;Genernal&#8221;。</td>
+</tr>
+<tr>
+  <td>ExcludeWinList</td>
+  <td>存放所有排除的窗口（win）对象。其它与WinList类似。</td>
+</tr>
+<tr>
+  <td>winGlobal</td>
+  <td>全局窗口（win）对象，此对象管理全局下的模式与热键。优先级低于其它窗口对象。</td>
+</tr>
+<tr>
+  <td>LastFoundWin</td>
+  <td>保存vimd最后获取到的窗口对象名</td>
+</tr>
+<tr>
+  <td>ErrorCode</td>
+  <td>预留用于错误提示代码值，暂没有设置功能</td>
+</tr>
+</table>
+
+
+<h4>LoadPlugin(PluginName)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：加载插件，vimd保存相应的Plugin对象，然后转到(GoSub)PluginName对应的Label。</p>
+  
+  <p><strong>参数</strong>：PluginName -> 插件名称。</p>
+  
+  <p><strong>返回值</strong>：无返回内容，如果出错，会有Msgbox提示</p>
+</blockquote>
+
+<h4>SetPlugin(PluginName,Author=&#8221;&#8221;,Ver=&#8221;&#8221;,Comment=&#8221;&#8221;)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：设置插件信息，声明作者、版本号、插件说明等。</p>
+  
+  <p><strong>参数</strong>：
+  * PluginName: 插件名称。
+  * Author: 插件作者名，默认为空。
+  * Ver: 版本号，默认为空。
+  * Comment: 插件说明，默认为空。</p>
+  
+  <p><strong>返回值</strong>：无返回内容。</p>
+</blockquote>
+
+<h4>GetPlugin(PluginName)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：获取插件PluginName对应的插件对象。</p>
+  
+  <p><strong>参数</strong>：PluginName -> 插件名称</p>
+  
+  <p><strong>返回值</strong>：返回插件（plugin）对象。</p>
+</blockquote>
+
+<h4>Comment(action,desc=“”,complex=True)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：新建并声明动作（Action）对象，兼容vimcore.ahk，与SetAction功能一致。</p>
+  
+  <p><strong>参数</strong>：
+    * action：动作名称。
+    * desc：动作的描述，默认为空。
+    * complex：是否允许此动作多次运行，默认允许。</p>
+  
+  <p><strong>返回值</strong>：返回动作(action)对象。</p>
+</blockquote>
+
+<h4>SetAction(Name,Comment=“”)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：新建并声明动作（Action）对象。</p>
+  
+  <p><strong>参数</strong>：
+    * Name：动作名称。
+    * Comment：动作的描述，默认为空。</p>
+  
+  <p><strong>返回值</strong>：返回动作(action)对象。</p>
+</blockquote>
+
+<h4>GetAction(Name)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：获取名为Name的动作（Action）对象。</p>
+  
+  <p><strong>参数</strong>：Name -> 动作名称。</p>
+  
+  <p><strong>返回值</strong>：返回动作(action)对象。</p>
+</blockquote>
+
+<h4>SetWin(winName,class,filepath=“”,title=“”)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：新建并声明窗口（win）对象。</p>
+  
+  <p><strong>参数</strong>：
+    * winName：窗口对象名称。
+    * class：程序的<a href="http://ahkcn.github.io/docs/misc/WinTitle.htm#ahk_class">ahk_class</a>值。
+    * filepath：程序的文件名（<a href="http://ahkcn.github.io/docs/misc/WinTitle.htm#ahk_exe">ahk_exe</a>）。如“notepad.exe”
+    * title：程序的标题。</p>
+  
+  <p><strong>返回值</strong>：返回新建的窗口（win）对象。</p>
+</blockquote>
+
+<h4>GetWin(winName=“”)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：获取winName对应的窗口(win)对象。</p>
+  
+  <p><strong>参数</strong>：winName -> 窗口名称，默认为空值。</p>
+  
+  <p><strong>返回值</strong>：返回窗口（win）对象。如winName为空值时，返回全局的窗口（win）对象。</p>
+</blockquote>
+
+<h4>CheckWin()</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：检查当前窗口是否vimd已定义的窗口（win）对象。如果已经定义，返回窗口名称。</p>
+  
+  <p><strong>参数</strong>：空。</p>
+  
+  <p><strong>返回值</strong>：如有定义返回窗口名称，否则返回空值。</p>
+</blockquote>
+
+<h4>Mode(mode,win=&#8221;&#8221;)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：设置win对应的模式(mode)。兼容vimcore.ahk，与SetMode功能一致。</p>
+  
+  <p><strong>参数</strong>：
+    * mode：模式名称。
+    * win：模式所属的窗口对象名。默认空值，设置全局窗口对象。</p>
+  
+  <p><strong>返回值</strong>：返回模式（mode）对象。</p>
+</blockquote>
+
+<h4>SetMode(modeName,winName=“”)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：设置winName窗口对象下的模式(mode)。</p>
+  
+  <p><strong>参数</strong>：
+    * modeName：模式名称。
+    * winName：模式所属的窗口对象名。默认空值，设置全局窗口对象。</p>
+  
+  <p><strong>返回值</strong>：返回模式（mode）对象。</p>
+</blockquote>
+
+<h4>SetModeFunction(func,modeName,winName=“”)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：设置模式切换是执行的函数。</p>
+  
+  <p><strong>参数</strong>：
+    * func：函数名
+    * modeName：切换模式名。
+    * winName：窗口对象名。</p>
+  
+  <p><strong>返回值</strong>：无。</p>
+</blockquote>
+
+<h4>GetMode(winName)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：获取winName窗口对象的当前模式。</p>
+  
+  <p><strong>参数</strong>：winName -> 模式所属的窗口对象名。默认空值，设置全局窗口对象。</p>
+  
+  <p><strong>返回值</strong>：返回模式（mode）对象。</p>
+</blockquote>
+
+<h4>BeforeActionDo(Function,winName=&#8221;&#8221;)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：设置winName窗口对象的BeforeActionDo功能。BeforeActionDo会在热键按下后，Action执行之前判断。如果Function对应的函数返回True，则直接按热键本身输出，不进行其它判断。配合模式使用可以满足特殊情况下按普通按键输出的需求。</p>
+  
+  <p><strong>参数</strong>：
+    * Function：自定义的函数名称。
+    * winName：窗口对象名。默认为空，操作全局对象。</p>
+  
+  <p><strong>返回值</strong>：无。</p>
+</blockquote>
+
+<h4>AfterActionDo(Function,winName=&#8221;&#8221;)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：设置winName窗口对象后AfterActionDo功能。AfterActionDo在Action执行之后开始进行判断。如Function对应的函数返回True，则直接按热键本身输出。适合执行Action后还需要执行其它功能判断的需求。</p>
+  
+  <p><strong>参数</strong>：
+    * Function：自定义的函数名称。
+    * winName：窗口对象名。默认为空，操作全局对象。</p>
+  
+  <p><strong>返回值</strong>：无。</p>
+</blockquote>
+
+<h4>SetMaxCount(Int,winName=&#8221;&#8221;)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：设置winName窗口对象中Action可重复执行的最大次数。避免Action执行次数过多造成的错误。</p>
+  
+  <p><strong>参数</strong>：
+    * Int：最大执行次数。
+    * winName：窗口对象名。默认为空，操作全局对象。</p>
+  
+  <p><strong>返回值</strong>：无。</p>
+</blockquote>
+
+<h4>GetMaxCount(winName=&#8221;&#8221;)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：获取winName窗口对象中Action可重复执行的最大次数。</p>
+  
+  <p><strong>参数</strong>：winName -> 窗口名称。默认为空，操作全局对象。</p>
+  
+  <p><strong>返回值</strong>：可最大运行次数。</p>
+</blockquote>
+
+<h4>SetCount(int,winName=&#8221;&#8221;)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：设置winName窗口对象的次数，如&#8221;10j&#8221;，设置执行次数为10。</p>
+  
+  <p><strong>参数</strong>：
+    * int：执行次数。
+    * winName：窗口对象名。默认为空，操作全局对象。</p>
+  
+  <p><strong>返回值</strong>：无。</p>
+</blockquote>
+
+<h4>GetCount(winName=&#8221;&#8221;)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：获取winName窗口对象的执行次数。（非最大值）</p>
+  
+  <p><strong>参数</strong>：winName -> 窗口名称。默认为空，操作全局对象。</p>
+  
+  <p><strong>返回值</strong>：返回当前的执行次数。 如&#8221;10j&#8221;，返回10</p>
+</blockquote>
+
+<h4>SetTimeOut(Int,winName=&#8221;&#8221;)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：设置超时时间。</p>
+  
+  <p><strong>参数</strong>：
+    * Int：超时时间，单位毫秒。
+    * winName：窗口对象名。默认为空，操作全局对象。</p>
+  
+  <p><strong>返回值</strong>：无。</p>
+</blockquote>
+
+<h4>GetTimeOut(winName=&#8221;&#8221;)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：获取超时时间。</p>
+  
+  <p><strong>参数</strong>：winName -> 窗口名称。默认为空，操作全局对象。</p>
+  
+  <p><strong>返回值</strong>：超时时间值。</p>
+</blockquote>
+
+<h4>Map(keyName,Action,winName=&#8221;&#8221;)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：映射热键。映射的窗口由winName决定，模式由SetMode()/Mode()决定。</p>
+  
+  <p><strong>参数</strong>：
+    * KeyName：<a href="">热键</a>名称。
+    * Action：动作名称。
+    * winName：窗口对象名。默认为空，操作全局对象。</p>
+  
+  <p><strong>返回值</strong>：无。</p>
+</blockquote>
+
+<h4>ExcludeWin(winName=&#8221;&#8221;,Bold=True)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：排除窗口，让vimd在窗口中无效化。</p>
+  
+  <p><strong>参数</strong>：
+    * winName：窗口对象名。如果为空则操作全局对象。
+    * Bold: 如为True排除，否则排除无效。</p>
+  
+  <p><strong>返回值</strong>：无。</p>
+</blockquote>
+
+<h4>Toggle(winName=&#8221;&#8221;)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：启用/禁用winName窗口下的vimd效果。此函数与Control不同，此函数切换相反状态。</p>
+  
+  <p><strong>参数</strong>：winName -> 窗口名称。默认为空，操作全局对象。</p>
+  
+  <p><strong>返回值</strong>：无。</p>
+</blockquote>
+
+<h4>Control(bold,winName=&#8221;&#8221;)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：启用/禁用winName窗口下的vimd效果。如 vim.Control(false,&#8221;TC&#8221;)</p>
+  
+  <p><strong>参数</strong>：
+    * Bold：True为启用，False为禁用。
+    * winName：窗口名称。默认为空，操作全局对象。</p>
+  
+  <p><strong>返回值</strong>：无。</p>
+</blockquote>
+
+<h4>Copy(winName1,winName2,class,filepath=&#8221;&#8221;,title=&#8221;&#8221;)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：复制winName的模式、热键定义给winName2，winName2按Class/filepath/title声明。</p>
+  
+  <p><strong>参数</strong>：
+    * winName1：被复制的winName1窗口对象。
+    * winName2：复制到winName2名称。
+    * class：程序的ahk_class值。
+    * filepath：程序的文件名。如“notepad.exe”
+    * title：程序的标题。</p>
+  
+  <p><strong>返回值</strong>：winName2窗口对象。</p>
+</blockquote>
+
+<h4>CopyMode(winName,fromMode,toMode)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：在winName模式中，将fromMode模式所有热键定义复制到toMode模式中。</p>
+  
+  <p><strong>参数</strong>：
+    * winName：窗口对象名称。
+    * fromMode：被复制的模式对象。
+    * toMode：复制到ToMode对象。</p>
+  
+  <p><strong>返回值</strong>：toMode模式对象。</p>
+</blockquote>
+
+<h4>Delete(winName=&#8221;&#8221;)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：删除winName窗口定义，并删除所有热键功能。</p>
+  
+  <p><strong>参数</strong>：winName -> 窗口对象名称。</p>
+  
+  <p><strong>返回值</strong>：无。</p>
+</blockquote>
+
+<h4>GetMore()</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：获取所有满足当前热键缓存（winObj.KeyTemp）的动作（Action）列表。</p>
+  
+  <p><strong>返回值</strong>：获取到的Action列表或空值。</p>
+</blockquote>
+
+<h4>Clear(winName=&#8221;&#8221;)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：清空winName窗口对象中的热键缓存（winObj.KeyTemp）和执行次数（winObj.count）。</p>
+  
+  <p><strong>参数</strong>：winName -> 窗口对象名称。</p>
+  
+  <p><strong>返回值</strong>：无。</p>
+</blockquote>
+
+<h4>Key()</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：（内部函数）执行热键判断，包括所属的窗口、所属的模式，执行什么操作等。</p>
+  
+  <p><strong>返回值</strong>：无。</p>
+</blockquote>
+
+<h4>IsTimeOut()</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：（内部函数）判断热键缓存是否超时，如超时，则动作列表，执行当前热键缓存所对应的ActionList</p>
+  
+  <p><strong>返回值</strong>：无。</p>
+</blockquote>
+
+<h4>Debug(Bold)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：启用/禁用vimd调试界面和相应的功能。</p>
+  
+  <p><strong>参数</strong>：Bold -> True或False，默认不启用。</p>
+  
+  <p><strong>返回值</strong>：无。</p>
+</blockquote>
+
+<h4>Convert2VIM(key)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：把ahk热键名转换为vimd热键定义。</p>
+  
+  <p><strong>参数</strong>：Key -> <a href="http://ahkcn.github.io/docs/KeyList.htm">ahk热键名</a>，如”ctrl &amp; j“、“f1”</p>
+  
+  <p><strong>返回值</strong>：vimd热键定义。如 ”<c-j>“、“<f1>”</p>
+</blockquote>
+
+<h4>Convert2AHK(key,ToSend=False)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：把vimd热键定义转换为ahk热键名</p>
+  
+  <p><strong>参数</strong>：
+    Key：vimd热键定义，如 ”<c-j>“、“<f1>”
+    ToSend：转换的AHK热键名类型。默认False，返回的<a href="http://ahkcn.github.io/docs/KeyList.htm">类型</a>是”ctrl &amp; j“、“f1”。如为True，返回的类型是^j、{f1}等适合<a href="http://ahkcn.github.io/docs/commands/Send.htm">Send</a>的形式。</p>
+  
+  <p><strong>返回值</strong>：ahk热键名</p>
+</blockquote>
+
+<h4>CheckCapsLock(key)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：检测CapsLock键是否按下，并返回对应的大小写值。</p>
+  
+  <p><strong>参数</strong>：key -> vimd热键定义，如 CheckCapsLock(&#8221;<S-A>&#8221;)</p>
+  
+  <p><strong>返回值</strong>：判断大小写后的vimd热键。</p>
+</blockquote>
+
+<hr />
+
+<h3>Class __win</h3>
+
+<p>__win 窗口对象。在vimd中，每个程序都对应窗口对象。只有当前程序是在vimd中定义过的窗口对象，vimd才会执行模式及热键判断。</p>
+
+<table>
+<thead>
+<tr>
+  <th>属性</th>
+  <th>说明</th>
+</tr>
+</thead>
+<tr>
+  <td>class</td>
+  <td>程序的<a href="http://ahkcn.github.io/docs/misc/WinTitle.htm#ahk_class">ahk_class</a>，如ahk_class TTOTAL_CMD。</td>
+</tr>
+<tr>
+  <td>filepath</td>
+  <td>程序的文件名<a href="http://ahkcn.github.io/docs/misc/WinTitle.htm#ahk_exe">ahk_exe</a>如&#8221;Notepad.exe&#8221;。</td>
+</tr>
+<tr>
+  <td>title</td>
+  <td>程序的窗口标题名。</td>
+</tr>
+<tr>
+  <td>KeyList</td>
+  <td>当前窗口对象所有可用的热键列表。如winObj.KeyList[&#8221;j&#8221;] := True，主要用于vim.control()中。</td>
+</tr>
+<tr>
+  <td>SuperKeyList</td>
+  <td>当前窗口对象中的超级热键列表。如winObj.SuperKeyList[&#8221;ctrl &amp; k&#8221;] := True，此列表中的热键不受vim.control()/Toggle()的影响。但受vim.Delete()的控制。</td>
+</tr>
+<tr>
+  <td>modeList</td>
+  <td>模式列表，存放所有可用的模式，如winObj.modeList[&#8221;normal&#8221;]。</td>
+</tr>
+<tr>
+  <td>Status</td>
+  <td>保存窗口热键可用的状态。True时说明热键是可用的。False时说明热键不可用。</td>
+</tr>
+<tr>
+  <td>mode</td>
+  <td>当前窗口保存的模式名。</td>
+</tr>
+<tr>
+  <td>LastKey</td>
+  <td>当前窗口对象按下的最后一个热键。</td>
+</tr>
+<tr>
+  <td>KeyTemp</td>
+  <td>保存当前窗口的热键缓存列表。</td>
+</tr>
+<tr>
+  <td>MaxCount</td>
+  <td>当前窗口对象允许的动作最大执行次数。</td>
+</tr>
+<tr>
+  <td>Count</td>
+  <td>当前窗口对象执行的次数，如&#8221;10j&#8221;</td>
+</tr>
+<tr>
+  <td>TimeOut</td>
+  <td>当前窗口对象的超时时间</td>
+</tr>
+<tr>
+  <td>Info</td>
+  <td>窗口对象是否出现提示热键信息，默认为True</td>
+</tr>
+<tr>
+  <td>BeforeActionDoFunc</td>
+  <td>保存窗口对象在执行动作前的函数名</td>
+</tr>
+<tr>
+  <td>AfterActionDoFunc</td>
+  <td>保存窗口对象在执行动作后的函数名</td>
+</tr>
+<tr>
+  <td>ShowInfoFunc</td>
+  <td>（内部函数）显示提示热键信息的函数。默认为showInfo()</td>
+</tr>
+<tr>
+  <td>HideInfoFunc</td>
+  <td>（内部函数）隐藏提示热键信息的函数。默认为hideInfo()</td>
+</tr>
+</table>
+
+
+<h4>ChangeMode(modeName)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：改变当前窗口对象的模式，此函数为内部函数。如需要切换模式，请用回vim.SetMode()</p>
+  
+  <p><strong>参数</strong>：ModeName -> 模式名称。</p>
+  
+  <p><strong>返回值</strong>：返回切换的模式对象。</p>
+</blockquote>
+
+<h4>ExistMode()</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：返回当前窗口的模式对象。与ChangeMode不同的是，此函数不切换模式。</p>
+  
+  <p><strong>返回值</strong>：返回当前模式对象。</p>
+</blockquote>
+
+<h4>SetInfo(Bold)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：设置是否显示提示热键信息，为True时，会根据情况执行win.ShowInfoFunct和win.HideInfoFunc两个函数。</p>
+  
+  <p><strong>参数</strong>：Bold -> 正确/错误。</p>
+  
+  <p><strong>返回值</strong>：无。</p>
+</blockquote>
+
+<h4>SetShowInfo(func)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：（内部函数）设置显示提示热键信息的函数名。</p>
+  
+  <p><strong>参数</strong>：func -> 函数名称。</p>
+  
+  <p><strong>返回值</strong>：无</p>
+</blockquote>
+
+<h4>SetHideInfo(func)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：（内部函数）设置隐藏提示热键信息的函数名。</p>
+  
+  <p><strong>参数</strong>：func -> 函数名称。</p>
+  
+  <p><strong>返回值</strong>：无</p>
+</blockquote>
+
+<h4>ShowMore()</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：（内部函数）显示提示热键信息。</p>
+  
+  <p><strong>返回值</strong>：无。</p>
+</blockquote>
+
+<h4>HideMore()</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：（内部函数）隐藏提示热键信息。</p>
+  
+  <p><strong>返回值</strong>：无。</p>
+</blockquote>
+
+<hr />
+
+<h3>Class __Mode</h3>
+
+<p>每个窗口对象中有多个模式，模式对象主要用于判断热键执行什么动作。</p>
+
+<table>
+<thead>
+<tr>
+  <th>属性</th>
+  <th>说明</th>
+</tr>
+</thead>
+<tr>
+  <td>name</td>
+  <td>模式名称。</td>
+</tr>
+<tr>
+  <td>keymapList</td>
+  <td>映射热键列表。</td>
+</tr>
+<tr>
+  <td>keymoreList</td>
+  <td>存放更多组合键的热键列表。</td>
+</tr>
+<tr>
+  <td>nowaitList</td>
+  <td>无视等待超时的热键列表。</td>
+</tr>
+<tr>
+  <td>modeFucntion</td>
+  <td>切换模式执行的函数名。</td>
+</tr>
+</table>
+
+
+<h4>SetKeyMap(key,action)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：（内部函数）保存到映射热键列表。</p>
+</blockquote>
+
+<h4>GetKeyMap(key)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：（内部函数）获取热键对应的动作对象。</p>
+</blockquote>
+
+<h4>DelKeyMap(key)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：（内部函数）删除热键映射。</p>
+</blockquote>
+
+<h4>SetNoWait(key,bold)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：（内部函数）设置热键无视超时时间。</p>
+</blockquote>
+
+<h4>GetNoWait(key)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：（内部函数）获取热键是否为超时时间。</p>
+</blockquote>
+
+<h4>SetMoreKey(key)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：（内部函数）设置热键还有更多组合键如，&#8221;g\gg\，那么&#8221;g&#8221;存在更多的组合键。&#8221;</p>
+</blockquote>
+
+<h4>GetMoreKey(key)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：（内部函数）获取热键是否有更多组合键。</p>
+</blockquote>
+
+<hr />
+
+<h3>Class __Action</h3>
+
+<p>动作对象支持ahk的标签（Label）、函数（function）、命令行（cmdLine）、热字串（HotString）。</p>
+
+<table>
+<thead>
+<tr>
+  <th>属性</th>
+  <th>说明</th>
+</tr>
+</thead>
+<tr>
+  <td>Name</td>
+  <td>动作名称。</td>
+</tr>
+<tr>
+  <td>Comment</td>
+  <td>动作的说明。</td>
+</tr>
+<tr>
+  <td>MaxTimes</td>
+  <td>动作允许执行的最大次数。</td>
+</tr>
+<tr>
+  <td>function</td>
+  <td>执行的函数名。</td>
+</tr>
+<tr>
+  <td>cmdLine</td>
+  <td>执行的命令行。</td>
+</tr>
+<tr>
+  <td>HotString</td>
+  <td>发送的字符串。</td>
+</tr>
+<tr>
+  <td>Type</td>
+  <td>动作类型。0是执行与动作名称一致的Label，1是执行Function函数，2是执行CmdLine命令行，3是发送字符串HotString</td>
+</tr>
+</table>
+
+
+<h4>SetFunction(Function)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：设置动作执行的函数。</p>
+  
+  <p><strong>参数</strong>：Function -> 函数名。</p>
+  
+  <p><strong>返回值</strong>：无。</p>
+</blockquote>
+
+<h4>SetCmdLine(CmdLine)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：设置动作为执行命令行。</p>
+  
+  <p><strong>参数</strong>：CmdLine -> 执行命令行。</p>
+  
+  <p><strong>返回值</strong>：无。</p>
+</blockquote>
+
+<h4>SetHotString(HotString)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：设置动作为发送文本。</p>
+  
+  <p><strong>参数</strong>：HotString -> 字符串。</p>
+  
+  <p><strong>返回值</strong>：无。</p>
+</blockquote>
+
+<h4>SetMaxTimes(Times)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：设置执行动作的最大次数。</p>
+  
+  <p><strong>参数</strong>：Times -> 最大次数。</p>
+  
+  <p><strong>返回值</strong>：无。</p>
+</blockquote>
+
+<h4>Do(Times=1)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：执行动作。</p>
+  
+  <p><strong>参数</strong>：Times -> 执行的次数。</p>
+  
+  <p><strong>返回值</strong>：成功执行返回True。</p>
+</blockquote>
+
+<hr />
+
+<h3>Class __Plugin</h3>
+
+<p>插件对象，用于保存插件的相关信息。</p>
+
+<h4>CheckSub()</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：检测并执行Label，加载插件。</p>
+  
+  <p><strong>返回值</strong>：正确加载插件，返回True。</p>
+</blockquote>
+
+<hr />
+
+<h3>Class __vimDebug</h3>
+
+<p>用于调试，使用vim.Debug(True)可以启用/Vim.Debug(False)禁用调试窗口。</p>
+
+<h4>Add(v)</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：添加内容到调试窗口中。</p>
+</blockquote>
+
+<h4>Clear()</h4>
+
+<blockquote>
+  <p><strong>功能</strong>：清除调试窗口显示的内容。</p>
+</blockquote>
+
+<hr />
+
+<h3>示例说明</h3>
+
+<pre><code class="Autohotkey">; 文件名: example.ahk
+; 功能： 提供class_vim.ahk的应用说明，可以直接运行,独立于VimDesktop，以记事本为例子。
+; 作者: Array(linxinhong)
+; 时间： 2015年2月5日
+
+
+
+; 初始化class_vim
+vim := class_vim()
+
+; 运行Notepad作为示例
+run,notepad.exe "%A_ScriptFullPath%"
+WinWait,ahk_class Notepad
+msgbox 按h或者gg查看帮助
+; 加载Action
+{
+; 加载名为&lt;down&gt;的Action,备注为向下移动,默认为GoSub对与Action名一致的Label，即&lt;down&gt;
+vim.SetAction("&lt;down&gt;","向下移动")
+vim.SetAction("&lt;up&gt;","向上移动")
+vim.SetAction("&lt;left&gt;","向左移动")
+vim.SetAction("&lt;right&gt;","向右移动")
+vim.SetAction("&lt;InsertMode&gt;","插入模式")
+vim.SetAction("&lt;NormalMode&gt;","普通模式")
+; 可以设置Action热键执行的是函数、命令行或者发送文本、执行的最大次数
+act := vim.SetAction("帮助","这是帮助内容")
+; 设置Action为执行函数"msgbox_help"
+act.SetFunction("msgbox_help")
+/*
+; 设置运行的次数为3次
+act.SetMaxTimes(3)
+
+; 设置Action为运行命令行 cmd.exe
+act.setCmdLine("cmd.exe")
+
+; 设置Action为发送文本" this is vimd"
+act.setHotString("this is vimd")
+
+Action执行的功能只能是Label/function/cmdline/hotstring.其中的一种，建议使用Lable或者function。方便修改
+*/
+}
+
+class:="Notepad"
+filepath:="Notepad.exe"
+;filepath:="AAuto Quicker.exe" 
+
+; 在VimD中，filepath会作为ahk_exe 的判断条件，class作为ahk_class的判断条件
+; 但是filepath的优先级更高
+
+
+
+; 设置Win
+vim.SetWin("记事本",class,filepath)
+
+; 切换到Inert模式，后续map的所有热键都是在Insert模式下
+vim.SetMode("Insert","记事本")
+; 映射热键
+vim.map("&lt;Esc&gt;","&lt;NormalMode&gt;","记事本")
+
+; 切换到Normal模式，后续map的所有热键都是在Noraml模式下
+vim.SetMode("Normal","记事本")
+; 映射热键
+; &lt;0&gt;~&lt;9&gt;是内置的Label，可以看一下class_vim.ahk
+vim.map("0","&lt;0&gt;","记事本")
+vim.map("1","&lt;1&gt;","记事本")
+vim.map("2","&lt;2&gt;","记事本")
+vim.map("3","&lt;3&gt;","记事本")
+vim.map("4","&lt;4&gt;","记事本")
+vim.map("5","&lt;5&gt;","记事本")
+vim.map("6","&lt;6&gt;","记事本")
+vim.map("7","&lt;7&gt;","记事本")
+vim.map("8","&lt;8&gt;","记事本")
+vim.map("9","&lt;9&gt;","记事本")
+vim.map("j","&lt;Down&gt;","记事本")
+vim.map("k","&lt;Up&gt;","记事本")
+vim.map("h","&lt;left&gt;","记事本")
+vim.map("l","&lt;right&gt;","记事本")
+; 组合键，按g，再按g
+vim.map("gg","帮助","记事本")
+vim.map("h","帮助","记事本")
+vim.map("i","&lt;InsertMode&gt;","记事本")
+
+; 注意，最后一次SetMode 为 "normal" 则当前为Noraml模式
+
+return
+
+
+; 以下为热键对应的功能区
+; 切换为Insert 模式
+&lt;InsertMode&gt;:
+  vim.SetMode("Insert","记事本")
+return
+; 切换为Normal 模式
+&lt;NormalMode&gt;:
+  vim.SetMode("Normal","记事本")
+return
+
+&lt;down&gt;:
+    send,{down}
+return
+&lt;up&gt;:
+    send,{up}
+return
+&lt;left&gt;:
+    send,{left}
+return
+&lt;right&gt;:
+    send,{right}
+return
+
+msgbox_help()
+{
+v =
+(
+  按0~9是设置执行次数
+  按j为向下
+  按k为向上
+  按h为向左
+  按l为向右
+  按i切换到Insert模式
+  按Esc切换到Normal模式
+  按h或者gg查看帮助
+)
+  msgbox % v
+}
+
+
+; class_vim必须放在最后
+#include lib\class_vim.ahk
+</code></pre>
+<script type='text/javascript'>
+$(document).ready(function(){
+  if($('code').length>0){
+    $('code').parent().addClass('prettyprint linenums');
+    prettyPrint();
+};
+});
+</script>
+</body>
+</html>

@@ -4,32 +4,6 @@
 ;     &sha=a78a6e18504e5bcecc5926e0176ed89bd661307a
 
 WizNote:
-    ; insert模式
-    vim.mode("insert", "WizNoteMainFrame")
-
-    vim.map("<esc>", "<Normal_Mode_WizNoteMainFrame>", "WizNoteMainFrame")
-
-    ; normal模式
-    vim.mode("normal", "WizNoteMainFrame")
-
-    vim.map("i", "<Insert_Mode_WizNoteMainFrame>", "WizNoteMainFrame")
-    
-    vim.map("j", "<down>", "WizNoteMainFrame")
-    vim.map("k", "<up>", "WizNoteMainFrame")
-    vim.map("<shift>j", "<Wiz_NextNote>", "WizNoteMainFrame")
-    vim.map("<shift>k", "<Wiz_PrevNote>", "WizNoteMainFrame")
-
-    vim.map("h", "<left>", "WizNoteMainFrame")
-    vim.map("l", "<right>", "WizNoteMainFrame")
-    vim.map("gg", "<home>", "WizNoteMainFrame")
-    vim.map("<shift>g", "<end>", "WizNoteMainFrame")
-
-    vim.map("a", "<Wiz_NewNote>", "WizNoteMainFrame")
-    vim.map("x", "<Wiz_Delete>", "WizNoteMainFrame")
-    vim.map("e", "<Wiz_Edit>", "WizNoteMainFrame")
-    vim.map("u", "<Wiz_CloseTab>", "WizNoteMainFrame")
-    vim.map("t", "<Wiz_List>", "WizNoteMainFrame")
-
     ; 定义注释
     vim.comment("<Normal_Mode_WizNoteMainFrame>", "进入normal模式")
     vim.comment("<Insert_Mode_WizNoteMainFrame>", "进入insert模式")
@@ -44,6 +18,33 @@ WizNote:
     vim.comment("<Wiz_NextNote>", "下一个笔记")
     vim.comment("<Wiz_PrevNote>", "上一个笔记")
     vim.comment("<Wiz_List>", "定位到左侧目录")
+
+    ; insert模式
+    vim.mode("insert", "WizNoteMainFrame")
+
+    vim.map("<esc>", "<Normal_Mode_WizNoteMainFrame>", "WizNoteMainFrame")
+
+    ; normal模式
+    vim.mode("normal", "WizNoteMainFrame")
+
+    vim.map("i", "<Insert_Mode_WizNoteMainFrame>", "WizNoteMainFrame")
+    
+    vim.map("j", "<down>", "WizNoteMainFrame")
+    vim.map("k", "<up>", "WizNoteMainFrame")
+    vim.map("J", "<Wiz_NextNote>", "WizNoteMainFrame")
+    vim.map("K", "<Wiz_PrevNote>", "WizNoteMainFrame")
+
+    vim.map("h", "<left>", "WizNoteMainFrame")
+    vim.map("l", "<right>", "WizNoteMainFrame")
+    vim.map("gg", "<home>", "WizNoteMainFrame")
+    vim.map("G", "<end>", "WizNoteMainFrame")
+
+    vim.map("a", "<Wiz_NewNote>", "WizNoteMainFrame")
+    vim.map("x", "<Wiz_Delete>", "WizNoteMainFrame")
+    vim.map("e", "<Wiz_Edit>", "WizNoteMainFrame")
+    vim.map("u", "<Wiz_CloseTab>", "WizNoteMainFrame")
+    vim.map("t", "<Wiz_List>", "WizNoteMainFrame")
+
 return
 
 ; 对指定控件使用insert模式

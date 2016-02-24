@@ -1,5 +1,12 @@
 ﻿foobar2000:
     global foobar2000_class := "{97E27FAA-C0B3-4b8e-A693-ED7881E99FC1}"
+    global foobar2000_list_classnn := "{4B94B650-C2D8-40de-A0AD-E8FADF62D56C}1"
+
+    vim.Comment("<Normal_Mode_foobar2000>", "进入normal模式")
+    vim.Comment("<Insert_Mode_foobar2000>", "进入insert模式")
+    vim.Comment("<foobar2000_search>", "打开搜索窗口")
+    vim.Comment("<foobar2000_tree>", "定位到目录窗口")
+    vim.Comment("<foobar2000_list>", "定位到播放列表")
 
     ; insert模式
     vim.mode("insert", foobar2000_class)
@@ -38,22 +45,23 @@
     vim.map("gn", "<NextTab>", foobar2000_class)
     vim.map("gp", "<PrevTab>", foobar2000_class)
 
-    vim.Comment("<Normal_Mode_foobar2000>", "进入normal模式")
-    vim.Comment("<Insert_Mode_foobar2000>", "进入insert模式")
-    vim.Comment("<foobar2000_search>", "打开搜索窗口")
-    vim.Comment("<foobar2000_tree>", "定位到目录窗口")
-    vim.Comment("<foobar2000_list>", "定位到播放列表")
+    vim.BeforeActionDo("ForceNormalMode_foobar2000", foobar2000_class)
 return
 
+ForceNormalMode_foobar2000()
+{
+    ControlGetFocus, ctrl, AHK_CLASS %foobar2000_class%
+    ; msgbox, ctrl
+    if RegExMatch(ctrl, "Edit2")
+        return true
+    return false
+}
+
 <Normal_Mode_foobar2000>:
-    ToolTip % "进入 normal 模式"
-    SetTimer, <RemoveToolTip>, 600
     vim.mode("normal", foobar2000_class)
 return
 
 <Insert_Mode_foobar2000>:
-    ToolTip % "进入 insert 模式"
-    SetTimer, <RemoveToolTip>, 600
     vim.mode("insert", foobar2000_class)
 return
 
@@ -66,5 +74,5 @@ return
 return
 
 <foobar2000_list>:
-    ControlFocus, {4B94B650-C2D8-40de-A0AD-E8FADF62D56C}1
+    ControlFocus, %foobar2000_list_classnn%
 return

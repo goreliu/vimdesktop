@@ -1,16 +1,6 @@
 ﻿TCDialog:
     vim.comment("<OpenTCDialog>", "激活TC选择文件, 需再次按下快捷键触发对话框打开事件")
 
-    ;初始化设置：全局快捷键跳转到TC
-    IniWriteIfNullValue(ConfigPath, "Global", "*<lwin>o", "<OpenTCDialog>")
-
-    ;初始化设置：自动跳转到TC作为文件选择对话框
-    IniWriteIfNull(ConfigPath, "TotalCommander_Config", "AsOpenFileDialog", "0")
-
-    ;初始化设置：还有下面文字的窗口将排除TC作为文件选择对话框
-    ;由于不支持中文，无法初始化"密码"，在后面代码中添加
-    IniWriteIfNull(ConfigPath, "TotalCommander_Config", "OpenFileDialogExclude", "password, pwd")
-
     ;读取配置参数，禁用时直接跳过
     IniRead, AsOpenFileDialog, %ConfigPath%, TotalCommander_Config, AsOpenFileDialog, 1
     if AsOpenFileDialog <> 1
@@ -44,17 +34,17 @@ return
 <TCDialog_MapKeys>:
     vim.mode("normal", "TTOTAL_CMD")
     vim.map("<enter>", "<TC_PreSelected>", "TTOTAL_CMD")
-    vim.map("<ctrl><enter>", "<TC_Selected>", "TTOTAL_CMD")
-    vim.map("<shift><enter>", "<TC_SelectedCurrentDir>", "TTOTAL_CMD")
+    vim.map("<c-enter>", "<TC_Selected>", "TTOTAL_CMD")
+    vim.map("<s-enter>", "<TC_SelectedCurrentDir>", "TTOTAL_CMD")
     vim.map("<esc>", "<Return_To_Caller>", "TTOTAL_CMD")
 return
 
 <TCDialog_UnMapKeys>:
     vim.mode("normal", "TTOTAL_CMD")
-    vim.map("<enter>", "<>", "TTOTAL_CMD")
-    vim.map("<ctrl><enter>", "<>", "TTOTAL_CMD")
-    vim.map("<shift><enter>", "<>", "TTOTAL_CMD")
-    vim.map("<esc>", "<>", "TTOTAL_CMD")
+    vim.map("<enter>", "<Default>", "TTOTAL_CMD")
+    vim.map("<c-enter>", "<Default>", "TTOTAL_CMD")
+    vim.map("<s-enter>", "<Default>", "TTOTAL_CMD")
+    vim.map("<esc>", "<Default>", "TTOTAL_CMD")
 return
 
 ;返回调用者

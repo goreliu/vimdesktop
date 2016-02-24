@@ -1,6 +1,21 @@
 ﻿; Total Commander 内置的文件比较工具
 
 TCCompare:
+    ; 定义注释
+    vim.comment("<Normal_Mode_TFileCompForm>", "进入normal模式")
+    vim.comment("<Insert_Mode_TFileCompForm>", "进入insert模式")
+    vim.comment("<TCCompare_NextDiff>", "下一处不同")
+    vim.comment("<TCCompare_PrevDiff>", "上一处不同")
+    vim.comment("<TCCompare_Home>", "跳转到文件开头")
+    vim.comment("<TCCompare_End>", "跳转到文件结尾")
+    vim.comment("<TCCompare_Search>", "搜索内容")
+    vim.comment("<TCCompare_CopyToLeft>", "复制到左侧")
+    vim.comment("<TCCompare_CopyToRight>", "复制到右侧")
+    vim.comment("<TCCompare_Editable>", "进入可编辑模式")
+    vim.comment("<TCCompare_Compare>", "重新比较")
+    vim.comment("<TCCompare_BinaryMode>", "进入二进制比较模式")
+    vim.comment("<TCCompare_ChangeCodepage>", "修改所使用的文件编码")
+
     ; insert模式
     vim.mode("insert", "TFileCompForm")
 
@@ -26,20 +41,6 @@ TCCompare:
     vim.map("c", "<TCCompare_Compare>", "TFileCompForm")
     vim.map("b", "<TCCompare_BinaryMode>", "TFileCompForm")
     vim.map("-", "<TCCompare_ChangeCodepage>", "TFileCompForm")
-
-    ; 定义注释
-    vim.comment("<Normal_Mode_TFileCompForm>", "进入normal模式")
-    vim.comment("<Insert_Mode_TFileCompForm>", "进入insert模式")
-    vim.comment("<TCCompare_NextDiff>", "下一处不同")
-    vim.comment("<TCCompare_PrevDiff>", "上一处不同")
-    vim.comment("<TCCompare_Home>", "跳转到文件开头")
-    vim.comment("<TCCompare_End>", "跳转到文件结尾")
-    vim.comment("<TCCompare_CopyToLeft>", "复制到左侧")
-    vim.comment("<TCCompare_CopyToRight>", "复制到右侧")
-    vim.comment("<TCCompare_Editable>", "进入可编辑模式")
-    vim.comment("<TCCompare_Compare>", "重新比较")
-    vim.comment("<TCCompare_BinaryMode>", "进入二进制比较模式")
-    vim.comment("<TCCompare_ChangeCodepage>", "修改所使用的文件编码")
 return
 
 
