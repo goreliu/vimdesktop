@@ -1,27 +1,60 @@
-﻿;[使用说明]
+;[使用说明]
 ;如果您希望更改VimDesktop的默认配置，可执行如下操作：
-;1.在当前路径复制本文件的拷贝，并重命名为：vimd.ini
+;1.在当前路径复制本文件的拷贝，并重 名为：vimd.ini
 ;2.根据分号 ; 之后的提示内容进行相应修改
 
-;=====系统配置=============================
-[Config]
-;是否放弃无效命令 假设gx为无效命令，x删除文件
-;1 放弃无效命令 -- 如果用户输入gx，不执行任何操作
-;0 执行后续有效命令：如果用户输入gx，则执行x对应命令-删除文件
-InvalidMode=1
+[config]
 
-;更改*.ahk文件后，是否自动加载，可能导致运行中的VimDesktop异常退出
-autoload=0
+[exclude]
+vim
 
-;是否显示热键提示
-ToShowComment=1
+[global]
+; 激活通用快捷键
+<super><c-esc>=<Gen_Toggle>[=normal]
+; <w-t>=<Gen_Toggle>[=normal]
+; 切换TC
+<w-e>=<ToggleTC>[=normal]
+; 重新加载VimDesktop
+<w-y>=<Reload>[=normal]
+; 激活TC作为文件选择框，再次按下该快捷键可执行文件打开操作
+<w-o>=<OpenTCDialog>[=normal]
 
+;<w-c>=run|explorer[=normal]
+;<w-f>=run|firefox[=normal]
+;<w-w>=run|mintty -e ~/.bin/tmux_starter[=normal]
+;<w-a>=run|c:\mine\app\foobar2000\foobar2000.exe[=normal]
 
-;=====TotalCommander配置信息===============
+[plugins]
+general=1
+totalcommander=1
+WinMerge=1
+TCDialog=1
+TCCompare=1
+BeyondCompare4=1
+foobar2000=1
+WizNote=1
+
+; 设置窗口名
+;[记事本]
+;set_class=Notepad
+;set_file=Notepad.exe
+;设置超时时间
+;set_time_out=800
+;设置最大重复执行次数
+;set_max_count=1000
+;设置显示提示
+;set_show_info=1
+;设置热键
+;j=<down>[=normal]
+;k=<up>[=normal]
+;h=<left>[=normal]
+;l=<right>[=normal]
+;<c-j>=run|notepad.exe
+;<c-k>=key|^o
+
 [TotalCommander_Config]
-
 ;TCPath: TotalCommander可执行文件路径--TC运行时，可被自动识别
-TCPath=C:\mine\app\totalcmd\totalcmd.exe
+TCPath=C:\mine\app\totalcmd\TOTALCMD.EXE
 
 ;TCINI: TotalCommander配置文件路径--TC运行时，可被自动识别
 TCINI=C:\mine\app\totalcmd\wincmd.ini
@@ -38,85 +71,49 @@ AsOpenFileDialog=0
 OpenFileDialogExclude = password , 密码
 
 
-;=====插件配置=============================
-[Plugins]
-;左侧为插件文件名，右侧为1 表示启用该插件，0 表示禁用，默认启用
-General=1
-TotalCommander=1
-wps=0
-
-
-;=====全局快捷键配置=======================
-;带有*的快捷键全局有效
-;不带*的快捷键仅在非禁用的应用程序中有效
-;分号作为前缀，可禁用自动添加的全局快捷键
-[Global]
-
-;激活TC命令行
-;*<ctrl>;=<FocusTCCmd>
-
-;激活通用快捷键
-*<lwin>t=<GeneralCopy>[=normal]
-;切换TC
-*<lwin>e=<ToggleTC>[=normal]
-;重新加载VimDesktop
-*<lwin>y=<Reload>[=normal]
-;激活TC作为文件选择框，再次按下该快捷键可执行文件打开操作
-*<lwin>o=<OpenTCDialog>
-
-
-;=====全局禁用的应用程序配置================
-[Global_Exclude]
-;应用程序类名
-Notepad
-Vim
-
-
-;=====Total Commander快捷键配置=============
+; Total Commander快捷键配置
 [TTOTAL_CMD]
 ;热键定义语法
 ;ff=<cm_SearchFor>[=normal]
 ;ff 热键 --按下两次f键
 ;<cm_SearchFor> 对应的动作
 ;[=normal] 在normal模式下生效
+set_show_info=0
 
 b=<cm_UnpackFiles>[=normal]
 c=<cm_MkDir>[=normal]
 e=<cm_edit>[=normal]
-f<esc>=<Pass>[=normal]
-g<esc>=<Pass>[=normal]
 h=<GoToParentEx>[=normal]
 i=<CreateNewFile>[=normal]
 l=<cm_Return>[=normal]
 m=<cm_SrcThumbs>[=normal]
 o=<cm_ContextMenu>[=normal]
 p=<cm_PackFiles>[=normal]
-s<esc>=<Pass>[=normal]
 u=<cm_CloseCurrentTab>[=normal]
-<shift>a=<ViewFileUnderCursor>[=normal]
-<shift>b=<cm_DirBranch>[=normal]
-<shift>c=<cm_IntCompareFilesByContent>[=normal]
-<shift>f=<cm_SearchStandAlone>[=normal]
-<shift>h=<cm_GotoPreviousDir>[=normal]
-<shift>i=<OpenWithAlternateViewer>[=normal]
-<shift>l=<cm_GotoNextDir>[=normal]
-<shift>m=<cm_FileSync>[=normal]
-<shift>n=<cm_SwitchToNextTab>[=normal]
-<shift>o=<cm_SrcUserDef>[=normal]
-<shift>p=<cm_SwitchToPreviousTab>[=normal]
-<shift>v<esc>=<Pass>[=normal]
-<shift>w=<cm_CompareFilesByContent>[=normal]
-<shift>z=<cm_Config>[=normal]
-<ctrl>b=<pgup>[=normal]
-<ctrl>d=<cm_ClearAll>[=normal]
-<ctrl>f=<pgdn>[=normal]
-<ctrl>g=<cm_CopySrcPathToClip>[=normal]
-<ctrl>h=<left>[=normal]
-<ctrl>j=<down>[=normal]
-<ctrl>k=<up>[=normal]
-<ctrl>l=<right>[=normal]
-<ctrl>m=<cm_CompareDirs>[=normal]
-<ctrl>n=<cm_FtpConnect>[=normal]
-<ctrl>q=<cm_CommandBrowser>[=normal]
-<ctrl>s=<cm_CountDirContent>[=normal]
-<ctrl>y=<cm_CopyFileDetailsToClip>[=normal]
+<s-a>=<ViewFileUnderCursor>[=normal]
+<s-b>=<cm_DirBranch>[=normal]
+<s-c>=<cm_IntCompareFilesByContent>[=normal]
+<s-f>=<cm_SearchStandAlone>[=normal]
+<s-h>=<cm_GotoPreviousDir>[=normal]
+<s-i>=<OpenWithAlternateViewer>[=normal]
+<s-l>=<cm_GotoNextDir>[=normal]
+<s-m>=<cm_FileSync>[=normal]
+<s-n>=<cm_SwitchToNextTab>[=normal]
+<s-o>=<cm_SrcUserDef>[=normal]
+<s-p>=<cm_SwitchToPreviousTab>[=normal]
+;<s-q>=run|c:\mine\app\totalcmd\language\replace_mnu.sh
+<s-w>=<cm_CompareFilesByContent>[=normal]
+<s-z>=<cm_Config>[=normal]
+<c-b>=<pgup>[=normal]
+<c-d>=<cm_ClearAll>[=normal]
+<c-f>=<pgdn>[=normal]
+<c-g>=<cm_CopySrcPathToClip>[=normal]
+<c-h>=<left>[=normal]
+<c-j>=<down>[=normal]
+<c-k>=<up>[=normal]
+<c-l>=<right>[=normal]
+<c-m>=<cm_CompareDirs>[=normal]
+<c-n>=<cm_FtpConnect>[=normal]
+<c-q>=<cm_CommandBrowser>[=normal]
+<c-s>=<cm_CountDirContent>[=normal]
+<c-y>=<cm_CopyFileDetailsToClip>[=normal]
