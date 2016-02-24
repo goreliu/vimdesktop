@@ -431,8 +431,12 @@ Class vimcore {
                         MaxCount := w.winMaxCount
                         if This.KeyCount > MaxCount
                             This.KeyCount := MaxCount
-                        Tooltip % This.KeyCount
-                        SetTimer, <RemoveToolTip>, 500
+
+                        if ToShowComment {
+                            Tooltip % This.KeyCount
+                            SetTimer, <RemoveToolTip>, 500
+                        }
+
                         return false
                 }
                 else {
