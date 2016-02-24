@@ -6,6 +6,7 @@ vim.settimeout("按键超时时间", "ahk_class")  ;设置按键超时时间
 vim.listkey("ahk_class")  ;显示所有映射的热键体
 vim.control("on/off", "ahk_class")  ;启用/禁用映射的热键
 vim.comment("标签", "描述", "是否允许多次运行（0/1)")
+
 内置Label:
 <Repeat> 重复上一次动作
 */
@@ -14,7 +15,6 @@ vim.comment("标签", "描述", "是否允许多次运行（0/1)")
 Setkeydelay, -1
 return
 
-; 此函数可以根据自己的喜好进行修改
 ShowComment(more = "") {
     if not ToShowComment
         return
@@ -23,7 +23,6 @@ ShowComment(more = "") {
     w := vim.Vaild(win)
     mode := w.GetMode()
     msg := mode.KeyTemp "`n=============================`n"
-    ;GUIControl, , Edit1, %msg%
 
     if Strlen(more)
     {
@@ -31,7 +30,6 @@ ShowComment(more = "") {
         {
             key := Trim(A_LoopField)
             action := mode.KeyBody[key]
-            ;comment := vim.CommentList[action]
             comment := GetCommentDest(action)
             if Strlen(comment)
                 msg .= key "  >>  " comment "`n"
@@ -40,20 +38,11 @@ ShowComment(more = "") {
 
         }
         Tooltip % msg
-        ;GUI, VIMINFO:Show
     }
     else
         Tooltip
-        ;GUI, VIMINFO:Show, Hide
 }
 
-
-
-; ====================
-; ====================
-; 内部脚本，请匆修改！
-; ====================
-; ====================
 
 ; 初始化 vimcore
 Init() {
@@ -65,15 +54,12 @@ vimnew:
     Global vim := new vimcore
 return
 
-
-; 以下为class封装，请匆修改
 Class vimcore {
     __New() {
        This.vimWindows := []
        This.vimGlobal  := new This.vimClass("")
        This.TimeOutClass := ""
        This.ExcludeList := []
-       ;This.ExcludeList["AutoHotkey"] := True
        This.CommentList := []
        This.CommentType := []
        This.UseHotkey   := []
@@ -81,7 +67,7 @@ Class vimcore {
 
     Vaild(win) {
         if Strlen(win) = 0
-            Return This.vimGlobal
+            return This.vimGlobal
         w := This.vimWindows[win]
         if w.winVaild
             return w
@@ -94,37 +80,41 @@ Class vimcore {
             w := This.vimGlobal
         else
             w := This.vimWindows[win]
+
         if not w.winVaild
         {
             w := new This.vimClass(win)
             This.vimWindows[win] := w
         }
+
         w.SetMode(mode)
         ShowComment()
     }
 
-    sMap(key, label, win = ""){
+    smap(key, label, win = "") {
         This.UseHotkey[key] := True
-        this.Map(key, label, win)
+        this.map(key, label, win)
     }
 
-    Map(key, label, win = "") {
+    map(key, label, win = "") {
         if not RegExMatch(Key, "[^\s]")
             return
         if Strlen(win) = 0
             w := This.vimGlobal
         else
             w := This.vimWindows[win]
+
         if not w.winVaild
         {
             w := new This.vimClass(win)
             This.vimWindows[win] := w
         }
+
         mode := w.GetMode()
         mode.SetHotkey(key, label)
     }
 
-    Comment(action, desc, complex=1) {
+    Comment(action, desc, complex = 1) {
         This.CommentList[action] := desc
         This.CommentType[action] := complex
     }
@@ -133,11 +123,13 @@ Class vimcore {
         WinGetClass, win, A
         w := This.Vaild(win)
         m := w.GetMode()
-        if This.ExcludeList[win] And not this.UseHotkey[m.GetThisHotkey()]
+
+        if This.ExcludeList[win] and not this.UseHotkey[m.GetThisHotkey()]
         {
             Send, % m.TransSendKey(A_ThisHotkey)
             return
         }
+
         if w.winVaild {
             mode := w.GetMode()
             if Mode.KeyList[A_ThisHotkey]
@@ -152,7 +144,6 @@ Class vimcore {
     }
 
     Filter(String) {
-
         WinGetClass, win, A
 
         if This.ExcludeList[win]
@@ -254,10 +245,6 @@ Class vimcore {
         }
     }
 
-    test() {
-        msgbox vim test
-    }
-
     SetTimeOut(tick, win = "") {
         w := This.Vaild(win)
         if not w.winVaild
@@ -272,9 +259,7 @@ Class vimcore {
         w := This.Vaild(This.TimeOutClass)
         mode := w.GetMode()
         mode.KeyTemp := ""
-        ;GoSub, % mode.TimeOutAction
         mode.ExecSub(mode.TimeOutAction)
-        ;    ShowComment()
         mode.TimeOutAction := ""
     }
 
@@ -292,17 +277,16 @@ Class vimcore {
 
     GetWin() {
         WinGetClass, win, A
-        Return This.Vaild(win)
+        return This.Vaild(win)
     }
 
     GetCount() {
         w := This.GetWin()
         m := w.GetMode()
-        Return m.KeyCount ? m.KeyCount : 1
+        return m.KeyCount ? m.KeyCount : 1
     }
 
     Class vimClass {
-
         __New(win) {
             This.winName := win
             This.winVaild   := 1
@@ -315,6 +299,7 @@ Class vimcore {
             This.winRepeat   := ""
             This.winRepeatCount := 0
         }
+
         ;设置窗口类下的模式
         SetMode(md) {
             m := This.winMode[md]
@@ -327,8 +312,8 @@ Class vimcore {
                 This.winThisMode := md
             return m
         }
-        ;获取窗口类下的模式
 
+        ;获取窗口类下的模式
         GetMode() {
             m := This.winMode[This.winThisMode]
             return m
@@ -354,11 +339,7 @@ Class vimcore {
                 This.KeyMap  := []
             }
 
-            test() {
-                msgbox % This.Mode
-            }
-
-            Try(){
+            Try() {
                 checkMode := This.CheckMode
                 settimer, <TimeOutLabel>, off
                 Key := This.GetThisHotkey()
@@ -451,6 +432,7 @@ Class vimcore {
                         if This.KeyCount > MaxCount
                             This.KeyCount := MaxCount
                         Tooltip % This.KeyCount
+                        SetTimer, <RemoveToolTip>, 500
                         return false
                 }
                 else {
@@ -459,7 +441,6 @@ Class vimcore {
                         cnt := This.KeyCount
                     else
                         cnt := 1
-                    ;cnt := This.KeyCount ? This.KeyCount : 1
                     if RegExMatch(action, "^<.*>$") {
                         if (action = "<>" or IsLabel(action)) {
                             Loop, %cnt%
@@ -467,7 +448,7 @@ Class vimcore {
                         }
                         else {
                             Msgbox %Action%不存在，请检查脚本
-                            Return
+                            return
                         }
                     }
                     if RegExMatch(action, "^\(.*\)$") {
@@ -502,7 +483,6 @@ Class vimcore {
             }
 
             SetHotkey(key, label) {
-                ;msgbox % This.win
                 if Strlen(This.win) > 0 {
                     class := This.win
                     Hotkey, IfWinActive, ahk_class %class%
@@ -519,7 +499,6 @@ Class vimcore {
                         mKey .= A_LoopField
                 }
                 Hotkey_OK := True
-                ;Idx := This.KeyList[0] ? This.KeyList[0] : 1
                 cnt := 1
                 _SaveList := []
                 for, i, k in This.ResolveHotkey(mKey)
@@ -539,15 +518,11 @@ Class vimcore {
                         Hotkey_OK := False
                         Break
                     }
-                    ;if Not This.KeyList[k] {
-                    ;    This.KeyList[idx] := k
-                    ;    idx++
-                    ;}
+
                     _SaveList[cnt] := k
                     cnt++
                     This.KeyList[k] := This.KeyList[k] ? This.KeyList[k] + 1 : 1
                 }
-                ;This.KeyList[0] := idx
                 if Not Hotkey_OK {
                     For i , k IN _SaveList
                     {
@@ -626,7 +601,7 @@ Class vimcore {
                     }
                     n++
                 }
-                Return NewKeyList
+                return NewKeyList
             }
 
             GetThisHotkey(G_ThisHotkey = "")
@@ -656,8 +631,7 @@ Class vimcore {
                         Break
                     }
                 }
-                ;msgbox % Thishotkey
-                Return ThisHotKey
+                return ThisHotKey
             }
 
             ; TransSendKey(hotkey) {{{2
@@ -708,13 +682,13 @@ Class vimcore {
                     }
                     Break
                 }
-                Return hotkey
+                return hotkey
             }
 
             ToMatch(Key)
             {
                 Key := RegExReplace(Key, "\+|\?|\.|\*|\{|\}|\(|\)|\||\^|\$|\[|\]|\\", "\$0")
-                Return RegExReplace(Key, "\s", "\s")
+                return RegExReplace(Key, "\s", "\s")
             }
 
         }
@@ -725,13 +699,16 @@ Class vimcore {
 SetTimeOutClass(win) {
     vim.TimeOutClass := win
 }
+
 GetTimeOutClass(win) {
     w := vim.Vaild(win)
     return w.TimeOut
 }
+
 GetCommentDest(action) {
-    Return vim.CommentList[action]
+    return vim.CommentList[action]
 }
+
 GetCommentType(action) {
     Type := vim.CommentType[action]
     if Strlen(Type)
@@ -739,6 +716,7 @@ GetCommentType(action) {
     else
         return true
 }
+
 EmptyMem(PID = "AHK Rocks")
 {
     pid := (pid = "AHK Rocks") ? DllCall("GetCurrentProcessId") : pid
@@ -746,6 +724,7 @@ EmptyMem(PID = "AHK Rocks")
     DllCall("SetProcessWorkingSetSize", "UInt", h, "Int", -1, "Int", -1)
     DllCall("CloseHandle", "Int", h)
 }
+
 <TimeOutLabel>:
     vim.TimeOut()
 return
@@ -756,4 +735,9 @@ return
 
 <Repeat>:
     vim.Repeat()
+return
+
+<RemoveToolTip>:
+    SetTimer, <RemoveToolTip>, Off
+	ToolTip
 return
