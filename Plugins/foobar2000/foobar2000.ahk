@@ -1,5 +1,5 @@
 ﻿foobar2000:
-    global foobar2000_class:="{97E27FAA-C0B3-4b8e-A693-ED7881E99FC1}"
+    global foobar2000_class := "{97E27FAA-C0B3-4b8e-A693-ED7881E99FC1}"
 
     ; insert模式
     vim.mode("insert", foobar2000_class)
