@@ -21,11 +21,6 @@
     vim.map("h", "<BeyondCompare4_CopyToLeft>", "TViewForm")
     vim.map("l", "<BeyondCompare4_CopyToRight>", "TViewForm")
 
-    ;vim.map("H", "<BeyondCompare4_CopyToLeftAndGoOn>", "TViewForm")
-    ;vim.map("L", "<BeyondCompare4_CopyToRightAndGoOn>", "TViewForm")
-    ;vim.map("<ctrl>h", "<BeyondCompare4_CopyToLeftAll>", "TViewForm")
-    ;vim.map("<ctrl>l", "<BeyondCompare4_CopyToRightAll>", "TViewForm")
-
     ; 定义注释
     vim.comment("<Normal_Mode_TViewForm>", "进入normal模式")
     vim.comment("<Insert_Mode_TViewForm>", "进入insert模式")
@@ -37,10 +32,6 @@
     vim.comment("<BeyondCompare4_End>", "跳转到文件结尾")
     vim.comment("<BeyondCompare4_CopyToLeft>", "复制到左侧")
     vim.comment("<BeyondCompare4_CopyToRight>", "复制到右侧")
-    ;vim.comment("<BeyondCompare4_CopyToLeftAndGoOn>", "复制到左侧并继续")
-    ;vim.comment("<BeyondCompare4_CopyToRightAndGoOn>", "复制到右侧并继续")
-    ;vim.comment("<BeyondCompare4_CopyToLeftAll>", "全部复制到左侧")
-    ;vim.comment("<BeyondCompare4_CopyToRightAll>", "全部复制到右侧")
 return
 
 ; 对符合条件的控件使用insert模式，而不是normal模式
@@ -97,17 +88,3 @@ return
 <BeyondCompare4_CopyToRight>:
     Send, ^r
 return
-
-/*
-<BeyondCompare4_CopyToLeftAndGoOn>:
-return
-
-<BeyondCompare4_CopyToRightAndGoOn>:
-return
-
-<BeyondCompare4_CopyToLeftAll>:
-return
-
-<BeyondCompare4_CopyToRightAll>:
-return
-*/
