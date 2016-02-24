@@ -46,16 +46,17 @@ WizNote:
     vim.comment("<Wiz_List>", "定位到左侧目录")
 return
 
-/*
 ; 对指定控件使用insert模式
 WizNoteMainFrame_CheckMode()
 {
     ControlGetFocus, ctrl, AHK_CLASS WizNoteMainFrame
-    If RegExMatch(ctrl, "Edit1")
+    ; ATL:004ABB001 可能会变
+    if RegExMatch(ctrl, "ATL:004ABB001")
+        return true
+    if RegExMatch(ctrl, "WebViewHost")
         return true
     return false
 }
-*/
 
 <Normal_Mode_WizNoteMainFrame>:
     vim.mode("normal", "WizNoteMainFrame")

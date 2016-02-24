@@ -45,7 +45,7 @@ WinMergeWindowClassW_CheckMode()
 {
     ControlGetFocus, ctrl, AHK_CLASS WinMergeWindowClassW
     ; msgbox, ctrl
-    If RegExMatch(ctrl, "Afx")
+    if RegExMatch(ctrl, "Edit1")
         return true
     return false
 }
