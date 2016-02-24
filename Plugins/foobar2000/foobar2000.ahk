@@ -7,7 +7,7 @@
     vim.Comment("<foobar2000_Search>", "打开搜索窗口")
     vim.Comment("<foobar2000_Tree>", "定位到目录窗口")
     vim.Comment("<foobar2000_List>", "定位到播放列表")
-    vim.Comment("<foobar2000_ToggleShowInfo>", "显示/隐藏 提示按键提示")
+    vim.Comment("<foobar2000_ToggleShowInfo>", "显示/隐藏 按键提示")
 
     ; insert模式
     vim.mode("insert", foobar2000_class)
@@ -49,7 +49,6 @@
     vim.map("``", "<foobar2000_ToggleShowInfo>", foobar2000_class)
 
     ; 不显示帮助信息
-    global foobar2000_showinfo := 0
     vim.GetWin(foobar2000_class).SetInfo(0)
 
     vim.BeforeActionDo("ForceNormalMode_foobar2000", foobar2000_class)
@@ -85,6 +84,5 @@ return
 return
 
 <foobar2000_ToggleShowInfo>:
-    vim.GetWin(foobar2000_class).SetInfo(foobar2000_showinfo = 0 ? 1 : 0)
-    foobar2000_showinfo := 1 - foobar2000_showinfo
+    vim.GetWin(foobar2000_class).SetInfo(1 - vim.GetWin(foobar2000_class).info)
 return

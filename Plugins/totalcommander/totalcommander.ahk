@@ -99,6 +99,7 @@
     vim.comment("<Repeat>", "重复上次操作")
     vim.comment("<ViewFileUnderCursor>", "使用查看器打开光标所在文件(shift+f3)")
     vim.comment("<OpenWithAlternateViewer>", "使用外部查看器打开(alt+f3)")
+    vim.comment("<TotalCommander_ToggleShowInfo>", "显示/隐藏 按键提示")
     GoSub, TCCOMMAND
 
     vim.mode("normal", "TQUICKSEARCH")
@@ -109,6 +110,7 @@
     vim.mode("insert", "TTOTAL_CMD")
     vim.SetTimeOut(800, "TTOTAL_CMD")
     vim.map("<esc>", "<Normal_Mode_TC>", "TTOTAL_CMD")
+
     vim.mode("Search", "TTOTAL_CMD")
     vim.map("<esc>", "<Normal_Mode_TC>", "TTOTAL_CMD")
 
@@ -195,7 +197,7 @@
     vim.map(";", "<cm_FocusCmdLine>", "TTOTAL_CMD")
     vim.map(":", "<cm_FocusCmdLine>", "TTOTAL_CMD")
     vim.map("~", "<cm_SysInfo>", "TTOTAL_CMD")
-    ;vim.map("``", "<ToggleShowComment>", "TTOTAL_CMD")
+    vim.map("``", "<TotalCommander_ToggleShowInfo>", "TTOTAL_CMD")
     vim.map("G", "<LastLine>", "TTOTAL_CMD")
     vim.map("ga", "<cm_CloseAllTabs>", "TTOTAL_CMD")
     vim.map("gg", "<GoToLine>", "TTOTAL_CMD")
@@ -1380,6 +1382,11 @@ return
 <ViewFileUnderCursor>:
     send +{f3}
 return
+
+<TotalCommander_ToggleShowInfo>:
+vim.GetWin("TTOTAL_CMD").SetInfo(1 - vim.GetWin("TTOTAL_CMD").info)
+return
+
 
 
 
