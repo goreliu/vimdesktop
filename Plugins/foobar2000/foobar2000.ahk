@@ -4,9 +4,10 @@
 
     vim.Comment("<Normal_Mode_foobar2000>", "进入normal模式")
     vim.Comment("<Insert_Mode_foobar2000>", "进入insert模式")
-    vim.Comment("<foobar2000_search>", "打开搜索窗口")
-    vim.Comment("<foobar2000_tree>", "定位到目录窗口")
-    vim.Comment("<foobar2000_list>", "定位到播放列表")
+    vim.Comment("<foobar2000_Search>", "打开搜索窗口")
+    vim.Comment("<foobar2000_Tree>", "定位到目录窗口")
+    vim.Comment("<foobar2000_List>", "定位到播放列表")
+    vim.Comment("<foobar2000_ToggleShowInfo>", "显示/隐藏 提示按键提示")
 
     ; insert模式
     vim.mode("insert", foobar2000_class)
@@ -35,15 +36,21 @@
     vim.map("G", "<end>", foobar2000_class)
     vim.map("<c-f>", "<pgdn>", foobar2000_class)
     vim.map("<c-b>", "<pgup>", foobar2000_class)
-    vim.map("/", "<foobar2000_search>", foobar2000_class)
-    vim.map("t", "<foobar2000_tree>", foobar2000_class)
-    vim.map("m", "<foobar2000_list>", foobar2000_class)
+    vim.map("/", "<foobar2000_Search>", foobar2000_class)
+    vim.map("t", "<foobar2000_Tree>", foobar2000_class)
+    vim.map("m", "<foobar2000_List>", foobar2000_class)
     vim.map("n", "<Media_Next>", foobar2000_class)
     vim.map("p", "<Media_Prev>", foobar2000_class)
     vim.map("s", "<Media_Stop>", foobar2000_class)
     
-    vim.map("gn", "<NextTab>", foobar2000_class)
-    vim.map("gp", "<PrevTab>", foobar2000_class)
+    vim.map("N", "<NextTab>", foobar2000_class)
+    vim.map("P", "<PrevTab>", foobar2000_class)
+
+    vim.map("``", "<foobar2000_ToggleShowInfo>", foobar2000_class)
+
+    ; 不显示帮助信息
+    global foobar2000_showinfo := 0
+    vim.GetWin(foobar2000_class).SetInfo(0)
 
     vim.BeforeActionDo("ForceNormalMode_foobar2000", foobar2000_class)
 return
@@ -65,14 +72,19 @@ return
     vim.mode("insert", foobar2000_class)
 return
 
-<foobar2000_search>:
+<foobar2000_Search>:
     send ^f
 return
 
-<foobar2000_tree>:
+<foobar2000_Tree>:
     ControlFocus, SysTreeView321
 return
 
-<foobar2000_list>:
+<foobar2000_List>:
     ControlFocus, %foobar2000_list_classnn%
+return
+
+<foobar2000_ToggleShowInfo>:
+    vim.GetWin(foobar2000_class).SetInfo(foobar2000_showinfo = 0 ? 1 : 0)
+    foobar2000_showinfo := 1 - foobar2000_showinfo
 return
