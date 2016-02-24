@@ -59,7 +59,7 @@ CheckHotKey()
     global vim, arr_vimd
     arr_vimd := IsObject(arr_vimd) ? arr_vimd : []
     ini := GetVimdConfig()
-    for i , k in ini.global
+    for i, k in ini.global
     {
         if not strlen(i)
             continue
@@ -81,13 +81,13 @@ CheckHotKey()
         }
     }
 
-    for i , k in ini.exclude
+    for i, k in ini.exclude
     {
         vim.Setwin(i, i)
         vim.excludeWin(i, True)
     }
 
-    for i , k in ini
+    for i, k in ini
     {
         if RegExMatch(i, "i)(config)|(exclude)|(global)|(plugins)")
             continue
@@ -96,7 +96,7 @@ CheckHotKey()
         vim.SetTimeOut(k.set_time_out, i)
         vim.SetMaxCount(k.set_Max_count, i)
         win.SetInfo(k.set_show_info)
-        for m , n in k
+        for m, n in k
         {
             if not strlen(m)
                 continue
