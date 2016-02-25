@@ -5,29 +5,29 @@
     IniRead, TCPath, %ConfigPath%, TotalCommander_Config, TCPath
     IniRead, TCINI, %ConfigPath%, TotalCommander_Config, TCINI
 
-    If !FileExist(TCPath)
+    if !FileExist(TCPath)
     {
         Process, Exist, totalcmd.exe
-        If ErrorLevel
+        if ErrorLevel
         {
             WinGet, TCPath, ProcessPath, ahk_pid %ErrorLevel%
         }
-        Else
+        else
         {
             Process, Exist, totalcmd64.exe
-            If ErrorLevel
+            if ErrorLevel
                 WinGet, TCPath, ProcessPath, ahk_pid %ErrorLevel%
         }
-        If TCPath
+        if TCPath
             IniWrite, %TCPath%, %ConfigPath%, TotalCommander_Config, TCPath
     }
 
-    If TCPath and Not FileExist(TCPath)
+    if TCPath and Not FileExist(TCPath)
     {
         RegRead, TCDir, HKEY_CURRENT_USER, Software\Ghisler\Total Commander, InstallDir
-        If FileExist(TCDir "\totalcmd.exe")
+        if FileExist(TCDir "\totalcmd.exe")
             l .= TCDir "\totalcmd.exe`n"
-        If FileExist(TCDir "\totalcmd64.exe")
+        if FileExist(TCDir "\totalcmd64.exe")
             l .= TCDir "\totalcmd64.exe`n"
         GUI, FindTC:Add, Edit, w300 ReadOnly R3, %TCDir%
         GUI, FindTC:Add, Button, w300 gTotalcomander_select_tc, TOTALCMD.EXE   (&A)
@@ -36,7 +36,7 @@
         GUI, FindTC:Show, , Total Commander 设置路径
     }
 
-    If TCPath and not FileExist(TCINI)
+    if TCPath and not FileExist(TCINI)
     {
         SplitPath, TCPath, , dir
         TCINI := dir "\wincmd.ini"
@@ -47,7 +47,7 @@
     ;添加将TC作为打开文件对话框的快捷键
     ;IniWriteIfNullValue(ConfigPath, "Global", "*<ctrl>;", "<FocusTCCmd>")
 
-    If RegExMatch(TcPath, "i)totalcmd64\.exe$")
+    if RegExMatch(TcPath, "i)totalcmd64\.exe$")
     {
         Global TCListBox := "LCLListBox"
         Global TCEdit := "Edit2"
@@ -55,7 +55,7 @@
         GLobal TCPanel1 := "Window1"
         Global TCPanel2 := "Window11"
     }
-    Else
+    else
     {
         Global TCListBox := "TMyListBox"
         Global TCEdit := "Edit1"
@@ -292,16 +292,16 @@ return
 TTOTAL_CMD_CheckMode()
 {
     WinGet, MenuID, ID, AHK_CLASS #32768
-    If MenuID
+    if MenuID
         return True
     ControlGetFocus, ctrl, AHK_CLASS TTOTAL_CMD
-    If RegExMatch(ctrl, TInEdit)
+    if RegExMatch(ctrl, TInEdit)
         return false
-    If RegExMatch(ctrl, TCEdit)
+    if RegExMatch(ctrl, TCEdit)
         return True
 
     Ifinstring, ctrl, %TCListBox%
-        Return False
+        return False
     Ifinstring, ctrl, RichEdit20W1
         return False
     Ifinstring, ctrl, %TCListBox% 
@@ -314,12 +314,12 @@ TC_BeforeActionDo()
 {
     Global TC_SendPos
     WinGet, MenuID, ID, AHK_CLASS #32768
-    If MenuID And (TC_SendPos <> 572)
+    if MenuID And (TC_SendPos <> 572)
         return True
     ControlGetFocus, ctrl, AHK_CLASS TTOTAL_CMD
     Ifinstring, ctrl, %TCListBox%
-        Return False
-    Return True
+        return False
+    return True
 }
 
 <ExcSubOK>:
@@ -344,22 +344,22 @@ return
     IfWinExist, AHK_CLASS TTOTAL_CMD
     {
         WinGet, AC, MinMax, AHK_CLASS TTOTAL_CMD
-        If Ac = -1
+        if Ac = -1
             Winactivate, AHK_ClASS TTOTAL_CMD
-        Else
+        else
         Ifwinnotactive, AHK_CLASS TTOTAL_CMD
             Winactivate, AHK_CLASS TTOTAL_CMD
-        Else
+        else
             Winminimize, AHK_CLASS TTOTAL_CMD
     }
-    Else
+    else
     {
         Run, %TCPath%
         Loop, 4
         {
             IfWinNotActive, AHK_CLASS TTOTAL_CMD
                 WinActivate, AHK_CLASS TTOTAL_CMD
-            Else
+            else
                 Break
             Sleep, 500
         }
@@ -373,14 +373,14 @@ return
 {
     IfWinExist, AHK_CLASS TTOTAL_CMD
         Winactivate, AHK_ClASS TTOTAL_CMD
-    Else
+    else
     {
         Run, %TCPath%
         Loop, 4
         {
             IfWinNotActive, AHK_CLASS TTOTAL_CMD
                 WinActivate, AHK_CLASS TTOTAL_CMD
-            Else
+            else
                 Break
             Sleep, 500
         }
@@ -402,7 +402,7 @@ return
 AUTHTC()
 {
     WinGetText, string, ahk_class TNASTYNAGSCREEN
-    If Strlen(string)
+    if Strlen(string)
     {
         RegExMatch(string, "\d", idx)
         ControlClick, TButton%idx%, ahk_class TNASTYNAGSCREEN, , , , NA
@@ -418,30 +418,30 @@ azHistory()
     GoSub, <cm_ConfigSaveDirHistory>
     sleep, 200
     history := ""
-    If Mod(LeftRight(), 2)
+    if Mod(LeftRight(), 2)
     {
         IniRead, f, %ConfigPath%, redirect, LeftHistory
 
-        If FileExist(f)
+        if FileExist(f)
             IniRead, history, %f%, LeftHistory
-        Else
+        else
             IniRead, history, %TCINI%, LeftHistory
 
-        If RegExMatch(history, "RedirectSection=(.+)", HistoryRedirect)
+        if RegExMatch(history, "RedirectSection=(.+)", HistoryRedirect)
         { 
             StringReplace, HistoryRedirect1, HistoryRedirect1, `%COMMANDER_PATH`%, %TCPath%\..
             IniRead, history, %HistoryRedirect1%, LeftHistory
         }
     }
-    Else
+    else
     {
         IniRead, f, %ConfigPath%, redirect, RightHistory
-        If FileExist(f)
+        if FileExist(f)
             IniRead, history, %f%, RightHistory
-        Else
+        else
             IniRead, history, %TCINI%, RightHistory
 
-        If RegExMatch(history, "RedirectSection=(.+)", HistoryRedirect)
+        if RegExMatch(history, "RedirectSection=(.+)", HistoryRedirect)
         {
             StringReplace, HistoryRedirect1, HistoryRedirect1, `%COMMANDER_PATH`%, %TCPath%\..
             IniRead, history, %HistoryRedirect1%, RightHistory
@@ -458,37 +458,37 @@ azHistory()
         value := RegExReplace(A_LoopField, "^\d\d?=")
         ;避免&被识别成快捷键
         name := StrReplace(value, "&", ":＆:")
-        If RegExMatch(Value, "::\{20D04FE0\-3AEA\-1069\-A2D8\-08002B30309D\}\|")
+        if RegExMatch(Value, "::\{20D04FE0\-3AEA\-1069\-A2D8\-08002B30309D\}\|")
         {
             name  := RegExReplace(Value, "::\{20D04FE0\-3AEA\-1069\-A2D8\-08002B30309D\}\|")
             value := 2122
         }
-        If RegExMatch(Value, "::\|")
+        if RegExMatch(Value, "::\|")
         {
             name  := RegExReplace(Value, "::\|")
             value := 2121
         }
-        If RegExMatch(Value, "::\{21EC2020\-3AEA\-1069\-A2DD\-08002B30309D\}\\::\{2227A280\-3AEA\-1069\-A2DE\-08002B30309D\}\|")
+        if RegExMatch(Value, "::\{21EC2020\-3AEA\-1069\-A2DD\-08002B30309D\}\\::\{2227A280\-3AEA\-1069\-A2DE\-08002B30309D\}\|")
         {
             name  :=  RegExReplace(Value, "::\{21EC2020\-3AEA\-1069\-A2DD\-08002B30309D\}\\::\{2227A280\-3AEA\-1069\-A2DE\-08002B30309D\}\|")
             value := 2126
         }
-        If RegExMatch(Value, "::\{208D2C60\-3AEA\-1069\-A2D7\-08002B30309D\}\|") ;NothingIsBig的是XP系统，网上邻居是这个调整
+        if RegExMatch(Value, "::\{208D2C60\-3AEA\-1069\-A2D7\-08002B30309D\}\|") ;NothingIsBig的是XP系统，网上邻居是这个调整
         {
             name := RegExReplace(Value, "::\{208D2C60\-3AEA\-1069\-A2D7\-08002B30309D\}\|")
             value := 2125
         }
-        If RegExMatch(Value, "::\{F02C1A0D\-BE21\-4350\-88B0\-7367FC96EF3C\}\|")
+        if RegExMatch(Value, "::\{F02C1A0D\-BE21\-4350\-88B0\-7367FC96EF3C\}\|")
         {
             name := RegExReplace(Value, "::\{F02C1A0D\-BE21\-4350\-88B0\-7367FC96EF3C\}\|")
             value := 2125
         }
-        If RegExMatch(Value, "::\{26EE0668\-A00A\-44D7\-9371\-BEB064C98683\}\\0\|")
+        if RegExMatch(Value, "::\{26EE0668\-A00A\-44D7\-9371\-BEB064C98683\}\\0\|")
         {
             name := RegExReplace(Value, "::\{26EE0668\-A00A\-44D7\-9371\-BEB064C98683\}\\0\|")
             value := 2123
         }
-        If RegExMatch(Value, "::\{645FF040\-5081\-101B\-9F08\-00AA002F954E\}\|")
+        if RegExMatch(Value, "::\{645FF040\-5081\-101B\-9F08\-00AA002F954E\}\|")
         {
             name := RegExReplace(Value, "::\{645FF040\-5081\-101B\-9F08\-00AA002F954E\}\|")
             value := 2127
@@ -520,19 +520,19 @@ return
 azHistorySelect()
 {
     Global history_name_obj
-    If ( history_name_obj[A_ThisMenuItem] = 2122 ) or RegExMatch(A_ThisMenuItem, "::\{20D04FE0\-3AEA\-1069\-A2D8\-08002B30309D\}")
+    if ( history_name_obj[A_ThisMenuItem] = 2122 ) or RegExMatch(A_ThisMenuItem, "::\{20D04FE0\-3AEA\-1069\-A2D8\-08002B30309D\}")
         GoSub, <cm_OpenDrives>
-    Else If ( history_name_obj[A_ThisMenuItem] = 2121 ) or RegExMatch(A_ThisMenuItem, "::(?!\{)")
+    else if ( history_name_obj[A_ThisMenuItem] = 2121 ) or RegExMatch(A_ThisMenuItem, "::(?!\{)")
         GoSub, <cm_OpenDesktop>
-    Else If ( history_name_obj[A_ThisMenuItem] = 2126 ) or RegExMatch(A_ThisMenuItem, "::\{21EC2020\-3AEA\-1069\-A2DD\-08002B30309D\}\\::\{2227A280\-3AEA\-1069\-A2DE\-08002B30309D\}")
+    else if ( history_name_obj[A_ThisMenuItem] = 2126 ) or RegExMatch(A_ThisMenuItem, "::\{21EC2020\-3AEA\-1069\-A2DD\-08002B30309D\}\\::\{2227A280\-3AEA\-1069\-A2DE\-08002B30309D\}")
         GoSub, <cm_OpenPrinters>
-    Else If ( history_name_obj[A_ThisMenuItem] = 2125 ) or RegExMatch(A_ThisMenuItem, "::\{F02C1A0D\-BE21\-4350\-88B0\-7367FC96EF3C\}") or RegExMatch(A_ThisMenuItem, "::\{208D2C60\-3AEA\-1069\-A2D7\-08002B30309D\}\|") ;NothingIsBig的是XP系统，网上邻居是这个调整
+    else if ( history_name_obj[A_ThisMenuItem] = 2125 ) or RegExMatch(A_ThisMenuItem, "::\{F02C1A0D\-BE21\-4350\-88B0\-7367FC96EF3C\}") or RegExMatch(A_ThisMenuItem, "::\{208D2C60\-3AEA\-1069\-A2D7\-08002B30309D\}\|") ;NothingIsBig的是XP系统，网上邻居是这个调整
         GoSub, <cm_OpenNetwork>
-    Else If ( history_name_obj[A_ThisMenuItem] = 2123 ) or RegExMatch(A_ThisMenuItem, "::\{26EE0668\-A00A\-44D7\-9371\-BEB064C98683\}\\0")
+    else if ( history_name_obj[A_ThisMenuItem] = 2123 ) or RegExMatch(A_ThisMenuItem, "::\{26EE0668\-A00A\-44D7\-9371\-BEB064C98683\}\\0")
         GoSub, <cm_OpenControls>
-    Else If ( history_name_obj[A_ThisMenuItem] = 2127 ) or RegExMatch(A_ThisMenuItem, "::\{645FF040\-5081\-101B\-9F08\-00AA002F954E\}")
+    else if ( history_name_obj[A_ThisMenuItem] = 2127 ) or RegExMatch(A_ThisMenuItem, "::\{645FF040\-5081\-101B\-9F08\-00AA002F954E\}")
         GoSub, <cm_OpenRecycled>
-    Else
+    else
     {
         ThisMenuItem := RegExReplace(A_ThisMenuItem, "\t.*$")
         ThisMenuItem := StrReplace(ThisMenuItem, ":＆:", "&")
@@ -558,11 +558,11 @@ return
 return
 WinMaxLR(lr)
 {
-    If lr
+    if lr
     {
         ControlGetPos, x, y, w, h, %TCPanel2%, ahk_class TTOTAL_CMD
         ControlGetPos, tm1x, tm1y, tm1W, tm1H, %TCPanel1%, ahk_class TTOTAL_CMD
-        If (tm1w < tm1h) ; 判断纵向还是横向 Ture为竖 false为横
+        if (tm1w < tm1h) ; 判断纵向还是横向 Ture为竖 false为横
         {
             ControlMove, %TCPanel1%, x+w, , , , ahk_class TTOTAL_CMD
         }
@@ -571,7 +571,7 @@ WinMaxLR(lr)
         ControlClick, %TCPanel1%, ahk_class TTOTAL_CMD
         WinActivate ahk_class TTOTAL_CMD
     }
-    Else
+    else
     {
         ControlMove, %TCPanel1%, 0, 0, , , ahk_class TTOTAL_CMD
         ControlClick, %TCPanel1%, ahk_class TTOTAL_CMD
@@ -592,7 +592,7 @@ CopyNameOnly()
     clipboard :=
     GoSub, <cm_CopyNamesToClip>
     ClipWait
-    If Not RegExMatch(clipboard, "^\..*")
+    if Not RegExMatch(clipboard, "^\..*")
         clipboard := RegExReplace(RegExReplace(clipboard, "\\$"), "\.[^\.]*$")
 }
 ; <ForceDelete>  {{{1
@@ -604,35 +604,35 @@ return
 ; 转到[count]行, 缺省第一行
 <GotoLine>:
     ; TODO: 是否需要？ Vim_HotKeyCount := vim.GetCount()
-    If ( count := vim.GetCount()) > 1
+    if ( count := vim.GetCount()) > 1
         GotoLine(count)
-    Else
+    else
         GotoLine(1)
 return
 ; <LastLine> {{{1
 ; 转到[count]行, 最后一行
 <LastLine>:
     ; TODO: 是否需要？ Vim_HotKeyCount := vim.GetCount()
-    If ( count := vim.GetCount()) > 1
+    if ( count := vim.GetCount()) > 1
         GotoLine(count)
-    Else
+    else
         GotoLine(0)
 return
 GotoLine(Index)
 {
     Vim_HotKeyCount := 0
     ControlGetFocus, Ctrl, AHK_CLASS TTOTAL_CMD
-    If Index
+    if Index
     {
         ;Index--
         ControlGet, text, List, , %ctrl%, AHK_CLASS TTOTAL_CMD
         Stringsplit, T, Text, `n
         Last := T0 - 1
-        If Index > %Last%
+        if Index > %Last%
             Index := Last
         Postmessage, 0x19E, %Index%, 1, %Ctrl%, AHK_CLASS TTOTAL_CMD
     }
-    Else
+    else
     {
         ControlGet, text, List, , %ctrl%, AHK_CLASS TTOTAL_CMD
         Stringsplit, T, Text, `n
@@ -681,13 +681,13 @@ MarkTimer()
     ControlGetFocus, ThisControl, AHK_CLASS TTOTAL_CMD
     ControlGetText, OutVar, %TCEdit%, AHK_CLASS TTOTAL_CMD
     Match_TCEdit := "i)^" . TCEdit . "$"
-    If Not RegExMatch(ThisControl, Match_TCEdit) OR Not RegExMatch(Outvar, "i)^m.?")
+    if Not RegExMatch(ThisControl, Match_TCEdit) OR Not RegExMatch(Outvar, "i)^m.?")
     {
         vim.mode("normal")
         Settimer, <MarkTimer>, Off
         return
     }
-    If RegExMatch(OutVar, "i)^m.+")
+    if RegExMatch(OutVar, "i)^m.+")
     {
         vim.mode("normal")
         SetTimer, <MarkTimer>, off
@@ -699,7 +699,7 @@ MarkTimer()
         ClipWait
         Path := Clipboard
         Clipboard := ClipSaved
-        If StrLen(Path) > 80
+        if StrLen(Path) > 80
         {
             SplitPath, Path, , PathDir
             Path1 := SubStr(Path, 1, 15)
@@ -708,7 +708,7 @@ MarkTimer()
         }
         M := SubStr(OutVar, 2, 1)
         mPath := "&" . m . ">>" . Path
-        If RegExMatch(Mark["ms"], m)
+        if RegExMatch(Mark["ms"], m)
         {
             DelM := Mark[m]
             Menu, MarkMenu, Delete, %DelM%
@@ -716,7 +716,7 @@ MarkTimer()
             Mark["ms"] := Mark["ms"] . m
             Mark[m] := mPath
         }
-        Else
+        else
         {
             Menu, MarkMenu, Add, %mPath%, <AddMark>
             Mark["ms"] := Mark["ms"] . m
@@ -730,37 +730,37 @@ return
 AddMark()
 {
     ThisMenuItem := SubStr(A_ThisMenuItem, 5, StrLen(A_ThisMenuItem))
-    If RegExMatch(ThisMenuItem, "i)\\\\桌面$")
+    if RegExMatch(ThisMenuItem, "i)\\\\桌面$")
     {
         Postmessage 1075, 2121, 0, , ahk_class TTOTAL_CMD
         return
     }
-    If RegExMatch(ThisMenuItem, "i)\\\\计算机$")
+    if RegExMatch(ThisMenuItem, "i)\\\\计算机$")
     {
         Postmessage 1075, 2122, 0, , ahk_class TTOTAL_CMD
         return
     }
-    If RegExMatch(ThisMenuItem, "i)\\\\所有控制面板项$")
+    if RegExMatch(ThisMenuItem, "i)\\\\所有控制面板项$")
     {
         Postmessage 1075, 2123, 0, , ahk_class TTOTAL_CMD
         return
     }
-    If RegExMatch(ThisMenuItem, "i)\\\\Fonts$")
+    if RegExMatch(ThisMenuItem, "i)\\\\Fonts$")
     {
         Postmessage 1075, 2124, 0, , ahk_class TTOTAL_CMD
         return
     }
-    If RegExMatch(ThisMenuItem, "i)\\\\网络$")
+    if RegExMatch(ThisMenuItem, "i)\\\\网络$")
     {
         Postmessage 1075, 2125, 0, , ahk_class TTOTAL_CMD
         return
     }
-    If RegExMatch(ThisMenuItem, "i)\\\\打印机$")
+    if RegExMatch(ThisMenuItem, "i)\\\\打印机$")
     {
         Postmessage 1075, 2126, 0, , ahk_class TTOTAL_CMD
         return
     }
-    If RegExMatch(ThisMenuItem, "i)\\\\回收站$")
+    if RegExMatch(ThisMenuItem, "i)\\\\回收站$")
     {
         Postmessage 1075, 2127, 0, , ahk_class TTOTAL_CMD
         return
@@ -776,7 +776,7 @@ AddMark()
 return
 ListMark()
 {
-    If Not Mark["ms"]
+    if Not Mark["ms"]
         return
     ControlGetFocus, TLB, ahk_class TTOTAL_CMD
     ControlGetPos, xn, yn, , , %TLB%, ahk_class TTOTAL_CMD
@@ -798,9 +798,9 @@ CreateNewFile()
     Menu, FileTemp, Add , 1 文件夹, <cm_Mkdir>
     Menu, FileTemp, Icon, 1 文件夹, %A_WinDir%\system32\Shell32.dll, 4
     Menu, FileTemp, Add , 2 快捷方式, <cm_CreateShortcut>
-    If A_OSVersion in WIN_2000, WIN_XP
+    if A_OSVersion in WIN_2000, WIN_XP
         Menu, FileTemp, Icon, 2 快捷方式, %A_WinDir%\system32\Shell32.dll, 30 ;我测试xp下必须是30
-    Else Menu, FileTemp, Icon, 2 快捷方式, %A_WinDir%\system32\Shell32.dll, 264 ;原来是264，xp下反正是有问题
+    else Menu, FileTemp, Icon, 2 快捷方式, %A_WinDir%\system32\Shell32.dll, 264 ;原来是264，xp下反正是有问题
     Menu, FileTemp, Add , 3 添加到新模板, <AddToTempFiles>
     Menu, FileTemp, Icon, 3 添加到新模板, %A_WinDir%\system32\Shell32.dll, -155
     FileTempMenuCheck()
@@ -813,7 +813,7 @@ FileTempMenuCheck()
     Splitpath, TCPath, , TCDir
     Loop, %TCDir%\shellnew\*.*
     {
-        If A_Index = 1
+        if A_Index = 1
             Menu, FileTemp, Add
         ft := chr(64+A_Index) . " >> " . A_LoopFileName
         Menu, FileTemp, Add, %ft%, FileTempNew
@@ -825,9 +825,9 @@ FileTempMenuCheck()
         IconFileIndex := RegExReplace(IconFile, ".*, ", "")
         IconFileIndex := IconFileIndex>=0?IconFileIndex+1:IconFileIndex
         ;MsgBox, %Ext%_%IconFile%_%IconFilePath%_%IconFileIndex%
-        If Not FileExist(IconFilePath)
+        if Not FileExist(IconFilePath)
             Menu, FileTemp, Icon, %ft%, %A_WinDir%\system32\Shell32.dll, 1 ;-152
-        Else
+        else
             Menu, FileTemp, Icon, %ft%, %IconFilePath%, %IconFileIndex%
     }
 }
@@ -841,12 +841,12 @@ AddToTempFiles()
     Clipboard :=
     GoSub, <cm_CopyFullNamesToClip>
     ClipWait, 2
-    If clipboard
+    if clipboard
         AddPath := clipboard
-    Else
+    else
         return
     clipboard := ClipSaved
-    If FileExist(AddPath)
+    if FileExist(AddPath)
         Splitpath, AddPath, filename, , fileext, filenamenoext
     else
         return
@@ -859,7 +859,7 @@ AddToTempFiles()
     Gui, Add, Button, x162 y80 w90 h30 gAddTempOK default, 确认(&S)
     Gui, Add, Button, x282 y80 w90 h30 gNewFileClose , 取消(&C)
     Gui, Show, w400 h120, 添加模板
-    If Fileext
+    if Fileext
     {
         Controlget, nf, hwnd, , edit2, A
         PostMessage, 0x0B1, 0, Strlen(filenamenoext), Edit2, A
@@ -875,7 +875,7 @@ AddTempOK()
     Splitpath, SrcPath, filename, , fileext, filenamenoext
     GuiControlGet, NewFileName, , Edit2
     SNDir := RegExReplace(TCPath, "[^\\]*$") . "ShellNew\"
-    If Not FileExist(SNDir)
+    if Not FileExist(SNDir)
         FileCreateDir, %SNDir%
     NewFile := SNDir . NewFileName
     FileCopy, %SrcPath%, %NewFile%, 1
@@ -892,15 +892,15 @@ return
 NewFile(File="")
 {
     Global NewFile
-    If Not File
+    if Not File
         File := RegExReplace(NewFiles[A_ThisMenuItemPos], "(.*\[|\]$)", "")
-    If Not FileExist(File)
+    if Not FileExist(File)
     {
         RegRead, ShellNewDir, HKEY_USERS, .default\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders
-        If Not ShellNewDir
+        if Not ShellNewDir
             ShellNewDir := "C:\windows\Shellnew"
         File := ShellNewDir . "\" file
-        If RegExMatch(SubStr(file, -7), "NullFile")
+        if RegExMatch(SubStr(file, -7), "NullFile")
         {
             fileext := RegExReplace(NewFiles[A_ThisMenuItemPos], "(.*\(|\).*)")
             File := "New" . fileext
@@ -908,7 +908,7 @@ NewFile(File="")
             FileNamenoext := "New"
         }
     }
-    Else
+    else
         Splitpath, file, filename, , fileext, filenamenoext
     Gui, Destroy
     Gui, Add, Text, x12 y20 w50 h20 +Center, 模板源
@@ -918,7 +918,7 @@ NewFile(File="")
     Gui, Add, Button, x162 y80 w90 h30 gNewFileOk default, 确认(&S)
     Gui, Add, Button, x282 y80 w90 h30 gNewFileClose , 取消(&C)
     Gui, Show, w400 h120, 新建文件
-    If Fileext
+    if Fileext
     {
         Controlget, nf, hwnd, , edit2, A
         PostMessage, 0x0B1, 0, Strlen(filenamenoext), Edit2, A
@@ -942,35 +942,35 @@ NewFileOK()
     Clipboard :=
     GoSub, <cm_CopySrcPathToClip>
     ClipWait, 2
-    If clipboard
+    if clipboard
         DstPath := Clipboard
-    Else
+    else
         return
     clipboard := ClipSaved
-        If RegExMatch(DstPath, "^\\\\计算机$")
+        if RegExMatch(DstPath, "^\\\\计算机$")
         return
-    If RegExMatch(DstPath, "i)\\\\所有控制面板项$")
+    if RegExMatch(DstPath, "i)\\\\所有控制面板项$")
         return
-    If RegExMatch(DstPath, "i)\\\\Fonts$")
+    if RegExMatch(DstPath, "i)\\\\Fonts$")
         return
-    If RegExMatch(DstPath, "i)\\\\网络$")
+    if RegExMatch(DstPath, "i)\\\\网络$")
         return
-    If RegExMatch(DstPath, "i)\\\\打印机$")
+    if RegExMatch(DstPath, "i)\\\\打印机$")
         return
-    If RegExMatch(DstPath, "i)\\\\回收站$")
+    if RegExMatch(DstPath, "i)\\\\回收站$")
         return
-    If RegExmatch(DstPath, "^\\\\桌面$")
+    if RegExmatch(DstPath, "^\\\\桌面$")
         DstPath := A_Desktop
     NewFile := DstPath . "\" . NewFileName
-    If FileExist(NewFile)
+    if FileExist(NewFile)
     {   
         MsgBox, 4, 新建文件, 新建文件已存在，是否覆盖？
         IfMsgBox No
             return
     }
-    If !FileExist(SrcPath)
+    if !FileExist(SrcPath)
         Run, fsutil file createnew "%NewFile%" 0, , Hide
-    Else 
+    else 
         FileCopy, %SrcPath%, %NewFile%, 1
 
     Gui, Destroy
@@ -982,7 +982,7 @@ NewFileOK()
         ControlGet, Text, List, , %FocusCtrl%, AHK_CLASS TTOTAL_CMD
         Loop, Parse, Text, `n
         {
-            If RegExMatch(A_LoopField, NewFileName)
+            if RegExMatch(A_LoopField, NewFileName)
             {
                 Index := A_Index - 1
                 Postmessage, 0x19E, %Index%, 1, %FocusCtrl%, AHK_CLASS TTOTAL_CMD
@@ -1000,17 +1000,17 @@ ReadNewFile()
     SetBatchLines -1
     Loop, HKEY_CLASSES_ROOT , , 1, 0
     {
-        If A_LoopRegName=.lnk ;让新建快捷方式无效
+        if A_LoopRegName=.lnk ;让新建快捷方式无效
             continue
-        Else If RegExMatch(A_LoopRegName, "^\..*")
+        else if RegExMatch(A_LoopRegName, "^\..*")
         {
             Reg := A_LoopRegName
             Loop, HKEY_CLASSES_ROOT, %Reg%, 1, 1
             {
-                If RegExMatch(A_LoopRegName, "i)shellnew")
+                if RegExMatch(A_LoopRegName, "i)shellnew")
                 {
                     NewReg := A_LoopRegSubKey "\shellnew"
-                    If RegGetNewFilePath(NewReg)
+                    if RegGetNewFilePath(NewReg)
                     {
                         NewFiles[0]++
                         Index := NewFiles[0]
@@ -1024,7 +1024,7 @@ ReadNewFile()
     Half := LoopCount/2
     Loop % LoopCount
     {
-        If A_Index < %Half%
+        if A_Index < %Half%
         {
             B_Index := NewFiles[0] - A_Index + 1
             C_Index := NewFiles[A_Index]
@@ -1053,14 +1053,14 @@ ReadNewFile()
         IconFile := RegExReplace(IconFile, "i)%ProgramFiles%", A_ProgramFiles)
         IconFilePath := RegExReplace(IconFile, ", ?-?\d*", "")
         StringReplace, IconFilePath, IconFilePath, ", , A
-        If Not FileExist(IconFilePath)
+        if Not FileExist(IconFilePath)
             IconFilePath := ""
         IconFileIndex := RegExReplace(IconFile, ".*, ", "")
         IconFileIndex := IconFileIndex>=0?IconFileIndex+1:IconFileIndex
         ;MsgBox, %IconFile%_%IconFilePath%_%IconFileIndex%
-        If Not RegExMatch(IconFileIndex, "^-?\d*$")
+        if Not RegExMatch(IconFileIndex, "^-?\d*$")
             IconFileIndex := ""
-        If RegExMatch(Ext, "\.lnk")
+        if RegExMatch(Ext, "\.lnk")
         {
             IconFilePath := A_WinDir . "\system32\Shell32.dll"
             IconFileIndex := "264"
@@ -1085,7 +1085,7 @@ RegGetNewFilePath(reg)
 RegGetNewFileType(reg)
 {
     RegRead, FileType, HKEY_CLASSES_ROOT, %Reg%
-    If Not ErrorLevel
+    if Not ErrorLevel
         return FileType
 }
 ; 获取文件描述
@@ -1094,7 +1094,7 @@ RegGetNewFileDescribe(reg)
 {
     FileType := RegGetNewFileType(reg)
     RegRead, FileDesc, HKEY_CLASSES_ROOT, %FileType%
-    If Not ErrorLevel
+    if Not ErrorLevel
         return FileDesc
 }
 ; 获取文件对应的图标
@@ -1103,7 +1103,7 @@ RegGetNewFileIcon(reg)
 {
     IconPath := RegGetNewFileType(reg) . "\DefaultIcon"
     RegRead, FileIcon, HKEY_CLASSES_ROOT, %IconPath%
-    If Not ErrorLevel
+    if Not ErrorLevel
         return FileIcon
 }
 ; <GoToParentEx> {{{1
@@ -1120,7 +1120,7 @@ IsRootDir()
     ClipWait, 1
     Path := Clipboard
     Clipboard := ClipSaved
-    If RegExMatch(Path, "^.:\\$")
+    if RegExMatch(Path, "^.:\\$")
     {
         GoSub, <cm_OpenDrives>
         Path := "i)" . RegExReplace(Path, "\\", "")
@@ -1128,9 +1128,9 @@ IsRootDir()
         ControlGet, outvar, list, , %focus_control%, AHK_CLASS TTOTAL_CMD
         Loop, Parse, Outvar, `n
         {
-            If Not A_LoopField
+            if Not A_LoopField
                 Break
-            If RegExMatch(A_LoopField, Path)
+            if RegExMatch(A_LoopField, Path)
             {
                 Focus := A_Index - 1
                 Break
@@ -1145,7 +1145,7 @@ return
 AlwayOnTop()
 {
     WinGet, ExStyle, ExStyle, ahk_class TTOTAL_CMD
-    If (ExStyle & 0x8)
+    if (ExStyle & 0x8)
         WinSet, AlwaysOnTop, off, ahk_class TTOTAL_CMD
     else
         WinSet, AlwaysOnTop, on, ahk_class TTOTAL_CMD 
@@ -1156,18 +1156,18 @@ LeftRight()
 {
     location := 0
     ControlGetPos, x1, y1, , , %TCPanel1%, AHK_CLASS TTOTAL_CMD
-    If x1 > %y1%
+    if x1 > %y1%
         location += 2
     ControlGetFocus, TLB, ahk_class TTOTAL_CMD
     ControlGetPos, x2, y2, wn, , %TLB%, ahk_class TTOTAL_CMD
-    If location
+    if location
     {
-        If x1 > %x2%
+        if x1 > %x2%
             location += 1
     }
-    Else
+    else
     {
-        If y1 > %y2%
+        if y1 > %y2%
             location += 1
     }
     return location
@@ -1278,7 +1278,7 @@ return
 
 ;<MoveDirectoryHotlist>: >>移动到常用文件夹{{{2
 <MoveDirectoryHotlist>:
-    If SendPos(0)
+    if SendPos(0)
         ControlGetFocus, CurrentFocus, AHK_CLASS TTOTAL_CMD
     if CurrentFocus not in TMyListBox2, TMyListBox1
         return
