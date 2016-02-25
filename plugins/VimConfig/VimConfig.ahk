@@ -148,7 +148,7 @@ vimconfig_keymap_loadmodelist:
     GuiControl, Choose, ListBox2, |normal
 return
 
-vimconfig_keymap_loadmodelist(win="")
+vimconfig_keymap_loadmodelist(win = "")
 {
     global vim
     GUI, vimconfig_keymap:Default
@@ -172,7 +172,7 @@ vimconfig_keymap_loadhotkey:
     vimconfig_keymap_loadhotkey(win, mode)
 return
 
-vimconfig_keymap_loadhotkey(win, mode="")
+vimconfig_keymap_loadhotkey(win, mode = "")
 {
     global vim
     If strlen(mode)
