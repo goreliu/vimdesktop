@@ -86,8 +86,8 @@ CheckHotKey()
 
     for i, k in ini.exclude
     {
-        vim.Setwin(i, i)
-        vim.excludeWin(i, true)
+        vim.SetWin(i, i)
+        vim.ExcludeWin(i, true)
     }
 
     for i, k in ini
