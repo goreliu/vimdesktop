@@ -1001,7 +1001,7 @@ ReadNewFile()
     Loop, HKEY_CLASSES_ROOT , , 1, 0
     {
         If A_LoopRegName=.lnk ;让新建快捷方式无效
-            Continue
+            continue
         Else If RegExMatch(A_LoopRegName, "^\..*")
         {
             Reg := A_LoopRegName
@@ -1033,14 +1033,22 @@ ReadNewFile()
         }
     }
     Menu, CreateNewFile, UseErrorLevel, On
+    LastExt := ""
     Loop % NewFiles[0]
     {
         File := RegExReplace(NewFiles[A_Index], "\(.*", "")
-        Exec := RegExReplace(NewFiles[A_Index], "(.*\(|\)\[.*)", "")
-        MenuFile := Chr(A_Index+64) . " >> " . File . "(" Exec . ")"
+        Ext := RegExReplace(NewFiles[A_Index], "(.*\(|\)\[.*)", "")
+        MenuFile := Chr(A_Index+64) . " >> " . File . "(" Ext . ")"
+        ; 去除重复的文件，只有连续出现的情况有效
+        if (Ext = LastExt)
+        {
+            continue
+        }
+        LastExt := Ext
+
         Menu, CreateNewFile, Add, %MenuFile%, NewFile
 
-        IconFile := RegGetNewFileIcon(Exec)
+        IconFile := RegGetNewFileIcon(Ext)
         IconFile := RegExReplace(IconFile, "i)%systemroot%", A_WinDir)
         IconFile := RegExReplace(IconFile, "i)%ProgramFiles%", A_ProgramFiles)
         IconFilePath := RegExReplace(IconFile, ", ?-?\d*", "")
@@ -1052,7 +1060,7 @@ ReadNewFile()
         ;MsgBox, %IconFile%_%IconFilePath%_%IconFileIndex%
         If Not RegExMatch(IconFileIndex, "^-?\d*$")
             IconFileIndex := ""
-        If RegExMatch(Exec, "\.lnk")
+        If RegExMatch(Ext, "\.lnk")
         {
             IconFilePath := A_WinDir . "\system32\Shell32.dll"
             IconFileIndex := "264"
