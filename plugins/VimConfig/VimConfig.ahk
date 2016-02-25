@@ -145,6 +145,7 @@ vimconfig_keymap_loadmodelist:
     vimconfig_keymap_loadmodelist()
     GUI, vimconfig_keymap:Default
     LV_delete()
+    GuiControl, Choose, ListBox2, |normal
 return
 
 vimconfig_keymap_loadmodelist(win="")
