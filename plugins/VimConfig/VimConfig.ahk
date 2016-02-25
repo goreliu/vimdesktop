@@ -52,8 +52,13 @@ return
 
 vimconfig_LoadActions:
 {
-    If A_GuiEvent = Normal
+    If A_GuiEvent = I
     {
+        if not InStr(ErrorLevel, "S", true)
+        {
+            return
+        }
+
         GUI, vimconfig_plugin:ListView, sysListview321
         LV_GetText(plugin, A_EventInfo)
         GUI, vimconfig_plugin:Default
