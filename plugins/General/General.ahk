@@ -1,112 +1,112 @@
 ﻿General:
     Gen_Save_Win := []
-    vim.SetAction("<down>","向下移动")
-    vim.SetAction("<up>","向上移动")
-    vim.SetAction("<left>","向左移动")
-    vim.SetAction("<right>","向右移动")
-    vim.SetAction("<home>","热键home")
-    vim.SetAction("<end>","热键End")
-    vim.SetAction("<pageup>","向下翻页")
-    vim.SetAction("<pagedown>","向上翻页")
-    vim.SetAction("<Gen_InsertMode>","插入模式")
-    vim.SetAction("<Gen_NormalMode>","浏览模式")
-    vim.SetAction("<Gen_Toggle>","启用/禁用vim热键(General插件)")
-    vim.SetAction("<Reload>","重新加载")
-    vim.Comment("<windowMoveDown>","窗口移动到下方")
-    vim.Comment("<windowMoveUp>","窗口移动到上方")
-    vim.Comment("<windowMoveLeft>","窗口移动到左侧")
-    vim.Comment("<WindowMoveRight>","窗口移动到右侧")
-    vim.Comment("<WindowMoveCenter>","窗口移动到中间")
-    vim.Comment("<WindowMax>","最大化窗口")
-    vim.Comment("<WindowMin>","最小化窗口")
-    vim.Comment("<WindowRestore>","还原当前窗口")
-    vim.Comment("<FullScreen>","全屏当前程序")
-    vim.comment("<NextTab>","下一个标签")
-    vim.comment("<PrevTab>","前一个标签")
-    vim.comment("<CloseTab>","关闭当前标签")
-    vim.comment("<NewTab>","新建标签")
-    vim.comment("<ActivateTab1>","激活第一个标签")
-    vim.comment("<ActivateTab2>","激活第二个标签")
-    vim.comment("<ActivateTab3>","激活第三个标签")
-    vim.comment("<ActivateTab4>","激活第四个标签")
-    vim.comment("<ActivateTab5>","激活第五个标签")
-    vim.comment("<ActivateTab6>","激活第六个标签")
-    vim.comment("<ActivateTab7>","激活第七个标签")
-    vim.comment("<ActivateTab8>","激活第八个标签")
-    vim.comment("<ActivateTab9>","激活第九个标签")
-    vim.comment("<ActivateTab0>","激活最后一个标签")
-    vim.comment("<pgup>","上一页")
-    vim.comment("<pgdn>","下一页")
-    vim.comment("<home>","按下Home键")
-    vim.comment("<end>","按下End键")
-    vim.comment("<enter>","按下回车键")
-    vim.comment("<Pass>","退出快捷提示")
-    vim.comment("<Media_Next>","播放下一首")
-    vim.comment("<Media_Prev>","播放上一首")
-    vim.comment("<Media_Play_Pause>","播放/停止")
-    vim.comment("<Media_Stop>","停止播放")
+    vim.SetAction("<down>", "向下移动")
+    vim.SetAction("<up>", "向上移动")
+    vim.SetAction("<left>", "向左移动")
+    vim.SetAction("<right>", "向右移动")
+    vim.SetAction("<home>", "热键home")
+    vim.SetAction("<end>", "热键End")
+    vim.SetAction("<pageup>", "向下翻页")
+    vim.SetAction("<pagedown>", "向上翻页")
+    vim.SetAction("<Gen_InsertMode>", "插入模式")
+    vim.SetAction("<Gen_NormalMode>", "浏览模式")
+    vim.SetAction("<Gen_Toggle>", "启用/禁用vim热键(General插件)")
+    vim.SetAction("<Reload>", "重新加载")
+    vim.Comment("<windowMoveDown>", "窗口移动到下方")
+    vim.Comment("<windowMoveUp>", "窗口移动到上方")
+    vim.Comment("<windowMoveLeft>", "窗口移动到左侧")
+    vim.Comment("<WindowMoveRight>", "窗口移动到右侧")
+    vim.Comment("<WindowMoveCenter>", "窗口移动到中间")
+    vim.Comment("<WindowMax>", "最大化窗口")
+    vim.Comment("<WindowMin>", "最小化窗口")
+    vim.Comment("<WindowRestore>", "还原当前窗口")
+    vim.Comment("<FullScreen>", "全屏当前程序")
+    vim.comment("<NextTab>", "下一个标签")
+    vim.comment("<PrevTab>", "前一个标签")
+    vim.comment("<CloseTab>", "关闭当前标签")
+    vim.comment("<NewTab>", "新建标签")
+    vim.comment("<ActivateTab1>", "激活第一个标签")
+    vim.comment("<ActivateTab2>", "激活第二个标签")
+    vim.comment("<ActivateTab3>", "激活第三个标签")
+    vim.comment("<ActivateTab4>", "激活第四个标签")
+    vim.comment("<ActivateTab5>", "激活第五个标签")
+    vim.comment("<ActivateTab6>", "激活第六个标签")
+    vim.comment("<ActivateTab7>", "激活第七个标签")
+    vim.comment("<ActivateTab8>", "激活第八个标签")
+    vim.comment("<ActivateTab9>", "激活第九个标签")
+    vim.comment("<ActivateTab0>", "激活最后一个标签")
+    vim.comment("<pgup>", "上一页")
+    vim.comment("<pgdn>", "下一页")
+    vim.comment("<home>", "按下Home键")
+    vim.comment("<end>", "按下End键")
+    vim.comment("<enter>", "按下回车键")
+    vim.comment("<Pass>", "退出快捷提示")
+    vim.comment("<Media_Next>", "播放下一首")
+    vim.comment("<Media_Prev>", "播放上一首")
+    vim.comment("<Media_Play_Pause>", "播放/停止")
+    vim.comment("<Media_Stop>", "停止播放")
 
-    vim.SetWin("General","General")
-    vim.SetMode("insert","General")
-    vim.map("<Esc>","<Gen_NormalMode>","General")
-    vim.SetMode("normal","General")
-    vim.map("i","<Gen_InsertMode>","General")
-    vim.map("0","<0>","General")
-    vim.map("1","<1>","General")
-    vim.map("2","<2>","General")
-    vim.map("3","<3>","General")
-    vim.map("4","<4>","General")
-    vim.map("5","<5>","General")
-    vim.map("6","<6>","General")
-    vim.map("7","<7>","General")
-    vim.map("8","<8>","General")
-    vim.map("9","<9>","General")
-    vim.map("k","<up>","General")
-    vim.map("j","<down>","General")
-    vim.map("k","<up>","General")
-    vim.map("h","<left>","General")
-    vim.map("l","<right>","General")
-    vim.map("zj","<WindowMoveDown>","General")
-    vim.map("zk","<WindowMoveUp>","General")
-    vim.map("zh","<WindowMoveLeft>","General")
-    vim.map("zl","<WindowMoveRight>","General")
-    vim.map("zc","<WindowMoveCenter>","General")
-    vim.map("zf","<fullscreen>","General")
-    vim.map("zm","<WindowMax>","General")
-    vim.map("zn","<WindowMin>","General")
-    vim.map("zr","<WindowRestore>","General")
-    vim.map("t","<NewTab>","General")
-    vim.map("x","<CloseTab>","General")
-    vim.map("gn","<NextTab>","General")
-    vim.map("gp","<PrevTab>","General")
-    vim.map("g1","<ActivateTab1>","General")
-    vim.map("g2","<ActivateTab2>","General")
-    vim.map("g3","<ActivateTab3>","General")
-    vim.map("g4","<ActivateTab4>","General")
-    vim.map("g5","<ActivateTab5>","General")
-    vim.map("g6","<ActivateTab6>","General")
-    vim.map("g7","<ActivateTab7>","General")
-    vim.map("g8","<ActivateTab8>","General")
-    vim.map("g9","<ActivateTab9>","General")
-    vim.map("g0","<ActivateTab0>","General")
-    vim.BeforeActionDo("Gen_Before","General")
+    vim.SetWin("General", "General")
+    vim.SetMode("insert", "General")
+    vim.map("<Esc>", "<Gen_NormalMode>", "General")
+    vim.SetMode("normal", "General")
+    vim.map("i", "<Gen_InsertMode>", "General")
+    vim.map("0", "<0>", "General")
+    vim.map("1", "<1>", "General")
+    vim.map("2", "<2>", "General")
+    vim.map("3", "<3>", "General")
+    vim.map("4", "<4>", "General")
+    vim.map("5", "<5>", "General")
+    vim.map("6", "<6>", "General")
+    vim.map("7", "<7>", "General")
+    vim.map("8", "<8>", "General")
+    vim.map("9", "<9>", "General")
+    vim.map("k", "<up>", "General")
+    vim.map("j", "<down>", "General")
+    vim.map("k", "<up>", "General")
+    vim.map("h", "<left>", "General")
+    vim.map("l", "<right>", "General")
+    vim.map("zj", "<WindowMoveDown>", "General")
+    vim.map("zk", "<WindowMoveUp>", "General")
+    vim.map("zh", "<WindowMoveLeft>", "General")
+    vim.map("zl", "<WindowMoveRight>", "General")
+    vim.map("zc", "<WindowMoveCenter>", "General")
+    vim.map("zf", "<fullscreen>", "General")
+    vim.map("zm", "<WindowMax>", "General")
+    vim.map("zn", "<WindowMin>", "General")
+    vim.map("zr", "<WindowRestore>", "General")
+    vim.map("t", "<NewTab>", "General")
+    vim.map("x", "<CloseTab>", "General")
+    vim.map("gn", "<NextTab>", "General")
+    vim.map("gp", "<PrevTab>", "General")
+    vim.map("g1", "<ActivateTab1>", "General")
+    vim.map("g2", "<ActivateTab2>", "General")
+    vim.map("g3", "<ActivateTab3>", "General")
+    vim.map("g4", "<ActivateTab4>", "General")
+    vim.map("g5", "<ActivateTab5>", "General")
+    vim.map("g6", "<ActivateTab6>", "General")
+    vim.map("g7", "<ActivateTab7>", "General")
+    vim.map("g8", "<ActivateTab8>", "General")
+    vim.map("g9", "<ActivateTab9>", "General")
+    vim.map("g0", "<ActivateTab0>", "General")
+    vim.BeforeActionDo("Gen_Before", "General")
 return
 
 Gen_Before()
 {
     Global vim
-    WinGet,MenuID,ID,AHK_CLASS #32768
+    WinGet, MenuID, ID, AHK_CLASS #32768
     If MenuID
         return True
 }
 
 <Gen_InsertMode>:
-    vim.SetMode("Insert",vim.CheckWin())
+    vim.SetMode("Insert", vim.CheckWin())
     Tooltip, Insert模式, , , 19
     Settimer, cancelTooltip, 1200
 return
 <Gen_NormalMode>:
-    vim.SetMode("Normal",vim.CheckWin())
+    vim.SetMode("Normal", vim.CheckWin())
     Tooltip, Normal模式, , , 19
     Settimer, cancelTooltip, 1200
 return
@@ -116,21 +116,21 @@ return
 Gen_Toggle()
 {
     Global vim, Gen_Save_Win
-    WinGetClass,c,A
+    WinGetClass, c, A
     WinGet, f, ProcessPath, ahk_class %c%
     WinName:=vim.CheckWin()
     If not Gen_Save_Win[c]
     {
         If Strlen(winName) And IsObject(vim.GetWin(winName)) 
         {
-            MsgBox, ,VimDesktop, 当前窗口 [ %winName% ] 已经拥有Vim模式`n不允许替换为通用(General)模式！
+            MsgBox, , VimDesktop, 当前窗口 [ %winName% ] 已经拥有Vim模式`n不允许替换为通用(General)模式！
             return
         }
     }
     winObj := vim.GetWin(c)
     If not Isobject(winObj)
     {
-        vim.copy("General",c,c,f)
+        vim.copy("General", c, c, f)
         Gen_Save_Win[c] := True
         Tooltip, 复制VIMD热键到当前窗口成功, , , 19
     }
@@ -153,28 +153,28 @@ return
     ExitApp
 return
 <down>:
-    send,{down}
+    send, {down}
 return
 <up>:
-    send,{up}
+    send, {up}
 return
 <left>:
-    send,{left}
+    send, {left}
 return
 <right>:
-    send,{right}
+    send, {right}
 return
 <home>:
-    send,{home}
+    send, {home}
 return
 <end>:
-    send,{end}
+    send, {end}
 return
 <pgup>:
-    send,{pgup}
+    send, {pgup}
 return
 <pgdn>:
-    send,{pgdn}
+    send, {pgdn}
 return
 <enter>:
     send {enter}
@@ -231,7 +231,7 @@ FullScreen() {
     If WindowState
     {
         WinSet, Style, ^0xC40000, ahk_id %WindowID%
-        Loop,Parse,windowState,`,
+        Loop, Parse, windowState, `, 
         {
             If A_Index = 2
                 WinPosX := A_LoopField
@@ -250,7 +250,7 @@ FullScreen() {
         WinGetPos, WinPosX, WinPosY, WindowWidth, WindowHeight, ahk_id %WindowID%
         WinSet, Style, ^0xC40000, ahk_id %WindowID%
         WinMove, ahk_id %WindowID%, , 0, 0, A_ScreenWidth, A_ScreenHeight
-        WindowState := 1 "," WinPosX "," WinPosY "," WindowWidth "," WindowHeight
+        WindowState := 1 ", " WinPosX ", " WinPosY ", " WindowWidth ", " WindowHeight
         Msgbox 再按一下刚刚的热键退出全屏
     }
     FullScreenID[windowID] := WindowState
@@ -270,7 +270,7 @@ FullScreen() {
 
 WindowPadMove(P)
 {
-    StringSplit, P, P, `,, %A_Space%%A_Tab%
+    StringSplit, P, P, `, , %A_Space%%A_Tab%
     ; Params: 1:dirX, 2:dirY, 3:widthFactor, 4:heightFactor, 5:window
 
     if P1 =
@@ -315,25 +315,25 @@ MoveWindowInDirection(sideX, sideY, widthFactor, heightFactor)
     WinGetPos, x, y, w, h
 
     hwnd:=WinExist()
-    if (can_restore := GetWindowProperty(hwnd,"wpHasRestorePos"))
+    if (can_restore := GetWindowProperty(hwnd, "wpHasRestorePos"))
     {   ; Window has restore info. Check if it is where we last put it.
-        last_x := GetWindowProperty(hwnd,"wpLastX")
-        last_y := GetWindowProperty(hwnd,"wpLastY")
-        last_w := GetWindowProperty(hwnd,"wpLastW")
-        last_h := GetWindowProperty(hwnd,"wpLastH")
+        last_x := GetWindowProperty(hwnd, "wpLastX")
+        last_y := GetWindowProperty(hwnd, "wpLastY")
+        last_w := GetWindowProperty(hwnd, "wpLastW")
+        last_h := GetWindowProperty(hwnd, "wpLastH")
     }
     if (can_restore && last_x = x && last_y = y && last_w = w && last_h = h)
     {   ; Window is where we last put it. Check if user wants to restore.
-        if SubStr(sideX,1,1) = "R"
+        if SubStr(sideX, 1, 1) = "R"
         {   ; Restore on X-axis.
-            restore_x := GetWindowProperty(hwnd,"wpRestoreX")
-            restore_w := GetWindowProperty(hwnd,"wpRestoreW")
+            restore_x := GetWindowProperty(hwnd, "wpRestoreX")
+            restore_w := GetWindowProperty(hwnd, "wpRestoreW")
             StringTrimLeft, sideX, sideX, 1
         }
-        if SubStr(sideY,1,1) = "R"
+        if SubStr(sideY, 1, 1) = "R"
         {   ; Restore on Y-axis.
-            restore_y := GetWindowProperty(hwnd,"wpRestoreY")
-            restore_h := GetWindowProperty(hwnd,"wpRestoreH")
+            restore_y := GetWindowProperty(hwnd, "wpRestoreY")
+            restore_h := GetWindowProperty(hwnd, "wpRestoreH")
             StringTrimLeft, sideY, sideY, 1
         }
         if (restore_x != "" || restore_y != "")
@@ -350,15 +350,15 @@ MoveWindowInDirection(sideX, sideY, widthFactor, heightFactor)
     }
     else
     {   ; Next time user requests the window be "restored" use this position and size.
-        SetWindowProperty(hwnd,"wpHasRestorePos",true)
-        SetWindowProperty(hwnd,"wpRestoreX",x)
-        SetWindowProperty(hwnd,"wpRestoreY",y)
-        SetWindowProperty(hwnd,"wpRestoreW",w)
-        SetWindowProperty(hwnd,"wpRestoreH",h)
+        SetWindowProperty(hwnd, "wpHasRestorePos", true)
+        SetWindowProperty(hwnd, "wpRestoreX", x)
+        SetWindowProperty(hwnd, "wpRestoreY", y)
+        SetWindowProperty(hwnd, "wpRestoreW", w)
+        SetWindowProperty(hwnd, "wpRestoreH", h)
 
-        if SubStr(sideX,1,1) = "R"
+        if SubStr(sideX, 1, 1) = "R"
             StringTrimLeft, sideX, sideX, 1
-        if SubStr(sideY,1,1) = "R"
+        if SubStr(sideY, 1, 1) = "R"
             StringTrimLeft, sideY, sideY, 1
     }
 
@@ -376,8 +376,8 @@ MoveWindowInDirection(sideX, sideY, widthFactor, heightFactor)
     ; Calculate possible new position for window.
     gosub CalcNewSizeAndPosition
 
-    ; If the window is already there,
-    if (newx "," newy "," neww "," newh) = (x "," y "," w "," h)
+    ; If the window is already there, 
+    if (newx ", " newy ", " neww ", " newh) = (x ", " y ", " w ", " h)
     {   ; ..move to the next monitor along instead.
 
         if (sideX or sideY)
@@ -429,7 +429,7 @@ MoveWindowInDirection(sideX, sideY, widthFactor, heightFactor)
     SetWinDelay, 0
 
     ; Move the window!
-    WinMove,,, newx, newy, neww, newh
+    WinMove, , , newx, newy, neww, newh
 
     ; For console windows and other windows which have size restrictions, check
     ; that the window was actually resized. If not, reposition based on actual size.
@@ -439,7 +439,7 @@ MoveWindowInDirection(sideX, sideY, widthFactor, heightFactor)
         neww := realw
         newh := realh
         gosub CalcNewPosition
-        if ((newm = "" || newm = m) && (newx "," newy "," realw "," realh)=(x "," y "," w "," h))
+        if ((newm = "" || newm = m) && (newx ", " newy ", " realw ", " realh)=(x ", " y ", " w ", " h))
         {
             if sideX
                 neww //= 2
@@ -448,11 +448,11 @@ MoveWindowInDirection(sideX, sideY, widthFactor, heightFactor)
             else
                 neww := Round(neww*1.5)
             ; Size first, since the window size will probably be restricted in some way.
-            WinMove,,,,, neww, newh
-            WinGetPos,,, neww, newh
+            WinMove, , , , , neww, newh
+            WinGetPos, , , neww, newh
             gosub CalcNewPosition
         }
-        WinMove,,, newx, newy
+        WinMove, , , newx, newy
     }
 
     ; Explorer uses WM_EXITSIZEMOVE to detect when a user finishes moving a window
@@ -462,10 +462,10 @@ MoveWindowInDirection(sideX, sideY, widthFactor, heightFactor)
     SetWinDelay, WinDelay
 
     ; Remember where we put it, to detect if the user moves it.
-    SetWindowProperty(hwnd,"wpLastX",newx)
-    SetWindowProperty(hwnd,"wpLastY",newy)
-    SetWindowProperty(hwnd,"wpLastW",neww)
-    SetWindowProperty(hwnd,"wpLastH",newh)
+    SetWindowProperty(hwnd, "wpLastX", newx)
+    SetWindowProperty(hwnd, "wpLastY", newy)
+    SetWindowProperty(hwnd, "wpLastW", neww)
+    SetWindowProperty(hwnd, "wpLastH", newh)
     return
 
 CalcNewSizeAndPosition:
@@ -532,7 +532,7 @@ WindowPad_WinExist(WinTitle)
         return WinPreviouslyActive()
     if WinTitle = M
     {
-        MouseGetPos,,, win
+        MouseGetPos, , , win
         return WinExist("ahk_id " win)
     }
     return WinExist(WinTitle!="" ? WinTitle : "A")
@@ -571,7 +571,7 @@ WindowScreenMove(P)
 {
     SetWinDelay, 0
 
-    StringSplit, P, P, `,, %A_Space%%A_Tab%
+    StringSplit, P, P, `, , %A_Space%%A_Tab%
     ; 1:Next|Prev|Num, 2:Window
 
     WindowPad_WinExist(P2)
@@ -588,13 +588,13 @@ WindowScreenMove(P)
     SysGet, mc, MonitorCount
 
     ; Determine which monitor to move to.
-    if P1 in ,N,Next
+    if P1 in , N, Next
     {
         md := ms+1
         if (md > mc)
             md := 1
     }
-    else if P1 in P,Prev,Previous
+    else if P1 in P, Prev, Previous
     {
         md := ms-1
         if (md < 1)
@@ -619,7 +619,7 @@ WindowScreenMove(P)
     }
 
     ; Move window, using resolution difference to scale co-ordinates.
-    WinMove,,, mdLeft + (x-msLeft)*(mdw/msw), mdTop + (y-msTop)*(mdh/msh), w, h
+    WinMove, , , mdLeft + (x-msLeft)*(mdw/msw), mdTop + (y-msTop)*(mdh/msh), w, h
 
     if state = 1
         WinMaximize
@@ -720,12 +720,12 @@ GatherWindows(md=1)
             }
 
             ; Move window, using resolution difference to scale co-ordinates.
-            WinMove,,, mdx + (x-msx)*(mdw/msw), mdy + (y-msy)*(mdh/msh), w, h
+            WinMove, , , mdx + (x-msx)*(mdw/msw), mdy + (y-msy)*(mdh/msh), w, h
         }
         else
         {
             ; Window not on any monitor, move it to center.
-            WinMove,,, mdx + (mdw-w)/2, mdy + (mdh-h)/2
+            WinMove, , , mdx + (mdw-w)/2, mdy + (mdh-h)/2
         }
 
         if state = 1

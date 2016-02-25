@@ -2,8 +2,8 @@
 
 TCCompare:
     ; 定义注释
-    vim.comment("<Normal_Mode_TFileCompForm>", "进入normal模式")
-    vim.comment("<Insert_Mode_TFileCompForm>", "进入insert模式")
+    vim.comment("<TCCompare_NormalMode>", "进入normal模式")
+    vim.comment("<TCCompare_InsertMode>", "进入insert模式")
     vim.comment("<TCCompare_NextDiff>", "下一处不同")
     vim.comment("<TCCompare_PrevDiff>", "上一处不同")
     vim.comment("<TCCompare_Home>", "跳转到文件开头")
@@ -19,12 +19,12 @@ TCCompare:
     ; insert模式
     vim.mode("insert", "TFileCompForm")
 
-    vim.map("<esc>", "<Normal_Mode_TFileCompForm>", "TFileCompForm")
+    vim.map("<esc>", "<TCCompare_NormalMode>", "TFileCompForm")
 
     ; normal模式
     vim.mode("normal", "TFileCompForm")
 
-    vim.map("i", "<Insert_Mode_TFileCompForm>", "TFileCompForm")
+    vim.map("i", "<TCCompare_InsertMode>", "TFileCompForm")
 
     vim.map("<esc>", "<TCCompare_Editable>", "TFileCompForm")
     
@@ -57,11 +57,11 @@ TFileCompForm_CheckMode()
 }
 */
 
-<Normal_Mode_TFileCompForm>:
+<TCCompare_NormalMode>:
     vim.mode("normal", "TFileCompForm")
 return
 
-<Insert_Mode_TFileCompForm>:
+<TCCompare_InsertMode>:
     vim.mode("insert", "TFileCompForm")
 return
 

@@ -65,8 +65,8 @@
     }
     Global Mark := []
     Global NewFiles := []
-    vim.Comment("<Normal_Mode_TC>", "返回正常模式")
-    vim.Comment("<Insert_Mode_TC>", "进入插入模式")
+    vim.Comment("<TC_NormalMode>", "返回正常模式")
+    vim.Comment("<TC_InsertMode>", "进入插入模式")
     vim.Comment("<ToggleTC>", "打开/激活TC")
     vim.comment("<FocusTCCmd>", "激活TC，并定位到命令行")
 
@@ -105,14 +105,14 @@
     vim.mode("normal", "TQUICKSEARCH")
     vim.map("J", "<Down>", "TQUICKSEARCH")
     vim.map("K", "<Up>", "TQUICKSEARCH")
-    ;vim.map("<esc>", "<Normal_Mode_TC>", "TQUICKSEARCH")
+    ;vim.map("<esc>", "<TC_NormalMode>", "TQUICKSEARCH")
 
     vim.mode("insert", "TTOTAL_CMD")
     vim.SetTimeOut(800, "TTOTAL_CMD")
-    vim.map("<esc>", "<Normal_Mode_TC>", "TTOTAL_CMD")
+    vim.map("<esc>", "<TC_NormalMode>", "TTOTAL_CMD")
 
     vim.mode("Search", "TTOTAL_CMD")
-    vim.map("<esc>", "<Normal_Mode_TC>", "TTOTAL_CMD")
+    vim.map("<esc>", "<TC_NormalMode>", "TTOTAL_CMD")
 
     vim.mode("normal", "TTOTAL_CMD")
 
@@ -156,7 +156,7 @@
     vim.map("l", "<right>", "TTOTAL_CMD")
     vim.map("L", "<cm_GotoNextDir>", "TTOTAL_CMD")
     vim.map("I", "<CreateNewFile>", "TTOTAL_CMD")
-    vim.map("i", "<Insert_Mode_TC>", "TTOTAL_CMD")
+    vim.map("i", "<TC_InsertMode>", "TTOTAL_CMD")
     vim.map("d", "<cm_DirectoryHotlist>", "TTOTAL_CMD")
     vim.map("D", "<cm_OpenDesktop>", "TTOTAL_CMD")
     vim.map("e", "<cm_ContextMenu>", "TTOTAL_CMD")
@@ -325,18 +325,18 @@ TC_BeforeActionDo()
 <ExcSubOK>:
     Tooltip
 return
-; <Esc_TC> {{{1
-<Normal_Mode_TC>:
+; <TC_NormalMode> {{{1
+<TC_NormalMode>:
     Send, {Esc}
     vim.Mode("normal", "TTOTAL_CMD")
     ;emptymem()
 return
-; <QuickSearch> {{{1
+; <Search> {{{1
 <Search>:
     vim.Mode("Search", "TTOTAL_CMD")
 return
-; <insert_TC> {{{1
-<Insert_Mode_TC>:
+; <TC_InsertMode> {{{1
+<TC_InsertMode>:
     vim.Mode("insert", "TTOTAL_CMD")
 return
 ; <ToggleTC> {{{1

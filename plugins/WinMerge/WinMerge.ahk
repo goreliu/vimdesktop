@@ -1,7 +1,7 @@
 ﻿WinMerge:
     ; 定义注释
-    vim.comment("<Normal_Mode_WinMergeWindowClassW>", "进入normal模式")
-    vim.comment("<Insert_Mode_WinMergeWindowClassW>", "进入insert模式")
+    vim.comment("<WinMerge_NormalMode>", "进入normal模式")
+    vim.comment("<WinMerge_InsertMode>", "进入insert模式")
     vim.comment("<WinMerge_NextDiff>", "下一处不同")
     vim.comment("<WinMerge_PrevDiff>", "上一处不同")
     vim.comment("<WinMerge_FirstDiff>", "第一处不同")
@@ -17,12 +17,12 @@
     ; insert模式
     vim.mode("insert", "WinMergeWindowClassW")
 
-    vim.map("<esc>", "<Normal_Mode_WinMergeWindowClassW>", "WinMergeWindowClassW")
+    vim.map("<esc>", "<WinMerge_NormalMode>", "WinMergeWindowClassW")
 
     ; normal模式
     vim.mode("normal", "WinMergeWindowClassW")
 
-    vim.map("i", "<Insert_Mode_WinMergeWindowClassW>", "WinMergeWindowClassW")
+    vim.map("i", "<WinMerge_InsertMode>", "WinMergeWindowClassW")
 
     vim.map("<esc>", "<Pass>", "WinMergeWindowClassW")
     
@@ -53,11 +53,11 @@ WinMergeWindowClassW_CheckMode()
 }
 */
 
-<Normal_Mode_WinMergeWindowClassW>:
+<WinMerge_NormalMode>:
     vim.mode("normal", "WinMergeWindowClassW")
 return
 
-<Insert_Mode_WinMergeWindowClassW>:
+<WinMerge_InsertMode>:
     vim.mode("insert", "WinMergeWindowClassW")
 return
 

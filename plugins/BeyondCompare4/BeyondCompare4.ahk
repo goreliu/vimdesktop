@@ -1,7 +1,7 @@
 ﻿BeyondCompare4:
     ; 定义注释
-    vim.comment("<Normal_Mode_TViewForm>", "进入normal模式")
-    vim.comment("<Insert_Mode_TViewForm>", "进入insert模式")
+    vim.comment("<BeyondCompare4_NormalMode>", "进入normal模式")
+    vim.comment("<BeyondCompare4_InsertMode>", "进入insert模式")
     vim.comment("<BeyondCompare4_NextDiffSection>", "下一处不同")
     vim.comment("<BeyondCompare4_PrevDiffSection>", "上一处不同")
     vim.comment("<BeyondCompare4_NextDiff>", "下一行不同")
@@ -15,12 +15,12 @@
     ; insert模式
     vim.mode("insert", "TViewForm")
 
-    vim.map("<esc>", "<Normal_Mode_TViewForm>", "TViewForm")
+    vim.map("<esc>", "<BeyondCompare4_NormalMode>", "TViewForm")
 
     ; normal模式
     vim.mode("normal", "TViewForm")
 
-    vim.map("i", "<Insert_Mode_TViewForm>", "TViewForm")
+    vim.map("i", "<BeyondCompare4_InsertMode>", "TViewForm")
 
     vim.map("<esc>", "<Pass>", "TViewForm")
     
@@ -46,11 +46,11 @@ TViewForm_CheckMode()
     return false
 }
 
-<Normal_Mode_TViewForm>:
+<BeyondCompare4_NormalMode>:
     vim.mode("normal", "TViewForm")
 return
 
-<Insert_Mode_TViewForm>:
+<BeyondCompare4_InsertMode>:
     vim.mode("insert", "TViewForm")
 return
 

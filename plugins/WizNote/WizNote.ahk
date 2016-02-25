@@ -5,8 +5,8 @@
 
 WizNote:
     ; 定义注释
-    vim.comment("<Normal_Mode_WizNoteMainFrame>", "进入normal模式")
-    vim.comment("<Insert_Mode_WizNoteMainFrame>", "进入insert模式")
+    vim.comment("<WizNote_NormalMode>", "进入normal模式")
+    vim.comment("<WizNote_InsertMode>", "进入insert模式")
     vim.comment("<Wiz_NewNote>", "新建笔记")
     vim.comment("<Wiz_NewDesktopNote>", "新建桌面便签")
     vim.comment("<Wiz_Delete>", "删除笔记")
@@ -22,12 +22,12 @@ WizNote:
     ; insert模式
     vim.mode("insert", "WizNoteMainFrame")
 
-    vim.map("<esc>", "<Normal_Mode_WizNoteMainFrame>", "WizNoteMainFrame")
+    vim.map("<esc>", "<WizNote_NormalMode>", "WizNoteMainFrame")
 
     ; normal模式
     vim.mode("normal", "WizNoteMainFrame")
 
-    vim.map("i", "<Insert_Mode_WizNoteMainFrame>", "WizNoteMainFrame")
+    vim.map("i", "<WizNote_InsertMode>", "WizNoteMainFrame")
     
     vim.map("j", "<down>", "WizNoteMainFrame")
     vim.map("k", "<up>", "WizNoteMainFrame")
@@ -59,11 +59,11 @@ WizNoteMainFrame_CheckMode()
     return false
 }
 
-<Normal_Mode_WizNoteMainFrame>:
+<WizNote_NormalMode>:
     vim.mode("normal", "WizNoteMainFrame")
 return
 
-<Insert_Mode_WizNoteMainFrame>:
+<WizNote_InsertMode>:
     vim.mode("insert", "WizNoteMainFrame")
 return
 
