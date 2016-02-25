@@ -133,7 +133,7 @@ vimconfig_keymap_loadwinlist()
     global vim
     list := "|全局"
     GUI, vimconfig_keymap:Default
-    for win, obj in vim.winlist {
+    for win, obj in vim.WinList {
         if vim.ExcludeWinList[win]{
             continue
         }
@@ -141,6 +141,7 @@ vimconfig_keymap_loadwinlist()
     }
     GuiControl, , ListBox1, %list%
 }
+
 vimconfig_keymap_loadmodelist:
     vimconfig_keymap_loadmodelist()
     GUI, vimconfig_keymap:Default

@@ -89,9 +89,9 @@ Class __vim
 {
 		__new()
 		{
-				this.pluginList := []
-				this.winList    := []
-				this.winInfo    := []
+				this.PluginList := []
+				this.WinList    := []
+				this.WinInfo    := []
 				this.ActionList := []
 				this.ActionFromPlugin := []
 				this.ExcludeWinList :=[]
@@ -105,10 +105,10 @@ Class __vim
 		; 用于注册插件
 		LoadPlugin(PluginName)
 		{
-			If this.pluginList[PluginName]
-				return this.pluginList[PluginName]
+			If this.PluginList[PluginName]
+				return this.PluginList[PluginName]
 			p := new __Plugin(PluginName)
-			this.pluginList[PluginName] := p
+			this.PluginList[PluginName] := p
 			back := this.ActionFromPluginName
 			this.ActionFromPluginName := PluginName
 			p.CheckSub()
@@ -122,7 +122,7 @@ Class __vim
 		; 设置Plugin信息
 		SetPlugin(PluginName,Author="",Ver="",Comment="")
 		{
-			p := this.pluginList[PluginName]	
+			p := this.PluginList[PluginName]	
 			p.Author := Author
 			p.Ver := Ver
 			p.Comment := Comment
@@ -131,7 +131,7 @@ Class __vim
 		; 获取Plugin信息
 		GetPlugin(PluginName)
 		{
-			return this.pluginList[PluginName]
+			return this.PluginList[PluginName]
 		}
     ; Comment(action,desc,complex=1) {{{2
     ; 兼容老版本的vimcore.ahk
@@ -163,20 +163,20 @@ Class __vim
 		; 添加win成员
 		SetWin(winName,class,filepath="",title="")
 		{
-			If this.winList[winName]
-				rw := this.winList[winName]
+			If this.WinList[winName]
+				rw := this.WinList[winName]
 			Else
-				rw := this.winList[winName] := new __win(class,filepath,title)
-			this.winInfo["class`t"class]       := winName
-			this.winInfo["filepath`t"filepath] := winName
-			this.winInfo["title`t"title]       := winName
+				rw := this.WinList[winName] := new __win(class,filepath,title)
+			this.WinInfo["class`t"class]       := winName
+			this.WinInfo["filepath`t"filepath] := winName
+			this.WinInfo["title`t"title]       := winName
 			return rw
 		}
 		; GetWin(winName) {{{2
 		GetWin(winName="")
 		{
 			If strlen(winName)
-				return this.winList[winName]
+				return this.WinList[winName]
 			Else
 				return this.winGlobal
 		}
@@ -185,14 +185,14 @@ Class __vim
 		{
 /*
 			WinGetTitle,t,A
-			If Strlen(winName:=this.winInfo["title`t"t])
+			If Strlen(winName:=this.WinInfo["title`t"t])
 				return winName
 */
 			WinGet,f,ProcessName,A
-			If Strlen(winName:=this.winInfo["filepath`t"f])
+			If Strlen(winName:=this.WinInfo["filepath`t"f])
 				return winName
 			WinGetClass,c,A
-			If Strlen(winName:=this.winInfo["class`t"c])
+			If Strlen(winName:=this.WinInfo["class`t"c])
 				return winName
 		}
 		; mode(mode,win="") {{{2
@@ -463,7 +463,7 @@ Class __vim
 		; Delete(winName) {{{2
 		Delete(winName="") {
 			this.Control(False,winName,all:=True)
-			this.winList[winName] := ""
+			this.WinList[winName] := ""
 		}
 	
 		
