@@ -24,8 +24,8 @@ ini := class_EasyINI(A_ScriptDir "\vimd.ini")
 act := vim.SetAction("VIMD_CMD", "VIMD命令执行")
 act.SetFunction("VIMD_CMD")
 
-global default_set_show_info
-default_set_show_info := ini.config.default_set_show_info
+global default_enable_show_info
+default_enable_show_info := ini.config.default_enable_show_info
 
 ;vim.Debug(true)
 
@@ -87,7 +87,7 @@ CheckHotKey()
     for i, k in ini.exclude
     {
         vim.Setwin(i, i)
-        vim.excludeWin(i, True)
+        vim.excludeWin(i, true)
     }
 
     for i, k in ini
@@ -98,13 +98,16 @@ CheckHotKey()
         win := vim.SetWin(i, k.set_class, k.set_file)
         vim.SetTimeOut(k.set_time_out, i)
         vim.SetMaxCount(k.set_Max_count, i)
-        win.SetInfo(k.set_show_info)
+        if (k.enable_show_info = "1") {
+            win.SetInfo(true)
+        }
+
         for m, n in k
         {
             if not strlen(m)
                 continue
 
-            if RegExMatch(m, "i)(set_class)|(set_file)|(set_time_out)|(set_Max_count)|(set_show_info)")
+            if RegExMatch(m, "i)(set_class)|(set_file)|(set_time_out)|(set_Max_count)|(enable_show_info)")
                 continue
 
             if RegExMatch(n, "\[=[^\[\]]*\]", mode)

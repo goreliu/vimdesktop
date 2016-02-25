@@ -81,5 +81,5 @@ return
 return
 
 <foobar2000_ToggleShowInfo>:
-    vim.GetWin(foobar2000_class).SetInfo(1 - vim.GetWin(foobar2000_class).info)
+    vim.GetWin(foobar2000_class).SetInfo(!vim.GetWin(foobar2000_class).info)
 return

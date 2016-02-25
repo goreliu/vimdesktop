@@ -1384,7 +1384,7 @@ return
 return
 
 <TotalCommander_ToggleShowInfo>:
-vim.GetWin("TTOTAL_CMD").SetInfo(1 - vim.GetWin("TTOTAL_CMD").info)
+    vim.GetWin("TTOTAL_CMD").SetInfo(!vim.GetWin("TTOTAL_CMD").info)
 return
 
 
