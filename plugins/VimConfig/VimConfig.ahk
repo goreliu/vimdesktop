@@ -39,10 +39,10 @@ return
     GUI, vimconfig_plugin:Destroy
     GUI, vimconfig_plugin:Default
     GUI, vimconfig_plugin:Font, s10, Microsoft YaHei
-    GUI, vimconfig_plugin:Add, ListView, x10   y10 w150 h400 grid  altsubmit gvimconfig_LoadActions, 插件
+    GUI, vimconfig_plugin:Add, ListView, x10 y10 w150 h400 grid altsubmit gvimconfig_LoadActions, 插件
     for plugin, obj in vim.pluginlist
         LV_Add("", plugin)
-    GUI, vimconfig_plugin:Add, ListView, x170 y10 w500 h400 grid  altsubmit, 序号|动作|描述
+    GUI, vimconfig_plugin:Add, ListView, x170 y10 w500 h400 grid altsubmit, 序号|动作|描述
     LV_ModifyCol(1, "center")
     LV_ModifyCol(2, "left 200")
     LV_ModifyCol(3, "left 400")
@@ -52,13 +52,13 @@ return
 
 vimconfig_LoadActions:
 {
-    If A_GuiEvent = I
+    If A_GuiEvent = Normal
     {
         GUI, vimconfig_plugin:ListView, sysListview321
         LV_GetText(plugin, A_EventInfo)
         GUI, vimconfig_plugin:Default
         GUI, vimconfig_plugin:ListView, sysListview322
-        idx:=1
+        idx := 1
         LV_Delete()
         for action, type in vim.ActionFromPlugin
         {

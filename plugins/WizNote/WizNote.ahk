@@ -7,17 +7,17 @@ WizNote:
     ; 定义注释
     vim.comment("<WizNote_NormalMode>", "进入normal模式")
     vim.comment("<WizNote_InsertMode>", "进入insert模式")
-    vim.comment("<Wiz_NewNote>", "新建笔记")
-    vim.comment("<Wiz_NewDesktopNote>", "新建桌面便签")
-    vim.comment("<Wiz_Delete>", "删除笔记")
-    vim.comment("<Wiz_CopyOrMove>", "复制或移动笔记")
-    vim.comment("<Wiz_Task>", "打开任务")
-    vim.comment("<Wiz_FullScreen>", "全屏")
-    vim.comment("<Wiz_Edit>", "编辑笔记")
-    vim.comment("<Wiz_CloseTab>", "关闭当前标签")
-    vim.comment("<Wiz_NextNote>", "下一个笔记")
-    vim.comment("<Wiz_PrevNote>", "上一个笔记")
-    vim.comment("<Wiz_List>", "定位到左侧目录")
+    vim.comment("<WizNote_NewNote>", "新建笔记")
+    vim.comment("<WizNote_NewDesktopNote>", "新建桌面便签")
+    vim.comment("<WizNote_Delete>", "删除笔记")
+    vim.comment("<WizNote_CopyOrMove>", "复制或移动笔记")
+    vim.comment("<WizNote_Task>", "打开任务")
+    vim.comment("<WizNote_FullScreen>", "全屏")
+    vim.comment("<WizNote_Edit>", "编辑笔记")
+    vim.comment("<WizNote_CloseTab>", "关闭当前标签")
+    vim.comment("<WizNote_NextNote>", "下一个笔记")
+    vim.comment("<WizNote_PrevNote>", "上一个笔记")
+    vim.comment("<WizNote_List>", "定位到左侧目录")
 
     ; insert模式
     vim.mode("insert", "WizNoteMainFrame")
@@ -31,19 +31,19 @@ WizNote:
     
     vim.map("j", "<down>", "WizNoteMainFrame")
     vim.map("k", "<up>", "WizNoteMainFrame")
-    vim.map("J", "<Wiz_NextNote>", "WizNoteMainFrame")
-    vim.map("K", "<Wiz_PrevNote>", "WizNoteMainFrame")
+    vim.map("J", "<WizNote_NextNote>", "WizNoteMainFrame")
+    vim.map("K", "<WizNote_PrevNote>", "WizNoteMainFrame")
 
     vim.map("h", "<left>", "WizNoteMainFrame")
     vim.map("l", "<right>", "WizNoteMainFrame")
     vim.map("gg", "<home>", "WizNoteMainFrame")
     vim.map("G", "<end>", "WizNoteMainFrame")
 
-    vim.map("a", "<Wiz_NewNote>", "WizNoteMainFrame")
-    vim.map("x", "<Wiz_Delete>", "WizNoteMainFrame")
-    vim.map("e", "<Wiz_Edit>", "WizNoteMainFrame")
-    vim.map("u", "<Wiz_CloseTab>", "WizNoteMainFrame")
-    vim.map("t", "<Wiz_List>", "WizNoteMainFrame")
+    vim.map("a", "<WizNote_NewNote>", "WizNoteMainFrame")
+    vim.map("x", "<WizNote_Delete>", "WizNoteMainFrame")
+    vim.map("e", "<WizNote_Edit>", "WizNoteMainFrame")
+    vim.map("u", "<WizNote_CloseTab>", "WizNoteMainFrame")
+    vim.map("t", "<WizNote_List>", "WizNoteMainFrame")
 
 return
 
@@ -67,49 +67,49 @@ return
     vim.mode("insert", "WizNoteMainFrame")
 return
 
-<Wiz_NewNote>:
+<WizNote_NewNote>:
     Send, ^n
 return
 
-<Wiz_NewDesktopNote>:
+<WizNote_NewDesktopNote>:
     Send, ^!d
 return
 
-<Wiz_Delete>:
+<WizNote_Delete>:
     Send, {Del}
 return
 
-<Wiz_Task>:
+<WizNote_Task>:
     Send, ^!y
 return
 
-<Wiz_CopyOrMove>:
+<WizNote_CopyOrMove>:
     Send, ^m
 return
 
-<Wiz_FullScreen>:
+<WizNote_FullScreen>:
     Send, {F11}
 return
 
-<Wiz_Edit>:
+<WizNote_Edit>:
     Send, ^e
 return
 
-<Wiz_CloseTab>:
+<WizNote_CloseTab>:
     Send, ^w
 return
 
-<Wiz_List>:
+<WizNote_List>:
     ControlFocus, WizListCtrl1
 return
 
-<Wiz_NextNote>:
-    Gosub, <Wiz_List>
+<WizNote_NextNote>:
+    Gosub, <WizNote_List>
     Send, {down}
 return
 
-<Wiz_PrevNote>:
-    Gosub, <Wiz_List>
+<WizNote_PrevNote>:
+    Gosub, <WizNote_List>
     Send, {up}
 return
 
