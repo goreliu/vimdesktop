@@ -1,9 +1,11 @@
-;[使用说明]
-;如果您希望更改VimDesktop的默认配置，可执行如下操作：
-;1.在当前路径复制本文件的拷贝，并重 名为：vimd.ini
-;2.根据分号 ; 之后的提示内容进行相应修改
+; [使用说明]
+; 如果您希望更改VimDesktop的默认配置，可执行如下操作：
+; 1. 在当前路径复制本文件的拷贝，并重命名为：vimd.ini
+; 2. 根据分号 ; 之后的提示内容进行相应修改
 
 [config]
+; 是否默认开启快捷键提示，可以被插件的 enable_show_info 覆盖
+default_enable_show_info=0
 
 [exclude]
 vim
@@ -25,8 +27,8 @@ vim
 ;<w-a>=run|c:\mine\app\foobar2000\foobar2000.exe[=normal]
 
 [plugins]
-general=1
-totalcommander=1
+General=1
+TotalCommander=1
 WinMerge=1
 TCDialog=1
 TCCompare=1
@@ -43,7 +45,7 @@ WizNote=1
 ;设置最大重复执行次数
 ;set_max_count=1000
 ;设置显示提示
-;set_show_info=1
+;enable_show_info=1
 ;设置热键
 ;j=<down>[=normal]
 ;k=<up>[=normal]
@@ -78,7 +80,6 @@ OpenFileDialogExclude = password , 密码
 ;ff 热键 --按下两次f键
 ;<cm_SearchFor> 对应的动作
 ;[=normal] 在normal模式下生效
-set_show_info=0
 
 b=<cm_UnpackFiles>[=normal]
 c=<cm_MkDir>[=normal]
