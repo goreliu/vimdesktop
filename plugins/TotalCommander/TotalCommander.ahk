@@ -604,7 +604,7 @@ return
 ; 转到[count]行, 缺省第一行
 <GotoLine>:
     ; TODO: 是否需要？ Vim_HotKeyCount := vim.GetCount()
-    if ( count := vim.GetCount()) > 1
+    if ( count := vim.GetCount("TTOTAL_CMD")) > 1
         GotoLine(count)
     else
         GotoLine(1)
@@ -613,7 +613,7 @@ return
 ; 转到[count]行, 最后一行
 <LastLine>:
     ; TODO: 是否需要？ Vim_HotKeyCount := vim.GetCount()
-    if ( count := vim.GetCount()) > 1
+    if ( count := vim.GetCount("TTOTAL_CMD")) > 1
         GotoLine(count)
     else
         GotoLine(0)
