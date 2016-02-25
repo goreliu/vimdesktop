@@ -820,11 +820,11 @@ FileTempMenuCheck()
         Ext := "." . A_LoopFileExt
         IconFile := RegGetNewFileIcon(Ext)
         IconFile := RegExReplace(IconFile, "i)%systemroot%", A_WinDir)
-        IconFilePath := RegExReplace(IconFile, ", -?\d*", "")
+        IconFilePath := RegExReplace(IconFile, ", ?-?\d*", "")
         StringReplace, IconFilePath, IconFilePath, ", , A
         IconFileIndex := RegExReplace(IconFile, ".*, ", "")
         IconFileIndex := IconFileIndex>=0?IconFileIndex+1:IconFileIndex
-        ;MsgBox, %IconFile%_%IconFilePath%_%IconFileIndex%
+        ;MsgBox, %Ext%_%IconFile%_%IconFilePath%_%IconFileIndex%
         If Not FileExist(IconFilePath)
             Menu, FileTemp, Icon, %ft%, %A_WinDir%\system32\Shell32.dll, 1 ;-152
         Else
@@ -1043,7 +1043,7 @@ ReadNewFile()
         IconFile := RegGetNewFileIcon(Exec)
         IconFile := RegExReplace(IconFile, "i)%systemroot%", A_WinDir)
         IconFile := RegExReplace(IconFile, "i)%ProgramFiles%", A_ProgramFiles)
-        IconFilePath := RegExReplace(IconFile, ", -?\d*", "")
+        IconFilePath := RegExReplace(IconFile, ", ?-?\d*", "")
         StringReplace, IconFilePath, IconFilePath, ", , A
         If Not FileExist(IconFilePath)
             IconFilePath := ""
