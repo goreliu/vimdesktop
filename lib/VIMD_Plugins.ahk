@@ -1,5 +1,5 @@
 ﻿#include *i %A_ScriptDir%\plugins\BeyondCompare4\BeyondCompare4.ahk
-#include *i %A_ScriptDir%\plugins\foobar2000\foobar2000.ahk
+#include *i %A_ScriptDir%\plugins\Foobar2000\Foobar2000.ahk
 #include *i %A_ScriptDir%\plugins\General\General.ahk
 #include *i %A_ScriptDir%\plugins\KeePass\KeePass.ahk
 #include *i %A_ScriptDir%\plugins\MicrosoftExcel\MicrosoftExcel.ahk
@@ -12,7 +12,7 @@
 /*
 [ExtensionsTime]
 BeyondCompare4=20160225110123
-foobar2000=20160226173412
+Foobar2000=20160227001053
 General=20160226173232
 KeePass=20160224212805
 MicrosoftExcel=20160226182851
