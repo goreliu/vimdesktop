@@ -36,7 +36,8 @@ TCCompare=1
 BeyondCompare4=1
 foobar2000=1
 WizNote=1
-VimConfig=0
+VimDConfig=1
+MicrosoftExcel=1
 
 ; 设置窗口名
 ;[记事本]

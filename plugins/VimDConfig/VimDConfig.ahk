@@ -4,38 +4,8 @@
     vim.SetAction("<vc_keymap>", "打开VimDesktop配置界面")
 return
 
-/*
-<vc_config>:
-    menu, VimDConfig_menu, add
-    menu, VimDConfig_menu, deleteall
-    menu, VimDConfig_menu, add, &Exit, <vc_keymap>
-    GUI, VimDConfig:Destroy
-    GUI, VimDConfig:Default
-    GUI, VimDConfig:Menu, VimDConfig_menu
-    GUI, VimDConfig:Add, StatusBar
-    GUI, VimDConfig:Show, w700 h500
-return
-
-<vc_keymap2>:
-{
-    GUI, VimDConfig_keymap:Destroy
-    GUI, VimDConfig_keymap:Default
-    GUI, VimDConfig_keymap:Font, s10, Microsoft YaHei
-    GUI, VimDConfig_keymap:Add, Text, x10 y13, 热键(&K)
-    GUI, VimDConfig_keymap:Add, Edit, x70 y10 w240 r1
-    GUI, VimDConfig_keymap:Add, Button, x320 y8 w30 h30, &?
-    GUI, VimDConfig_keymap:Add, Text, x10 y48, 动作(&L)
-    GUI, VimDConfig_keymap:Add, Edit, x70 y45 w240 r1
-    GUI, VimDConfig_keymap:Add, Button, x320 y43 w30 h30 g<vc_plugin>, &!
-    ;GUI, VimDConfig_keymap:Add, Button, x575 y350 w60 h65, 保存(&S)
-    GUI, VimDConfig_keymap:show
-    return
-}
-*/
-
 <vc_plugin>:
 {
-    plist := ""
     GUI, VimDConfig_plugin:Destroy
     GUI, VimDConfig_plugin:Default
     GUI, VimDConfig_plugin:Font, s10, Microsoft YaHei
@@ -96,25 +66,6 @@ VimDConfig_LoadActions:
 
     GUI, VimDConfig_keymap:Add, GroupBox, x225 y10 w650 h420, 热键定义(&V)
     GUI, VimDConfig_keymap:Add, Listview, x235 y36 w630 h380 grid, 热键|动作|描述
-/*
-    GUI, VimDConfig_keymap:Add, Text, x235 y309, 过滤(&F)
-    GUI, VimDConfig_keymap:Add, Edit, x290 y307 w160 r1
-
-    GUI, VimDConfig_keymap:Add, Button, x465 y305 w80, 添加(&A)
-    GUI, VimDConfig_keymap:Add, Button, x555 y305 w80, 删除(&D)
-
-    GUI, VimDConfig_keymap:Add, Text, x235 y353, 热键(&K)
-    GUI, VimDConfig_keymap:Add, Edit, x290 y350 w240 r1
-    GUI, VimDConfig_keymap:Add, Text, x235 y390, 动作(&L)
-    GUI, VimDConfig_keymap:Add, Edit, x290 y387 w240 r1
-
-    GUI, VimDConfig_keymap:Add, Button, x535 y350 w30 h30 ;gVimDConfig_keymap_exit, &?
-    GUI, VimDConfig_keymap:Add, Button, x535 y385 w30 h30 g<vc_plugin>, &>
-    GUI, VimDConfig_keymap:Add, Button, x575 y350 w60 h65 ;, 保存(&S)
-
-    GUI, VimDConfig_keymap:Add, Statusbar
-    GUI, VimDConfig_keymap:Menu, VimDConfig_keymap_menu
-*/
 
     LV_ModifyCol(1, "left 100")
     LV_ModifyCol(2, "left 250")
