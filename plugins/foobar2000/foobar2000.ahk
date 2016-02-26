@@ -61,10 +61,14 @@ ForceNormalMode_foobar2000()
 }
 
 <foobar2000_NormalMode>:
+    DisplayMode(foobar2000_class, "normal")
+
     vim.mode("normal", foobar2000_class)
 return
 
 <foobar2000_InsertMode>:
+    DisplayMode(foobar2000_class, "insert")
+
     vim.mode("insert", foobar2000_class)
 return
 

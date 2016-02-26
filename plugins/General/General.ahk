@@ -822,3 +822,28 @@ return
 <ActivateTab0>:
     send ^{9}
 return
+
+;清除 ToolTip 计时器
+<RemoveToolTip>:
+    SetTimer, <RemoveToolTip>, Off
+    ToolTip
+return
+
+;进入、退出模式时显示提示
+DisplayMode(ahk_class_name, mode_name)
+{
+    global vim
+
+    ToolTip, 进入 %mode_name% 模式
+
+    if (vim.GetWin(ahk_class_name).info)
+    {
+        ; 如果显示按键提升，定时器无法使用，会显示不出来
+        sleep, 500
+        ToolTip
+    }
+    else
+    {
+        SetTimer, <RemoveToolTip>, 500
+    }
+}
