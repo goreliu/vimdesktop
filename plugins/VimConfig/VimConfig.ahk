@@ -42,7 +42,7 @@ return
     GUI, vimconfig_plugin:Add, ListView, x10 y10 w150 h400 grid altsubmit gvimconfig_LoadActions, 插件
     for plugin, obj in vim.pluginlist
         LV_Add("", plugin)
-    GUI, vimconfig_plugin:Add, ListView, x170 y10 w500 h400 grid altsubmit, 序号|动作|描述
+    GUI, vimconfig_plugin:Add, ListView, x170 y10 w600 h400 grid altsubmit, 序号|动作|描述
     LV_ModifyCol(1, "center")
     LV_ModifyCol(2, "left 200")
     LV_ModifyCol(3, "left 400")
@@ -88,13 +88,13 @@ vimconfig_LoadActions:
     GUI, vimconfig_keymap:Default
     GUI, vimconfig_keymap:Font, s10, Microsoft YaHei
 
-    GUI, vimconfig_keymap:Add, GroupBox, x10 y10 w200 h270, 窗口(&Q)
+    GUI, vimconfig_keymap:Add, GroupBox, x10 y10 w300 h270, 窗口(&Q)
     GUI, vimconfig_keymap:Add, ListBox, x20 y36 w180 R12 center gvimconfig_keymap_loadmodelist
 
     GUI, vimconfig_keymap:Add, GroupBox, x10 y290  w200 h140, 模式(&M)
     GUI, vimconfig_keymap:Add, ListBox, x20 y316  w180 R5 center gvimconfig_keymap_loadhotkey
 
-    GUI, vimconfig_keymap:Add, GroupBox, x225 y10 w420 h420, 热键定义(&V)
+    GUI, vimconfig_keymap:Add, GroupBox, x225 y10 w650 h420, 热键定义(&V)
     GUI, vimconfig_keymap:Add, Listview, x235 y36 w630 h380 grid, 热键|动作|描述
 /*
     GUI, vimconfig_keymap:Add, Text, x235 y309, 过滤(&F)
@@ -118,7 +118,7 @@ vimconfig_LoadActions:
 
     LV_ModifyCol(1, "left 100")
     LV_ModifyCol(2, "left 250")
-    LV_ModifyCol(3, "left 250")
+    LV_ModifyCol(3, "left 400")
 
     vimconfig_keymap_loadwinlist()
     vimconfig_keymap_loadhotkey(vimconfig_keymap_loadmodelist(thiswin))
