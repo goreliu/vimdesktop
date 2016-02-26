@@ -2,21 +2,23 @@
     global foobar2000_class := "{97E27FAA-C0B3-4b8e-A693-ED7881E99FC1}"
     global foobar2000_list_classnn := "{4B94B650-C2D8-40de-A0AD-E8FADF62D56C}1"
 
-    vim.Comment("<foobar2000_NormalMode>", "进入normal模式")
-    vim.Comment("<foobar2000_InsertMode>", "进入insert模式")
-    vim.Comment("<foobar2000_Search>", "打开搜索窗口")
-    vim.Comment("<foobar2000_Tree>", "定位到目录窗口")
-    vim.Comment("<foobar2000_List>", "定位到播放列表")
-    vim.Comment("<foobar2000_ToggleShowInfo>", "显示/隐藏 按键提示")
+    ;vim.comment("<foobar2000_NormalMode>", "进入normal模式")
+    ;vim.comment("<foobar2000_InsertMode>", "进入insert模式")
+    vim.comment("<foobar2000_Search>", "打开搜索窗口")
+    vim.comment("<foobar2000_Tree>", "定位到目录窗口")
+    vim.comment("<foobar2000_List>", "定位到播放列表")
+    vim.comment("<foobar2000_ToggleShowInfo>", "显示/隐藏 按键提示")
 
+    /*
     ; insert模式
     vim.mode("insert", foobar2000_class)
     vim.map("<esc>", "<foobar2000_NormalMode>", foobar2000_class)
+    */
 
     ; normal模式
     vim.mode("normal", foobar2000_class)
 
-    vim.map("i", "<foobar2000_InsertMode>", foobar2000_class)
+    ;vim.map("i", "<foobar2000_InsertMode>", foobar2000_class)
 
     vim.map("0", "<0>", foobar2000_class)
     vim.map("1", "<1>", foobar2000_class)
@@ -60,6 +62,7 @@ ForceNormalMode_foobar2000()
     return false
 }
 
+/*
 <foobar2000_NormalMode>:
     DisplayMode(foobar2000_class, "normal")
 
@@ -71,6 +74,7 @@ return
 
     vim.mode("insert", foobar2000_class)
 return
+*/
 
 <foobar2000_Search>:
     send ^f
