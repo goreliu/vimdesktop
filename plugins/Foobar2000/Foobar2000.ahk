@@ -22,6 +22,7 @@
     vim.mode("normal", Foobar2000_name)
 
     ;vim.map("i", "<Foobar2000_InsertMode>", Foobar2000_name)
+    vim.map("<esc>", "<RemoveToolTip>", Foobar2000_name)
 
     vim.map("0", "<0>", Foobar2000_name)
     vim.map("1", "<1>", Foobar2000_name)
