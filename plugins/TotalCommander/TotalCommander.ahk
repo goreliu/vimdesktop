@@ -89,7 +89,7 @@
     vim.comment("<CopyDirectoryHotlist>", "复制到常用文件夹")
     vim.comment("<GotoPreviousDirOther>", "后退另一侧")
     vim.comment("<GotoNextDirOther>", "前进另一侧")
-    vim.comment("<Search>", "连续搜索")
+    vim.comment("<TC_SearchMode>", "连续搜索")
     vim.comment("<CopyUseQueues>", "无需确认，使用队列拷贝文件至另一窗口")
     vim.comment("<MoveUseQueues>", "无需确认，使用队列移动文件至另一窗口")
     vim.comment("<Repeat>", "重复上次操作")
@@ -107,7 +107,7 @@
     vim.SetTimeOut(800, "TTOTAL_CMD")
     vim.map("<esc>", "<TC_NormalMode>", "TTOTAL_CMD")
 
-    vim.mode("Search", "TTOTAL_CMD")
+    vim.mode("search", "TTOTAL_CMD")
     vim.map("<esc>", "<TC_NormalMode>", "TTOTAL_CMD")
 
     vim.mode("normal", "TTOTAL_CMD")
@@ -129,7 +129,7 @@
     vim.map("fb", "<CopyDirectoryHotlist>", "TTOTAL_CMD")
     vim.map("fd", "<MoveDirectoryHotlist>", "TTOTAL_CMD")
     vim.map("ft", "<cm_SyncChangeDir>", "TTOTAL_CMD")
-    vim.map("<shift>f", "<Search>", "TTOTAL_CMD")
+    vim.map("<shift>f", "<TC_SearchMode>", "TTOTAL_CMD")
     vim.map("gh", "<GotoPreviousDirOther>", "TTOTAL_CMD")
     vim.map("gl", "<GotoNextDirOther>", "TTOTAL_CMD")
     vim.map("<shift>vh", "<cm_SwitchIgnoreList>", "TTOTAL_CMD")
@@ -327,9 +327,9 @@ return
     vim.Mode("normal", "TTOTAL_CMD")
     ;emptymem()
 return
-; <Search> {{{1
-<Search>:
-    vim.Mode("Search", "TTOTAL_CMD")
+; <TC_SearchMode> {{{1
+<TC_SearchMode>:
+    vim.Mode("search", "TTOTAL_CMD")
 return
 ; <TC_InsertMode> {{{1
 <TC_InsertMode>:
