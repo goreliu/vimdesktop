@@ -35,9 +35,8 @@
     vim.map("l", "<WinMerge_CopyToRight>", "WinMergeWindowClassW")
     vim.map("H", "<WinMerge_CopyToLeftAndGoOn>", "WinMergeWindowClassW")
     vim.map("L", "<WinMerge_CopyToRightAndGoOn>", "WinMergeWindowClassW")
-    vim.map("<ctrl>h", "<WinMerge_CopyToLeftAll>", "WinMergeWindowClassW")
-    vim.map("<ctrl>l", "<WinMerge_CopyToRightAll>", "WinMergeWindowClassW")
-
+    vim.map("<c-h>", "<WinMerge_CopyToLeftAll>", "WinMergeWindowClassW")
+    vim.map("<c-l>", "<WinMerge_CopyToRightAll>", "WinMergeWindowClassW")
 return
 
 /*

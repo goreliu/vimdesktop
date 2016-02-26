@@ -43,10 +43,6 @@
         IniWrite, %TCINI%, %ConfigPath%, TotalCommander_Config, TCINI
     }
 
-    
-    ;添加将TC作为打开文件对话框的快捷键
-    ;IniWriteIfNullValue(ConfigPath, "Global", "*<ctrl>;", "<FocusTCCmd>")
-
     if RegExMatch(TcPath, "i)totalcmd64\.exe$")
     {
         Global TCListBox := "LCLListBox"
