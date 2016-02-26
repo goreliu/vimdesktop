@@ -45,6 +45,7 @@
     vim.comment("<Media_Prev>", "播放上一首")
     vim.comment("<Media_Play_Pause>", "播放/停止")
     vim.comment("<Media_Stop>", "停止播放")
+    vim.comment("<RemoveToolTip>", "清除屏幕的ToolTip")
 
     vim.SetWin("General", "General")
     vim.SetMode("insert", "General")
