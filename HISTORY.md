@@ -4,16 +4,16 @@ VimDesktop 2.0.0 (2016-??-??)
 --------
 - 主程序
     - `vimd.ahk`、`plugins/General/General.ahk` 和 `lib` 下部分文件改用 linxinhong 版本的。
-    - 支持使用 `xx=<Default>[=mode]` 取消已有按键绑定，`xx=<>[=mode]`功能变为屏蔽按键。
+    - 支持使用 `xx=<Default>[=mode]` 取消已有按键绑定，使用 `xx=<>[=mode]` 和 `xx=<Pass>[=mode]`屏蔽按键。
     - 添加全局配置`default_enable_show_info`配置项，用于设置默认是否显示按键补全提示。
-    - 支持配置全局快捷键来启动程序。
+    - 支持配置全局快捷键来启动程序，在`[global]`中配置，如 `<w-c>=run|explorer[=normal]`。
     - 插件可以使用`DisplayMode()`函数在进入模式时显示提示。
     - 插件可以使用`<ShowHelp>`标签显示所有按键的帮助提示。
 - TC插件
     - 配置文件中的快捷键使用新的格式。
-    - 新增`<TotalCommander_ToggleMenu>`标签用于启用、禁用菜单栏。
-    - m标记功能，将标记存入配置文件`TotalCommander软件目录\TCMark.ini`，重启vimd后继续有效。
-    - 按`l`、进入`;`的标记、进入`n`的最近历史，都自动定位到第一个文件，跳过`..`（`d`书签除外）。
+    - 新增`<TotalCommander_ToggleMenu>`标签用于启用、禁用菜单栏，默认配置映射到 `Q` 键。
+    - `m`标记功能，将标记存入配置文件`TotalCommander软件目录\TCMark.ini`，重启vimd后继续有效。相当于另一个书签。
+    - 按`l`、进入`;`的标记、进入`n`的最近历史，都自动定位到第一个文件，跳过`..`（`d`书签除外，难以实现）。
 - 其他插件
     - 把Excel插件移植过来，修复一些稳定性问题。
     - Foobar2000插件，使用ahk\_exe判断，添去掉insert模式，添加若干快捷键。
