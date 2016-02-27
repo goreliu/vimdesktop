@@ -116,6 +116,7 @@
     vim.comment("<OpenWithAlternateViewer>", "使用外部查看器打开(alt+f3)")
     vim.comment("<TotalCommander_ToggleShowInfo>", "显示/隐藏 按键提示")
     vim.comment("<TotalCommander_ToggleMenu>", "显示/隐藏 菜单栏")
+    vim.comment("<TotalCommander_SuperReturn>", "同回车键，但定位到第一个文件")
     GoSub, TCCOMMAND
 
     vim.mode("normal", "TQUICKSEARCH")
@@ -554,6 +555,8 @@ azHistorySelect()
         ThisMenuItem := StrReplace(ThisMenuItem, ":＆:", "&")
         ControlSetText, %TCEdit%, cd %ThisMenuItem%, ahk_class TTOTAL_CMD
         ControlSend, %TCEdit%, {enter}, ahk_class TTOTAL_CMD
+        ControlGetFocus, Ctrl, AHK_CLASS TTOTAL_CMD
+        Postmessage, 0x19E, 1, 1, %Ctrl%, AHK_CLASS TTOTAL_CMD
     }
 }
 ; <DownSelect> {{{1
@@ -787,6 +790,8 @@ AddMark()
     }
     ControlSetText, %TCEdit%, cd %ThisMenuItem%, ahk_class TTOTAL_CMD
     ControlSend, %TCEdit%, {Enter}, ahk_class TTOTAL_CMD
+    ControlGetFocus, Ctrl, AHK_CLASS TTOTAL_CMD
+    Postmessage, 0x19E, 1, 1, %Ctrl%, AHK_CLASS TTOTAL_CMD
     return
 }
 ; <ListMark> {{{1
@@ -1449,6 +1454,18 @@ return
                 Break
             Sleep, 100
         }
+    }
+return
+
+<TotalCommander_SuperReturn>:
+    ControlGetText, old_pwd, TPathPanel1
+    GoSub, <cm_Return>
+    ControlGetText, new_pwd, TPathPanel1
+
+    if (old_pwd <> new_pwd)
+    {
+        ControlGetFocus, Ctrl, AHK_CLASS TTOTAL_CMD
+        Postmessage, 0x19E, 1, 1, %Ctrl%, AHK_CLASS TTOTAL_CMD
     }
 return
 
