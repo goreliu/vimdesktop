@@ -5,11 +5,10 @@ VimDesktop 2.0.0 (2016-??-??)
 - 主程序
     - `vimd.ahk`、`plugins/General/General.ahk` 和 `lib` 下部分文件改用 linxinhong 版本的。
     - 支持使用 `xx=<Default>[=mode]` 取消已有按键绑定，`xx=<>[=mode]`功能变为屏蔽按键。
-    - 支持使用全局选项设置默认是否显示按键提示。
+    - 添加全局配置`default_enable_show_info`配置项，用于设置默认是否显示按键补全提示。
     - 支持配置全局快捷键来启动程序。
     - 插件可以使用`DisplayMode()`函数在进入模式时显示提示。
     - 插件可以使用`<ShowHelp>`标签显示所有按键的帮助提示。
-    - 全局配置添加`default_enable_show_info`配置项，是否显示按键补全提示的默认值。
 - TC插件
     - 配置文件中的快捷键使用新的格式。
 - 其他插件
