@@ -56,10 +56,11 @@ ShowIp:
 return
 
 RunClipboardWithMintty:
-    MsgBox % clipboard
+    MsgBox, 4, 运行？, %clipboard%
     ;MsgBox % RunWithBash(clipboard)
     ;Run, mintty -e sh -c '%clipboard%; read'
-    Run % "mintty -e sh -c '" clipboard "; read'"
+    IfMsgBox Yes
+        Run % "mintty -e sh -c '" clipboard "; read'"
     ExitApp
 return
 
