@@ -7,6 +7,8 @@ global msg
 @("b", "ShowClipboard", "显示剪切板内容")
 @("c", "ShowIp", "显示IP")
 @("d", "RunClipboardWithMintty", "运行剪切板的命令")
+@("e", "Calendar", "万年历")
+@("f", "t2s", "繁体转简体")
 @("z", "Test", "测试")
 
 MsgBox, %msg%
@@ -65,3 +67,17 @@ Test:
     MsgBox, test
     ExitApp
 return
+
+Calendar:
+    Run % "http://www.baidu.com/baidu?wd=%CD%F2%C4%EA%C0%FA"
+    ExitApp
+return
+
+t2s:
+    Run, notepad
+    clipboard := Kanji_t2s(clipboard)
+    Send, ^v
+    ExitApp
+return
+
+#include %A_ScriptDir%\..\lib\Kanji\Kanji.ahk
