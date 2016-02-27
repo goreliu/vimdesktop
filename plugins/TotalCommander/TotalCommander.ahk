@@ -1,6 +1,7 @@
 ﻿TotalCommander:
     global TCPath
     global TCINI
+    global TCMarkINI
 
     IniRead, TCPath, %ConfigPath%, TotalCommander_Config, TCPath
     IniRead, TCINI, %ConfigPath%, TotalCommander_Config, TCINI
@@ -43,6 +44,8 @@
         IniWrite, %TCINI%, %ConfigPath%, TotalCommander_Config, TCINI
     }
 
+    TCMarkINI := RegExReplace(TCPath, "i)totalcmd6?4?.exe$", "TCMark.ini")
+
     if RegExMatch(TcPath, "i)totalcmd64\.exe$")
     {
         Global TCListBox := "LCLListBox"
@@ -59,8 +62,24 @@
         Global TCPanel1 := "TPanel1"
         Global TCPanel2 := "TMyPanel8"
     }
+
     Global Mark := []
+
+    IniRead, all_marks, %TCMarkINI%, mark, ms
+    if (all_marks <> "")
+    {
+        Mark["ms"] := all_marks
+
+        Loop, Parse, all_marks
+        {
+            IniRead, new_mark, %TCMarkINI%, mark, %A_LoopField%
+            Mark[A_LoopField] := new_mark
+            Menu, MarkMenu, Add, %new_mark%, <AddMark>
+        }
+    }
+
     Global NewFiles := []
+
     vim.Comment("<TC_NormalMode>", "返回正常模式")
     vim.Comment("<TC_InsertMode>", "进入插入模式")
     vim.Comment("<ToggleTC>", "打开/激活TC")
@@ -187,10 +206,10 @@
     vim.map("\", "<cm_ExchangeSelection>", "TTOTAL_CMD")
     vim.map("|", "<cm_ClearAll>", "TTOTAL_CMD")
     vim.map("-", "<cm_SwitchSeparateTree>", "TTOTAL_CMD")
-    vim.map(",", "<Mark>", "TTOTAL_CMD")
     vim.map("_", "<cm_Split>", "TTOTAL_CMD")
     vim.map("+", "<cm_Combine>", "TTOTAL_CMD")
     vim.map("=", "<cm_MatchSrc>", "TTOTAL_CMD")
+    vim.map(",", "<cm_SrcThumbs>", "TTOTAL_CMD")
     vim.map(";", "<cm_FocusCmdLine>", "TTOTAL_CMD")
     vim.map(":", "<cm_FocusCmdLine>", "TTOTAL_CMD")
     vim.map("~", "<cm_SysInfo>", "TTOTAL_CMD")
@@ -703,21 +722,24 @@ MarkTimer()
             Path2 := SubStr(Path, RegExMatch(Path, "\\[^\\]*$")-Strlen(Path))
             Path := Path1 . "..." . SubStr(Path2, 1, 65) "..."
         }
-        M := SubStr(OutVar, 2, 1)
-        mPath := "&" . m . ">>" . Path
+        m := SubStr(OutVar, 2, 1)
+        mPath := "&" . m . " >> " . Path
         if RegExMatch(Mark["ms"], m)
         {
             DelM := Mark[m]
             Menu, MarkMenu, Delete, %DelM%
             Menu, MarkMenu, Add, %mPath%, <AddMark>
-            Mark["ms"] := Mark["ms"] . m
             Mark[m] := mPath
+            IniWrite, %mPath%, %TCMarkINI%, mark, %m%
         }
         else
         {
             Menu, MarkMenu, Add, %mPath%, <AddMark>
-            Mark["ms"] := Mark["ms"] . m
+            marks := Mark["ms"] . m
+            Mark["ms"] := marks
             Mark[m] := mPath
+            IniWrite, %marks%, %TCMarkINI%, mark, ms
+            IniWrite, %mPath%, %TCMarkINI%, mark, %m%
         }
     }
 }
@@ -726,7 +748,8 @@ MarkTimer()
 return
 AddMark()
 {
-    ThisMenuItem := SubStr(A_ThisMenuItem, 5, StrLen(A_ThisMenuItem))
+    ; &x >> dir
+    ThisMenuItem := SubStr(A_ThisMenuItem, 7, StrLen(A_ThisMenuItem))
     if RegExMatch(ThisMenuItem, "i)\\\\桌面$")
     {
         Postmessage 1075, 2121, 0, , ahk_class TTOTAL_CMD
