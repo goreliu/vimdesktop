@@ -60,9 +60,9 @@ return
 
 ForceNormalMode_Foobar2000()
 {
-    ControlGetFocus, ctrl, AHK_CLASS %Foobar2000_name%
-    ; msgbox, ctrl
-    if RegExMatch(ctrl, "Edit2")
+    ControlGetFocus, ctrl
+    ;MsgBox % ctrl
+    if RegExMatch(ctrl, "Edit1")
         return true
     return false
 }
