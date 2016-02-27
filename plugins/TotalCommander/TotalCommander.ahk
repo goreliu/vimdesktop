@@ -210,7 +210,7 @@
     vim.map("+", "<cm_Combine>", "TTOTAL_CMD")
     vim.map("=", "<cm_MatchSrc>", "TTOTAL_CMD")
     vim.map(",", "<cm_SrcThumbs>", "TTOTAL_CMD")
-    vim.map(";", "<cm_FocusCmdLine>", "TTOTAL_CMD")
+    vim.map(";", "<ListMark>", "TTOTAL_CMD")
     vim.map(":", "<cm_FocusCmdLine>", "TTOTAL_CMD")
     vim.map("~", "<cm_SysInfo>", "TTOTAL_CMD")
     vim.map("``", "<TotalCommander_ToggleShowInfo>", "TTOTAL_CMD")
