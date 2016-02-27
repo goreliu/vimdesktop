@@ -11,6 +11,7 @@ VimDesktop 2.0.0 (2016-??-??)
     - 插件可以使用`<ShowHelp>`标签显示所有按键的帮助提示。
 - TC插件
     - 配置文件中的快捷键使用新的格式。
+    - 新增`<TotalCommander_ToggleMenu>`标签用于启用、禁用菜单栏。
 - 其他插件
     - 把Excel插件移植过来，修复一些稳定性问题。
     - Foobar2000插件，使用ahk\_exe判断，添去掉insert模式，添加若干快捷键。
