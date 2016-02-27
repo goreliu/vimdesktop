@@ -886,3 +886,7 @@ ShowHelp()
 
     showToolTipStatus := !showToolTipStatus
 return
+
+<GKey>:
+    Run, %A_ScriptDir%\tools\Gkey.ahk
+return
