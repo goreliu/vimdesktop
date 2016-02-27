@@ -46,6 +46,7 @@
     vim.comment("<Media_Play_Pause>", "播放/停止")
     vim.comment("<Media_Stop>", "停止播放")
     vim.comment("<RemoveToolTip>", "清除屏幕的ToolTip")
+    vim.comment("<ShowHelp>", "显示所有按键帮助信息")
 
     vim.SetWin("General", "General")
     vim.SetMode("insert", "General")
@@ -826,25 +827,62 @@ return
 
 ;清除 ToolTip 计时器
 <RemoveToolTip>:
+    Global showToolTipStatus
+
     SetTimer, <RemoveToolTip>, Off
     ToolTip
+    showToolTipStatus := false
 return
 
 ;进入、退出模式时显示提示
 DisplayMode(ahk_class_name, mode_name)
 {
-    global vim
+    Global vim
+    Global showToolTipStatus
 
     ToolTip, 进入 %mode_name% 模式
+    showToolTipStatus := true
 
-    if (vim.GetWin(ahk_class_name).info)
+    SetTimer, <RemoveToolTip>, 500
+}
+
+ShowHelp()
+{
+    Global vim
+
+    modeObj := vim.GetMode(vim.LastFoundWin)
+
+    np := "help`n"
+    np .= "=====================`n"
+
+    for i, k in modeObj.keymapList
     {
-        ; 如果显示按键提升，定时器无法使用，会显示不出来
-        sleep, 500
-        ToolTip
+        if (i >= 0 && i <= 9)
+        {
+            Continue
+        }
+
+        act := vim.GetAction(modeObj.GetKeyMap(i))
+        np .= i "`t" act.Comment "`n"
+    }
+
+    MouseGetPos, posx, posy, A
+    posx += 40
+    posy += 40
+    Tooltip, %np%, %posx%, %posy%
+}
+
+<ShowHelp>:
+    Global showToolTipStatus
+
+    if (!showToolTipStatus)
+    {
+        ShowHelp()
     }
     else
     {
-        SetTimer, <RemoveToolTip>, 500
+        ToolTip
     }
-}
+
+    showToolTipStatus := !showToolTipStatus
+return

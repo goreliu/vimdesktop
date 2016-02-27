@@ -78,14 +78,19 @@ ShowInfo()
             np .= "=====================`n" 
     }
     MouseGetPos, posx, posy, A
-    posx += 60
-    posy += 60
+    posx += 40
+    posy += 40
     Tooltip, %np%, %posx%, %posy%
 }
 
 HideInfo()
 {
-    Tooltip 
+    ; 当屏幕有非快捷键补全帮助信息时，不清理
+    Global showToolTipStatus
+    if (!showToolTipStatus)
+    {
+        Tooltip
+    }
 }
 
 ; 定义数据结构

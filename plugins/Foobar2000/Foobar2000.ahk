@@ -48,6 +48,7 @@
     vim.map("n", "<Media_Next>", Foobar2000_name)
     vim.map("p", "<Media_Prev>", Foobar2000_name)
     vim.map("s", "<Media_Stop>", Foobar2000_name)
+    vim.map("z", "<ShowHelp>", Foobar2000_name)
     
     vim.map("N", "<NextTab>", Foobar2000_name)
     vim.map("P", "<PrevTab>", Foobar2000_name)
