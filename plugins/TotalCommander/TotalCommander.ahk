@@ -96,6 +96,7 @@
     vim.comment("<ViewFileUnderCursor>", "使用查看器打开光标所在文件(shift+f3)")
     vim.comment("<OpenWithAlternateViewer>", "使用外部查看器打开(alt+f3)")
     vim.comment("<TotalCommander_ToggleShowInfo>", "显示/隐藏 按键提示")
+    vim.comment("<TotalCommander_ToggleMenu>", "显示/隐藏 菜单栏")
     GoSub, TCCOMMAND
 
     vim.mode("normal", "TQUICKSEARCH")
@@ -1389,6 +1390,43 @@ return
 
 <TotalCommander_ToggleShowInfo>:
     vim.GetWin("TTOTAL_CMD").SetInfo(!vim.GetWin("TTOTAL_CMD").info)
+return
+
+<TotalCommander_ToggleMenu>:
+    IniRead, Mainmenu, %TCINI%, Configuration, Mainmenu
+
+    if (Mainmenu = "WCMD_CHN.MNU")
+    {
+        WinGet,TChwnd,Id,ahk_class TTOTAL_CMD
+        DllCall("SetMenu", "uint", TChwnd, "uint", 0)
+        IniWrite, NONE.MNU, %TCINI%, Configuration, Mainmenu
+        IniWrite, 1, %TCINI%, Configuration, RestrictInterface
+
+        noneMnuPath := RegExReplace(TCPath, "i)totalcmd6?4?.exe$", "LANGUAGE\NONE.MNU")
+
+        if (!FileExist(noneMnuPath))
+        {
+            FileAppend, , %noneMnuPath%
+        }
+    }
+    else
+    {
+        IniWrite, WCMD_CHN.MNU, %TCINI%, Configuration, Mainmenu
+        IniWrite, 0, %TCINI%, Configuration, RestrictInterface
+
+        Process, Close, totalcmd.exe
+        Process, Close, totalcmd64.exe
+
+        Run, %TCPath%
+        Loop, 4
+        {
+            IfWinNotActive, AHK_CLASS TTOTAL_CMD
+                WinActivate, AHK_CLASS TTOTAL_CMD
+            else
+                Break
+            Sleep, 100
+        }
+    }
 return
 
 
