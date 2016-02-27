@@ -91,41 +91,40 @@
 
     vim.Comment("<TC_NormalMode>", "返回正常模式")
     vim.Comment("<TC_InsertMode>", "进入插入模式")
-    vim.Comment("<ToggleTC>", "打开/激活TC")
-    vim.comment("<FocusTCCmd>", "激活TC，并定位到命令行")
-
-    vim.Comment("<azHistory>", "a-z历史导航")
-    vim.Comment("<DownSelect>", "向下选择")
-    vim.Comment("<UpSelect>", "向上选择")
-    vim.Comment("<Mark>", "标记功能")
-    vim.Comment("<ForceDelete>", "强制删除")
-    vim.Comment("<ListMark>", "显示标记")
-    vim.Comment("<Toggle_50_100Percent>", "切换当前窗口显示状态50%~100%")
-    vim.Comment("<WinMaxLeft>", "最大化左侧窗口")
-    vim.Comment("<WinMaxRight>", "最大化右侧窗口")
-    vim.Comment("<GoLastTab>", "切换到最后一个标签")
-    vim.Comment("<CopyNameOnly>", "只复制文件名，不含扩展名")
-    vim.Comment("<GotoLine>", "移动到[count]行，默认第一行")
-    vim.Comment("<LastLine>", "移动到[count]行，默认最后一行")
-    vim.Comment("<Half>", "移动到窗口中间行")
-    vim.Comment("<CreateNewFile>", "文件模板")
-    vim.Comment("<GoToParentEx>", "返回到上层文件夹，可返回到我的电脑")
-    vim.Comment("<AlwayOnTop>", "设置TC顶置")
-    vim.comment("<OpenDriveThis>", "打开驱动器列表:本侧")
-    vim.comment("<OpenDriveThat>", "打开驱动器列表:另侧")
-    vim.comment("<MoveDirectoryHotlist>", "移动到常用文件夹")
-    vim.comment("<CopyDirectoryHotlist>", "复制到常用文件夹")
-    vim.comment("<GotoPreviousDirOther>", "后退另一侧")
-    vim.comment("<GotoNextDirOther>", "前进另一侧")
+    vim.Comment("<TC_ToggleTC>", "打开/激活TC")
+    vim.comment("<TC_FocusTCCmd>", "激活TC，并定位到命令行")
+    vim.Comment("<TC_azHistory>", "a-z历史导航")
+    vim.Comment("<TC_DownSelect>", "向下选择")
+    vim.Comment("<TC_UpSelect>", "向上选择")
+    vim.Comment("<TC_Mark>", "标记功能")
+    vim.Comment("<TC_ForceDelete>", "强制删除")
+    vim.Comment("<TC_ListMark>", "显示标记")
+    vim.Comment("<TC_Toggle_50_100Percent>", "切换当前窗口显示状态50%~100%")
+    vim.Comment("<TC_WinMaxLeft>", "最大化左侧窗口")
+    vim.Comment("<TC_WinMaxRight>", "最大化右侧窗口")
+    vim.Comment("<TC_GoLastTab>", "切换到最后一个标签")
+    vim.Comment("<TC_CopyNameOnly>", "只复制文件名，不含扩展名")
+    vim.Comment("<TC_GotoLine>", "移动到[count]行，默认第一行")
+    vim.Comment("<TC_LastLine>", "移动到[count]行，默认最后一行")
+    vim.Comment("<TC_Half>", "移动到窗口中间行")
+    vim.Comment("<TC_CreateNewFile>", "文件模板")
+    vim.Comment("<TC_GoToParentEx>", "返回到上层文件夹，可返回到我的电脑")
+    vim.Comment("<TC_AlwayOnTop>", "设置TC顶置")
+    vim.comment("<TC_OpenDriveThis>", "打开驱动器列表:本侧")
+    vim.comment("<TC_OpenDriveThat>", "打开驱动器列表:另侧")
+    vim.comment("<TC_MoveDirectoryHotlist>", "移动到常用文件夹")
+    vim.comment("<TC_CopyDirectoryHotlist>", "复制到常用文件夹")
+    vim.comment("<TC_GotoPreviousDirOther>", "后退另一侧")
+    vim.comment("<TC_GotoNextDirOther>", "前进另一侧")
     vim.comment("<TC_SearchMode>", "连续搜索")
-    vim.comment("<CopyUseQueues>", "无需确认，使用队列拷贝文件至另一窗口")
-    vim.comment("<MoveUseQueues>", "无需确认，使用队列移动文件至另一窗口")
+    vim.comment("<TC_CopyUseQueues>", "无需确认，使用队列拷贝文件至另一窗口")
+    vim.comment("<TC_MoveUseQueues>", "无需确认，使用队列移动文件至另一窗口")
     vim.comment("<Repeat>", "重复上次操作")
-    vim.comment("<ViewFileUnderCursor>", "使用查看器打开光标所在文件(shift+f3)")
-    vim.comment("<OpenWithAlternateViewer>", "使用外部查看器打开(alt+f3)")
-    vim.comment("<TotalCommander_ToggleShowInfo>", "显示/隐藏 按键提示")
-    vim.comment("<TotalCommander_ToggleMenu>", "显示/隐藏 菜单栏")
-    vim.comment("<TotalCommander_SuperReturn>", "同回车键，但定位到第一个文件")
+    vim.comment("<TC_ViewFileUnderCursor>", "使用查看器打开光标所在文件(shift+f3)")
+    vim.comment("<TC_OpenWithAlternateViewer>", "使用外部查看器打开(alt+f3)")
+    vim.comment("<TC_ToggleShowInfo>", "显示/隐藏 按键提示")
+    vim.comment("<TC_ToggleMenu>", "显示/隐藏 菜单栏")
+    vim.comment("<TC_SuperReturn>", "同回车键，但定位到第一个文件")
     GoSub, TCCOMMAND
 
     vim.mode("normal", "TQUICKSEARCH")
@@ -147,8 +146,8 @@
     vim.map("fx", "<cm_MoveOnly>", "TTOTAL_CMD")
 
     ;使用队列复制/移动到右侧 q-queue, fcq会影响对fc的使用，改用fqc/fqx的方式
-    vim.map("fqc", "<CopyUseQueues>", "TTOTAL_CMD")
-    vim.map("fqx", "<MoveUseQueues>", "TTOTAL_CMD")
+    vim.map("fqc", "<TC_CopyUseQueues>", "TTOTAL_CMD")
+    vim.map("fqx", "<TC_MoveUseQueues>", "TTOTAL_CMD")
 
     ;ff复制到剪切板 fz剪切到剪切板 fv粘贴
     vim.map("ff", "<cm_CopyToClipboard>", "TTOTAL_CMD")
@@ -156,12 +155,12 @@
     vim.map("fv", "<cm_PasteFromClipboard>", "TTOTAL_CMD")
 
     ;fb复制到收藏夹某个目录，fd移动到收藏夹的某个目录
-    vim.map("fb", "<CopyDirectoryHotlist>", "TTOTAL_CMD")
-    vim.map("fd", "<MoveDirectoryHotlist>", "TTOTAL_CMD")
+    vim.map("fb", "<TC_CopyDirectoryHotlist>", "TTOTAL_CMD")
+    vim.map("fd", "<TC_MoveDirectoryHotlist>", "TTOTAL_CMD")
     vim.map("ft", "<cm_SyncChangeDir>", "TTOTAL_CMD")
     vim.map("<shift>f", "<TC_SearchMode>", "TTOTAL_CMD")
-    vim.map("gh", "<GotoPreviousDirOther>", "TTOTAL_CMD")
-    vim.map("gl", "<GotoNextDirOther>", "TTOTAL_CMD")
+    vim.map("gh", "<TC_GotoPreviousDirOther>", "TTOTAL_CMD")
+    vim.map("gl", "<TC_GotoNextDirOther>", "TTOTAL_CMD")
     vim.map("<shift>vh", "<cm_SwitchIgnoreList>", "TTOTAL_CMD")
     vim.map("0", "<0>", "TTOTAL_CMD")
     vim.map("1", "<1>", "TTOTAL_CMD")
@@ -174,24 +173,24 @@
     vim.map("8", "<8>", "TTOTAL_CMD")
     vim.map("9", "<9>", "TTOTAL_CMD")
     vim.map("k", "<up>", "TTOTAL_CMD")
-    vim.map("K", "<upSelect>", "TTOTAL_CMD")
+    vim.map("K", "<TC_UpSelect>", "TTOTAL_CMD")
     vim.map("j", "<down>", "TTOTAL_CMD")
-    vim.map("J", "<downSelect>", "TTOTAL_CMD")
+    vim.map("J", "<TC_DownSelect>", "TTOTAL_CMD")
     vim.map("h", "<left>", "TTOTAL_CMD")
     vim.map("H", "<cm_GotoPreviousDir>", "TTOTAL_CMD")
     vim.map("l", "<right>", "TTOTAL_CMD")
     vim.map("L", "<cm_GotoNextDir>", "TTOTAL_CMD")
-    vim.map("I", "<CreateNewFile>", "TTOTAL_CMD")
+    vim.map("I", "<TC_CreateNewFile>", "TTOTAL_CMD")
     vim.map("i", "<TC_InsertMode>", "TTOTAL_CMD")
     vim.map("d", "<cm_DirectoryHotlist>", "TTOTAL_CMD")
     vim.map("D", "<cm_OpenDesktop>", "TTOTAL_CMD")
     vim.map("e", "<cm_ContextMenu>", "TTOTAL_CMD")
     vim.map("E", "<cm_ExeCuteDOS>", "TTOTAL_CMD")
-    vim.map("n", "<azHistory>", "TTOTAL_CMD")
-    vim.map("m", "<Mark>", "TTOTAL_CMD")
-    vim.map("M", "<Half>", "TTOTAL_CMD")
-    vim.map("'", "<ListMark>", "TTOTAL_CMD")
-    vim.map("u", "<GoToParentEx>", "TTOTAL_CMD")
+    vim.map("n", "<TC_azHistory>", "TTOTAL_CMD")
+    vim.map("m", "<TC_Mark>", "TTOTAL_CMD")
+    vim.map("M", "<TC_Half>", "TTOTAL_CMD")
+    vim.map("'", "<TC_ListMark>", "TTOTAL_CMD")
+    vim.map("u", "<TC_GoToParentEx>", "TTOTAL_CMD")
     vim.map("U", "<cm_GoToRoot>", "TTOTAL_CMD")
     vim.map("o", "<cm_LeftOpenDrives>", "TTOTAL_CMD")
     vim.map("O", "<cm_RightOpenDrives>", "TTOTAL_CMD")
@@ -199,7 +198,7 @@
     vim.map("r", "<cm_RenameOnly>", "TTOTAL_CMD")
     vim.map("R", "<cm_MultiRenameFiles>", "TTOTAL_CMD")
     vim.map("x", "<cm_Delete>", "TTOTAL_CMD")
-    vim.map("X", "<ForceDelete>", "TTOTAL_CMD")
+    vim.map("X", "<TC_ForceDelete>", "TTOTAL_CMD")
     vim.map("w", "<cm_List>", "TTOTAL_CMD")
     vim.map("y", "<cm_CopyNamesToClip>", "TTOTAL_CMD")
     vim.map("Y", "<cm_CopyFullNamesToClip>", "TTOTAL_CMD")
@@ -220,14 +219,14 @@
     vim.map("+", "<cm_Combine>", "TTOTAL_CMD")
     vim.map("=", "<cm_MatchSrc>", "TTOTAL_CMD")
     vim.map(",", "<cm_SrcThumbs>", "TTOTAL_CMD")
-    vim.map(";", "<ListMark>", "TTOTAL_CMD")
+    vim.map(";", "<TC_ListMark>", "TTOTAL_CMD")
     vim.map(":", "<cm_FocusCmdLine>", "TTOTAL_CMD")
     vim.map("~", "<cm_SysInfo>", "TTOTAL_CMD")
-    vim.map("``", "<TotalCommander_ToggleShowInfo>", "TTOTAL_CMD")
-    vim.map("G", "<LastLine>", "TTOTAL_CMD")
+    vim.map("``", "<TC_ToggleShowInfo>", "TTOTAL_CMD")
+    vim.map("G", "<TC_LastLine>", "TTOTAL_CMD")
     vim.map("ga", "<cm_CloseAllTabs>", "TTOTAL_CMD")
-    vim.map("gg", "<GoToLine>", "TTOTAL_CMD")
-    vim.map("g$", "<LastLine>", "TTOTAL_CMD")
+    vim.map("gg", "<TC_GoToLine>", "TTOTAL_CMD")
+    vim.map("g$", "<TC_LastLine>", "TTOTAL_CMD")
 
     ;与vim保持一致
     vim.map("gt", "<cm_SwitchToNextTab>", "TTOTAL_CMD")
@@ -245,7 +244,7 @@
     vim.map("g7", "<cm_SrcActivateTab7>", "TTOTAL_CMD")
     vim.map("g8", "<cm_SrcActivateTab8>", "TTOTAL_CMD")
     vim.map("g9", "<cm_SrcActivateTab9>", "TTOTAL_CMD")
-    vim.map("g0", "<GoLastTab>", "TTOTAL_CMD")
+    vim.map("g0", "<TC_GoLastTab>", "TTOTAL_CMD")
     vim.map("sn", "<cm_SrcByName>", "TTOTAL_CMD")
     vim.map("se", "<cm_SrcByExt>", "TTOTAL_CMD")
     vim.map("ss", "<cm_SrcBySize>", "TTOTAL_CMD")
@@ -273,10 +272,10 @@
     vim.map("Vf", "<cm_VisKeyButtons>", "TTOTAL_CMD")
     vim.map("Vw", "<cm_VisDirTabs>", "TTOTAL_CMD")
     vim.map("Ve", "<cm_CommandBrowser>", "TTOTAL_CMD")
-    vim.map("zz", "<Toggle_50_100Percent>", "TTOTAL_CMD")
-    vim.map("zi", "<WinMaxLeft>", "TTOTAL_CMD")
-    vim.map("zo", "<WinMaxRight>", "TTOTAL_CMD")
-    vim.map("zt", "<AlwayOnTop>", "TTOTAL_CMD")
+    vim.map("zz", "<TC_Toggle_50_100Percent>", "TTOTAL_CMD")
+    vim.map("zi", "<TC_WinMaxLeft>", "TTOTAL_CMD")
+    vim.map("zo", "<TC_WinMaxRight>", "TTOTAL_CMD")
+    vim.map("zt", "<TC_AlwayOnTop>", "TTOTAL_CMD")
     vim.map("zn", "<cm_Minimize>", "TTOTAL_CMD")
     vim.map("zm", "<cm_Maximize>", "TTOTAL_CMD")
     vim.map("zr", "<cm_Restore>", "TTOTAL_CMD")
@@ -286,16 +285,6 @@
 
     vim.BeforeActionDo("TC_BeforeActionDo", "TTOTAL_CMD")
 
-    /*
-    ;vim.map("zs", "<TransParent>", "TTOTAL_CMD")
-    KeyList := vim.listKey("TTOTAL_CMD")
-    GUI, Add, ListView, w300 h500, a
-    Loop, Parse, KeyList, `n
-    {
-        LV_Add("", A_LoopField)
-    }
-    GUI, Show , w310 h510
-    */
     ;; 默认按键完
     ReadNewFile()
 return
@@ -365,8 +354,8 @@ return
 <TC_InsertMode>:
     vim.Mode("insert", "TTOTAL_CMD")
 return
-; <ToggleTC> {{{1
-<ToggleTC>:
+; <TC_ToggleTC> {{{1
+<TC_ToggleTC>:
     IfWinExist, AHK_CLASS TTOTAL_CMD
     {
         WinGet, AC, MinMax, AHK_CLASS TTOTAL_CMD
@@ -415,7 +404,7 @@ return
 }
 
 ;激活TC，并定位到命令行
-<FocusTCCmd>:
+<TC_FocusTCCmd>:
 {
     gosub, <FocusTC>
     SendPos(4003)
@@ -435,11 +424,11 @@ AUTHTC()
         settimer, AUTHTC, off
     }
 }
-; <azHistory> {{{1
-<azHistory>:
-    azHistory()
+; <TC_azHistory> {{{1
+<TC_azHistory>:
+    TC_azHistory()
 return
-azHistory()
+TC_azHistory()
 {
     GoSub, <cm_ConfigSaveDirHistory>
     sleep, 200
@@ -568,20 +557,20 @@ azHistorySelect()
         Postmessage, 0x19E, 1, 1, %Ctrl%, AHK_CLASS TTOTAL_CMD
     }
 }
-; <DownSelect> {{{1
-<DownSelect>:
+; <TC_DownSelect> {{{1
+<TC_DownSelect>:
     Send +{Down}
 return
-; <upSelect> {{{1
-<upSelect>:
+; <TC_UpSelect> {{{1
+<TC_UpSelect>:
     Send +{Up}
 return
-; <WinMaxLeft> {{{1
-<WinMaxLeft>:
+; <TC_WinMaxLeft> {{{1
+<TC_WinMaxLeft>:
     WinMaxLR(true)
 return
-; <WinMaxRight> {{{1
-<WinMaxRight>:
+; <TC_WinMaxRight> {{{1
+<TC_WinMaxRight>:
     WinMaxLR(false)
 return
 WinMaxLR(lr)
@@ -606,16 +595,16 @@ WinMaxLR(lr)
         WinActivate ahk_class TTOTAL_CMD
     }
 }
-; <GoLastTab> {{{1
-<GoLastTab>:
+; <TC_GoLastTab> {{{1
+<TC_GoLastTab>:
     GoSub, <cm_SrcActivateTab1>
     GoSub, <cm_SwitchToPreviousTab>
 return
-; <CopyNameOnly> {{{1
-<CopyNameOnly>:
-        CopyNameOnly()
+; <TC_CopyNameOnly> {{{1
+<TC_CopyNameOnly>:
+    TC_CopyNameOnly()
 return
-CopyNameOnly()
+TC_CopyNameOnly()
 {
     clipboard :=
     GoSub, <cm_CopyNamesToClip>
@@ -623,30 +612,30 @@ CopyNameOnly()
     if Not RegExMatch(clipboard, "^\..*")
         clipboard := RegExReplace(RegExReplace(clipboard, "\\$"), "\.[^\.]*$")
 }
-; <ForceDelete>  {{{1
+; <TC_ForceDelete>  {{{1
 ; 强制删除
-<ForceDelete>:
+<TC_ForceDelete>:
     Send +{Delete}
 return
-; <GotoLine> {{{1
+; <TC_GotoLine> {{{1
 ; 转到[count]行, 缺省第一行
-<GotoLine>:
+<TC_GotoLine>:
     ; TODO: 是否需要？ Vim_HotKeyCount := vim.GetCount()
     if ( count := vim.GetCount("TTOTAL_CMD")) > 1
-        GotoLine(count)
+        TC_GotoLine(count)
     else
-        GotoLine(1)
+        TC_GotoLine(1)
 return
-; <LastLine> {{{1
+; <TC_LastLine> {{{1
 ; 转到[count]行, 最后一行
-<LastLine>:
+<TC_LastLine>:
     ; TODO: 是否需要？ Vim_HotKeyCount := vim.GetCount()
     if ( count := vim.GetCount("TTOTAL_CMD")) > 1
-        GotoLine(count)
+        TC_GotoLine(count)
     else
-        GotoLine(0)
+        TC_GotoLine(0)
 return
-GotoLine(Index)
+TC_GotoLine(Index)
 {
     Vim_HotKeyCount := 0
     ControlGetFocus, Ctrl, AHK_CLASS TTOTAL_CMD
@@ -668,12 +657,12 @@ GotoLine(Index)
         PostMessage, 0x19E, %Last% , 1 , %CTRL%, AHK_CLASS TTOTAL_CMD
     }
 }
-; <Half>  {{{1
+; <TC_Half>  {{{1
 ; 移动到窗口中间
-<Half>:
-    Half()
+<TC_Half>:
+    TC_Half()
 return
-Half()
+TC_Half()
 {
     winget, tid, id, ahk_class TTOTAL_CMD
     controlgetfocus, ctrl, ahk_id %tid%
@@ -687,12 +676,12 @@ Half()
     HalfLine := Ceil( ((h-h1)/Hight)/2 ) + Top
     PostMessage, 0x19E, %HalfLine%, 1, , AHK_id %cid%
 }
-; <Mark> {{{1
+; <TC_Mark> {{{1
 ; 标记功能
-<Mark>:
-    Mark()
+<TC_Mark>:
+    TC_Mark()
 return
-Mark()
+TC_Mark()
 {
     vim.mode("insert")
     GoSub, <cm_FocusCmdLine>
@@ -803,12 +792,12 @@ AddMark()
     Postmessage, 0x19E, 1, 1, %Ctrl%, AHK_CLASS TTOTAL_CMD
     return
 }
-; <ListMark> {{{1
+; <TC_ListMark> {{{1
 ; 显示标记
-<ListMark>:
-    ListMark()
+<TC_ListMark>:
+    TC_ListMark()
 return
-ListMark()
+TC_ListMark()
 {
     if Not Mark["ms"]
         return
@@ -816,18 +805,18 @@ ListMark()
     ControlGetPos, xn, yn, , , %TLB%, ahk_class TTOTAL_CMD
     Menu, MarkMenu, Show, %xn%, %yn%
 }
-; <CreateNewFile> {{{1
+; <TC_CreateNewFile> {{{1
 ; 新建文件
-<CreateNewFile>:
-    CreateNewFile()
+<TC_CreateNewFile>:
+    TC_CreateNewFile()
 return
-CreateNewFile()
+TC_CreateNewFile()
 {
     ControlGetFocus, TLB, ahk_class TTOTAL_CMD
     ControlGetPos, xn, yn, , , %TLB%, ahk_class TTOTAL_CMD
     Menu, FileTemp, Add
     Menu, FileTemp, DeleteAll
-    Menu, FileTemp, Add , 0 新建文件, :CreateNewFile
+    Menu, FileTemp, Add , 0 新建文件, :TC_CreateNewFile
     Menu, FileTemp, Icon, 0 新建文件, %A_WinDir%\system32\Shell32.dll, -152
     Menu, FileTemp, Add , 1 文件夹, <cm_Mkdir>
     Menu, FileTemp, Icon, 1 文件夹, %A_WinDir%\system32\Shell32.dll, 4
@@ -1066,7 +1055,7 @@ ReadNewFile()
             NewFiles[B_Index] := C_Index
         }
     }
-    Menu, CreateNewFile, UseErrorLevel, On
+    Menu, TC_CreateNewFile, UseErrorLevel, On
     LastExt := ""
     Loop % NewFiles[0]
     {
@@ -1080,7 +1069,7 @@ ReadNewFile()
         }
         LastExt := Ext
 
-        Menu, CreateNewFile, Add, %MenuFile%, NewFile
+        Menu, TC_CreateNewFile, Add, %MenuFile%, NewFile
 
         IconFile := RegGetNewFileIcon(Ext)
         IconFile := RegExReplace(IconFile, "i)%systemroot%", A_WinDir)
@@ -1099,7 +1088,7 @@ ReadNewFile()
             IconFilePath := A_WinDir . "\system32\Shell32.dll"
             IconFileIndex := "264"
         }
-        Menu, CreateNewFile, Icon, %MenuFile%, %IconFilePath%, %IconFileIndex%
+        Menu, TC_CreateNewFile, Icon, %MenuFile%, %IconFilePath%, %IconFileIndex%
     }
 }
 ; 获取新建文件的源
@@ -1140,9 +1129,9 @@ RegGetNewFileIcon(reg)
     if Not ErrorLevel
         return FileIcon
 }
-; <GoToParentEx> {{{1
+; <TC_GoToParentEx> {{{1
 ; 返回到上层文件夹，可返回到我的电脑
-<GoToParentEx>:
+<TC_GoToParentEx>:
     IsRootDir()
     GoSub, <cm_GoToParent>
 return
@@ -1173,10 +1162,10 @@ IsRootDir()
         PostMessage, 0x19E, %Focus%, 1, %focus_control%, AHK_CLASS TTOTAL_CMD
     }
 }
-<AlwayOnTop>:
-    AlwayOnTop()
+<TC_AlwayOnTop>:
+    TC_AlwayOnTop()
 return
-AlwayOnTop()
+TC_AlwayOnTop()
 {
     WinGet, ExStyle, ExStyle, ahk_class TTOTAL_CMD
     if (ExStyle & 0x8)
@@ -1208,8 +1197,8 @@ LeftRight()
 }
 
 ; 增强命令 By 流彩 {{{1
-;<OpenDriveThat>: >>打开驱动器列表:另侧{{{2
-<OpenDriveThis>:
+;<TC_OpenDriveThis>: >>打开驱动器列表:本侧{{{2
+<TC_OpenDriveThis>:
     ControlGetFocus, CurrentFocus, AHK_CLASS TTOTAL_CMD
     if CurrentFocus not in TMyListBox2, TMyListBox1
         return
@@ -1219,8 +1208,8 @@ LeftRight()
         SendPos(231)
 return
 
-;<OpenDriveThis>: >>打开驱动器列表:本侧{{{2
-<OpenDriveThat>:
+;<TC_OpenDriveThat>: >>打开驱动器列表:另侧{{{2
+<TC_OpenDriveThat>:
     ControlGetFocus, CurrentFocus, AHK_CLASS TTOTAL_CMD
     if CurrentFocus not in TMyListBox2, TMyListBox1
         return
@@ -1263,8 +1252,8 @@ goonhot:
 ControlFocus, %CurrentFocus% , ahk_class TTOTAL_CMD
 return
 
-;<CopyDirectoryHotlist>: >>复制到常用文件夹{{{2
-<CopyDirectoryHotlist>:
+;<TC_CopyDirectoryHotlist>: >>复制到常用文件夹{{{2
+<TC_CopyDirectoryHotlist>:
     ControlGetFocus, CurrentFocus, AHK_CLASS TTOTAL_CMD
     if CurrentFocus not in TMyListBox2, TMyListBox1
         return
@@ -1298,20 +1287,20 @@ gooncopy:
 return
 
 
-;<CopyUseQueues>: >>无需确认，使用队列拷贝文件至另一窗口{{{2
-<CopyUseQueues>:
+;<TC_CopyUseQueues>: >>无需确认，使用队列拷贝文件至另一窗口{{{2
+<TC_CopyUseQueues>:
     Send {F5}
     Send {F2}
 return
 
-;<MoveUseQueues>: >>无需确认，使用队列移动文件至另一窗口{{{2
-<MoveUseQueues>:
+;<TC_MoveUseQueues>: >>无需确认，使用队列移动文件至另一窗口{{{2
+<TC_MoveUseQueues>:
     Send {F6}
     Send {F2}
 return
 
-;<MoveDirectoryHotlist>: >>移动到常用文件夹{{{2
-<MoveDirectoryHotlist>:
+;<TC_MoveDirectoryHotlist>: >>移动到常用文件夹{{{2
+<TC_MoveDirectoryHotlist>:
     if SendPos(0)
         ControlGetFocus, CurrentFocus, AHK_CLASS TTOTAL_CMD
     if CurrentFocus not in TMyListBox2, TMyListBox1
@@ -1345,15 +1334,15 @@ GoonMove:
     SendPos(1005)
 return
 
-;<GotoPreviousDirOther>: >>后退另一侧{{{2
-<GotoPreviousDirOther>:
+;<TC_GotoPreviousDirOther>: >>后退另一侧{{{2
+<TC_GotoPreviousDirOther>:
     Send {Tab}
     SendPos(570)
     Send {Tab}
 return
 
-;<GotoNextDirOther>: >>前进另一侧{{{2
-<GotoNextDirOther>:
+;<TC_GotoNextDirOther>: >>前进另一侧{{{2
+<TC_GotoNextDirOther>:
     Send {Tab}
     SendPos(571)
     Send {Tab}
@@ -1395,7 +1384,7 @@ Totalcomander_select_tcdir(){
 }
 
 ;切换显示比例50%-100%
-<Toggle_50_100Percent>:
+<TC_Toggle_50_100Percent>:
     ControlGetPos, , , wp, hp, TPanel1, ahk_class TTOTAL_CMD
     ControlGetPos, , , w1, h1, TMyListBox1, ahk_class TTOTAL_CMD
     ControlGetPos, , , w2, h2, TMyListBox2, ahk_class TTOTAL_CMD
@@ -1416,20 +1405,20 @@ Totalcomander_select_tcdir(){
     return
     
 ;使用外部查看器打开（alt+f3）
-<OpenWithAlternateViewer>:
+<TC_OpenWithAlternateViewer>:
     send !{f3}
 return
 
 ;使用查看器打开光标所在文件（shift+f3）
-<ViewFileUnderCursor>:
+<TC_ViewFileUnderCursor>:
     send +{f3}
 return
 
-<TotalCommander_ToggleShowInfo>:
+<TC_ToggleShowInfo>:
     vim.GetWin("TTOTAL_CMD").SetInfo(!vim.GetWin("TTOTAL_CMD").info)
 return
 
-<TotalCommander_ToggleMenu>:
+<TC_ToggleMenu>:
     IniRead, Mainmenu, %TCINI%, Configuration, Mainmenu
 
     if (Mainmenu = "WCMD_CHN.MNU")
@@ -1466,7 +1455,7 @@ return
     }
 return
 
-<TotalCommander_SuperReturn>:
+<TC_SuperReturn>:
     ControlGetText, old_pwd, TPathPanel1
     GoSub, <cm_Return>
     ControlGetText, new_pwd, TPathPanel1

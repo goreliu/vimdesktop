@@ -29,7 +29,7 @@ Url=https://raw.githubusercontent.com/victorwoo/vimdesktop/develop/src/VimDeskto
 * 因为临时修改的`esc`、`ctrl + 回车`、`shift + 回车`，返回时会重置，如果用户重新映射了这些快捷键，会被还原回去，去掉select模式的原因，是因为切换会normal模式后这些快捷键继续有效，怀疑是bug，未查明
 
 ### 可用命令
-* `<OpenTCDialog>`：打开TC进行文件选择
+* `<TC_OpenTCDialog>`：打开TC进行文件选择
  
 ### 可用配置
 

@@ -1,5 +1,5 @@
 ﻿TCDialog:
-    vim.comment("<OpenTCDialog>", "激活TC选择文件, 需再次按下快捷键触发对话框打开事件")
+    vim.comment("<TC_OpenTCDialog>", "激活TC选择文件, 需再次按下快捷键触发对话框打开事件")
 
     ;读取配置参数，禁用时直接跳过
     IniRead, AsOpenFileDialog, %ConfigPath%, TotalCommander_Config, AsOpenFileDialog, 1
@@ -106,7 +106,7 @@ return
 
 ; * 非TC窗口按下后激活TC窗口
 ; * TC窗口按下后复制当前选中文件返回原窗口后粘贴
-<OpenTCDialog>:
+<TC_OpenTCDialog>:
     ; 复制保存文件对话框中的文件名到剪切板
     send, ^c
     WinGetClass, class, A
