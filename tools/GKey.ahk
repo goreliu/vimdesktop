@@ -3,18 +3,20 @@
 
 global msg
 
-AddAction("a", "RunNotepad", "用记事本显示剪切板内容")
-AddAction("b", "ShowClipboard", "显示剪切板内容")
-AddAction("c", "ShowIp", "显示IP")
-AddAction("d", "RunClipboardWithMintty", "运行剪切板的命令")
-AddAction("z", "test", "测试")
+@("a", "RunNotepad", "用记事本显示剪切板内容")
+@("b", "ShowClipboard", "显示剪切板内容")
+@("c", "ShowIp", "显示IP")
+@("d", "RunClipboardWithMintty", "运行剪切板的命令")
+@("z", "Test", "测试")
 
 MsgBox, %msg%
 
 ExitApp
 
-AddAction(key, label, info)
+; AddAction(key, label, info)
+@(key, label, info)
 {
+    global msg
     msg .= key "  =>  " info "`n"
     HotKey, %key%, %label%
 }
@@ -52,14 +54,14 @@ ShowIp:
 return
 
 RunClipboardWithMintty:
-	MsgBox % clipboard
+    MsgBox % clipboard
     ;MsgBox % RunWithBash(clipboard)
     ;Run, mintty -e sh -c '%clipboard%; read'
     Run % "mintty -e sh -c '" clipboard "; read'"
-	ExitApp
+    ExitApp
 return
 
-test:
+Test:
     MsgBox, test
     ExitApp
 return
