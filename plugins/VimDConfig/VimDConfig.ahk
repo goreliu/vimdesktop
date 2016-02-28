@@ -149,8 +149,8 @@ VimDConfig_keymap_loadhotkey(win, mode = "")
         }
         else
         {
-            global arr_vimd
-            actionDesc := StrSplit(arr_vimd[key], "|")
+            global VIMD_CMD_LIST
+            actionDesc := StrSplit(VIMD_CMD_LIST[key], "|")
             LV_ADD("", Key, actionDesc[1], actionDesc[2])
         }
     }

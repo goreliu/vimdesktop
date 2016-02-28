@@ -59,8 +59,8 @@ CheckPlugin()
 
 CheckHotKey()
 {
-    global vim, arr_vimd
-    arr_vimd := IsObject(arr_vimd) ? arr_vimd : []
+    global vim, VIMD_CMD_LIST
+    VIMD_CMD_LIST := IsObject(VIMD_CMD_LIST) ? VIMD_CMD_LIST : []
     ini := GetVimdConfig()
     for i, k in ini.global
     {
@@ -74,7 +74,7 @@ CheckHotKey()
             if RegExMatch(this_action, "^((run)|(key))\|")
             {
                 vim.map(i, "VIMD_CMD")
-                arr_vimd[i] := this_action
+                VIMD_CMD_LIST[i] := this_action
             }
             else
             {
@@ -126,7 +126,7 @@ CheckHotKey()
                 */
 
                 vim.map(m, "VIMD_CMD", i)
-                arr_vimd[m] := n
+                VIMD_CMD_LIST[m] := n
             }
         }
     }
@@ -134,15 +134,15 @@ CheckHotKey()
 
 VIMD_CMD()
 {
-    global arr_vimd
+    global VIMD_CMD_LIST
     obj := GetLastAction()
-    if RegExMatch(arr_vimd[obj.keytemp], "i)^(run)\|", m)
+    if RegExMatch(VIMD_CMD_LIST[obj.keytemp], "i)^(run)\|", m)
     {
-        Run, % substr(arr_vimd[obj.keytemp], strlen(m1) + 2)
+        Run, % substr(VIMD_CMD_LIST[obj.keytemp], strlen(m1) + 2)
     }
-    else if RegExMatch(arr_vimd[obj.keytemp], "i)^(key)\|", m)
+    else if RegExMatch(VIMD_CMD_LIST[obj.keytemp], "i)^(key)\|", m)
     {
-        Send, % substr(arr_vimd[obj.keytemp], strlen(m1) + 2)
+        Send, % substr(VIMD_CMD_LIST[obj.keytemp], strlen(m1) + 2)
     }
 }
 

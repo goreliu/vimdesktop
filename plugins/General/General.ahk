@@ -865,14 +865,14 @@ ShowHelp()
         }
 
         act := vim.GetAction(modeObj.GetKeyMap(i))
-        if (act.Comment <> "VIMD命令执行")
+        if (act.Function <> "VIMD_CMD")
         {
             np .= i "`t" act.Comment "`n"
         }
         else
         {
-            Global arr_vimd
-            np .= i "`t" arr_vimd[i] "`n"
+            Global VIMD_CMD_LIST
+            np .= i "`t" VIMD_CMD_LIST[i] "`n"
         }
     }
 
