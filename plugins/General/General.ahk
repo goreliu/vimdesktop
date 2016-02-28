@@ -888,5 +888,9 @@ ShowHelp()
 return
 
 <GKey>:
-    Run, %A_ScriptDir%\tools\Gkey.ahk
+    Run, %A_ScriptDir%\tools\GKey.ahk
+return
+
+<SuperEsc>:
+    Run, %A_ScriptDir%\tools\SuperEsc.ahk
 return
