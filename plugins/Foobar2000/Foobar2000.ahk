@@ -57,10 +57,10 @@
 
     vim.map("<alt>", "<Pass>", Foobar2000_name)
 
-    vim.BeforeActionDo("ForceNormalMode_Foobar2000", Foobar2000_name)
+    vim.BeforeActionDo("Foobar2000_ForceNormalMode", Foobar2000_name)
 return
 
-ForceNormalMode_Foobar2000()
+Foobar2000_ForceNormalMode()
 {
     ControlGetFocus, ctrl
     ;MsgBox % ctrl

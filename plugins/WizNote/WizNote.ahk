@@ -45,15 +45,15 @@ WizNote:
     vim.map("u", "<WizNote_CloseTab>", "WizNoteMainFrame")
     vim.map("t", "<WizNote_List>", "WizNoteMainFrame")
 
+    vim.BeforeActionDo("WizNote_ForceNormalMode", "WizNoteMainFrame")
+
 return
 
 ; 对指定控件使用insert模式
-WizNoteMainFrame_CheckMode()
+WizNote_ForceNormalMode()
 {
     ControlGetFocus, ctrl, AHK_CLASS WizNoteMainFrame
-    ; ATL:004ABB001 可能会变
-    if RegExMatch(ctrl, "ATL:004ABB001")
-        return true
+    ;MsgBox ctrl
     if RegExMatch(ctrl, "WebViewHost")
         return true
     return false

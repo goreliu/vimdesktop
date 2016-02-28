@@ -912,3 +912,7 @@ return
 <MouseRight>:
     MouseMove, 10, 0, 0, R
 return
+
+<SearchInWeb>:
+    Run, https://www.baidu.com/s?wd=%clipboard%
+return
