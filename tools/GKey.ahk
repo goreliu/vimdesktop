@@ -37,9 +37,9 @@ GUI, Main:Font, s12
 GUI, Main:Add, Text, , %msg%
 GUI, Main:Show
 
-Esc::
-    ExitApp
+return
 
+Esc::
 Alt & F4::
     ExitApp
 
@@ -116,6 +116,7 @@ return
 
 Test:
     msgbox, Test
+    ExitApp
 return
 
 #include %A_ScriptDir%\Kanji\Kanji.ahk
