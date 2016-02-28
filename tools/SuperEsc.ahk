@@ -14,13 +14,14 @@
 ;|Esc + {BackSpace}   | Exit                                          |
 ;|Esc + hjklwb        | Vim-Style Cursor Mover                        |
 ;|Esc + ioup          | Convient Home/End PageUp/PageDn               |
-;|Esc + nm,.          | Convient Delete Controller                    |
+;|Esc + .             | Delete                                        |
 ;|Esc + zxcvay        | Windows-Style Editor                          |
 ;|Esc + Direction     | Mouse Move                                    |
 ;|Esc + Enter         | Mouse Click                                   |
 ;|Esc + 1~6           | Media Controller                              |
-;|Esc + qsd           | Windows & Tags Control                        |
+;|Esc + nm,sqd        | Windows & Tags Control                        |
 ;|Esc + ;'            | Convient Key Mapping                          |
+;|Unused              | a e f g r t 7-0 - = / [ ] \                   |
 ;-----------------------o---------------------------------------------o
 ;|Use it whatever and wherever you like. Hope it help                 |
 ;=====================================================================o
@@ -181,15 +182,9 @@ return                                                               ;|
 ;=====================================================================o
 ;                           Esc Deletor                              ;|
 ;-----------------------------------o---------------------------------o
-;                     Esc + n  |  Ctrl + Delete (Delete a Word)      ;|
-;                     Esc + m  |  Delete                             ;|
-;                     Esc + ,  |  BackSpace                          ;|
 ;                     Esc + .  |  Ctrl + BackSpace                   ;|
 ;-----------------------------------o---------------------------------o
-Esc & ,:: Send, {Del}                                                ;|
-Esc & .:: Send, ^{Del}                                               ;|
-Esc & m:: Send, {BS}                                                 ;|
-Esc & n:: Send, ^{BS}                                                ;|
+Esc & .:: Send, {Del}                                                ;|
 ;---------------------------------------------------------------------o
 
 
@@ -238,14 +233,18 @@ Esc & 6:: Send, {Volume_Mute}                                        ;|
 ;=====================================================================o
 ;                         Esc Window Controller                      ;|
 ;-----------------------------------o---------------------------------o
-;                    Esc + s  |  Ctrl + Tab (Swith Tag)              ;|
+;                    Esc + m  |  Maximize Window                     ;|
+;                    Esc + n  |  Restore Window                      ;|
+;                    Esc + ,  |  Minmize Window                      ;|
 ;                    Esc + q  |  Alt + F4   (Close Windows)          ;|
+;                    Esc + s  |  Ctrl + Tab (Swith Tag)              ;|
 ;                    Esc + g  |  AppsKey    (Menu Key)               ;|
 ;-----------------------------------o---------------------------------o
-Esc & s:: Send, ^{Tab}                                               ;|
-;-----------------------------------o                                ;|
+Esc & m:: WinMaximize, A                                             ;|
+Esc & n:: WinRestore, A                                              ;|
+Esc & ,:: WinMinimize, A                                             ;|
 Esc & q:: Send, !{F4}                                                ;|
-;-----------------------------------o                                ;|
+Esc & s:: Send, ^{Tab}                                               ;|
 Esc & d:: Send, {AppsKey}                                            ;|
 ;---------------------------------------------------------------------o
 
