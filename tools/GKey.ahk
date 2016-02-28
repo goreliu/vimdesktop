@@ -22,8 +22,13 @@ msg .= "`n--------------------`n`n"
 
 
 @("s", "PasteToNotepad", "显示剪切板内容")
-@("r", "RunClipboardWithMintty", "运行剪切板的命令")
-@("d", "Dictionary", "词典")
+
+if (clipboardLength < 100)
+{
+    @("r", "RunClipboardWithMintty", "运行剪切板的命令")
+    @("d", "Dictionary", "词典")
+}
+
 @("c", "Calendar", "万年历")
 @("2", "t2s", "繁体转简体")
 @("z", "Test", "测试")
@@ -70,7 +75,7 @@ RunWithMintty(command)
 
 PasteToNotepad:
     Run, notepad
-    Send, ^v
+    Send, ^v^{home}
     ExitApp
 return
 
