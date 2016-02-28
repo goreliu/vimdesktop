@@ -20,7 +20,6 @@ vim
 <w-y>=<Reload>[=normal]
 ; 激活TC作为文件选择框，再次按下该快捷键可执行文件打开操作
 <w-o>=<TC_OpenTCDialog>[=normal]
-
 <w-c>=run|explorer[=normal]
 
 ; 启用/禁用 插件，默认禁用
