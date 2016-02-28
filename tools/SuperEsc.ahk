@@ -18,7 +18,7 @@
 ;|Esc + zxcvay        | Windows-Style Editor                          |
 ;|Esc + Direction     | Mouse Move                                    |
 ;|Esc + Enter         | Mouse Click                                   |
-;|Esc + {F1}~{F6}     | Media Controller                              |
+;|Esc + 1~6           | Media Controller                              |
 ;|Esc + qsd           | Windows & Tags Control                        |
 ;|Esc + ;'            | Convient Key Mapping                          |
 ;-----------------------o---------------------------------------------o
@@ -219,19 +219,19 @@ Esc & b:: Send, ^{Left}                                              ;|
 ;=====================================================================o
 ;                          Esc Media Controller                      ;|
 ;-----------------------------------o---------------------------------o
-;                       Esc + F1  |  Media_Play_Pause                ;|
-;                       Esc + F2  |  Media_Next                      ;|
-;                       Esc + F3  |  Media_Prev                      ;|
-;                       Esc + F4  |  Volume_Down                     ;|
-;                       Esc + F5  |  Volume_Up                       ;|
-;                       Esc + F6  |  Volume_Mute                     ;|
+;                       Esc + 1  |  Media_Play_Pause                 ;|
+;                       Esc + 2  |  Media_Next                       ;|
+;                       Esc + 3  |  Media_Prev                       ;|
+;                       Esc + 4  |  Volume_Down                      ;|
+;                       Esc + 5  |  Volume_Up                        ;|
+;                       Esc + 6  |  Volume_Mute                      ;|
 ;-----------------------------------o---------------------------------o
-Esc & F1:: Send, {Media_Play_Pause}                                  ;|
-Esc & F2:: Send, {Media_Next}                                        ;|
-Esc & F3:: Send, {Media_Prev}                                        ;|
-Esc & F4:: Send, {Volume_Down}                                       ;|
-Esc & F5:: Send, {Volume_Up}                                         ;|
-Esc & F6:: Send, {Volume_Mute}                                       ;|
+Esc & 1:: Send, {Media_Play_Pause}                                   ;|
+Esc & 2:: Send, {Media_Next}                                         ;|
+Esc & 3:: Send, {Media_Prev}                                         ;|
+Esc & 4:: Send, {Volume_Down}                                        ;|
+Esc & 5:: Send, {Volume_Up}                                          ;|
+Esc & 6:: Send, {Volume_Mute}                                        ;|
 ;---------------------------------------------------------------------o
 
 
