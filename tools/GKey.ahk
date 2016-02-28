@@ -3,12 +3,29 @@
 
 global msg
 
-@("a", "RunNotepad", "用记事本显示剪切板内容")
-@("b", "ShowClipboard", "显示剪切板内容")
-@("c", "ShowIp", "显示IP")
-@("d", "RunClipboardWithMintty", "运行剪切板的命令")
-@("e", "Calendar", "万年历")
-@("f", "t2s", "繁体转简体")
+clipboardLength := StrLen(clipboard)
+msg := "剪切板内容 " . clipboardLength . " 字节`n"
+msg .= "--- `n"
+
+if (clipboardLength <= 100)
+{
+    msg .= clipboard
+}
+else
+{
+    msg .= SubStr(clipboard, 1, 50)
+    msg .= "`n ... `n"
+    msg .= SubStr(clipboard, -50)
+}
+
+msg .= "`n--- `n`n"
+
+
+@("s", "PasteToNotepad", "显示剪切板内容")
+@("d", "Dictionary", "词典")
+@("r", "RunClipboardWithMintty", "运行剪切板的命令")
+@("c", "Calendar", "万年历")
+@("2", "t2s", "繁体转简体")
 @("z", "Test", "测试")
 
 MsgBox, %msg%
@@ -37,9 +54,17 @@ RunWithCmd(command)
     return exec.StdOut.ReadAll()
 }
 
+RunWithMintty(command)
+{
+    ;MsgBox % RunWithBash(clipboard)
+    ;Run, mintty -e sh -c '%clipboard%; read'
+    Run % "mintty -e sh -c '" command "; read'"
+    ExitApp
+}
+
 ; ===========
 
-RunNotepad:
+PasteToNotepad:
     Run, notepad
     Send, ^v
     ExitApp
@@ -56,16 +81,12 @@ ShowIp:
 return
 
 RunClipboardWithMintty:
-    MsgBox, 4, 运行？, %clipboard%
-    ;MsgBox % RunWithBash(clipboard)
-    ;Run, mintty -e sh -c '%clipboard%; read'
-    IfMsgBox Yes
-        Run % "mintty -e sh -c '" clipboard "; read'"
+    RunWithMintty(clipboard)
     ExitApp
 return
 
-Test:
-    MsgBox, test
+Dictionary:
+    RunWithMintty("echo " . clipboard . " | ydcv")
     ExitApp
 return
 
@@ -79,6 +100,10 @@ t2s:
     clipboard := Kanji_t2s(clipboard)
     Send, ^v
     ExitApp
+return
+
+Test:
+    msgbox, Test
 return
 
 #include %A_ScriptDir%\..\lib\Kanji\Kanji.ahk
