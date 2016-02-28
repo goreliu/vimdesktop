@@ -865,7 +865,15 @@ ShowHelp()
         }
 
         act := vim.GetAction(modeObj.GetKeyMap(i))
-        np .= i "`t" act.Comment "`n"
+        if (act.Comment <> "VIMD命令执行")
+        {
+            np .= i "`t" act.Comment "`n"
+        }
+        else
+        {
+            Global arr_vimd
+            np .= i "`t" arr_vimd[i] "`n"
+        }
     }
 
     MouseGetPos, posx, posy, A
