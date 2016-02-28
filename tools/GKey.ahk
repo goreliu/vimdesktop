@@ -5,7 +5,7 @@ global msg
 
 clipboardLength := StrLen(clipboard)
 msg := "剪切板内容 " . clipboardLength . " 字节`n"
-msg .= "--- `n"
+msg .= "-------------------- `n"
 
 if (clipboardLength <= 100)
 {
@@ -14,23 +14,27 @@ if (clipboardLength <= 100)
 else
 {
     msg .= SubStr(clipboard, 1, 50)
-    msg .= "`n ... `n"
+    msg .= "`n....................`n"
     msg .= SubStr(clipboard, -50)
 }
 
-msg .= "`n--- `n`n"
+msg .= "`n--------------------`n`n"
 
 
 @("s", "PasteToNotepad", "显示剪切板内容")
-@("d", "Dictionary", "词典")
 @("r", "RunClipboardWithMintty", "运行剪切板的命令")
+@("d", "Dictionary", "词典")
 @("c", "Calendar", "万年历")
 @("2", "t2s", "繁体转简体")
 @("z", "Test", "测试")
 
-MsgBox, %msg%
+GUI, Main:Font, s12
+GUI, Main:Add, Text, , %msg%
+GUI, Main:Show
 
-ExitApp
+Esc::
+    ExitApp
+
 
 ; AddAction(key, label, info)
 @(key, label, info)
