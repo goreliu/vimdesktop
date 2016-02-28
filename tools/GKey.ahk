@@ -31,7 +31,8 @@ if (clipboardLength < 100)
 
 @("c", "Calendar", "万年历")
 @("2", "t2s", "繁体转简体")
-@("z", "Test", "测试")
+
+GoSub, UserCmd
 
 GUI, Main:Font, s12
 GUI, Main:Add, Text, , %msg%
@@ -114,9 +115,5 @@ t2s:
     ExitApp
 return
 
-Test:
-    msgbox, Test
-    ExitApp
-return
-
 #include %A_ScriptDir%\Kanji\Kanji.ahk
+#include %A_ScriptDir%\GKey.conf
