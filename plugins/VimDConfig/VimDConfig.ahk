@@ -142,5 +142,16 @@ VimDConfig_keymap_loadhotkey(win, mode = "")
     GUI, VimDConfig_keymap:Default
     LV_delete()
     for key, i in modeobj.keymapList
-        LV_Add("", Key, i, vim.GetAction(i).comment)
+    {
+        if (i <> "VIMD_CMD")
+        {
+            LV_Add("", Key, i, vim.GetAction(i).comment)
+        }
+        else
+        {
+            global arr_vimd
+            actionDesc := StrSplit(arr_vimd[key], "|")
+            LV_ADD("", Key, actionDesc[1], actionDesc[2])
+        }
+    }
 }
