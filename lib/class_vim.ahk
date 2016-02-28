@@ -1,4 +1,5 @@
 ﻿; 初始化class_Vim
+
 vim_Init:
     #UseHook
     SetKeyDelay, -1
@@ -758,6 +759,8 @@ Class __vim
                 return "<Shift>"
             If RegExMatch(key, "i)^lwin$")
                 return "<Win>"
+            ;If RegExMatch(key, "i)^esc\s&\s(.*)", m)
+            ;    return "<E-" this.Upper(m1) ">"
             return key
         }
         Upper(k)
@@ -812,6 +815,8 @@ Class __vim
                     return ToSend ? "!" this.CheckToSend(m1) : "ralt & " m1
                 If RegExMatch(key, "i)^w\-(.*)", m)
                     return ToSend ? "#" this.CheckToSend(m1) : "lwin & " m1
+                ;If RegExMatch(key, "i)^e\-(.*)", m)
+                ;    return ToSend ? "{esc}" this.CheckToSend(m1) : "esc & " m1
             }
             Else
                     return key

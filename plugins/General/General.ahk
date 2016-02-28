@@ -194,8 +194,6 @@ return
     send {Media_Play_Pause}
 return
 
-
-
 <WindowMoveDown>:
     WindowPadMove("0, +1, 1.0, 0.5")
 Return
@@ -253,7 +251,7 @@ FullScreen() {
         WinSet, Style, ^0xC40000, ahk_id %WindowID%
         WinMove, ahk_id %WindowID%, , 0, 0, A_ScreenWidth, A_ScreenHeight
         WindowState := 1 ", " WinPosX ", " WinPosY ", " WindowWidth ", " WindowHeight
-        Msgbox 再按一下刚刚的热键退出全屏
+        ;Msgbox 再按一下刚刚的热键退出全屏
     }
     FullScreenID[windowID] := WindowState
 }
@@ -891,6 +889,26 @@ return
     Run, %A_ScriptDir%\tools\GKey.ahk
 return
 
-<SuperEsc>:
-    Run, %A_ScriptDir%\tools\SuperEsc.ahk
+<ToggleCapsLock>:
+    GetKeyState, CapsLockState, CapsLock, T
+    if CapsLockState = D
+        SetCapsLockState, AlwaysOff
+    else
+        SetCapsLockState, AlwaysOn
+return
+
+<MouseUp>:
+    MouseMove, 0, -10, 0, R
+return
+
+<MouseDown>:
+    MouseMove, 0, 10, 0, R
+return
+
+<MouseLeft>:
+    MouseMove, -10, 0, 0, R
+return
+
+<MouseRight>:
+    MouseMove, 10, 0, 0, R
 return
