@@ -7,15 +7,15 @@ clipboardLength := StrLen(clipboard)
 msg := "剪切板内容 " . clipboardLength . " 字节`n"
 msg .= "-------------------- `n"
 
-if (clipboardLength <= 100)
+if (clipboardLength <= 300)
 {
     msg .= clipboard
 }
 else
 {
-    msg .= SubStr(clipboard, 1, 50)
+    msg .= SubStr(clipboard, 1, 150)
     msg .= "`n....................`n"
-    msg .= SubStr(clipboard, -50)
+    msg .= SubStr(clipboard, -150)
 }
 
 msg .= "`n--------------------`n`n"
