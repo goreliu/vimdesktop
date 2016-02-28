@@ -28,6 +28,8 @@
 ;=====================================================================o
 #NoTrayIcon                                                          ;|
 #SingleInstance force                                                ;|
+SetKeyDelay, -1                                                      ;|
+                                                                     ;|
 $Esc:: Send, {ESC}                                                   ;|
 $^+Esc:: Send, ^+{Esc}                                               ;|
 $#Esc:: ExitApp                                                      ;|
