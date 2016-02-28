@@ -21,7 +21,7 @@
 ;|Esc + 1~6           | Media Controller                              |
 ;|Esc + nm,sqd        | Windows & Tags Control                        |
 ;|Esc + ;'            | Convient Key Mapping                          |
-;|Unused              | a e f g r t 7-0 - = / [ ] \                   |
+;|Unused              | e f g r t 7-0 - = / [ ] \                     |
 ;-----------------------o---------------------------------------------o
 ;|Use it whatever and wherever you like. Hope it help                 |
 ;=====================================================================o
