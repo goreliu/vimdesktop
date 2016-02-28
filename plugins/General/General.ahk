@@ -127,7 +127,7 @@ Gen_Toggle()
     WinName:=vim.CheckWin()
     If not Gen_Save_Win[c]
     {
-        If Strlen(winName) And IsObject(vim.GetWin(winName)) 
+        If Strlen(winName) And IsObject(vim.GetWin(winName))
         {
             MsgBox, , VimDesktop, 当前窗口 [ %winName% ] 已经拥有Vim模式`n不允许替换为通用(General)模式！
             return
@@ -235,7 +235,7 @@ FullScreen() {
     If WindowState
     {
         WinSet, Style, ^0xC40000, ahk_id %WindowID%
-        Loop, Parse, windowState, `, 
+        Loop, Parse, windowState, `,
         {
             If A_Index = 2
                 WinPosX := A_LoopField
@@ -380,7 +380,7 @@ MoveWindowInDirection(sideX, sideY, widthFactor, heightFactor)
     ; Calculate possible new position for window.
     gosub CalcNewSizeAndPosition
 
-    ; If the window is already there, 
+    ; If the window is already there,
     if (newx ", " newy ", " neww ", " newh) = (x ", " y ", " w ", " h)
     {   ; ..move to the next monitor along instead.
 
@@ -656,7 +656,7 @@ GatherWindows(md=1)
         md := GetMonitorAt(x, y, 0)
     }
     else if md is not integer
-    {  
+    {
         ; Support A, P and WinTitle.
         ; (Gather at screen containing specified window.)
         WindowPad_WinExist(md)
@@ -865,14 +865,14 @@ ShowHelp()
         }
 
         act := vim.GetAction(modeObj.GetKeyMap(i))
-        if (act.Function <> "VIMD_CMD")
+        if (act.Type = 1)
         {
-            np .= i "`t" act.Comment "`n"
+            ActionDescList := act.Comment
+            np .= i "`t"  %ActionDescList%[i] "`n"
         }
         else
         {
-            Global VIMD_CMD_LIST
-            np .= i "`t" VIMD_CMD_LIST[i] "`n"
+            np .= i "`t" act.Comment "`n"
         }
     }
 

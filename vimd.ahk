@@ -21,7 +21,8 @@ global ConfigPath := A_ScriptDir "\vimd.ini"
 ; 启用vim
 vim := class_vim()
 ini := class_EasyINI(A_ScriptDir "\vimd.ini")
-act := vim.SetAction("VIMD_CMD", "VIMD命令执行")
+; 第二个参数为存放描述信息的全局变量名
+act := vim.SetAction("VIMD_CMD", "VIMD_CMD_LIST")
 act.SetFunction("VIMD_CMD")
 
 global default_enable_show_info

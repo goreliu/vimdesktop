@@ -1,5 +1,5 @@
 ﻿TCDialog:
-    vim.comment("<TC_OpenTCDialog>", "激活TC选择文件, 需再次按下快捷键触发对话框打开事件")
+    vim.comment("<TC_OpenTCDialog>", "激活TC选择文件")
 
     ;读取配置参数，禁用时直接跳过
     IniRead, AsOpenFileDialog, %ConfigPath%, TotalCommander_Config, AsOpenFileDialog, 1
