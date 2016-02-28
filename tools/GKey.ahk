@@ -40,6 +40,9 @@ GUI, Main:Show
 Esc::
     ExitApp
 
+Alt & F4::
+    ExitApp
+
 
 ; AddAction(key, label, info)
 @(key, label, info)
@@ -115,4 +118,4 @@ Test:
     msgbox, Test
 return
 
-#include %A_ScriptDir%\..\lib\Kanji\Kanji.ahk
+#include %A_ScriptDir%\Kanji\Kanji.ahk
