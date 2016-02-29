@@ -36,6 +36,7 @@
     vim.SetAction("<pgup>", "上一页")
     vim.SetAction("<pgdn>", "下一页")
     vim.SetAction("<enter>", "回车键")
+    vim.SetAction("<backspace>", "退格键")
     vim.SetAction("<Pass>", "屏蔽按键")
     vim.SetAction("<Media_Next>", "播放下一首")
     vim.SetAction("<Media_Prev>", "播放上一首")
@@ -183,19 +184,22 @@ return
     send, {pgdn}
 return
 <enter>:
-    send {enter}
+    send, {enter}
+return
+<backspace>:
+    send, {backspace}
 return
 <Media_Next>:
-    send {Media_Next}
+    send, {Media_Next}
 return
 <Media_Prev>:
-    send {Media_Prev}
+    send, {Media_Prev}
 return
 <Media_Stop>:
-    send {Media_Stop}
+    send, {Media_Stop}
 return
 <Media_Play_Pause>:
-    send {Media_Play_Pause}
+    send, {Media_Play_Pause}
 return
 
 <WindowMoveDown>:

@@ -92,7 +92,7 @@
     vim.Comment("<TC_NormalMode>", "返回正常模式")
     vim.Comment("<TC_InsertMode>", "进入插入模式")
     vim.Comment("<TC_ToggleTC>", "打开/激活TC")
-    vim.comment("<TC_FocusTCCmd>", "激活TC，并定位到命令行")
+    vim.comment("<TC_FocusTCCmd>", "激活TC，定位到命令行")
     vim.Comment("<TC_azHistory>", "a-z历史导航")
     vim.Comment("<TC_DownSelect>", "向下选择")
     vim.Comment("<TC_UpSelect>", "向上选择")
