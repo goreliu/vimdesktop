@@ -1,6 +1,12 @@
 ﻿#SingleInstance, Force
 #NoTrayIcon
 
+global windowClass
+global controlClass
+
+WinGetClass, windowClass, A
+ControlGetFocus, controlClass, ahk_class %windowClass%
+
 global msg
 
 GoSub, UserCmd
