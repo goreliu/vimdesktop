@@ -1458,6 +1458,7 @@ return
 <TC_SuperReturn>:
     ControlGetText, old_pwd, TPathPanel1
     GoSub, <cm_Return>
+    sleep, 10
     ControlGetText, new_pwd, TPathPanel1
 
     if (old_pwd <> new_pwd)
