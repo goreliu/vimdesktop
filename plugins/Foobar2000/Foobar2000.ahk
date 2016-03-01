@@ -64,7 +64,7 @@ Foobar2000_ForceNormalMode()
 {
     ControlGetFocus, ctrl
     ;MsgBox % ctrl
-    if RegExMatch(ctrl, "Edit1")
+    if RegExMatch(ctrl, "Edit")
         return true
     return false
 }
