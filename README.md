@@ -3,7 +3,7 @@
 让所有 Windows 桌面程序拥有 Vim 操作风格的辅助工具
 
 ### 下载地址
-[最新版本](https://github.com/goreliu/vimdesktop.bak/releases/latest)
+[最新版本](https://github.com/goreliu/vimdesktop/releases/latest)
 
 [开发版本（无exe，请使用ahk运行）](https://github.com/goreliu/vimdesktop/archive/master.zip)
 

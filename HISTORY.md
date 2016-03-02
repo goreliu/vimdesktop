@@ -3,7 +3,7 @@ VimDesktop 2.0.0 (2016-03-02)
 新增功能
 --------
 - 主程序
-    - `vimd.ahk`、`plugins/General/General.ahk` 和 `lib` 下部分文件改用 linxinhong 版本的。
+    - `vimd.ahk`、`plugins/General/General.ahk` 和 `lib` 下部分文件改用 linxinhong 最新版本的。
     - 支持使用 `xx=<Default>[=mode]` 取消已有按键绑定，使用 `xx=<>[=mode]` 和 `xx=<Pass>[=mode]`屏蔽按键。
     - 添加全局配置`default_enable_show_info`配置项，用于设置默认是否显示按键补全提示。
     - 支持配置全局快捷键来启动程序，在`[global]`中配置，如 `<w-c>=run|explorer[=normal]`。
@@ -21,7 +21,7 @@ VimDesktop 2.0.0 (2016-03-02)
     - Foobar2000插件，使用ahk\_exe判断，添去掉insert模式，添加若干快捷键。
     - 添加Explorer插件（功能不全也有问题，仅供必须使用Explorer时临时使用）。
 - 工具
-    - 添加`GKey`工具，用于添加全局快捷功能。
+    - 添加`GKey`工具，用于使用快捷功能。
 
 缺陷修复
 --------
