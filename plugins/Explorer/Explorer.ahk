@@ -50,12 +50,12 @@ Explorer:
     vim.map("G", "<end>", "CabinetWClass")
     vim.map("f", "<Explorer_GoToTC>", "CabinetWClass")
 
-    vim.BeforeActionDo("Explorer_ForceNormalMode", "CabinetWClass")
+    vim.BeforeActionDo("Explorer_ForceInsertMode", "CabinetWClass")
 
 return
 
 ; 对指定控件使用insert模式
-Explorer_ForceNormalMode()
+Explorer_ForceInsertMode()
 {
     ControlGetFocus, ctrl, AHK_CLASS CabinetWClass
     ;MsgBox ctrl

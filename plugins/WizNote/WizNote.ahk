@@ -45,12 +45,12 @@ WizNote:
     vim.map("u", "<WizNote_CloseTab>", "WizNoteMainFrame")
     vim.map("t", "<WizNote_List>", "WizNoteMainFrame")
 
-    vim.BeforeActionDo("WizNote_ForceNormalMode", "WizNoteMainFrame")
+    vim.BeforeActionDo("WizNote_ForceInsertMode", "WizNoteMainFrame")
 
 return
 
 ; 对指定控件使用insert模式
-WizNote_ForceNormalMode()
+WizNote_ForceInsertMode()
 {
     ControlGetFocus, ctrl, AHK_CLASS WizNoteMainFrame
     ;MsgBox ctrl
