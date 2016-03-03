@@ -130,6 +130,19 @@
     vim.comment("<TC_ToggleShowInfo>", "显示/隐藏 按键提示")
     vim.comment("<TC_ToggleMenu>", "显示/隐藏 菜单栏")
     vim.comment("<TC_SuperReturn>", "同回车键，但定位到第一个文件")
+    vim.comment("<TC_FileCopyForBak>", "将当前光标下的文件复制一份作为作为备份")
+    vim.comment("<TC_FileMoveForBak>", "将当前光标下的文件重命名为备份")
+    vim.comment("<TC_MultiFilePersistOpen>", "多个文件一次性连续打开")
+    vim.comment("<TC_CopyFileContents>", "不打开文件就复制文件内容")
+    vim.comment("<TC_OpenDirAndPaste>", "不打开目录，直接把复制的文件贴进去")
+    vim.comment("<TC_MoveAllFileToPrevifolder>", "将当前文件夹下的所有文件移动到上层目录中")
+    vim.comment("<TC_SrcQuickViewAndTab>", "预览文件时,光标自动移到对侧窗口里")
+    vim.comment("<TC_CreateFileShortcut>", "创建当前光标下文件的快捷方式")
+    vim.comment("<TC_CreateFileShortcutToDesktop>", "创建当前光标下文件的快捷方式并发送到桌面")
+    vim.comment("<TC_CreateFileShortcutToStartup>", "创建当前光标下文件的快捷方式并发送到启动文件里")
+    vim.comment("<TC_FilterSearchFNsuffix_exe>", "在当前目录里快速过滤exe扩展名的文件")
+    vim.comment("<TC_TwoFileExchangeName>", "两个文件互换文件名")
+
     GoSub, TCCOMMAND
 
     vim.mode("normal", "TQUICKSEARCH")
@@ -625,7 +638,6 @@ return
 ; <TC_GotoLine> {{{1
 ; 转到[count]行, 缺省第一行
 <TC_GotoLine>:
-    ; TODO: 是否需要？ Vim_HotKeyCount := vim.GetCount()
     if ( count := vim.GetCount("TTOTAL_CMD")) > 1
         TC_GotoLine(count)
     else
@@ -634,7 +646,6 @@ return
 ; <TC_LastLine> {{{1
 ; 转到[count]行, 最后一行
 <TC_LastLine>:
-    ; TODO: 是否需要？ Vim_HotKeyCount := vim.GetCount()
     if ( count := vim.GetCount("TTOTAL_CMD")) > 1
         TC_GotoLine(count)
     else
@@ -1478,6 +1489,156 @@ return
         Postmessage, 0x19E, 1, 1, %Ctrl%, AHK_CLASS TTOTAL_CMD
     }
 return
+
+;<TC_FileCopyForBak>: >>将当前光标下的文件复制一份作为作为备份
+;<TC_FileMoveForBak>: >>将当前光标下的文件重命名为备份
+;<TC_MultiFilePersistOpen>: >>多个文件一次性连续打开
+;<TC_CopyFileContents>: >>不打开文件就复制文件内容
+;<TC_OpenDirAndPaste>: >>不打开目录，直接把复制的文件贴进去
+;<TC_MoveAllFileToPrevifolder>: >>将当前文件夹下的所有文件移动到上层目录中
+;<TC_SrcQuickViewAndTab>: >>预览文件时,光标自动移到对侧窗口里
+;<TC_CreateFileShortcut>: >>创建当前光标下文件的快捷方式
+;<TC_CreateFileShortcutToDesktop>: >>创建当前光标下文件的快捷方式并发送到桌面
+;<TC_CreateFileShortcutToStartup>: >>创建当前光标下文件的快捷方式并发送到启动文件里
+;<TC_FilterSearchFNsuffix_exe>: >>在当前目录里快速过滤exe扩展名的文件
+;<TC_TwoFileExchangeName>: >>两个文件互换文件名
+
+;<TC_FileCopyForBak>: >>将当前光标下的文件复制一份作为作为备份
+<TC_FileCopyForBak>:
+    Clipboard :=
+    SendPos(2018)
+    ClipWait
+    filecopy, %Clipboard%, %Clipboard%.bak
+Return
+
+;<TC_FileMoveForBak>: >>将当前光标下的文件重命名为备份
+<TC_FileMoveForBak>:
+    Clipboard :=
+    SendPos(2018)
+    ClipWait
+    SplitPath, Clipboard, name, dir, ext, name_no_ext
+
+    if (Clipboard <> dir . "\")
+        FileMove, %Clipboard%, %Clipboard%.bak
+    else
+        FileMoveDir, %dir%, %dir%.bak
+Return
+
+;<TC_MultiFilePersistOpen>: >>多个文件一次性连续打开
+<TC_MultiFilePersistOpen>:
+    Clipboard :=
+    Sendpos(2018)
+    ClipWait
+    SendPos(524)
+    sleep, 200
+    Loop, Parse, Clipboard, `n, `r
+    {
+        run, %A_LoopField%
+    }
+Return
+
+;<TC_CopyFileContents>: >>不打开文件就复制文件内容
+<TC_CopyFileContents>:
+    Clipboard :=
+    SendPos(2018)
+    ClipWait
+    fileread, Contents, %Clipboard%
+    Clipboard :=
+    Clipboard = %Contents%
+Return
+
+;<TC_OpenDirAndPaste>: >>不打开目录，直接把复制的文件贴进去
+<TC_OpenDirAndPaste>:
+    SendPos(1001)
+    SendPos(2009)
+    SendPos(2002)
+Return
+
+;<TC_MoveAllFileToPrevifolder>: >>将当前文件夹下的所有文件移动到上层目录中
+<TC_MoveAllFileToPrevifolder>:
+    Send ^x
+    SendPos(2002)
+    Send ^v
+Return
+
+;<TC_SrcQuickViewAndTab>: >>预览文件时,光标自动移到对侧窗口里
+<TC_SrcQuickViewAndTab>:
+    SendPos(304)
+    Send, {Tab}
+    Send, {Shift}
+Return
+
+;<TC_CreateFileShortcut>: >>创建当前光标下文件的快捷方式
+<TC_CreateFileShortcut>:
+    Clipboard :=
+    SendPos(2018)
+    ClipWait
+    SplitPath, Clipboard, name, dir, ext, name_no_ext
+    ExtLen := StrLen(ext)
+    if %ExtLen% != 0
+        FileCreateShortcut, %Clipboard%, %dir%\%name_no_ext%.lnk
+    if %ExtLen% = 0
+        FileCreateShortcut, %dir%, %dir%.lnk
+Return
+
+;<TC_CreateFileShortcutToDesktop>: >>创建当前光标下文件的快捷方式并发送到桌面
+<TC_CreateFileShortcutToDesktop>:
+    Clipboard :=
+    SendPos(2018)
+    ClipWait
+    SplitPath, Clipboard, name, dir, ext, name_no_ext
+    ExtLen := StrLen(ext)
+    if %ExtLen% != 0
+        FileCreateShortcut, %Clipboard%, %dir%\%name_no_ext%.lnk
+        FileMove, %dir%\%name_no_ext%.lnk, %USERPROFILE%\desktop\
+
+        ; 如果不想打开桌面目录的话，注释以下4行
+        ControlSetText, %TCEdit%, cd %USERPROFILE%\desktop\, ahk_class TTOTAL_CMD
+        ControlSend, %TCEdit%, {enter}, ahk_class TTOTAL_CMD
+        ControlGetFocus, Ctrl, AHK_CLASS TTOTAL_CMD
+        Postmessage, 0x19E, 1, 1, %Ctrl%, AHK_CLASS TTOTAL_CMD
+Return
+
+;<TC_CreateFileShortcutToStartup>: >>创建当前光标下文件的快捷方式并发送到启动文件里
+<TC_CreateFileShortcutToStartup>:
+    Clipboard :=
+    SendPos(2018)
+    ClipWait
+    SplitPath, Clipboard, name, dir, ext, name_no_ext
+    ExtLen := StrLen(ext)
+    if %ExtLen% != 0
+        ; MsgBox, %Clipboard%
+        FileCreateShortcut, %Clipboard%, %dir%\%name_no_ext%.lnk
+        FileMove, %dir%\%name_no_ext%.lnk, %appdata%\Microsoft\Windows\Start Menu\Programs\Startup\
+
+        ; 如果不想打开启动目录的话，注释以下4行
+        ControlSetText, %TCEdit%, cd %appdata%\Microsoft\Windows\Start Menu\Programs\Startup\, ahk_class TTOTAL_CMD
+        ControlSend, %TCEdit%, {enter}, ahk_class TTOTAL_CMD
+        ControlGetFocus, Ctrl, AHK_CLASS TTOTAL_CMD
+        Postmessage, 0x19E, 1, 1, %Ctrl%, AHK_CLASS TTOTAL_CMD
+Return
+
+;<TC_FilterSearchFNsuffix_exe>: >>在当前目录里快速过滤exe扩展名的文件
+<TC_FilterSearchFNsuffix_exe>:
+    SendPos(2915)
+    Send, *.exe
+    Send, {ESC}
+Return
+
+;<TC_TwoFileExchangeName>: >>两个文件互换文件名
+<TC_TwoFileExchangeName>:
+    Clipboard :=
+    SendPos(2018)
+    ClipWait
+    PathArray := StrSplit(Clipboard, "`r`n")
+    FirstName := PathArray[1]
+    SecondName := PathArray[2]
+    SendPos(524)
+    sleep, 200
+    FileMove, %FirstName%, %FirstName%.bak
+    FileMove, %SecondName%, %FirstName%
+    FileMove, %FirstName%.bak, %SecondName%
+Return
 
 
 
