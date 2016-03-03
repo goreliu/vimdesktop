@@ -5,6 +5,21 @@ VimDesktop 2.0.3 (2016-03-??)
 - 主程序
     - 调整为更合理的目录结构
     - 删除默认的配置文件vimd.ini，运行时若无此文件，自动复制vimd.ini.help.txt为此文件。
+- TC插件
+    - 增加来自天甜的如下功能标签：
+		- vim.comment("<TC_FileCopyForBak>", "将当前光标下的文件复制一份作为作为备份")
+		- vim.comment("<TC_FileMoveForBak>", "将当前光标下的文件重命名为备份")
+		- vim.comment("<TC_MultiFilePersistOpen>", "多个文件一次性连续打开")
+		- vim.comment("<TC_CopyFileContents>", "不打开文件就复制文件内容")
+		- vim.comment("<TC_OpenDirAndPaste>", "不打开目录，直接把复制的文件贴进去")
+		- vim.comment("<TC_MoveAllFileToPrevifolder>", "将当前文件夹下的所有文件移动到上层目录中")
+		- vim.comment("<TC_SrcQuickViewAndTab>", "预览文件时,光标自动移到对侧窗口里")
+		- vim.comment("<TC_CreateFileShortcut>", "创建当前光标下文件的快捷方式")
+		- vim.comment("<TC_CreateFileShortcutToDesktop>", "创建当前光标下文件的快捷方式并发送到桌面")
+		- vim.comment("<TC_CreateFileShortcutToStartup>", "创建当前光标下文件的快捷方式并发送到启动文件里")
+		- vim.comment("<TC_FilterSearchFNsuffix_exe>", "在当前目录里快速过滤exe扩展名的文件")
+		- vim.comment("<TC_TwoFileExchangeName>", "两个文件互换文件名")
+
 
 VimDesktop 2.0.2 (2016-03-03)
 =============================
