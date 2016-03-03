@@ -17,6 +17,10 @@ Menu, Tray, Add, 退出(&X), <Exit>
 iniWrite, %A_ScriptHwnd%, %A_Temp%\vimd_auto.ini, auto, hwnd
 
 global ConfigPath := A_ScriptDir "\vimd.ini"
+if (!FileExist(ConfigPath))
+{
+    FileCopy, %ConfigPath%.help.txt, %ConfigPath%
+}
 
 ; 启用vim
 vim := class_vim()
