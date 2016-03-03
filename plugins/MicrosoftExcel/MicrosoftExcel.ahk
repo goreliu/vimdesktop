@@ -83,7 +83,7 @@ global CellColor:=-16711681 ;填充表格颜色-默认黄色
 	
 	;撤销与重复
 	vim.map("u","<excel_undo>","XLMAIN")
-	vim.map("<ctrl>r","<redo>","XLMAIN")
+	vim.map("<c-r>","<redo>","XLMAIN")
 
 	;Z保存与退出
 	vim.map("ZZ","<XLMAIN_SaveAndExit>","XLMAIN")
@@ -146,7 +146,7 @@ global CellColor:=-16711681 ;填充表格颜色-默认黄色
 
 	;space翻页（PageUp）Shiht-space（PageDown）
 	vim.map("<space>","<XLMAIN_PageDown>","XLMAIN")
-	vim.map("<shift><space>","<XLMAIN_PageUp>","XLMAIN")
+	vim.map("<S-space>","<XLMAIN_PageUp>","XLMAIN")
 
 	;x剪切
 	vim.map("x","<XLMAIN_Cut>","XLMAIN")
@@ -247,12 +247,12 @@ global CellColor:=-16711681 ;填充表格颜色-默认黄色
 	;|纵向ActiveSheet.线颜色指令
 
 	;`字体命令
-	vim.map("<shift>,","<XLmain_字体放大>","XLMAIN")
-	vim.map("<shift>.","<XLmain_字体缩小>","XLMAIN")
+	vim.map("<S-,>","<XLmain_字体放大>","XLMAIN")
+	vim.map("<S-.>","<XLmain_字体缩小>","XLMAIN")
 
 	;(名称
-	vim.map("<shift>9n","<XLMAIN_名称工作簿定义>","XLMAIN")
-	vim.map("<shift>9N","<XLMAIN_名称当前工作表定义>","XLMAIN")
+	vim.map("<S-9>n","<XLMAIN_名称工作簿定义>","XLMAIN")
+	vim.map("<S-9>N","<XLMAIN_名称当前工作表定义>","XLMAIN")
 
 
 
