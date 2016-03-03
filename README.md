@@ -1,4 +1,4 @@
-## ![icon](images/vimdesktop_32.jpg) VimDesktop
+## ![icon](doc/images/vimdesktop_32.jpg) VimDesktop
 
 让所有 Windows 桌面程序拥有 Vim 操作风格的辅助工具
 
@@ -15,7 +15,7 @@
 
 [TC 快捷键列表](https://github.com/goreliu/vimdesktop/wiki/TC%E5%BF%AB%E6%8D%B7%E9%94%AE%E5%88%97%E8%A1%A8)
 
-[更新历史](https://github.com/goreliu/vimdesktop/blob/master/HISTORY.md)
+[更新历史](https://github.com/goreliu/vimdesktop/blob/master/doc/HISTORY.md)
 
 ### 其他版本的 VimDesktop
 
