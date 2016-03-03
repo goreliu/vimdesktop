@@ -5,6 +5,7 @@ VimDesktop 2.0.3 (2016-03-??)
 - 主程序
     - 调整为更合理的目录结构。
     - 删除默认的配置文件vimd.ini，运行时若无此文件，自动复制vimd.ini.help.txt为此文件。
+    - 支持用户自定义功能标签，在vimd.ini所在目录新增custom.ahk，则会自动包含进来，帮助见vimd.ini.help.txt。
 - TC插件
     - 增加来自修为的如下功能标签：
 		- vim.comment("\<TC_FileCopyForBak\>", "将当前光标下的文件复制一份作为作为备份")
