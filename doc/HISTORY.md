@@ -6,7 +6,7 @@ VimDesktop 2.0.3 (2016-03-??)
     - 调整为更合理的目录结构
     - 删除默认的配置文件vimd.ini，运行时若无此文件，自动复制vimd.ini.help.txt为此文件。
 - TC插件
-    - 增加来自天甜的如下功能标签：
+    - 增加来自修为的如下功能标签：
 		- vim.comment("\<TC_FileCopyForBak\>", "将当前光标下的文件复制一份作为作为备份")
 		- vim.comment("\<TC_FileMoveForBak\>", "将当前光标下的文件重命名为备份")
 		- vim.comment("\<TC_MultiFilePersistOpen\>", "多个文件一次性连续打开")
