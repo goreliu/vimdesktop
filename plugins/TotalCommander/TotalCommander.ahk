@@ -64,26 +64,31 @@
     }
 
     Global Mark := []
+    Global SaveMark
 
-    IniRead, all_marks, %TCMarkINI%, mark, ms
-    if (all_marks <> "")
+    IniRead, SaveMark, %ConfigPath%, TotalCommander_Config, SaveMark
+    if (SaveMark <> 0)
     {
-        Mark["ms"] := all_marks
-
-        Loop, Parse, all_marks
+        IniRead, all_marks, %TCMarkINI%, mark, ms
+        if (all_marks <> "")
         {
-            if (A_LoopField = ";")
-            {
-                ; 因为ini文件里分号是注释，改成读加号，必须手动写配置
-                IniRead, new_mark, %TCMarkINI%, mark, +
-            }
-            else
-            {
-                IniRead, new_mark, %TCMarkINI%, mark, %A_LoopField%
-            }
+            Mark["ms"] := all_marks
 
-            Mark[A_LoopField] := new_mark
-            Menu, MarkMenu, Add, %new_mark%, <AddMark>
+            Loop, Parse, all_marks
+            {
+                if (A_LoopField = ";")
+                {
+                    ; 因为ini文件里分号是注释，改成读加号，必须手动写配置
+                    IniRead, new_mark, %TCMarkINI%, mark, +
+                }
+                else
+                {
+                    IniRead, new_mark, %TCMarkINI%, mark, %A_LoopField%
+                }
+
+                Mark[A_LoopField] := new_mark
+                Menu, MarkMenu, Add, %new_mark%, <AddMark>
+            }
         }
     }
 
@@ -731,7 +736,10 @@ MarkTimer()
             Menu, MarkMenu, Delete, %DelM%
             Menu, MarkMenu, Add, %mPath%, <AddMark>
             Mark[m] := mPath
-            IniWrite, %mPath%, %TCMarkINI%, mark, %m%
+            if (SaveMark <> 0)
+            {
+                IniWrite, %mPath%, %TCMarkINI%, mark, %m%
+            }
         }
         else
         {
@@ -739,8 +747,11 @@ MarkTimer()
             marks := Mark["ms"] . m
             Mark["ms"] := marks
             Mark[m] := mPath
-            IniWrite, %marks%, %TCMarkINI%, mark, ms
-            IniWrite, %mPath%, %TCMarkINI%, mark, %m%
+            if (SaveMark <> 0)
+            {
+                IniWrite, %marks%, %TCMarkINI%, mark, ms
+                IniWrite, %mPath%, %TCMarkINI%, mark, %m%
+            }
         }
     }
 }
