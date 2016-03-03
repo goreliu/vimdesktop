@@ -1491,19 +1491,6 @@ return
 return
 
 ;<TC_FileCopyForBak>: >>将当前光标下的文件复制一份作为作为备份
-;<TC_FileMoveForBak>: >>将当前光标下的文件重命名为备份
-;<TC_MultiFilePersistOpen>: >>多个文件一次性连续打开
-;<TC_CopyFileContents>: >>不打开文件就复制文件内容
-;<TC_OpenDirAndPaste>: >>不打开目录，直接把复制的文件贴进去
-;<TC_MoveAllFileToPrevifolder>: >>将当前文件夹下的所有文件移动到上层目录中
-;<TC_SrcQuickViewAndTab>: >>预览文件时,光标自动移到对侧窗口里
-;<TC_CreateFileShortcut>: >>创建当前光标下文件的快捷方式
-;<TC_CreateFileShortcutToDesktop>: >>创建当前光标下文件的快捷方式并发送到桌面
-;<TC_CreateFileShortcutToStartup>: >>创建当前光标下文件的快捷方式并发送到启动文件里
-;<TC_FilterSearchFNsuffix_exe>: >>在当前目录里快速过滤exe扩展名的文件
-;<TC_TwoFileExchangeName>: >>两个文件互换文件名
-
-;<TC_FileCopyForBak>: >>将当前光标下的文件复制一份作为作为备份
 <TC_FileCopyForBak>:
     Clipboard :=
     SendPos(2018)
@@ -1640,6 +1627,7 @@ Return
     FileMove, %FirstName%.bak, %SecondName%
 Return
 
+; ADD HERE
 
 
 
