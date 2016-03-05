@@ -65,7 +65,7 @@ VimDConfig_LoadActions:
     GUI, VimDConfig_keymap:Add, ListBox, x20 y316  w180 R5 center gVimDConfig_keymap_loadhotkey
 
     GUI, VimDConfig_keymap:Add, GroupBox, x225 y10 w650 h420, 热键定义(&V)
-    GUI, VimDConfig_keymap:Add, Listview, x235 y36 w630 h380 grid, 热键|动作|描述
+    GUI, VimDConfig_keymap:Add, Listview, glistview x235 y36 w630 h380 grid, 热键|动作|描述
 
     LV_ModifyCol(1, "left 100")
     LV_ModifyCol(2, "left 250")
@@ -155,4 +155,93 @@ VimDConfig_keymap_loadhotkey(win, mode = "")
             LV_Add("", Key, i, vim.GetAction(i).Comment)
         }
     }
+}
+
+listview:
+    if A_GuiEvent = DoubleClick
+    {
+        ;~ ToolTip You double-clicked row number %A_EventInfo%.
+        LV_GetText(SelectedAction, A_EventInfo, 2)
+        LV_GetText(SelectedDesc, A_EventInfo, 3)
+        SearchFileForEdit(SelectedAction, SelectedDesc)
+    }
+return
+
+ 
+ToMatch(str)
+{
+    str := RegExReplace(str,"\+|\?|\.|\*|\{|\}|\(|\)|\||\^|\$|\[|\]|\\","\$0")
+    Return RegExReplace(str,"\s","\s")
+}
+
+SearchFileForEdit(Action, Desc)
+{
+    if (Action = "key" || Action = "run")
+    {
+        SearchLine := Action "|" Desc
+
+        Loop, Read, %A_ScriptDir%\vimd.ini
+        {
+            if (InStr(A_LoopReadLine, SearchLine))
+            {
+                EditFile(A_ScriptDir "\vimd.ini", A_Index)
+            }
+        }
+        return
+    }
+
+    lable := Action ":"
+    funcMatch := ToMatch(Action) "\s*\(\)"
+    FileEncoding,
+    Loop,%A_ScriptDir%\plugins\*.ahk,,1
+    {
+        Loop, Read, %A_LoopFileFullPath%
+        {
+            if (A_LoopReadLine = lable || RegExMatch(A_LoopReadLine, funcMatch))
+            {
+                EditFile(A_LoopFileFullPath, A_Index)
+                break
+            }
+        }
+    }
+}
+
+EditFile(editPath, line := 1)
+{
+    editorArgs := {}
+    editorArgs["notepad"] := "/g $line $file"
+    editorArgs["notepad2"] := "/g $line $file"
+    editorArgs["sublime_text"] := "$file:$line"
+    editorArgs["vim"] := "+$line $file"
+    editorArgs["gvim"] := "--remote-silent-tab +$line $file"
+    editorArgs["everedit"] := "-n$line $file"
+    editorArgs["notepad++"] := "-n$line $file"
+    editorArgs["EmEditor"] := "-l $line $file"
+    editorArgs["uedit32"] := "$file/$line"
+    editorArgs["Editplus"] := "$file -cursor $line"
+    editorArgs["textpad"] := "$file($line)"
+    editorArgs["pspad"] := "$file /$line"
+    editorArgs["ConTEXT"] := "$file /g1:$line"
+    editorArgs["scite"] := "$file -goto:$line"
+
+    Global editor
+    
+    If not FileExist(editor)
+    {
+        MsgBox, 请配置 vimd.ini 中 [config] 中的 editor ！
+        return
+    }
+
+    ; 根据编辑器 exe 名称获取打开参数
+    SplitPath, editor, , , OutExtension, OutNameNoExt
+    args := editorArgs[OutNameNoExt]
+    StringReplace, args, args, $line, %line%
+    StringReplace, args, args, $file, "%editPath%"
+    target := editor " " args
+    if (OutExtension = "sh")
+    {
+        target := "sh.exe " target
+    }
+
+    run, %target%
 }

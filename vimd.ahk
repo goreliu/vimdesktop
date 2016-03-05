@@ -30,7 +30,9 @@ act := vim.SetAction("VIMD_CMD", "VIMD_CMD_LIST")
 act.SetFunction("VIMD_CMD")
 
 global default_enable_show_info
+global editor
 default_enable_show_info := ini.config.default_enable_show_info
+editor := ini.config.editor
 
 ;vim.Debug(true)
 
