@@ -66,6 +66,11 @@ VimDConfig_LoadActions:
 
     GUI, VimDConfig_keymap:Add, GroupBox, x225 y10 w650 h420, 热键定义（双击进入对应文件，右键双击修改键映射）(&V)
     GUI, VimDConfig_keymap:Add, Listview, glistview x235 y36 w630 h380 grid, 热键|动作|描述
+    GUI, VimDConfig_keymap:Font, s12, Microsoft YaHei
+    GUI, VimDConfig_keymap:Add, Text, x230 h25, 搜索：
+    GUI, VimDConfig_keymap:Font, s10, Microsoft YaHei
+    GUI, VimDConfig_keymap:Add, Edit, v_search x+10 w120 h25
+    GUI, VimDConfig_keymap:Add, Button, gsearch_keymap x+15 w50 h25 Default, 搜索
 
     LV_ModifyCol(1, "left 100")
     LV_ModifyCol(2, "left 250")
@@ -271,3 +276,50 @@ EditFile(editPath, line := 1)
 
     run, %target%
 }
+
+search_keymap:
+    Gui Submit, nohide
+    GuiControlGet, OutputVar, , _search
+    if OutputVar =
+    {
+        LV_Delete() ; 清理不掉，第二次加载后，都成了重复的了，不知道怎么处理
+        LV_ModifyCol(1, "left 100")
+        LV_ModifyCol(2, "left 250")
+        LV_ModifyCol(3, "left 400")
+
+        VimDConfig_keymap_loadHotkey(VimDConfig_keymap_loadmodelist(thiswin))
+        return
+    }
+
+    Loop % LV_GetCount()
+    {
+        LV_GetText(Text_1, A_Index, 1)
+        LV_GetText(Text_2, A_Index, 2)
+        LV_GetText(Text_3, A_Index, 3)
+        if InStr(Text_1, OutputVar) or InStr(Text_2, OutputVar) or InStr(Text_3, OutputVar) ;搜索全部
+        {
+            LV_GetText(Text_1, A_Index,1)
+            LV_GetText(Text_2, A_Index,2)
+            LV_GetText(Text_3, A_Index,3)
+            match = %Text_1%---%Text_2%---%Text_3%
+            zmatch .= match "`n"
+        }
+    }
+
+    text := StrSplit(zmatch, "`n")
+
+    LV_Delete() ; 清理不掉，第二次加载后，都成了重复的了，不知道怎么处理
+    GuiControl, -Redraw, listview ; 重新启用重绘 (上面把它禁用了)
+    for k,v in text
+    {
+        if v =
+            continue
+        list := StrSplit(v, "---")
+        LV_Add("", list[1], list[2], list[3])
+    }
+    GuiControl, +Redraw, listview ; 重新启用重绘 (上面把它禁用了)
+
+    match =
+    zmatch =
+    OutputVar =
+return
