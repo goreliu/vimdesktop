@@ -19,6 +19,8 @@
 
 [更新历史](https://github.com/goreliu/vimdesktop/blob/master/doc/HISTORY.md)
 
+[TODO](https://github.com/goreliu/vimdesktop/blob/master/doc/TODO.md)
+
 ### 其他版本的 VimDesktop
 
 [linxinhong](http://git.oschina.net/linxinhong) 的原版 VimDesktop （开发处于停滞状态）：[oschina地址](http://git.oschina.net/linxinhong/VimDesktop) [github地址（已弃用）](https://github.com/linxinhong/VimDesktop)
