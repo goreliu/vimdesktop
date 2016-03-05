@@ -205,12 +205,15 @@ SearchFileForEdit(Action, Desc)
         }
     }
 
-    Loop, Read, %A_ScriptDir%\core\VimDConfig.ahk
+    Loop, %A_ScriptDir%\core\*.ahk, , 1
     {
-        if (A_LoopReadLine = lable || RegExMatch(A_LoopReadLine, funcMatch))
+        Loop, Read, %A_LoopFileFullPath%
         {
-            EditFile(A_ScriptDir "\core\VimDConfig.ahk", A_Index)
-            return
+            if (A_LoopReadLine = lable || RegExMatch(A_LoopReadLine, funcMatch))
+            {
+                EditFile(A_LoopFileFullPath, A_Index)
+                return
+            }
         }
     }
 }
