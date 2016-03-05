@@ -65,6 +65,28 @@ SaveVimdConfig()
 
 CheckPlugin()
 {
+    ; 检测是否有新增插件
+    Loop, %A_ScriptDir%\plugins\*, 2, 0
+    {
+        IniRead, PluginTime, %A_ScriptDir%\plugins\plugins.ahk, ExtensionsTime, %A_LoopFileName%
+        if (PluginTime = "ERROR")
+        {
+            msgbox, 发现新插件 %A_LoopFileName% ，将自动加载该插件
+
+            if (FileExist(A_ScriptDir "\vimd.exe"))
+            {
+                Run, %A_ScriptDir%\vimd.exe %A_ScriptDir%\plugins\check.ahk
+            }
+            else
+            {
+                Run, %A_ScriptDir%\plugins\check.ahk
+            }
+
+            IniWrite, 1, %ConfigPath%, plugins, %A_LoopFileName%
+            Reload
+        }
+    }
+
     global vim
     dc := GetVimdConfig()
     for plugin, bold in dc.plugins
