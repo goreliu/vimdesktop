@@ -64,7 +64,7 @@ VimDConfig_LoadActions:
     GUI, VimDConfig_keymap:Add, GroupBox, x10 y290  w200 h140, 模式(&M)
     GUI, VimDConfig_keymap:Add, ListBox, x20 y316  w180 R5 center gVimDConfig_keymap_loadhotkey
 
-    GUI, VimDConfig_keymap:Add, GroupBox, x225 y10 w650 h420, 热键定义（双击进入对应文件）(&V)
+    GUI, VimDConfig_keymap:Add, GroupBox, x225 y10 w650 h420, 热键定义（双击进入对应文件，右键双击修改键映射）(&V)
     GUI, VimDConfig_keymap:Add, Listview, glistview x235 y36 w630 h380 grid, 热键|动作|描述
 
     LV_ModifyCol(1, "left 100")
@@ -163,8 +163,15 @@ listview:
         ;~ ToolTip You double-clicked row number %A_EventInfo%.
         LV_GetText(SelectedAction, A_EventInfo, 2)
         LV_GetText(SelectedDesc, A_EventInfo, 3)
-        SearchFileForEdit(SelectedAction, SelectedDesc)
+        SearchFileForEdit(SelectedAction, SelectedDesc, false)
     }
+    else if A_GuiEvent = R
+    {
+        LV_GetText(SelectedAction, A_EventInfo, 2)
+        LV_GetText(SelectedDesc, A_EventInfo, 3)
+        SearchFileForEdit(SelectedAction, SelectedDesc, true)
+    }
+
 return
 
  
@@ -174,11 +181,15 @@ ToMatch(str)
     Return RegExReplace(str,"\s","\s")
 }
 
-SearchFileForEdit(Action, Desc)
+SearchFileForEdit(Action, Desc, EditKeyMapping)
 {
-    if (Action = "key" || Action = "run")
+    if (Action = "key" || Action = "run" || EditKeyMapping)
     {
-        SearchLine := Action "|" Desc
+        SearchLine := "=" Action
+
+        if (Action = "key" || Action = "run") {
+            SearchLine := Action "|" Desc
+        }
 
         Loop, Read, %A_ScriptDir%\vimd.ini
         {
@@ -188,16 +199,19 @@ SearchFileForEdit(Action, Desc)
                 return
             }
         }
+
+        EditFile(A_ScriptDir "\vimd.ini")
+        return
     }
 
-    lable := Action ":"
+    label := Action ":"
     funcMatch := ToMatch(Action) "\s*\(\)"
     FileEncoding,
     Loop, %A_ScriptDir%\plugins\*.ahk, , 1
     {
         Loop, Read, %A_LoopFileFullPath%
         {
-            if (A_LoopReadLine = lable || RegExMatch(A_LoopReadLine, funcMatch))
+            if (A_LoopReadLine = label || RegExMatch(A_LoopReadLine, funcMatch))
             {
                 EditFile(A_LoopFileFullPath, A_Index)
                 return
@@ -209,7 +223,7 @@ SearchFileForEdit(Action, Desc)
     {
         Loop, Read, %A_LoopFileFullPath%
         {
-            if (A_LoopReadLine = lable || RegExMatch(A_LoopReadLine, funcMatch))
+            if (A_LoopReadLine = label || RegExMatch(A_LoopReadLine, funcMatch))
             {
                 EditFile(A_LoopFileFullPath, A_Index)
                 return
