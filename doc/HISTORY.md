@@ -5,11 +5,12 @@ VimDesktop 2.0.5 (2016-03-??)
 - 主程序
     - 配置文件`[config]`中新增`enable_log`和`enable_debug`配置，用于调试。
     - 配置文件中，`[=normal]`可以省略，默认模式为 normal。
+    - 添加`doc\PluginTemplete.ahk`插件模版，方便写插件。
 
 缺陷修复
 --------
 - 其他
-    - 修正`doc/example.ahk`。
+    - 修正`doc\example.ahk`。
     - 插件全部使用自定义名称，热键窗口不再显示难以看懂的 class 名。
 
 VimDesktop 2.0.4 (2016-03-05)
