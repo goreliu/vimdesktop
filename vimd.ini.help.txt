@@ -26,6 +26,10 @@
 default_enable_show_info=1
 ; 配置编辑器，请填写完整路径，如果填写的是是notepad，将使用notepad2的参数
 editor=
+; 打印调试日志
+enable_log=0
+; 打开调试窗口
+enable_debug=0
 
 [exclude]
 vim

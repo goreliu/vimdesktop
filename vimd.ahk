@@ -34,7 +34,15 @@ global editor
 default_enable_show_info := ini.config.default_enable_show_info
 editor := ini.config.editor
 
-;vim.Debug(true)
+if (ini.config.enable_log = 1)
+{
+    global log := new Logger(A_ScriptDir "\test.log")
+}
+
+if (ini.config.enable_debug = 1)
+{
+    vim.Debug(true)
+}
 
 CheckPlugin()
 CheckHotKey()
@@ -105,9 +113,11 @@ CheckHotKey()
         win := vim.SetWin(i, k.set_class, k.set_file)
         vim.SetTimeOut(k.set_time_out, i)
         vim.SetMaxCount(k.set_Max_count, i)
-        if (k.enable_show_info = "1") {
+        if (k.enable_show_info = 1)
+        {
             win.SetInfo(true)
         }
+
 
         for m, n in k
         {
@@ -194,6 +204,7 @@ RunAsAdmin()
 #Include %A_ScriptDir%\lib\acc.ahk
 #Include %A_ScriptDir%\lib\ini.ahk
 #Include %A_ScriptDir%\lib\gdip.ahk
+#Include %A_ScriptDir%\lib\Logger.ahk
 #Include %A_ScriptDir%\plugins\plugins.ahk
 ; 用户自定义配置
 #Include *i %A_ScriptDir%\custom.ahk
