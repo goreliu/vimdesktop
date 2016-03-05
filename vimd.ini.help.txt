@@ -36,80 +36,80 @@ vim
 
 [global]
 ; 激活通用快捷键
-<w-t>=<Gen_Toggle>[=normal]
+<w-t>=<Gen_Toggle>
 ; 切换TC
-<w-e>=<TC_ToggleTC>[=normal]
+<w-e>=<TC_ToggleTC>
 ; 重新加载VimDesktop
-<w-y>=<Reload>[=normal]
+<w-y>=<Reload>
 ; 激活TC作为文件选择框，再次按下该快捷键可执行文件打开操作
-<w-o>=<TC_OpenTCDialog>[=normal]
-<w-c>=run|explorer[=normal]
-<w-j>=<GKey>[=normal]
-<w-`>=run|control[=normal]
-;<w-f>=run|firefox[=normal]
-;<w-w>=run|mintty -e ~/.bin/tmux_starter[=normal]
-;<w-a>=run|c:\mine\app\foobar2000\foobar2000.exe[=normal]
-;<w-z>=run|c:\mine\app\AutoHotkey\AU3_Spy.exe[=normal]
-;<lc-;>=<enter>[=normal]
-;<w-;>=<enter>[=normal]
+<w-o>=<TC_OpenTCDialog>
+<w-c>=run|explorer
+<w-j>=<GKey>
+<w-`>=run|control
+;<w-f>=run|firefox
+;<w-w>=run|mintty -e ~/.bin/tmux_starter
+;<w-a>=run|c:\mine\app\foobar2000\foobar2000.exe
+;<w-z>=run|c:\mine\app\AutoHotkey\AU3_Spy.exe
+;<lc-;>=<enter>
+;<w-;>=<enter>
 
 ; win剩余按键 n u v ' , .  / [ ] \ enter -
 
-<la-a>=key|^a[=normal]
+<la-a>=key|^a
 ; 向左移动一个单词
-<la-b>=key|^{left}[=normal]
+<la-b>=key|^{left}
 ; 复制
-<la-c>=key|^{insert}[=normal]
-<la-d>=<WindowRestore>[=normal]
-<la-e>=<SearchInWeb>[=normal]
-<la-f>=<FullScreen>[=normal]
+<la-c>=key|^{insert}
+<la-d>=<WindowRestore>
+<la-e>=<SearchInWeb>
+<la-f>=<FullScreen>
 ; 第一行
-<la-g>=key|^{home}[=normal]
-<la-h>=<left>[=normal]
-<la-i>=<home>[=normal]
-<la-j>=<down>[=normal]
-<la-k>=<up>[=normal]
-<la-l>=<right>[=normal]
-<la-m>=<WindowMax>[=normal]
-<la-n>=<pgdn>[=normal]
-<la-o>=<end>[=normal]
-<la-p>=<pgup>[=normal]
-<la-q>=key|!{f4}[=normal]
+<la-g>=key|^{home}
+<la-h>=<left>
+<la-i>=<home>
+<la-j>=<down>
+<la-k>=<up>
+<la-l>=<right>
+<la-m>=<WindowMax>
+<la-n>=<pgdn>
+<la-o>=<end>
+<la-p>=<pgup>
+<la-q>=key|!{f4}
 ; 修改文件扩展名之外的部分
-<la-r>=key|{f2}{f2}[=normal]
-<la-s>=key|^{tab}[=normal]
+<la-r>=key|{f2}{f2}
+<la-s>=key|^{tab}
 ; 最后一行
-<la-t>=key|^{end}[=normal]
-<la-u>=<CloseTab>[=normal]
-<la-v>=key|+{insert}[=normal]
+<la-t>=key|^{end}
+<la-u>=<CloseTab>
+<la-v>=key|+{insert}
 ; 向右移动一个单词
-<la-w>=key|^{right}[=normal]
-<la-x>=key|^x[=normal]
-<la-y>=key|^y[=normal]
-<la-z>=key|^z[=normal]
-<la-1>=key|{Media_Play_Pause}[=normal]
-<la-2>=key|{Media_Next}[=normal]
-<la-3>=key|{Volume_Down}[=normal]
-<la-4>=key|{Volume_Up}[=normal]
-<la-5>=key|{Media_Prev}[=normal]
-<la-6>=key|{Volume_Mute}[=normal]
-<la-up>=<MouseUp>[=normal]
-<la-down>=<MouseDown>[=normal]
-<la-left>=<MouseLeft>[=normal]
-<la-right>=<MouseRight>[=normal]
-<la-backspace>=key|^{backspace}[=normal]
-<la-,>=<WindowMin>[=normal]
-<la-.>=key|{del}[=normal]
-<la-;>=key|{Enter}[=normal]
-<la-`>=<ToggleCapsLock>[=normal]
-<la-'>=<backspace>[=normal]
-<la-[>=key|([=normal]
-<la-]>=key|)[=normal]
-<la-/>=key|@[=normal]
-<la-\>=key|^{del}[=normal]
-<la-->=<vc_keymap>[=normal]
+<la-w>=key|^{right}
+<la-x>=key|^x
+<la-y>=key|^y
+<la-z>=key|^z
+<la-1>=key|{Media_Play_Pause}
+<la-2>=key|{Media_Next}
+<la-3>=key|{Volume_Down}
+<la-4>=key|{Volume_Up}
+<la-5>=key|{Media_Prev}
+<la-6>=key|{Volume_Mute}
+<la-up>=<MouseUp>
+<la-down>=<MouseDown>
+<la-left>=<MouseLeft>
+<la-right>=<MouseRight>
+<la-backspace>=key|^{backspace}
+<la-,>=<WindowMin>
+<la-.>=key|{del}
+<la-;>=key|{Enter}
+<la-`>=<ToggleCapsLock>
+<la-'>=<backspace>
+<la-[>=key|(
+<la-]>=key|)
+<la-/>=key|@
+<la-\>=key|^{del}
+<la-->=<vc_keymap>
 
-; la剩余按键 7-0 -
+; la剩余按键 7-0
 
 ; 启用/禁用 插件，默认禁用
 [plugins]
@@ -167,46 +167,58 @@ OpenFileDialogExclude = password , 密码
 
 ; Total Commander快捷键配置
 [TTOTAL_CMD]
-;热键定义语法
-;ff=<cm_SearchFor>[=normal]
-;ff 热键 --按下两次f键
-;<cm_SearchFor> 对应的动作
-;[=normal] 在normal模式下生效
+; 热键定义语法
+; f=<cm_SearchFor>[=normal]
+; f： 热键，按下f
+; <cm_SearchFor> 对应的动作
+; [=normal] 在normal模式下生效，可省略，默认为normal
+;
+; <S-F>=<cm_SearchFor>
+; <S-F>：shift + f，大写F
+; <c-f>：ctrl + f
+; <a-f>：alt + f
+; <la-f>：lalt + f
+;
+; <c-j>=run|notepad.exe
+; 运行命令，[=normal]可选，默认为normal模式
+; <c-k>=key|^o
+; 映射按键，[=normal]可选，默认为normal模式
 
-b=<cm_UnpackFiles>[=normal]
-c=<cm_MkDir>[=normal]
-e=<cm_edit>[=normal]
-h=<TC_GoToParentEx>[=normal]
-i=<TC_CreateNewFile>[=normal]
-l=<TC_SuperReturn>[=normal]
-o=<cm_ContextMenu>[=normal]
-p=<cm_PackFiles>[=normal]
-u=<cm_CloseCurrentTab>[=normal]
-<S-A>=<TC_ViewFileUnderCursor>[=normal]
-<S-B>=<cm_DirBranch>[=normal]
-<S-C>=<cm_IntCompareFilesByContent>[=normal]
-<S-F>=<cm_SearchStandAlone>[=normal]
-<S-H>=<cm_GotoPreviousDir>[=normal]
-<S-I>=<TC_OpenWithAlternateViewer>[=normal]
-<S-L>=<cm_GotoNextDir>[=normal]
-<S-M>=<cm_FileSync>[=normal]
-<S-N>=<cm_SwitchToNextTab>[=normal]
-<S-O>=<cm_SrcUserDef>[=normal]
-<S-P>=<cm_SwitchToPreviousTab>[=normal]
-<S-Q>=<TC_ToggleMenu>[=normal]
-<S-T>=<cm_SrcOpenDrives>[=normal]
-<S-W>=<cm_CompareFilesByContent>[=normal]
-<S-Z>=<cm_Config>[=normal]
-<c-b>=<pgup>[=normal]
-<c-d>=<cm_ClearAll>[=normal]
-<c-f>=<pgdn>[=normal]
-<c-g>=<cm_CopySrcPathToClip>[=normal]
-<c-h>=<left>[=normal]
-<c-j>=<down>[=normal]
-<c-k>=<up>[=normal]
-<c-l>=<right>[=normal]
-<c-m>=<cm_CompareDirs>[=normal]
-<c-n>=<cm_FtpConnect>[=normal]
-<c-q>=<cm_CommandBrowser>[=normal]
-<c-s>=<cm_CountDirContent>[=normal]
-<c-y>=<cm_CopyFileDetailsToClip>[=normal]
+
+b=<cm_UnpackFiles>
+c=<cm_MkDir>
+e=<cm_edit>
+h=<TC_GoToParentEx>
+i=<TC_CreateNewFile>
+l=<TC_SuperReturn>
+o=<cm_ContextMenu>
+p=<cm_PackFiles>
+u=<cm_CloseCurrentTab>
+<S-A>=<TC_ViewFileUnderCursor>
+<S-B>=<cm_DirBranch>
+<S-C>=<cm_IntCompareFilesByContent>
+<S-F>=<cm_SearchStandAlone>
+<S-H>=<cm_GotoPreviousDir>
+<S-I>=<TC_OpenWithAlternateViewer>
+<S-L>=<cm_GotoNextDir>
+<S-M>=<cm_FileSync>
+<S-N>=<cm_SwitchToNextTab>
+<S-O>=<cm_SrcUserDef>
+<S-P>=<cm_SwitchToPreviousTab>
+<S-Q>=<TC_ToggleMenu>
+<S-T>=<cm_SrcOpenDrives>
+<S-W>=<cm_CompareFilesByContent>
+<S-Z>=<cm_Config>
+<c-b>=<pgup>
+<c-d>=<cm_ClearAll>
+<c-f>=<pgdn>
+<c-g>=<cm_CopySrcPathToClip>
+<c-h>=<left>
+<c-j>=<down>
+<c-k>=<up>
+<c-l>=<right>
+<c-m>=<cm_CompareDirs>
+<c-n>=<cm_FtpConnect>
+<c-q>=<cm_CommandBrowser>
+<c-s>=<cm_CountDirContent>
+<c-y>=<cm_CopyFileDetailsToClip>

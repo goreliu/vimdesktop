@@ -81,21 +81,24 @@ CheckHotKey()
     {
         if not strlen(i)
             continue
-        if RegExMatch(k, "\[=[^\[\]]*\]", mode)
-        {
-            this_mode := Substr(mode, 3, strlen(mode)-3)
-            vim.Mode(this_mode)
-            this_action := RegExReplace(k, "\[=[^\[\]]*\]")
-            if RegExMatch(this_action, "^((run)|(key))\|")
-            {
-                vim.map(i, "VIMD_CMD")
-                VIMD_CMD_LIST[i] := this_action
-            }
-            else
-            {
-                vim.map(i, this_action)
-            }
 
+        this_mode := "normal"
+        this_action := k
+        if RegExMatch(this_action, "\[=[^\[\]]*\]", mode)
+        {
+            this_mode := Substr(mode, 3, strlen(mode) - 3)
+            this_action := RegExReplace(this_action, "\[=[^\[\]]*\]")
+        }
+
+        vim.Mode(this_mode)
+        if RegExMatch(this_action, "^((run)|(key))\|")
+        {
+            vim.map(i, "VIMD_CMD")
+            VIMD_CMD_LIST[i] := this_action
+        }
+        else
+        {
+            vim.map(i, this_action)
         }
     }
 
@@ -127,23 +130,30 @@ CheckHotKey()
             if RegExMatch(m, "i)(set_class)|(set_file)|(set_time_out)|(set_Max_count)|(enable_show_info)")
                 continue
 
-            if RegExMatch(n, "\[=[^\[\]]*\]", mode)
-            {
-                this_mode := Substr(mode, 3, strlen(mode)-3)
-                vim.mode(this_mode, i)
-                this_action := RegExReplace(n, "\[=[^\[\]]*\]")
-                vim.map(m, this_action, i)
-            }
-            else if RegExMatch(n, "i)^((run)|(key))\|")
-            {
-                vim.mode("normal", i)
+            this_mode := "normal"
+            this_action := n
 
+            if RegExMatch(this_action, "\[=[^\[\]]*\]", mode)
+            {
+                this_mode := Substr(mode, 3, strlen(mode) - 3)
+                this_action := RegExReplace(n, "\[=[^\[\]]*\]")
+            }
+
+            vim.mode(this_mode, i)
+
+            if RegExMatch(n, "i)^((run)|(key))\|")
+            {
                 /*
-                <c-j> 记事本 run|notepad.exe
+                示例：
+                <c-j>=run|notepad.exe
                 */
 
                 vim.map(m, "VIMD_CMD", i)
                 VIMD_CMD_LIST[m] := n
+            }
+            else
+            {
+                vim.map(m, this_action, i)
             }
         }
     }
