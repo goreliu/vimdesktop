@@ -4,6 +4,7 @@ VimDesktop 2.0.5 (2016-03-??)
 --------
 - 主程序
     - 配置文件`[config]`中新增`enable_log`和`enable_debug`配置，用于调试。
+    - 配置文件中，`[=normal]`可以省略，默认模式为 normal
 缺陷修复
 --------
 - 其他
