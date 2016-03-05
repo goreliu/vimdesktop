@@ -1,7 +1,7 @@
 ﻿VimDConfig:
     vim.SetPlugin("VimDConfig", "Array", "0.1", "VimDesktop的配置界面")
-    vim.SetAction("<vc_plugin>", "打开VimDesktop配置界面")
-    vim.SetAction("<vc_keymap>", "打开VimDesktop配置界面")
+    vim.SetAction("<vc_plugin>", "显示 VimDesktop 插件信息")
+    vim.SetAction("<vc_keymap>", "显示 VimDesktop 热键信息")
 return
 
 <vc_plugin>:
@@ -64,7 +64,7 @@ VimDConfig_LoadActions:
     GUI, VimDConfig_keymap:Add, GroupBox, x10 y290  w200 h140, 模式(&M)
     GUI, VimDConfig_keymap:Add, ListBox, x20 y316  w180 R5 center gVimDConfig_keymap_loadhotkey
 
-    GUI, VimDConfig_keymap:Add, GroupBox, x225 y10 w650 h420, 热键定义(&V)
+    GUI, VimDConfig_keymap:Add, GroupBox, x225 y10 w650 h420, 热键定义（双击进入对应文件）(&V)
     GUI, VimDConfig_keymap:Add, Listview, glistview x235 y36 w630 h380 grid, 热键|动作|描述
 
     LV_ModifyCol(1, "left 100")
