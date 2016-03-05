@@ -12,7 +12,13 @@ return
     GUI, VimDConfig_plugin:Add, ListView, x10 y10 w150 h400 grid altsubmit gVimDConfig_LoadActions, 插件
     for plugin, obj in vim.pluginlist
         LV_Add("", plugin)
-    GUI, VimDConfig_plugin:Add, ListView, x170 y10 w650 h400 grid altsubmit, 序号|动作|描述
+    GUI, VimDConfig_plugin:Add, ListView, glistview x170 y10 w650 h400 grid altsubmit, 序号|动作|描述（双击进入文件）
+
+    GUI, VimDConfig_plugin:Add, Text, x180 h25, 搜索：
+    GUI, VimDConfig_plugin:Font, s10, Microsoft YaHei
+    GUI, VimDConfig_plugin:Add, Edit, v_search x+10 w120 h25
+    GUI, VimDConfig_plugin:Add, Button, gsearch_keymap x+15 w50 h25 Default, 搜索
+
     LV_ModifyCol(1, "center")
     LV_ModifyCol(2, "left 250")
     LV_ModifyCol(3, "left 400")
@@ -282,6 +288,7 @@ search_keymap:
     GuiControlGet, OutputVar, , _search
     if OutputVar =
     {
+        ; TODO 适配 plugin 窗口
         LV_Delete() ; 清理不掉，第二次加载后，都成了重复的了，不知道怎么处理
         LV_ModifyCol(1, "left 100")
         LV_ModifyCol(2, "left 250")
