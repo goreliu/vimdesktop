@@ -1,4 +1,6 @@
-﻿; 插件名和目录名一致
+﻿; 插件名和目录名一致，插件要放到 plugins/PluginName/PluginName.ahk 位置。
+; 放入插件后，需要手动运行 plugins 目录下的 check.ahk，并且在配置文件中启用插件。
+
 PluginName:
     ; 定义注释（可选）
     vim.SetAction("<PluginName_NormalMode>", "进入normal模式")
@@ -11,7 +13,7 @@ PluginName:
     vim.SetWin("PluginName", , "PluginName.exe")
     ; 如果 class 和 exe 同时填写，以 exe 为准
 
-    ; insert模式（如果无需 inseart 模式，可去掉）
+    ; insert模式（如果无需 insert 模式，可去掉）
     vim.SetMode("insert", "PluginName")
 
     vim.Map("<esc>", "<PluginName_NormalMode>", "PluginName")
