@@ -32,7 +32,6 @@ vim
 
 [global]
 ; 激活通用快捷键
-; <super><c-esc>=<Gen_Toggle>[=normal]
 <w-t>=<Gen_Toggle>[=normal]
 ; 切换TC
 <w-e>=<TC_ToggleTC>[=normal]
