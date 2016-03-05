@@ -185,9 +185,9 @@ SearchFileForEdit(Action, Desc)
             if (InStr(A_LoopReadLine, SearchLine))
             {
                 EditFile(A_ScriptDir "\vimd.ini", A_Index)
+                return
             }
         }
-        return
     }
 
     lable := Action ":"
