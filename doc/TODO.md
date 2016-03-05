@@ -2,3 +2,5 @@
 - 整理文档。
 - 启动时自动扫描插件目录，如果发现新插件，则运行check.ahk，并修改vimd.ini启用插件，然后重启vimd。
 - 添加 doc/plugin_templete.ahk 插件模版。
+- 继续整理 class_vimd.ahk 代码。
+- 整理 Excel 插件代码。
