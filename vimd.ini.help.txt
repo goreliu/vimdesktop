@@ -24,7 +24,7 @@
 [config]
 ; 是否默认开启快捷键提示，可以被插件的 enable_show_info 覆盖
 default_enable_show_info=1
-; 配置编辑器，请填写完整路径，如果填写的是是notepad，将使用notepad2的参数
+; 配置编辑器，请填写完整路径，如果填写的是 notepad ，将使用 notepad2 的参数
 editor=
 ; 打印调试日志
 enable_log=0
@@ -81,6 +81,7 @@ vim
 ; 最后一行
 <la-t>=key|^{end}
 <la-u>=<CloseTab>
+; 粘贴
 <la-v>=key|+{insert}
 ; 向右移动一个单词
 <la-w>=key|^{right}
@@ -158,7 +159,7 @@ SaveMark=1
 MenuIconSize=20
 
 ;设置为 1 -- 将使用TC作为文件选择对话框，打开文件选择对话框时，会自动跳转到TC
-;设置为 0 -- 将禁用TC作为文件选择对话框，此时仍可使用<lwin>o激活TC进行文件选择
+;设置为 0 -- 将禁用TC作为文件选择对话框，此时仍可使用 win + o 激活TC进行文件选择
 AsOpenFileDialog=0
 
 ;含有指定字符串的窗体被打开时，禁用自动跳转到TC的功能,以逗号间隔
