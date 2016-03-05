@@ -1,5 +1,5 @@
 ﻿; 插件名和目录名一致，插件要放到 plugins/PluginName/PluginName.ahk 位置。
-; 放入插件后，需要手动运行 plugins 目录下的 check.ahk，并且在配置文件中启用插件。
+; 放入插件后，重新运行 vimd 会自动启用插件。
 
 PluginName:
     ; 定义注释（可选）
