@@ -145,10 +145,11 @@
 
     GoSub, TCCOMMAND
 
-    vim.mode("normal", "TQUICKSEARCH")
-    vim.map("J", "<Down>", "TQUICKSEARCH")
-    vim.map("K", "<Up>", "TQUICKSEARCH")
-    ;vim.map("<esc>", "<TC_NormalMode>", "TQUICKSEARCH")
+    vim.SetWin("TCQuickSearch", "TQUICKSEARCH")
+    vim.mode("normal", "TCQuickSearch")
+    vim.map("J", "<Down>", "TCQuickSearch")
+    vim.map("K", "<Up>", "TCQuickSearch")
+    ;vim.map("<esc>", "<TC_NormalMode>", "TCQuickSearch")
 
     vim.mode("insert", "TTOTAL_CMD")
     vim.SetTimeOut(800, "TTOTAL_CMD")

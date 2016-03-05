@@ -14,211 +14,213 @@ global SelectionType ; 当前选择单元格类型 1=A1  2=A1:B1 4=A1:A2 16=A1:B
 global FontColor:=-4165632  ;填充字体颜色-默认蓝色
 global CellColor:=-16711681 ;填充表格颜色-默认黄色
 
-	vim.comment("<Insert_Mode_XLMAIN>","insert模式")
-	vim.comment("<Normal_Mode_XLMAIN>","normal模式")
-	vim.comment("<XLMAIN_SheetReName>","重命名当前工作表名称")
-	vim.comment("<XLMAIN_GoTo>","跳转到指定行列值的表格")
-	vim.comment("<XLMAIN_SaveAndExit>","保存并退出")
-	vim.comment("<XLMAIN_DiscardAndExit>","放弃修改并退出")
+	vim.comment("<Insert_Mode_MicrosoftExcel>","insert模式")
+	vim.comment("<Normal_Mode_MicrosoftExcel>","normal模式")
+	vim.comment("<MicrosoftExcel_SheetReName>","重命名当前工作表名称")
+	vim.comment("<MicrosoftExcel_GoTo>","跳转到指定行列值的表格")
+	vim.comment("<MicrosoftExcel_SaveAndExit>","保存并退出")
+	vim.comment("<MicrosoftExcel_DiscardAndExit>","放弃修改并退出")
 	vim.comment("<excel_undo>","撤销")
 	vim.comment("<redo>","重做")
-	vim.comment("<XLMAIN_SaveAndExit>","保存后退出")
-	vim.comment("<XLMAIN_DiscardAndExit>","不保存退出")
+	vim.comment("<MicrosoftExcel_SaveAndExit>","保存后退出")
+	vim.comment("<MicrosoftExcel_DiscardAndExit>","不保存退出")
 
-	vim.comment("<XLMAIN_Color_Font>","设置选中区域字体为上次颜色")
-	vim.comment("<XLMAIN_Color_Cell>","填充选中表格背景为上次颜色")
-	vim.comment("<XLMAIN_Color_All>","同时应用字体颜色、背景颜色")
-	vim.comment("<XLMAIN_Color_Menu_Font>","设置选中区域字体颜色")
-	vim.comment("<XLMAIN_Color_Menu_Cell>","填充选中表格背景颜色")
-	vim.comment("<XLMAIN_FocusHome>","定位到工作表开头")
-	vim.comment("<XLMAIN_FocusEnd>","定位到工作表最后一个单元格")
+	vim.comment("<MicrosoftExcel_Color_Font>","设置选中区域字体为上次颜色")
+	vim.comment("<MicrosoftExcel_Color_Cell>","填充选中表格背景为上次颜色")
+	vim.comment("<MicrosoftExcel_Color_All>","同时应用字体颜色、背景颜色")
+	vim.comment("<MicrosoftExcel_Color_Menu_Font>","设置选中区域字体颜色")
+	vim.comment("<MicrosoftExcel_Color_Menu_Cell>","填充选中表格背景颜色")
+	vim.comment("<MicrosoftExcel_FocusHome>","定位到工作表开头")
+	vim.comment("<MicrosoftExcel_FocusEnd>","定位到工作表最后一个单元格")
 
-	vim.comment("<XLMAIN_FocusRowHome>","定位到当前列首行")
-	vim.comment("<XLMAIN_FocusRowEnd>","定位到当前列尾行")
+	vim.comment("<MicrosoftExcel_FocusRowHome>","定位到当前列首行")
+	vim.comment("<MicrosoftExcel_FocusRowEnd>","定位到当前列尾行")
 
-	vim.comment("<XLMAIN_FocusColHome>","定位到当前行首列")
-	vim.comment("<XLMAIN_FocusColEnd>","定位到当前行尾列")
+	vim.comment("<MicrosoftExcel_FocusColHome>","定位到当前行首列")
+	vim.comment("<MicrosoftExcel_FocusColEnd>","定位到当前行尾列")
 
-	vim.comment("<XLMAIN_FocusAreaLeft>","定位到当前区域边缘-左")
-	vim.comment("<XLMAIN_FocusAreaRight>","定位到当前区域边缘-右")
-	vim.comment("<XLMAIN_FocusAreaUp>","定位到当前区域边缘-上")
-	vim.comment("<XLMAIN_FocusAreaDown>","定位到当前区域边缘-下")
+	vim.comment("<MicrosoftExcel_FocusAreaLeft>","定位到当前区域边缘-左")
+	vim.comment("<MicrosoftExcel_FocusAreaRight>","定位到当前区域边缘-右")
+	vim.comment("<MicrosoftExcel_FocusAreaUp>","定位到当前区域边缘-上")
+	vim.comment("<MicrosoftExcel_FocusAreaDown>","定位到当前区域边缘-下")
 
-	vim.comment("<XLMAIN_SelectToAreaLeft>","选择到当前区域边缘-左")
-	vim.comment("<XLMAIN_SelectToAreaRight>","选择到当前区域边缘-右")
-	vim.comment("<XLMAIN_SelectToAreaUp>","选择到当前区域边缘-上")
-	vim.comment("<XLMAIN_SelectToAreaDown>","选择到当前区域边缘-下")
-	vim.comment("<XLMAIN_Delete>","删除（=Delete键）")
-	vim.comment("<XLMAIN_SelectAll>","选择全部=^a")
-	vim.comment("<XLMAIN_Paste_Value>","粘贴数值")
-	vim.comment("<XLMAIN_PageUp>","向上翻页")
-	vim.comment("<XLMAIN_PageDown>","向下翻页")
-	vim.comment("<XLMAIN_XLMAIN_Cut>","剪切")
-	vim.comment("<XLMAIN_Replace>","替换")
-	vim.comment("<XLMAIN_Find>","查找")
+	vim.comment("<MicrosoftExcel_SelectToAreaLeft>","选择到当前区域边缘-左")
+	vim.comment("<MicrosoftExcel_SelectToAreaRight>","选择到当前区域边缘-右")
+	vim.comment("<MicrosoftExcel_SelectToAreaUp>","选择到当前区域边缘-上")
+	vim.comment("<MicrosoftExcel_SelectToAreaDown>","选择到当前区域边缘-下")
+	vim.comment("<MicrosoftExcel_Delete>","删除（=Delete键）")
+	vim.comment("<MicrosoftExcel_SelectAll>","选择全部=^a")
+	vim.comment("<MicrosoftExcel_Paste_Value>","粘贴数值")
+	vim.comment("<MicrosoftExcel_PageUp>","向上翻页")
+	vim.comment("<MicrosoftExcel_PageDown>","向下翻页")
+	vim.comment("<MicrosoftExcel_MicrosoftExcel_Cut>","剪切")
+	vim.comment("<MicrosoftExcel_Replace>","替换")
+	vim.comment("<MicrosoftExcel_Find>","查找")
 
-	vim.comment("<Alt_Mode_XLMAIN>","alt命令模式")
+	vim.comment("<Alt_Mode_MicrosoftExcel>","alt命令模式")
+
+    vim.SetWin("MicrosoftExcel", "XLMAIN")
 
 	;insert模式及快捷键
-	vim.mode("insert","XLMAIN")
-	vim.map("<esc>","<Normal_Mode_XLMAIN>","XLMAIN")
+	vim.mode("insert","MicrosoftExcel")
+	vim.map("<esc>","<Normal_Mode_MicrosoftExcel>","MicrosoftExcel")
 
 	;normal模式及快捷键
-	vim.mode("normal","XLMAIN")
-	vim.map("i","<Insert_Mode_XLMAIN>","XLMAIN")
-	vim.map("<esc>","<Normal_Mode_XLMAIN>","XLMAIN")
-	vim.map("I","<Alt_Mode_XLMAIN>","XLMAIN")
+	vim.mode("normal","MicrosoftExcel")
+	vim.map("i","<Insert_Mode_MicrosoftExcel>","MicrosoftExcel")
+	vim.map("<esc>","<Normal_Mode_MicrosoftExcel>","MicrosoftExcel")
+	vim.map("I","<Alt_Mode_MicrosoftExcel>","MicrosoftExcel")
 	
 	;数字计数
-	;vim.map("0","<0>","XLMAIN") vim中也没有0计数，0一般用于行首，建议注释掉
-	vim.map("1","<1>","XLMAIN")
-	vim.map("2","<2>","XLMAIN")
-	vim.map("3","<3>","XLMAIN")
-	vim.map("4","<4>","XLMAIN")
-	vim.map("5","<5>","XLMAIN")
-	vim.map("6","<6>","XLMAIN")
-	vim.map("7","<7>","XLMAIN")
-	vim.map("8","<8>","XLMAIN")
-	vim.map("9","<9>","XLMAIN")
+	;vim.map("0","<0>","MicrosoftExcel") vim中也没有0计数，0一般用于行首，建议注释掉
+	vim.map("1","<1>","MicrosoftExcel")
+	vim.map("2","<2>","MicrosoftExcel")
+	vim.map("3","<3>","MicrosoftExcel")
+	vim.map("4","<4>","MicrosoftExcel")
+	vim.map("5","<5>","MicrosoftExcel")
+	vim.map("6","<6>","MicrosoftExcel")
+	vim.map("7","<7>","MicrosoftExcel")
+	vim.map("8","<8>","MicrosoftExcel")
+	vim.map("9","<9>","MicrosoftExcel")
 	
 	;撤销与重复
-	vim.map("u","<excel_undo>","XLMAIN")
-	vim.map("<c-r>","<redo>","XLMAIN")
+	vim.map("u","<excel_undo>","MicrosoftExcel")
+	vim.map("<c-r>","<redo>","MicrosoftExcel")
 
 	;Z保存与退出
-	vim.map("ZZ","<XLMAIN_SaveAndExit>","XLMAIN")
-	vim.map("ZQ","<XLMAIN_DiscardAndExit>","XLMAIN")
+	vim.map("ZZ","<MicrosoftExcel_SaveAndExit>","MicrosoftExcel")
+	vim.map("ZQ","<MicrosoftExcel_DiscardAndExit>","MicrosoftExcel")
 	
 	;颜色
-	vim.map("""","<XLMAIN_Color_All>","XLMAIN")
-	vim.map("'","<XLMAIN_Color_Menu_Font>","XLMAIN")
-	vim.map(";","<XLMAIN_Color_Menu_Cell>","XLMAIN")
+	vim.map("""","<MicrosoftExcel_Color_All>","MicrosoftExcel")
+	vim.map("'","<MicrosoftExcel_Color_Menu_Font>","MicrosoftExcel")
+	vim.map(";","<MicrosoftExcel_Color_Menu_Cell>","MicrosoftExcel")
 
 	;d删除
-	vim.map("dd","<XLMAIN_Delete>","XLMAIN")
-	vim.map("D","<XLMAIN_Delete>","XLMAIN")
-	vim.map("dr","<XLMAIN_删除选择行>","XLMAIN")
-	vim.map("dc","<XLMAIN_删除选择列>","XLMAIN")
-	vim.map("dw","<XLMAIN_工作表删除当前>","XLMAIN")
+	vim.map("dd","<MicrosoftExcel_Delete>","MicrosoftExcel")
+	vim.map("D","<MicrosoftExcel_Delete>","MicrosoftExcel")
+	vim.map("dr","<MicrosoftExcel_删除选择行>","MicrosoftExcel")
+	vim.map("dc","<MicrosoftExcel_删除选择列>","MicrosoftExcel")
+	vim.map("dw","<MicrosoftExcel_工作表删除当前>","MicrosoftExcel")
 
 	;o插入/O插入在右
-	vim.map("or","<XLMAIN_编辑插入新行在前>","XLMAIN")
-	vim.map("oc","<XLMAIN_编辑插入新列在左>","XLMAIN")
-	vim.map("Or","<XLMAIN_编辑插入新行在后>","XLMAIN")
-	vim.map("Oc","<XLMAIN_编辑插入新列在右>","XLMAIN")
-	vim.map("ow","<XLMAIN_工作表新建>","XLMAIN")
+	vim.map("or","<MicrosoftExcel_编辑插入新行在前>","MicrosoftExcel")
+	vim.map("oc","<MicrosoftExcel_编辑插入新列在左>","MicrosoftExcel")
+	vim.map("Or","<MicrosoftExcel_编辑插入新行在后>","MicrosoftExcel")
+	vim.map("Oc","<MicrosoftExcel_编辑插入新列在右>","MicrosoftExcel")
+	vim.map("ow","<MicrosoftExcel_工作表新建>","MicrosoftExcel")
 	
 	;s选择
-	vim.map("sk","<XLMAIN_SelectToAreaUp>","XLMAIN")
-	vim.map("sj","<XLMAIN_SelectToAreaDown>","XLMAIN")
-	vim.map("sh","<XLMAIN_SelectToAreaLeft>","XLMAIN")
-	vim.map("sl","<XLMAIN_SelectToAreaRight>","XLMAIN")
-    vim.map("sr","<XLMAIN_选择整行>","XLMAIN")
-	vim.map("sc","<XLMAIN_选择整列>","XLMAIN")
-	vim.map("sa","<XLMAIN_SelectAll>","XLMAIN")
+	vim.map("sk","<MicrosoftExcel_SelectToAreaUp>","MicrosoftExcel")
+	vim.map("sj","<MicrosoftExcel_SelectToAreaDown>","MicrosoftExcel")
+	vim.map("sh","<MicrosoftExcel_SelectToAreaLeft>","MicrosoftExcel")
+	vim.map("sl","<MicrosoftExcel_SelectToAreaRight>","MicrosoftExcel")
+    vim.map("sr","<MicrosoftExcel_选择整行>","MicrosoftExcel")
+	vim.map("sc","<MicrosoftExcel_选择整列>","MicrosoftExcel")
+	vim.map("sa","<MicrosoftExcel_SelectAll>","MicrosoftExcel")
 
 	;f过滤命令
-	vim.map("ff","<XLMAIN_自动过滤开启>","XLMAIN")
-	vim.map("fl","<XLMAIN_过滤当前列下拉菜单>","XLMAIN")
-	vim.map("fd","<XLMAIN_过滤打开筛选对话框>","XLMAIN")
-	vim.map("fo","<XLMAIN_过滤大于等于当前单元格>","XLMAIN")
-	vim.map("fu","<XLMAIN_过滤小于等于当前单元格>","XLMAIN")
-	vim.map("f.","<XLMAIN_过滤非空单元格>","XLMAIN")
-	vim.map("fb","<XLMAIN_过滤空单元格>","XLMAIN")
+	vim.map("ff","<MicrosoftExcel_自动过滤开启>","MicrosoftExcel")
+	vim.map("fl","<MicrosoftExcel_过滤当前列下拉菜单>","MicrosoftExcel")
+	vim.map("fd","<MicrosoftExcel_过滤打开筛选对话框>","MicrosoftExcel")
+	vim.map("fo","<MicrosoftExcel_过滤大于等于当前单元格>","MicrosoftExcel")
+	vim.map("fu","<MicrosoftExcel_过滤小于等于当前单元格>","MicrosoftExcel")
+	vim.map("f.","<MicrosoftExcel_过滤非空单元格>","MicrosoftExcel")
+	vim.map("fb","<MicrosoftExcel_过滤空单元格>","MicrosoftExcel")
    
 	;因不区分数值型与文本型以及日期型的问题，以下过滤功能暂不完整
-	vim.map("fB","<XLMAIN_过滤开头包含当前单元格>","XLMAIN")
-	vim.map("fE","<XLMAIN_过滤末尾包含当前单元格>","XLMAIN")
-	vim.map("fs","<XLMAIN_过滤等于当前单元格>","XLMAIN")
-	vim.map("f<","<XLMAIN_过滤小于当前单元格>","XLMAIN")
-	vim.map("f>","<XLMAIN_过滤大于当前单元格>","XLMAIN")
-	vim.map("fi","<XLMAIN_过滤包含当前单元格>","XLMAIN")
-	vim.map("fe","<XLMAIN_过滤不包含当前单元格>","XLMAIN")
+	vim.map("fB","<MicrosoftExcel_过滤开头包含当前单元格>","MicrosoftExcel")
+	vim.map("fE","<MicrosoftExcel_过滤末尾包含当前单元格>","MicrosoftExcel")
+	vim.map("fs","<MicrosoftExcel_过滤等于当前单元格>","MicrosoftExcel")
+	vim.map("f<","<MicrosoftExcel_过滤小于当前单元格>","MicrosoftExcel")
+	vim.map("f>","<MicrosoftExcel_过滤大于当前单元格>","MicrosoftExcel")
+	vim.map("fi","<MicrosoftExcel_过滤包含当前单元格>","MicrosoftExcel")
+	vim.map("fe","<MicrosoftExcel_过滤不包含当前单元格>","MicrosoftExcel")
 	;以下过滤功能2013版测试无效
-	vim.map("fa","<XLMAIN_过滤取消当前列>","XLMAIN")
-	vim.map("fA","<XLMAIN_过滤取消所有列>","XLMAIN")	
+	vim.map("fa","<MicrosoftExcel_过滤取消当前列>","MicrosoftExcel")
+	vim.map("fA","<MicrosoftExcel_过滤取消所有列>","MicrosoftExcel")	
 
 	;p粘贴
-	vim.map("p","<XLMAIN_Paste>","XLMAIN")
-	vim.map("P","<XLMAIN_Paste_Select>","XLMAIN")
+	vim.map("p","<MicrosoftExcel_Paste>","MicrosoftExcel")
+	vim.map("P","<MicrosoftExcel_Paste_Select>","MicrosoftExcel")
     ;pv希望以后用代码做，快捷键做会闪一下
-    ;vim.map("v","<XLMAIN_Paste_Value>","XLMAIN")
+    ;vim.map("v","<MicrosoftExcel_Paste_Value>","MicrosoftExcel")
 
 	;space翻页（PageUp）Shiht-space（PageDown）
-	vim.map("<space>","<XLMAIN_PageDown>","XLMAIN")
-	vim.map("<S-space>","<XLMAIN_PageUp>","XLMAIN")
+	vim.map("<space>","<MicrosoftExcel_PageDown>","MicrosoftExcel")
+	vim.map("<S-space>","<MicrosoftExcel_PageUp>","MicrosoftExcel")
 
 	;x剪切
-	vim.map("x","<XLMAIN_Cut>","XLMAIN")
+	vim.map("x","<MicrosoftExcel_Cut>","MicrosoftExcel")
 	
 	;y复制
-	vim.map("yy","<XLMAIN_Copy_Selection>","XLMAIN")	
-	vim.map("Y","<XLMAIN_Copy_Selection>","XLMAIN")
-	vim.map("yr","<XLMAIN_Copy_Row>","XLMAIN")
-	vim.map("yc","<XLMAIN_Copy_Col>","XLMAIN")
-	vim.map("yh","<XLMAIN_编辑自左侧复制>","XLMAIN")
-	vim.map("yl","<XLMAIN_编辑自右侧复制>","XLMAIN")
-	vim.map("yk","<XLMAIN_编辑自上侧复制>","XLMAIN")
-	vim.map("yj","<XLMAIN_编辑自下侧复制>","XLMAIN")
-	vim.map("myl","<XLMAIN_逐行编辑自左侧复制>","XLMAIN")
-	vim.map("myr","<XLMAIN_逐行编辑自右侧复制>","XLMAIN")
-	vim.map("yw","<XLMAIN_工作表复制当前>","XLMAIN")
-	vim.map("yW","<XLMAIN_工作表复制对话框>","XLMAIN")
+	vim.map("yy","<MicrosoftExcel_Copy_Selection>","MicrosoftExcel")	
+	vim.map("Y","<MicrosoftExcel_Copy_Selection>","MicrosoftExcel")
+	vim.map("yr","<MicrosoftExcel_Copy_Row>","MicrosoftExcel")
+	vim.map("yc","<MicrosoftExcel_Copy_Col>","MicrosoftExcel")
+	vim.map("yh","<MicrosoftExcel_编辑自左侧复制>","MicrosoftExcel")
+	vim.map("yl","<MicrosoftExcel_编辑自右侧复制>","MicrosoftExcel")
+	vim.map("yk","<MicrosoftExcel_编辑自上侧复制>","MicrosoftExcel")
+	vim.map("yj","<MicrosoftExcel_编辑自下侧复制>","MicrosoftExcel")
+	vim.map("myl","<MicrosoftExcel_逐行编辑自左侧复制>","MicrosoftExcel")
+	vim.map("myr","<MicrosoftExcel_逐行编辑自右侧复制>","MicrosoftExcel")
+	vim.map("yw","<MicrosoftExcel_工作表复制当前>","MicrosoftExcel")
+	vim.map("yW","<MicrosoftExcel_工作表复制对话框>","MicrosoftExcel")
 
 	;上下左右映射
-	vim.map("h","<left>","XLMAIN")
-	vim.map("l","<right>","XLMAIN")
-	vim.map("k","<up>","XLMAIN")
-	vim.map("j","<down>","XLMAIN")
+	vim.map("h","<left>","MicrosoftExcel")
+	vim.map("l","<right>","MicrosoftExcel")
+	vim.map("k","<up>","MicrosoftExcel")
+	vim.map("j","<down>","MicrosoftExcel")
 
 	;上下左右选择映射
-	vim.map("H","<XLMAIN_向左选择>","XLMAIN")
-	vim.map("L","<XLMAIN_向右选择>","XLMAIN")
-	vim.map("K","<XLMAIN_向上选择>","XLMAIN")
-	vim.map("J","<XLMAIN_向下选择>","XLMAIN")
+	vim.map("H","<MicrosoftExcel_向左选择>","MicrosoftExcel")
+	vim.map("L","<MicrosoftExcel_向右选择>","MicrosoftExcel")
+	vim.map("K","<MicrosoftExcel_向上选择>","MicrosoftExcel")
+	vim.map("J","<MicrosoftExcel_向下选择>","MicrosoftExcel")
 
  	;g位置跳转
-	vim.map("gg","<XLMAIN_FocusHome>","XLMAIN")
-	vim.map("G","<XLMAIN_FocusEnd>","XLMAIN")
-	vim.map("grh","<XLMAIN_FocusRowHome>","XLMAIN")
-	vim.map("gre","<XLMAIN_FocusRowEnd>","XLMAIN")
-	vim.map("gch","<XLMAIN_FocusColHome>","XLMAIN")
-	vim.map("gce","<XLMAIN_FocusColEnd>","XLMAIN")
-	vim.map("gk","<XLMAIN_FocusAreaUp>","XLMAIN")
-	vim.map("gj","<XLMAIN_FocusAreaDown>","XLMAIN")
-	vim.map("gh","<XLMAIN_FocusAreaLeft>","XLMAIN")
-	vim.map("gl","<XLMAIN_FocusAreaRight>","XLMAIN")
-	vim.map("gwh","<XLMAIN_工作表选择首个>","XLMAIN")
-	vim.map("gwe","<XLMAIN_工作表选择尾个>","XLMAIN")
-	vim.map("gt","<XLMAIN_工作表跳转下一个>","XLMAIN")
-	vim.map("gT","<XLMAIN_工作表跳转上一个>","XLMAIN")
+	vim.map("gg","<MicrosoftExcel_FocusHome>","MicrosoftExcel")
+	vim.map("G","<MicrosoftExcel_FocusEnd>","MicrosoftExcel")
+	vim.map("grh","<MicrosoftExcel_FocusRowHome>","MicrosoftExcel")
+	vim.map("gre","<MicrosoftExcel_FocusRowEnd>","MicrosoftExcel")
+	vim.map("gch","<MicrosoftExcel_FocusColHome>","MicrosoftExcel")
+	vim.map("gce","<MicrosoftExcel_FocusColEnd>","MicrosoftExcel")
+	vim.map("gk","<MicrosoftExcel_FocusAreaUp>","MicrosoftExcel")
+	vim.map("gj","<MicrosoftExcel_FocusAreaDown>","MicrosoftExcel")
+	vim.map("gh","<MicrosoftExcel_FocusAreaLeft>","MicrosoftExcel")
+	vim.map("gl","<MicrosoftExcel_FocusAreaRight>","MicrosoftExcel")
+	vim.map("gwh","<MicrosoftExcel_工作表选择首个>","MicrosoftExcel")
+	vim.map("gwe","<MicrosoftExcel_工作表选择尾个>","MicrosoftExcel")
+	vim.map("gt","<MicrosoftExcel_工作表跳转下一个>","MicrosoftExcel")
+	vim.map("gT","<MicrosoftExcel_工作表跳转上一个>","MicrosoftExcel")
 
-	vim.map("go","<XLMAIN_GoTo>","XLMAIN")
+	vim.map("go","<MicrosoftExcel_GoTo>","MicrosoftExcel")
 
 	;F填充
-	vim.map("Fk","<XLMAIN_填充向上>","XLMAIN")
-	vim.map("Fj","<XLMAIN_填充向下>","XLMAIN")
-	vim.map("Fh","<XLMAIN_填充向左>","XLMAIN")
-	vim.map("Fl","<XLMAIN_填充向右>","XLMAIN")
+	vim.map("Fk","<MicrosoftExcel_填充向上>","MicrosoftExcel")
+	vim.map("Fj","<MicrosoftExcel_填充向下>","MicrosoftExcel")
+	vim.map("Fh","<MicrosoftExcel_填充向左>","MicrosoftExcel")
+	vim.map("Fl","<MicrosoftExcel_填充向右>","MicrosoftExcel")
 
 	;r重命名/替换
-	vim.map("rr","<XLMAIN_Replace>","XLMAIN")
-	vim.map("R","<XLMAIN_Replace>","XLMAIN")	
-	vim.map("rw","<XLMAIN_SheetReName>","XLMAIN")
+	vim.map("rr","<MicrosoftExcel_Replace>","MicrosoftExcel")
+	vim.map("R","<MicrosoftExcel_Replace>","MicrosoftExcel")	
+	vim.map("rw","<MicrosoftExcel_SheetReName>","MicrosoftExcel")
 	
 	;/查找
-	vim.map("/","<XLMAIN_Find>","XLMAIN")
+	vim.map("/","<MicrosoftExcel_Find>","MicrosoftExcel")
 
 	;w宽高/W指定值
-	vim.map("wr","<XLMAIN_自适应宽度选择行>","XLMAIN")
-	vim.map("wc","<XLMAIN_自适应宽度选择列>","XLMAIN")
-	vim.map("Wr","<XLMAIN_编辑行宽指定值>","XLMAIN")
-	vim.map("Wc","<XLMAIN_编辑列宽指定值>","XLMAIN")
+	vim.map("wr","<MicrosoftExcel_自适应宽度选择行>","MicrosoftExcel")
+	vim.map("wc","<MicrosoftExcel_自适应宽度选择列>","MicrosoftExcel")
+	vim.map("Wr","<MicrosoftExcel_编辑行宽指定值>","MicrosoftExcel")
+	vim.map("Wc","<MicrosoftExcel_编辑列宽指定值>","MicrosoftExcel")
 
 	;工作表
 
-	vim.map(">w","<XLMAIN_工作表移动向后>","XLMAIN")
-	vim.map("<w","<XLMAIN_工作表移动向前>","XLMAIN")
+	vim.map(">w","<MicrosoftExcel_工作表移动向后>","MicrosoftExcel")
+	vim.map("<w","<MicrosoftExcel_工作表移动向前>","MicrosoftExcel")
    
 
     
@@ -247,12 +249,12 @@ global CellColor:=-16711681 ;填充表格颜色-默认黄色
 	;|纵向ActiveSheet.线颜色指令
 
 	;`字体命令
-	vim.map("<S-,>","<XLmain_字体放大>","XLMAIN")
-	vim.map("<S-.>","<XLmain_字体缩小>","XLMAIN")
+	vim.map("<S-,>","<XLmain_字体放大>","MicrosoftExcel")
+	vim.map("<S-.>","<XLmain_字体缩小>","MicrosoftExcel")
 
 	;(名称
-	vim.map("<S-9>n","<XLMAIN_名称工作簿定义>","XLMAIN")
-	vim.map("<S-9>N","<XLMAIN_名称当前工作表定义>","XLMAIN")
+	vim.map("<S-9>n","<MicrosoftExcel_名称工作簿定义>","MicrosoftExcel")
+	vim.map("<S-9>N","<MicrosoftExcel_名称当前工作表定义>","MicrosoftExcel")
 
 
 
@@ -266,65 +268,65 @@ global CellColor:=-16711681 ;填充表格颜色-默认黄色
     
     
     	;行指令
-    	;vim.map("rh","<XLMAIN_隐藏选择行>","XLMAIN")
-    	;vim.map("rH","<XLMAIN_隐藏选择行取消>","XLMAIN")
+    	;vim.map("rh","<MicrosoftExcel_隐藏选择行>","MicrosoftExcel")
+    	;vim.map("rH","<MicrosoftExcel_隐藏选择行取消>","MicrosoftExcel")
 
 	;行填充作用不明显
-        ;vim.map("rf","<XLMAIN_行填充>","XLMAIN")
+        ;vim.map("rf","<MicrosoftExcel_行填充>","MicrosoftExcel")
     	;列指令
-    	;vim.map("ch","<XLMAIN_隐藏选择列>","XLMAIN")
-    	;vim.map("cH","<XLMAIN_隐藏选择列取消>","XLMAIN")
+    	;vim.map("ch","<MicrosoftExcel_隐藏选择列>","MicrosoftExcel")
+    	;vim.map("cH","<MicrosoftExcel_隐藏选择列取消>","MicrosoftExcel")
  
-    	;vim.map("e","<XLMAIN_编辑行宽变窄>","XLMAIN")
-    	;vim.map("E","<XLMAIN_编辑行宽变宽>","XLMAIN")
-    	;vim.map("q","<XLMAIN_编辑列宽变窄>","XLMAIN")
-   	;vim.map("Q","<XLMAIN_编辑列宽变宽>","XLMAIN")
+    	;vim.map("e","<MicrosoftExcel_编辑行宽变窄>","MicrosoftExcel")
+    	;vim.map("E","<MicrosoftExcel_编辑行宽变宽>","MicrosoftExcel")
+    	;vim.map("q","<MicrosoftExcel_编辑列宽变窄>","MicrosoftExcel")
+   	;vim.map("Q","<MicrosoftExcel_编辑列宽变宽>","MicrosoftExcel")
 
    	;m多区域逐行处理
-    	;vim.map("mr","<XLMAIN_逐行合并>","XLMAIN")
-    	;vim.map("mbd","<XLMAIN_逐行边框下框线>","XLMAIN")
-    	;vim.map("mbu","<XLMAIN_逐行边框上框线>","XLMAIN")
-    	;vim.map("mbs","<XLMAIN_逐行边框外侧框线>","XLMAIN")
-    	;vim.map("mbt","<XLMAIN_逐行边框粗匣框线>","XLMAIN")
-    	;vim.map("mR","<XLMAIN_取消逐行合并>","XLMAIN")
+    	;vim.map("mr","<MicrosoftExcel_逐行合并>","MicrosoftExcel")
+    	;vim.map("mbd","<MicrosoftExcel_逐行边框下框线>","MicrosoftExcel")
+    	;vim.map("mbu","<MicrosoftExcel_逐行边框上框线>","MicrosoftExcel")
+    	;vim.map("mbs","<MicrosoftExcel_逐行边框外侧框线>","MicrosoftExcel")
+    	;vim.map("mbt","<MicrosoftExcel_逐行边框粗匣框线>","MicrosoftExcel")
+    	;vim.map("mR","<MicrosoftExcel_取消逐行合并>","MicrosoftExcel")
 
     	;测试
-    	;vim.map("t5","<XLMIAN_获取活动工作表边界>","XLMAIN")
-    	vim.map("t1","<LastRow>","XLMAIN")
-    	vim.map("t2","<LastColumn>","XLMAIN")
+    	;vim.map("t5","<XLMIAN_获取活动工作表边界>","MicrosoftExcel")
+    	vim.map("t1","<LastRow>","MicrosoftExcel")
+    	vim.map("t2","<LastColumn>","MicrosoftExcel")
 
 ;Comment
 
 ;Trigger
-;XLMAIN
+;MicrosoftExcel
 return
 
 
 
 ;Action 如要跳转，请使用查找功能/
 
-XLMAIN_CheckMode()
+MicrosoftExcel_CheckMode()
 {
-	ControlGetFocus,ctrl,AHK_CLASS XLMAIN
+	ControlGetFocus,ctrl,AHK_CLASS MicrosoftExcel
 	If RegExMatch(ctrl,"EXCEL61")
 		Return True
 	return False
 }
 
-<Normal_Mode_XLMAIN>:
-    vim.Mode("normal","XLMAIN")
+<Normal_Mode_MicrosoftExcel>:
+    vim.Mode("normal","MicrosoftExcel")
     getExcel().Application.StatusBar := "NORMAL"
 return
 
-<Insert_Mode_XLMAIN>:
-    vim.Mode("insert","XLMAIN")
+<Insert_Mode_MicrosoftExcel>:
+    vim.Mode("insert","MicrosoftExcel")
 
     ;插入模式下使用由Excel接管状态栏
     getExcel().Application.StatusBar := blank
 return
 
-<Alt_Mode_XLMAIN>:
-    vim.Mode("insert","XLMAIN")
+<Alt_Mode_MicrosoftExcel>:
+    vim.Mode("insert","MicrosoftExcel")
 
     ;插入模式下使用由Excel接管状态栏
     getExcel().Application.StatusBar := blank
@@ -348,14 +350,14 @@ return
 
 
 ;d删除
-<XLMAIN_Delete>:
+<MicrosoftExcel_Delete>:
 {
     send,{Del}
     return
 }
 
 ;by dlt:改用快捷键方式，可被撤销
-<XLMAIN_删除选择行>:
+<MicrosoftExcel_删除选择行>:
 {
 	send ^-
 	send !r
@@ -363,7 +365,7 @@ return
 	return
 }
 
-<XLMAIN_删除选择列>:
+<MicrosoftExcel_删除选择列>:
 {
     Excel_Selection()
     Selection.EntireColumn.Delete
@@ -371,7 +373,7 @@ return
     return
 }
 
-<XLMAIN_工作表删除当前>:
+<MicrosoftExcel_工作表删除当前>:
 {
 Excel_ActiveSheet()
 excel.ActiveWindow.SelectedSheets.delete
@@ -380,7 +382,7 @@ return
 }
 
 ;o插入
-<XLMAIN_编辑插入新行在前>:
+<MicrosoftExcel_编辑插入新行在前>:
 {
     send,{AppsKey}
     send,i
@@ -391,7 +393,7 @@ return
     return
 }
 
-<XLMAIN_编辑插入新列在左>:
+<MicrosoftExcel_编辑插入新列在左>:
 {
     send,{AppsKey}
     send,i
@@ -402,7 +404,7 @@ return
     return
 }
 
-<XLMAIN_工作表新建>:
+<MicrosoftExcel_工作表新建>:
 {
     Excel_ActiveSheet()
     getExcel().ActiveWorkbook.Sheets.Add
@@ -412,31 +414,31 @@ return
 
 
 ;s选择
-<XLMAIN_SelectToAreaUp>:
+<MicrosoftExcel_SelectToAreaUp>:
 {
 	send,^+{Up}
 	return
 }
 
-<XLMAIN_SelectToAreaDown>:
+<MicrosoftExcel_SelectToAreaDown>:
 {
 	send,^+{Down}
 	return
 }
 
-<XLMAIN_SelectToAreaLeft>:
+<MicrosoftExcel_SelectToAreaLeft>:
 {
 	send,^+{Left}
 	return
 }
 
-<XLMAIN_SelectToAreaRight>:
+<MicrosoftExcel_SelectToAreaRight>:
 {
 	send,^+{Right}
 	return
 }
 
-<XLMAIN_选择整行>:
+<MicrosoftExcel_选择整行>:
 {
     Excel_Selection()
     Selection.EntireRow.Select
@@ -444,7 +446,7 @@ return
     return
 }
 
-<XLMAIN_选择整列>:
+<MicrosoftExcel_选择整列>:
 {
     Excel_Selection()
     Selection.EntireColumn.Select
@@ -452,73 +454,73 @@ return
     return
 }
 
-<XLMAIN_SelectAll>:
+<MicrosoftExcel_SelectAll>:
 {
     send,^a
     return
 }
 
 ;space翻页
-<XLMAIN_PageDown>:
+<MicrosoftExcel_PageDown>:
 {
     send,{PgDn}
     return
 }
 
-<XLMAIN_PageUp>:
+<MicrosoftExcel_PageUp>:
 {
     send,{PgUp}
     return
 }
 
 ;x剪切
-<XLMAIN_Cut>:
+<MicrosoftExcel_Cut>:
 {
     send,^x
     return
 }
 
 ;r置换
-<XLMAIN_Replace>:
+<MicrosoftExcel_Replace>:
 {
     send,^h
     return
 }
 
 ;/查找
-<XLMAIN_Find>:
+<MicrosoftExcel_Find>:
 {
     send,^f
     return
 }
 
 ;控制
-<XLMAIN_向左选择>:
+<MicrosoftExcel_向左选择>:
 {
     send,+{left}
     return
 }
 
 
-<XLMAIN_向右选择>:
+<MicrosoftExcel_向右选择>:
 {
     send,+{right}
     return
 }
 
-<XLMAIN_向上选择>:
+<MicrosoftExcel_向上选择>:
 {
     send,+{up}
     return
 }
 
-<XLMAIN_向下选择>:
+<MicrosoftExcel_向下选择>:
 {
     send,+{down}
     return
 }
 
-<XLMAIN_名称工作簿定义>:
+<MicrosoftExcel_名称工作簿定义>:
 {
     Excel_Selection()
     InputBox, OutputVar ,输入名称
@@ -536,7 +538,7 @@ return
     return
 }
 
-<XLMAIN_名称当前工作表定义>:
+<MicrosoftExcel_名称当前工作表定义>:
 {
     Excel_Selection()
     InputBox, OutputVar ,输入名称
@@ -554,110 +556,110 @@ return
     return
 }
 
-<XLMAIN_定位空单元格>:
+<MicrosoftExcel_定位空单元格>:
 {
     Excel_Selection()
-    XLMAIN_定位对象(4)
+    MicrosoftExcel_定位对象(4)
     ;objRelease(excel)
     return
 }
 
-<XLMAIN_定位任意格式>:
+<MicrosoftExcel_定位任意格式>:
 {
     Excel_Selection()
-    XLMAIN_定位对象(-4172)
+    MicrosoftExcel_定位对象(-4172)
     ;objRelease(excel)
     return
 }
 
-<XLMAIN_定位验证条件全部>:
+<MicrosoftExcel_定位验证条件全部>:
 {
     Excel_Selection()
-    XLMAIN_定位对象(-4174)
+    MicrosoftExcel_定位对象(-4174)
     ;objRelease(excel)
     return
 }
 
-<XLMAIN_定位注释>:
+<MicrosoftExcel_定位注释>:
 {
     Excel_Selection()
-    XLMAIN_定位对象(-4144)
-    ;objRelease(excel)
-    return
-}
-
-
-
-<XLMAIN_定位常量全部>:
-{
-    Excel_Selection()
-    XLMAIN_定位公式变量(2,23)
-    ;objRelease(excel)
-    return
-}
-
-
-<XLMAIN_定位公式全部>:
-{
-    Excel_Selection()
-    XLMAIN_定位公式变量(-4123,23)
-    ;objRelease(excel)
-    return
-}
-
-
-<XLMAIN_定位已用区域最末单元格>:
-{
-    Excel_Selection()
-    XLMAIN_定位对象(11)
-    ;objRelease(excel)
-    return
-}
-
-
-<XLMAIN_定位相同格式>:
-{
-    Excel_Selection()
-    XLMAIN_定位对象(-4173)
-    ;objRelease(excel)
-    return
-}
-
-
-<XLMAIN_定位验证条件相同>:
-{
-    Excel_Selection()
-    XLMAIN_定位对象(-4175)
-    ;objRelease(excel)
-    return
-}
-
-
-<XLMAIN_定位可见>:
-{
-    Excel_Selection()
-    XLMAIN_定位对象(12)
+    MicrosoftExcel_定位对象(-4144)
     ;objRelease(excel)
     return
 }
 
 
 
+<MicrosoftExcel_定位常量全部>:
+{
+    Excel_Selection()
+    MicrosoftExcel_定位公式变量(2,23)
+    ;objRelease(excel)
+    return
+}
 
-XLMAIN_定位对象(value)
+
+<MicrosoftExcel_定位公式全部>:
+{
+    Excel_Selection()
+    MicrosoftExcel_定位公式变量(-4123,23)
+    ;objRelease(excel)
+    return
+}
+
+
+<MicrosoftExcel_定位已用区域最末单元格>:
+{
+    Excel_Selection()
+    MicrosoftExcel_定位对象(11)
+    ;objRelease(excel)
+    return
+}
+
+
+<MicrosoftExcel_定位相同格式>:
+{
+    Excel_Selection()
+    MicrosoftExcel_定位对象(-4173)
+    ;objRelease(excel)
+    return
+}
+
+
+<MicrosoftExcel_定位验证条件相同>:
+{
+    Excel_Selection()
+    MicrosoftExcel_定位对象(-4175)
+    ;objRelease(excel)
+    return
+}
+
+
+<MicrosoftExcel_定位可见>:
+{
+    Excel_Selection()
+    MicrosoftExcel_定位对象(12)
+    ;objRelease(excel)
+    return
+}
+
+
+
+
+MicrosoftExcel_定位对象(value)
 {
     Selection.SpecialCells(value).Select
     return
 }
 
-XLMAIN_定位公式变量(value,indicate)
+MicrosoftExcel_定位公式变量(value,indicate)
 {
     Selection.SpecialCells(value,indicate).Select
     return
 }
 
 ;过滤
-<XLMAIN_自动过滤开启>:
+<MicrosoftExcel_自动过滤开启>:
 {
     Excel_ActiveSheet()
     If excel.ActiveSheet.AutoFilterMode
@@ -665,14 +667,14 @@ XLMAIN_定位公式变量(value,indicate)
     Else
         excel.Selection.AutoFilter
     ;XLMIAN_获取活动工作表边界()
-    ;excel.ActiveSheet.Range("A1" , XLMAIN_ColToChar(lLastColumn) . "1").Select
+    ;excel.ActiveSheet.Range("A1" , MicrosoftExcel_ColToChar(lLastColumn) . "1").Select
     ;msgbox,%range%
     ;excel.Application.Dialogs(447).Show(fid,excel.ActiveCell.Value)
     objrelease(excel)
     return
 }
 
-<XLMAIN_过滤打开筛选对话框>:
+<MicrosoftExcel_过滤打开筛选对话框>:
 {
     Excel_ActiveSheet()
     address:=excel.ActiveSheet.AutoFilter.Range.Address
@@ -692,133 +694,133 @@ XLMAIN_定位公式变量(value,indicate)
 
 
 
-<XLMAIN_过滤等于当前单元格>:
+<MicrosoftExcel_过滤等于当前单元格>:
 {
     Excel_ActiveSheet()
     value:=excel.ActiveCell.Value
     ;msgbox,%value%
-    XLMAIN_CustomAutoFilter("=",value)
+    MicrosoftExcel_CustomAutoFilter("=",value)
     objrelease(excel)
     return
 }
 
-<XLMAIN_过滤小于当前单元格>:
+<MicrosoftExcel_过滤小于当前单元格>:
 {
     Excel_ActiveSheet()
     value:=excel.ActiveCell.Value
     ;msgbox,%value%
-    XLMAIN_CustomAutoFilter("<",value)
-    objrelease(excel)
-    return
-}
-
-
-<XLMAIN_过滤大于当前单元格>:
-{
-    Excel_ActiveSheet()
-    value:=excel.ActiveCell.Value
-    ;msgbox,%value%
-    XLMAIN_CustomAutoFilter(">",value)
-    objrelease(excel)
-    return
-}
-
-<XLMAIN_过滤大于等于当前单元格>:
-{
-    Excel_ActiveSheet()
-    value:=excel.ActiveCell.Value
-    ;msgbox,%value%
-    XLMAIN_CustomAutoFilter(">=",value)
-    objrelease(excel)
-    return
-}
-
-<XLMAIN_过滤小于等于当前单元格>:
-{
-    Excel_ActiveSheet()
-    value:=excel.ActiveCell.Value
-    ;msgbox,%value%
-    XLMAIN_CustomAutoFilter("<=",value)
+    MicrosoftExcel_CustomAutoFilter("<",value)
     objrelease(excel)
     return
 }
 
 
-<XLMAIN_过滤不等于当前单元格>:
+<MicrosoftExcel_过滤大于当前单元格>:
 {
     Excel_ActiveSheet()
     value:=excel.ActiveCell.Value
     ;msgbox,%value%
-    XLMAIN_CustomAutoFilter("<>",value)
+    MicrosoftExcel_CustomAutoFilter(">",value)
     objrelease(excel)
     return
 }
 
-<XLMAIN_过滤非空单元格>:
+<MicrosoftExcel_过滤大于等于当前单元格>:
+{
+    Excel_ActiveSheet()
+    value:=excel.ActiveCell.Value
+    ;msgbox,%value%
+    MicrosoftExcel_CustomAutoFilter(">=",value)
+    objrelease(excel)
+    return
+}
+
+<MicrosoftExcel_过滤小于等于当前单元格>:
+{
+    Excel_ActiveSheet()
+    value:=excel.ActiveCell.Value
+    ;msgbox,%value%
+    MicrosoftExcel_CustomAutoFilter("<=",value)
+    objrelease(excel)
+    return
+}
+
+
+<MicrosoftExcel_过滤不等于当前单元格>:
+{
+    Excel_ActiveSheet()
+    value:=excel.ActiveCell.Value
+    ;msgbox,%value%
+    MicrosoftExcel_CustomAutoFilter("<>",value)
+    objrelease(excel)
+    return
+}
+
+<MicrosoftExcel_过滤非空单元格>:
 {
     Excel_ActiveSheet()
     ;value:=excel.ActiveCell.Value
     ;msgbox,%value%
-    XLMAIN_CustomAutoFilter("<>","")
+    MicrosoftExcel_CustomAutoFilter("<>","")
     objrelease(excel)
     return
 }
 
-<XLMAIN_过滤空单元格>:
+<MicrosoftExcel_过滤空单元格>:
 {
     Excel_ActiveSheet()
     ;value:=excel.ActiveCell.Value
     ;msgbox,%value%
-    XLMAIN_CustomAutoFilter("=","")
+    MicrosoftExcel_CustomAutoFilter("=","")
     objrelease(excel)
     return
 }
 
-<XLMAIN_过滤包含当前单元格>:
+<MicrosoftExcel_过滤包含当前单元格>:
 {
     Excel_ActiveSheet()
     value:=excel.ActiveCell.Value
     value=%value%*
     msgbox,%value%
-    XLMAIN_CustomAutoFilter("=*",valve)
+    MicrosoftExcel_CustomAutoFilter("=*",valve)
     objrelease(excel)
     return
 }
 
-<XLMAIN_过滤不包含当前单元格>:
+<MicrosoftExcel_过滤不包含当前单元格>:
 {
     Excel_ActiveSheet()
     value:=excel.ActiveCell.Value
     ;msgbox,%value%
     value=%value%*
-    XLMAIN_CustomAutoFilter("<>*",valve)
+    MicrosoftExcel_CustomAutoFilter("<>*",valve)
     objrelease(excel)
     return
 }
 
-<XLMAIN_过滤开头包含当前单元格>:
+<MicrosoftExcel_过滤开头包含当前单元格>:
 {
     Excel_ActiveSheet()
     value:=excel.ActiveCell.Value
     ;msgbox,%value%
     value=*%value%
-    XLMAIN_CustomAutoFilter("=",valve)
+    MicrosoftExcel_CustomAutoFilter("=",valve)
     objrelease(excel)
     return
 }
 
-<XLMAIN_过滤末尾包含当前单元格>:
+<MicrosoftExcel_过滤末尾包含当前单元格>:
 {
     Excel_ActiveSheet()
     value:=excel.ActiveCell.Value
     ;msgbox,%value%
     value=%value%*
-    XLMAIN_CustomAutoFilter("=",valve)
+    MicrosoftExcel_CustomAutoFilter("=",valve)
     objrelease(excel)
     return
 }
 
-<XLMAIN_过滤当前列下拉菜单>:
+<MicrosoftExcel_过滤当前列下拉菜单>:
 {
     Excel_ActiveSheet()
     ;msgbox,ArithmeticOpr %ArithmeticOpr%
@@ -842,16 +844,16 @@ XLMAIN_定位公式变量(value,indicate)
     return
 }
 
-<XLMAIN_过滤取消当前列>:
+<MicrosoftExcel_过滤取消当前列>:
 {
     Excel_Selection()
     value:=excel.ActiveCell.Value
-    XLMAIN_CustomAutoFilter("",valve)
+    MicrosoftExcel_CustomAutoFilter("",valve)
     objrelease(excel)
     return
 }
 
-<XLMAIN_过滤取消所有列>:
+<MicrosoftExcel_过滤取消所有列>:
 {
     Excel_Selection()
     If excel.ActiveSheet.FilterMode = True
@@ -861,7 +863,7 @@ XLMAIN_定位公式变量(value,indicate)
 }
 
 
-XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
+MicrosoftExcel_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 {
     ;msgbox,ArithmeticOpr %ArithmeticOpr%
     ;msgbox,CurrentValue %CurrentValue%
@@ -885,7 +887,7 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 
 ;行指令
 
-<XLMAIN_取消逐行合并>:
+<MicrosoftExcel_取消逐行合并>:
 {
     Excel_ActiveCell()
     if excel.Selection.Columns.Count > 1
@@ -907,7 +909,7 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 }
 
 ;by dlt:快捷键实现，可被撤销
-<XLMAIN_隐藏选择行>:
+<MicrosoftExcel_隐藏选择行>:
 {
 	send ^9
 	return
@@ -918,14 +920,14 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 
 
 ;by dlt:Ctrl+Shift+(
-<XLMAIN_隐藏选择行取消>:
+<MicrosoftExcel_隐藏选择行取消>:
 {
 	send ^+(
 	return
 }
 
 
-<XLMAIN_自适应宽度选择行>:
+<MicrosoftExcel_自适应宽度选择行>:
 {
     Excel_Selection()
     Selection.EntireRow.AutoFit
@@ -934,7 +936,7 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 }
 
 
-<XLMAIN_编辑行宽指定值>:
+<MicrosoftExcel_编辑行宽指定值>:
 {
     Excel_Selection()
     Default:=Selection.RowHeight
@@ -955,7 +957,7 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 
 
 
-<XLMAIN_自适应宽度选择列>:
+<MicrosoftExcel_自适应宽度选择列>:
 {
     Excel_Selection()
     Selection.EntireColumn.AutoFit
@@ -963,7 +965,7 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
     return
 }
 
-<XLMAIN_隐藏选择列>:
+<MicrosoftExcel_隐藏选择列>:
 {
     Excel_Selection()
     Selection.EntireColumn.Hidden := True
@@ -971,7 +973,7 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
     return
 }
 
-<XLMAIN_隐藏选择列取消>:
+<MicrosoftExcel_隐藏选择列取消>:
 {
     Excel_Selection()
     Selection.EntireColumn.Hidden := False
@@ -981,7 +983,7 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 
 
 
-<XLMAIN_编辑列宽指定值>:
+<MicrosoftExcel_编辑列宽指定值>:
 {
     Excel_Selection()
     Default:=Selection.ColumnWidth
@@ -999,11 +1001,11 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 
 
 ;多行指令
-<XLMAIN_逐行合并>:
+<MicrosoftExcel_逐行合并>:
 {
     Excel_ActiveCell()
-    XLMAIN_GetSelectionType()
-    XLMAIN_GetSelectionInfo()
+    MicrosoftExcel_GetSelectionType()
+    MicrosoftExcel_GetSelectionInfo()
     ;msgbox,%SelectionType%
     if SelectionType=1
         {
@@ -1056,11 +1058,11 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 
 ;边框
 
-<XLMAIN_边框下框线>:
+<MicrosoftExcel_边框下框线>:
 {
     Excel_ActiveCell()
-    XLMAIN_GetSelectionType()
-    XLMAIN_GetSelectionInfo()
+    MicrosoftExcel_GetSelectionType()
+    MicrosoftExcel_GetSelectionInfo()
     ;msgbox,%SelectionType%
     if SelectionType=1
         {
@@ -1104,11 +1106,11 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 }
 
 
-<XLMAIN_边框上框线>:
+<MicrosoftExcel_边框上框线>:
 {
     Excel_ActiveCell()
-    XLMAIN_GetSelectionType()
-    XLMAIN_GetSelectionInfo()
+    MicrosoftExcel_GetSelectionType()
+    MicrosoftExcel_GetSelectionInfo()
     ;msgbox,%SelectionType%
     if SelectionType=1
         {
@@ -1152,11 +1154,11 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 }
 
 
-<XLMAIN_边框左框线>:
+<MicrosoftExcel_边框左框线>:
 {
     Excel_ActiveCell()
-    XLMAIN_GetSelectionType()
-    XLMAIN_GetSelectionInfo()
+    MicrosoftExcel_GetSelectionType()
+    MicrosoftExcel_GetSelectionInfo()
     ;msgbox,%SelectionType%
     if SelectionType=1
         {
@@ -1199,11 +1201,11 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
     return
 }
 
-<XLMAIN_边框右框线>:
+<MicrosoftExcel_边框右框线>:
 {
     Excel_ActiveCell()
-    XLMAIN_GetSelectionType()
-    XLMAIN_GetSelectionInfo()
+    MicrosoftExcel_GetSelectionType()
+    MicrosoftExcel_GetSelectionInfo()
     ;msgbox,%SelectionType%
     if SelectionType=1
         {
@@ -1246,7 +1248,7 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
     return
 }
 
-<XLMAIN_边框无框线>:
+<MicrosoftExcel_边框无框线>:
 {
     Excel_ActiveCell()
     excel.Selection.Borders(7).LineStyle := -4142
@@ -1259,7 +1261,7 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
     return
 }
 
-<XLMAIN_边框所有框线>:
+<MicrosoftExcel_边框所有框线>:
 {
     Excel_ActiveCell()
     excel.Selection.Borders(7).LineStyle := 1
@@ -1278,11 +1280,11 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
     return
 }
 
-<XLMAIN_边框四边框线>:
+<MicrosoftExcel_边框四边框线>:
 {
     Excel_ActiveCell()
-    XLMAIN_GetSelectionType()
-    XLMAIN_GetSelectionInfo()
+    MicrosoftExcel_GetSelectionType()
+    MicrosoftExcel_GetSelectionInfo()
     ;msgbox,%SelectionType%
     if SelectionType=1
         {
@@ -1351,11 +1353,11 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 
 
 
-<XLMAIN_边框四边粗匣框线>:
+<MicrosoftExcel_边框四边粗匣框线>:
 {
     Excel_ActiveCell()
-    XLMAIN_GetSelectionType()
-    XLMAIN_GetSelectionInfo()
+    MicrosoftExcel_GetSelectionType()
+    MicrosoftExcel_GetSelectionInfo()
     ;msgbox,%SelectionType%
     if SelectionType=1
         {
@@ -1424,7 +1426,7 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 }
 
 
-<XLMAIN_边框粗匣框线>:
+<MicrosoftExcel_边框粗匣框线>:
 {
     Excel_ActiveCell()
     excel.Selection.Borders(7).LineStyle := 1
@@ -1443,7 +1445,7 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 
 
 
-<XLMAIN_边框上下框线>:
+<MicrosoftExcel_边框上下框线>:
 {
     Excel_ActiveCell()
     excel.Selection.Borders(5).LineStyle := -4142
@@ -1474,7 +1476,7 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 
 
 
-<XLMAIN_编辑插入新行在后>:
+<MicrosoftExcel_编辑插入新行在后>:
 {
     send,{down}
     send,{AppsKey}
@@ -1486,7 +1488,7 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
     return
 }
 
-<XLMAIN_编辑插入新列在右>:
+<MicrosoftExcel_编辑插入新列在右>:
 {
     send,{right}
     send,{AppsKey}
@@ -1498,13 +1500,13 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
     return
 }
 
-<XLMAIN_Copy_Selection>:
+<MicrosoftExcel_Copy_Selection>:
 {
 	send ^c
 	return
 }
 
-<XLMAIN_Copy_Row>:
+<MicrosoftExcel_Copy_Row>:
 {
 	Excel_Selection()
 	Selection.EntireRow.Select
@@ -1513,7 +1515,7 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 	return
 }
 
-<XLMAIN_Copy_Col>:
+<MicrosoftExcel_Copy_Col>:
 {
 	Excel_Selection()
 	Selection.EntireColumn.Select
@@ -1522,25 +1524,25 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 	return
 }
 
-<XLMAIN_Paste>:
+<MicrosoftExcel_Paste>:
 {
 	send ^v
 	return
 }
 
-<XLMAIN_Paste_Select>:
+<MicrosoftExcel_Paste_Select>:
 {
 	send ^!v
 	return
 }
 
-<XLMAIN_Paste_Value>:
+<MicrosoftExcel_Paste_Value>:
 {
 	send ^!v!v{enter}
 	return
 }
 
-<XLMAIN_Color_Font>:
+<MicrosoftExcel_Color_Font>:
 {
 	getExcel().Selection.Font.Color := FontColor
 	return
@@ -1548,20 +1550,20 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 
 
 
-<XLMAIN_Color_Cell>:
+<MicrosoftExcel_Color_Cell>:
 {
 	getExcel().Selection.Interior.Color := CellColor
 	return
 }
 
-<XLMAIN_Color_All>:
+<MicrosoftExcel_Color_All>:
 {
 	getExcel().Selection.Font.Color := FontColor
 	getExcel().Selection.Interior.Color := CellColor
 	return
 }
 
-<XLMAIN_Color_Menu_Font>:
+<MicrosoftExcel_Color_Menu_Font>:
 {
 	InputColor(color)
 
@@ -1578,7 +1580,7 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 	return
 }
 
-<XLMAIN_Color_Menu_Cell>:
+<MicrosoftExcel_Color_Menu_Cell>:
 {
 	InputColor(color)
 
@@ -1597,7 +1599,7 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 }
 
 ;编辑复制
-<XLMAIN_编辑自左侧复制>:
+<MicrosoftExcel_编辑自左侧复制>:
 {
     send,{left}
     send,^c
@@ -1606,7 +1608,7 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
     return
 }
 
-<XLMAIN_逐行编辑自左侧复制>:
+<MicrosoftExcel_逐行编辑自左侧复制>:
 {
     Excel_ActiveCell()
     if excel.Selection.Columns.Count = 1
@@ -1627,7 +1629,7 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 }
 
 
-<XLMAIN_编辑自右侧复制>:
+<MicrosoftExcel_编辑自右侧复制>:
 {
     send,{right}
     send,^c
@@ -1636,7 +1638,7 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
     return
 }
 
-<XLMAIN_逐行编辑自右侧复制>:
+<MicrosoftExcel_逐行编辑自右侧复制>:
 {
     Excel_ActiveCell()
     if excel.Selection.Columns.Count = 1
@@ -1657,7 +1659,7 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 }
 
 
-<XLMAIN_编辑自上侧复制>:
+<MicrosoftExcel_编辑自上侧复制>:
 {
     send,{up}
     send,^c
@@ -1666,7 +1668,7 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
     return
 }
 
-<XLMAIN_编辑自下侧复制>:
+<MicrosoftExcel_编辑自下侧复制>:
 {
     send,{down}
     send,^c
@@ -1682,21 +1684,21 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 
 
 ;定位
-<XLMAIN_FocusHome>:
+<MicrosoftExcel_FocusHome>:
 {
     send,^{Home}
     return
 }
 
 
-<XLMAIN_FocusEnd>:
+<MicrosoftExcel_FocusEnd>:
 {
 	send ^{End}
 	return
 }
 
 ; 模拟输入9个Ctrl+Up,差不多能到行首了
-<XLMAIN_FocusRowHome>:
+<MicrosoftExcel_FocusRowHome>:
 {
 	send ^{Up}
 	send ^{Up}
@@ -1712,7 +1714,7 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 
 
 ; 模拟输入9个Ctrl+Down，差不多能到尾行了
-<XLMAIN_FocusRowEnd>:
+<MicrosoftExcel_FocusRowEnd>:
 {
 	send ^{Down}
 	send ^{Down}
@@ -1727,14 +1729,14 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 }
 
 ; 快捷键Home可直接定位到首列
-<XLMAIN_FocusColHome>:
+<MicrosoftExcel_FocusColHome>:
 {
     send,{Home}
     return
 }
 
 ; 貌似没有快捷键直接定位到尾列--同时该功能貌似没什么作用...
-<XLMAIN_FocusColEnd>:
+<MicrosoftExcel_FocusColEnd>:
 {
     send,^{Right}
     send,^{Right}
@@ -1748,25 +1750,25 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
     return
 }
 
-<XLMAIN_FocusAreaUp>:
+<MicrosoftExcel_FocusAreaUp>:
 {
 	send,^{Up}
 	return
 }
 
-<XLMAIN_FocusAreaDown>:
+<MicrosoftExcel_FocusAreaDown>:
 {
 	send,^{Down}
 	return
 }
 
-<XLMAIN_FocusAreaLeft>:
+<MicrosoftExcel_FocusAreaLeft>:
 {
 	send,^{Left}
 	return
 }
 
-<XLMAIN_FocusAreaRight>:
+<MicrosoftExcel_FocusAreaRight>:
 {
 	send,^{Right}
 	return
@@ -1778,7 +1780,7 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 
 
 ;对齐
-<XLMAIN_对齐左>:
+<MicrosoftExcel_对齐左>:
 {
   Excel_Selection()
   Selection.HorizontalAlignment := -4131
@@ -1789,7 +1791,7 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 
 
 
-<XLMAIN_对齐水平中间>:
+<MicrosoftExcel_对齐水平中间>:
 {
   Excel_Selection()
   Selection.HorizontalAlignment := -4108
@@ -1800,7 +1802,7 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 
 
 
-<XLMAIN_对齐右>:
+<MicrosoftExcel_对齐右>:
 {
   Excel_Selection()
   Selection.HorizontalAlignment := -4152
@@ -1811,7 +1813,7 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 
 
 
-<XLMAIN_对齐顶>:
+<MicrosoftExcel_对齐顶>:
 {
   Excel_Selection()
   Selection.VerticalAlignment := -4160
@@ -1821,7 +1823,7 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 
 
 
-<XLMAIN_对齐垂直中间>:
+<MicrosoftExcel_对齐垂直中间>:
 {
   Excel_Selection()
   Selection.VerticalAlignment := -4108
@@ -1832,7 +1834,7 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 
 
 
-<XLMAIN_对齐底>:
+<MicrosoftExcel_对齐底>:
 {
   Excel_Selection()
   Selection.VerticalAlignment := -4107
@@ -1842,7 +1844,7 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 
 
 ;单元格颜色
-<XLMAIN_单元格颜色黑>:
+<MicrosoftExcel_单元格颜色黑>:
 {
   Excel_Selection()
   Selection.Interior.color:= 0x000000
@@ -1887,7 +1889,7 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 
 
 ;工作表
-<XLMAIN_SheetReName>:
+<MicrosoftExcel_SheetReName>:
 {
 	InputBox, NewSheetName ,输入新的工作表名称
 	If ErrorLevel
@@ -1902,7 +1904,7 @@ XLMAIN_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 
 
 
-<XLMAIN_工作表复制当前>:
+<MicrosoftExcel_工作表复制当前>:
 {
 Excel_ActiveSheet()
 After:=excel.ActiveSheet
@@ -1911,7 +1913,7 @@ excel.ActiveSheet.Copy(After)
 return
 }
 
-<XLMAIN_工作表选择首个>:
+<MicrosoftExcel_工作表选择首个>:
 {
 Excel_ActiveSheet()
 excel.Worksheets(1).Select
@@ -1920,7 +1922,7 @@ return
 }
 
 
-<XLMAIN_工作表选择尾个>:
+<MicrosoftExcel_工作表选择尾个>:
 {
 Excel_ActiveSheet()
 excel.Worksheets(excel.Worksheets.Count).Select
@@ -1928,7 +1930,7 @@ excel.Worksheets(excel.Worksheets.Count).Select
 return
 }
 
-<XLMAIN_工作表复制对话框>:
+<MicrosoftExcel_工作表复制对话框>:
 {
 Excel_ActiveSheet()
 excel.Application.Dialogs(283).Show
@@ -1936,7 +1938,7 @@ excel.Application.Dialogs(283).Show
 return
 }
 
-<XLMAIN_工作表跳转下一个>:
+<MicrosoftExcel_工作表跳转下一个>:
 {
     Excel_ActiveSheet()
     If excel.ActiveSheet.index = excel.Worksheets.Count
@@ -1948,7 +1950,7 @@ return
 }
 
 
-<XLMAIN_工作表跳转上一个>:
+<MicrosoftExcel_工作表跳转上一个>:
 {
     Excel_ActiveSheet()
     If excel.ActiveSheet.index =1
@@ -1959,7 +1961,7 @@ return
     return
 }
 
-<XLMAIN_GoTo>:
+<MicrosoftExcel_GoTo>:
 {
 	Excel_ActiveSheet()
 	InputBox, Reference , 输入跳转到的位置，如B5/b5：第二列，第5行
@@ -1970,14 +1972,14 @@ return
 	return
 }
 
-<XLMAIN_SaveAndExit>:
+<MicrosoftExcel_SaveAndExit>:
 {
 	send ^s
 	send !{F4}
 	return
 }
 
-<XLMAIN_DiscardAndExit>:
+<MicrosoftExcel_DiscardAndExit>:
 {
 	getExcel().ActiveWorkbook.Saved := true
 	getExcel().Quit
@@ -1988,7 +1990,7 @@ return
 
 
 
-<XLMAIN_工作表移动向后>:
+<MicrosoftExcel_工作表移动向后>:
 {
     If excel.ActiveSheet.index < excel.Worksheets.Count - 1
         {
@@ -2004,7 +2006,7 @@ return
     return
 }
 
-<XLMAIN_工作表移动向前>:
+<MicrosoftExcel_工作表移动向前>:
 {
     excel := getExcel()
     getExcel().ActiveSheet.Select
@@ -2026,7 +2028,7 @@ return
 ;填充
 
 
-<XLMAIN_填充向下>:
+<MicrosoftExcel_填充向下>:
 {
     Excel_Selection()
     Selection.FillDown
@@ -2035,7 +2037,7 @@ return
 }
 
 
-<XLMAIN_填充向上>:
+<MicrosoftExcel_填充向上>:
 {
     Excel_Selection()
     Selection.FillUp
@@ -2043,7 +2045,7 @@ return
     return
 }
 
-<XLMAIN_填充向左>:
+<MicrosoftExcel_填充向左>:
 {
     Excel_Selection()
     Selection.FillLeft
@@ -2051,7 +2053,7 @@ return
     return
 }
 
-<XLMAIN_填充向右>:
+<MicrosoftExcel_填充向右>:
 {
     Excel_Selection()
     Selection.FillRight
@@ -2195,7 +2197,7 @@ Cell_Address(cell) {
 }
 
 Excel_GetObj() {
-    ControlGet, hwnd, hwnd, , Excel71, ahk_class XLMAIN
+    ControlGet, hwnd, hwnd, , Excel71, ahk_class MicrosoftExcel
     ObjExcel := Excel[hwnd]
     If IsObject(ObjExcel)
         return ObjExcel
@@ -2207,7 +2209,7 @@ Excel_GetObj() {
 
 
 
-XLMAIN_获取Range地址(address)
+MicrosoftExcel_获取Range地址(address)
 {
     StringReplace, address, address, $,,All
     return
@@ -2228,13 +2230,13 @@ XLMIAN_获取活动工作表边界()
     Excel_Selection()
     XLMIAN_获取活动工作表边界()
     msgbox,lLastRow %lLastRow% lLastColumn %lLastColumn%
-    XLMAIN_GetSelectionType()
+    MicrosoftExcel_GetSelectionType()
 
     if SelectionType=1
         {
             rng:=excel.Selection
             ;msgbox,rng %rng%
-            XLMAIN_GetSelectionInfo()
+            MicrosoftExcel_GetSelectionInfo()
             ;msgbox,%SelectFirstColumn%%SelectFirstRow% %SelectionLastColumn%%SelectionLastRow%
             ;msgbox,%SelectFirstColumn%%SelectFirstRow%:%SelectFirstColumn%%lLastRow%
             excel.range(SelectionFirstColumn SelectionFirstRow ":" SelectionFirstColumn lLastRow ).Select ;填充列
@@ -2244,7 +2246,7 @@ XLMIAN_获取活动工作表边界()
     else if SelectionType=4
         {
             rng:=excel.Selection
-            XLMAIN_GetSelectionInfo()
+            MicrosoftExcel_GetSelectionInfo()
 
             excel.range(SelectionFirstColumn SelectionFirstRow ":" SelectionFirstColumn lLastRow).Select
             rng.AutoFill(excel.selection,9)
@@ -2257,12 +2259,12 @@ XLMIAN_获取活动工作表边界()
 {
     Excel_Selection()
 
-    XLMAIN_GetSelectionType()
+    MicrosoftExcel_GetSelectionType()
     XLMIAN_获取活动工作表边界()
     if SelectionType=1
         {
             rng:=excel.Selection
-            XLMAIN_GetSelectionInfo()
+            MicrosoftExcel_GetSelectionInfo()
             excel.range(SelectionFirstColumn SelectionFirstRow ":" lLastColumn SelectionFirstRow).select
             rng.AutoFill(excel.selection,9)
 
@@ -2271,7 +2273,7 @@ XLMIAN_获取活动工作表边界()
     else if SelectionType=2
         {
             rng:=excel.Selection
-            XLMAIN_GetSelectionInfo()
+            MicrosoftExcel_GetSelectionInfo()
             excel.range(SelectionFirstColumn SelectionFirstRow ":" lLastColumn SelectionFirstRow).select
             rng.AutoFill(excel.selection,9)
 
@@ -2283,7 +2285,7 @@ XLMIAN_获取活动工作表边界()
 }
 
 
-XLMAIN_ColToChar(index)
+MicrosoftExcel_ColToChar(index)
 {
     If(index <= 26)
     {
@@ -2316,7 +2318,7 @@ XLMIAN_获取Range边界(address)
     return
 }
 
-XLMAIN_GetSelectionType()
+MicrosoftExcel_GetSelectionType()
 {
     if excel.Selection.Columns.Count =1 And excel.Selection.Rows.Count =1 ;A1
         {
@@ -2339,7 +2341,7 @@ XLMAIN_GetSelectionType()
 }
 
 
-XLMAIN_GetSelectionInfo()
+MicrosoftExcel_GetSelectionInfo()
 {
     address:=excel.Selection.Address
     ;msgbox,address %address%

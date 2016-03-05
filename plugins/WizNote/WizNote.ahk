@@ -19,40 +19,42 @@ WizNote:
     vim.comment("<WizNote_PrevNote>", "上一个笔记")
     vim.comment("<WizNote_List>", "定位到左侧目录")
 
-    ; insert模式
-    vim.mode("insert", "WizNoteMainFrame")
+    vim.SetWin("WizNote", "WizNoteMainFrame")
 
-    vim.map("<esc>", "<WizNote_NormalMode>", "WizNoteMainFrame")
+    ; insert模式
+    vim.mode("insert", "WizNote")
+
+    vim.map("<esc>", "<WizNote_NormalMode>", "WizNote")
 
     ; normal模式
-    vim.mode("normal", "WizNoteMainFrame")
+    vim.mode("normal", "WizNote")
 
-    vim.map("i", "<WizNote_InsertMode>", "WizNoteMainFrame")
+    vim.map("i", "<WizNote_InsertMode>", "WizNote")
     
-    vim.map("j", "<down>", "WizNoteMainFrame")
-    vim.map("k", "<up>", "WizNoteMainFrame")
-    vim.map("J", "<WizNote_NextNote>", "WizNoteMainFrame")
-    vim.map("K", "<WizNote_PrevNote>", "WizNoteMainFrame")
+    vim.map("j", "<down>", "WizNote")
+    vim.map("k", "<up>", "WizNote")
+    vim.map("J", "<WizNote_NextNote>", "WizNote")
+    vim.map("K", "<WizNote_PrevNote>", "WizNote")
 
-    vim.map("h", "<left>", "WizNoteMainFrame")
-    vim.map("l", "<right>", "WizNoteMainFrame")
-    vim.map("gg", "<home>", "WizNoteMainFrame")
-    vim.map("G", "<end>", "WizNoteMainFrame")
+    vim.map("h", "<left>", "WizNote")
+    vim.map("l", "<right>", "WizNote")
+    vim.map("gg", "<home>", "WizNote")
+    vim.map("G", "<end>", "WizNote")
 
-    vim.map("a", "<WizNote_NewNote>", "WizNoteMainFrame")
-    vim.map("x", "<WizNote_Delete>", "WizNoteMainFrame")
-    vim.map("e", "<WizNote_Edit>", "WizNoteMainFrame")
-    vim.map("u", "<WizNote_CloseTab>", "WizNoteMainFrame")
-    vim.map("t", "<WizNote_List>", "WizNoteMainFrame")
+    vim.map("a", "<WizNote_NewNote>", "WizNote")
+    vim.map("x", "<WizNote_Delete>", "WizNote")
+    vim.map("e", "<WizNote_Edit>", "WizNote")
+    vim.map("u", "<WizNote_CloseTab>", "WizNote")
+    vim.map("t", "<WizNote_List>", "WizNote")
 
-    vim.BeforeActionDo("WizNote_ForceInsertMode", "WizNoteMainFrame")
+    vim.BeforeActionDo("WizNote_ForceInsertMode", "WizNote")
 
 return
 
 ; 对指定控件使用insert模式
 WizNote_ForceInsertMode()
 {
-    ControlGetFocus, ctrl, AHK_CLASS WizNoteMainFrame
+    ControlGetFocus, ctrl, AHK_CLASS WizNote
     ;MsgBox ctrl
     if RegExMatch(ctrl, "WebViewHost")
         return true
@@ -60,11 +62,11 @@ WizNote_ForceInsertMode()
 }
 
 <WizNote_NormalMode>:
-    vim.mode("normal", "WizNoteMainFrame")
+    vim.mode("normal", "WizNote")
 return
 
 <WizNote_InsertMode>:
-    vim.mode("insert", "WizNoteMainFrame")
+    vim.mode("insert", "WizNote")
 return
 
 <WizNote_NewNote>:

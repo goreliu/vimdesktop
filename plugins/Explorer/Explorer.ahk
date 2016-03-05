@@ -20,44 +20,46 @@ Explorer:
     vim.comment("<Explorer_Rename>", "重命名")
     vim.comment("<Explorer_GoToTC>", "使用TC打开当前目录")
 
-    ; insert模式
-    vim.mode("insert", "CabinetWClass")
+    vim.SetWin("Explorer", "CabinetWClass")
 
-    vim.map("<esc>", "<Explorer_NormalMode>", "CabinetWClass")
+    ; insert模式
+    vim.mode("insert", "Explorer")
+
+    vim.map("<esc>", "<Explorer_NormalMode>", "Explorer")
 
     ; normal模式
-    vim.mode("normal", "CabinetWClass")
+    vim.mode("normal", "Explorer")
 
-    vim.map("i", "<Explorer_InsertMode>", "CabinetWClass")
+    vim.map("i", "<Explorer_InsertMode>", "Explorer")
     
-    vim.map("j", "<down>", "CabinetWClass")
-    vim.map("k", "<up>", "CabinetWClass")
-    vim.map("h", "<Explorer_GoToParent>", "CabinetWClass")
-    vim.map("l", "<Explorer_Enter>", "CabinetWClass")
+    vim.map("j", "<down>", "Explorer")
+    vim.map("k", "<up>", "Explorer")
+    vim.map("h", "<Explorer_GoToParent>", "Explorer")
+    vim.map("l", "<Explorer_Enter>", "Explorer")
 
-    vim.map("t", "<Explorer_Tree>", "CabinetWClass")
-    vim.map("m", "<Explorer_Main>", "CabinetWClass")
-    vim.map("n", "<Explorer_IconViewR>", "CabinetWClass")
-    vim.map("N", "<Explorer_ListViewD>", "CabinetWClass")
-    vim.map("r", "<Explorer_Rename>", "CabinetWClass")
+    vim.map("t", "<Explorer_Tree>", "Explorer")
+    vim.map("m", "<Explorer_Main>", "Explorer")
+    vim.map("n", "<Explorer_IconViewR>", "Explorer")
+    vim.map("N", "<Explorer_ListViewD>", "Explorer")
+    vim.map("r", "<Explorer_Rename>", "Explorer")
 
-    vim.map("H", "<backspace>", "CabinetWClass")
-    vim.map("<c-h>", "<left>", "CabinetWClass")
-    vim.map("<c-l>", "<right>", "CabinetWClass")
-    vim.map("<c-j>", "<down>", "CabinetWClass")
-    vim.map("<c-k>", "<up>", "CabinetWClass")
-    vim.map("gg", "<home>", "CabinetWClass")
-    vim.map("G", "<end>", "CabinetWClass")
-    vim.map("f", "<Explorer_GoToTC>", "CabinetWClass")
+    vim.map("H", "<backspace>", "Explorer")
+    vim.map("<c-h>", "<left>", "Explorer")
+    vim.map("<c-l>", "<right>", "Explorer")
+    vim.map("<c-j>", "<down>", "Explorer")
+    vim.map("<c-k>", "<up>", "Explorer")
+    vim.map("gg", "<home>", "Explorer")
+    vim.map("G", "<end>", "Explorer")
+    vim.map("f", "<Explorer_GoToTC>", "Explorer")
 
-    vim.BeforeActionDo("Explorer_ForceInsertMode", "CabinetWClass")
+    vim.BeforeActionDo("Explorer_ForceInsertMode", "Explorer")
 
 return
 
 ; 对指定控件使用insert模式
 Explorer_ForceInsertMode()
 {
-    ControlGetFocus, ctrl, AHK_CLASS CabinetWClass
+    ControlGetFocus, ctrl, AHK_CLASS Explorer
     ;MsgBox ctrl
     if RegExMatch(ctrl, "Edit")
         return true
@@ -65,11 +67,11 @@ Explorer_ForceInsertMode()
 }
 
 <Explorer_NormalMode>:
-    vim.mode("normal", "CabinetWClass")
+    vim.mode("normal", "Explorer")
 return
 
 <Explorer_InsertMode>:
-    vim.mode("insert", "CabinetWClass")
+    vim.mode("insert", "Explorer")
 return
 
 <Explorer_GoToParent>:

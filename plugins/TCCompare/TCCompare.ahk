@@ -16,40 +16,42 @@ TCCompare:
     vim.comment("<TCCompare_BinaryMode>", "进入二进制比较模式")
     vim.comment("<TCCompare_ChangeCodepage>", "修改所使用的文件编码")
 
-    ; insert模式
-    vim.mode("insert", "TFileCompForm")
+    vim.SetWin("TCCompare", "TFileCompForm")
 
-    vim.map("<esc>", "<TCCompare_NormalMode>", "TFileCompForm")
+    ; insert模式
+    vim.mode("insert", "TCCompare")
+
+    vim.map("<esc>", "<TCCompare_NormalMode>", "TCCompare")
 
     ; normal模式
-    vim.mode("normal", "TFileCompForm")
+    vim.mode("normal", "TCCompare")
 
-    vim.map("i", "<TCCompare_InsertMode>", "TFileCompForm")
+    vim.map("i", "<TCCompare_InsertMode>", "TCCompare")
 
-    vim.map("<esc>", "<TCCompare_Editable>", "TFileCompForm")
+    vim.map("<esc>", "<TCCompare_Editable>", "TCCompare")
     
-    vim.map("j", "<TCCompare_NextDiff>", "TFileCompForm")
-    vim.map("k", "<TCCompare_PrevDiff>", "TFileCompForm")
-    vim.map("n", "<TCCompare_NextDiff>", "TFileCompForm")
-    vim.map("p", "<TCCompare_PrevDiff>", "TFileCompForm")
-    vim.map("gg", "<TCCompare_Home>", "TFileCompForm")
-    vim.map("G", "<TCCompare_End>", "TFileCompForm")
-    vim.map("/", "<TCCompare_Search>", "TFileCompForm")
-    vim.map("h", "<TCCompare_CopyToLeft>", "TFileCompForm")
-    vim.map("l", "<TCCompare_CopyToRight>", "TFileCompForm")
-    vim.map("m", "<TCCompare_Editable>", "TFileCompForm")
-    vim.map("c", "<TCCompare_Compare>", "TFileCompForm")
-    vim.map("b", "<TCCompare_BinaryMode>", "TFileCompForm")
-    vim.map("-", "<TCCompare_ChangeCodepage>", "TFileCompForm")
+    vim.map("j", "<TCCompare_NextDiff>", "TCCompare")
+    vim.map("k", "<TCCompare_PrevDiff>", "TCCompare")
+    vim.map("n", "<TCCompare_NextDiff>", "TCCompare")
+    vim.map("p", "<TCCompare_PrevDiff>", "TCCompare")
+    vim.map("gg", "<TCCompare_Home>", "TCCompare")
+    vim.map("G", "<TCCompare_End>", "TCCompare")
+    vim.map("/", "<TCCompare_Search>", "TCCompare")
+    vim.map("h", "<TCCompare_CopyToLeft>", "TCCompare")
+    vim.map("l", "<TCCompare_CopyToRight>", "TCCompare")
+    vim.map("m", "<TCCompare_Editable>", "TCCompare")
+    vim.map("c", "<TCCompare_Compare>", "TCCompare")
+    vim.map("b", "<TCCompare_BinaryMode>", "TCCompare")
+    vim.map("-", "<TCCompare_ChangeCodepage>", "TCCompare")
 return
 
 
 /*
 ; 对符合条件的控件使用insert模式，而不是normal模式
 ; 此段代码可以直接复制，但请修改AHK_CLASS的值和RegExMatch的第二个参数
-TFileCompForm_CheckMode()
+TCCompare_CheckMode()
 {
-    ControlGetFocus, ctrl, AHK_CLASS TFileCompForm
+    ControlGetFocus, ctrl, AHK_CLASS TCCompare
     ; msgbox, ctrl
     if RegExMatch(ctrl, "Edit1")
         return true
@@ -58,11 +60,11 @@ TFileCompForm_CheckMode()
 */
 
 <TCCompare_NormalMode>:
-    vim.mode("normal", "TFileCompForm")
+    vim.mode("normal", "TCCompare")
 return
 
 <TCCompare_InsertMode>:
-    vim.mode("insert", "TFileCompForm")
+    vim.mode("insert", "TCCompare")
 return
 
 <TCCompare_NextDiff>:

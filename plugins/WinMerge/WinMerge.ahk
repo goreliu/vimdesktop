@@ -14,37 +14,39 @@
     vim.comment("<WinMerge_CopyToLeftAll>", "全部复制到左侧")
     vim.comment("<WinMerge_CopyToRightAll>", "全部复制到右侧")
 
-    ; insert模式
-    vim.mode("insert", "WinMergeWindowClassW")
+    vim.SetWin("WinMerge", "WinMergeWindowClassW")
 
-    vim.map("<esc>", "<WinMerge_NormalMode>", "WinMergeWindowClassW")
+    ; insert模式
+    vim.mode("insert", "WinMerge")
+
+    vim.map("<esc>", "<WinMerge_NormalMode>", "WinMerge")
 
     ; normal模式
-    vim.mode("normal", "WinMergeWindowClassW")
+    vim.mode("normal", "WinMerge")
 
-    vim.map("i", "<WinMerge_InsertMode>", "WinMergeWindowClassW")
+    vim.map("i", "<WinMerge_InsertMode>", "WinMerge")
 
-    vim.map("<esc>", "<Pass>", "WinMergeWindowClassW")
+    vim.map("<esc>", "<Pass>", "WinMerge")
     
-    vim.map("j", "<WinMerge_NextDiff>", "WinMergeWindowClassW")
-    vim.map("k", "<WinMerge_PrevDiff>", "WinMergeWindowClassW")
-    vim.map("gg", "<WinMerge_FirstDiff>", "WinMergeWindowClassW")
-    vim.map("G", "<WinMerge_LastDiff>", "WinMergeWindowClassW")
-    vim.map("/", "<WinMerge_Search>", "WinMergeWindowClassW")
-    vim.map("h", "<WinMerge_CopyToLeft>", "WinMergeWindowClassW")
-    vim.map("l", "<WinMerge_CopyToRight>", "WinMergeWindowClassW")
-    vim.map("H", "<WinMerge_CopyToLeftAndGoOn>", "WinMergeWindowClassW")
-    vim.map("L", "<WinMerge_CopyToRightAndGoOn>", "WinMergeWindowClassW")
-    vim.map("<c-h>", "<WinMerge_CopyToLeftAll>", "WinMergeWindowClassW")
-    vim.map("<c-l>", "<WinMerge_CopyToRightAll>", "WinMergeWindowClassW")
+    vim.map("j", "<WinMerge_NextDiff>", "WinMerge")
+    vim.map("k", "<WinMerge_PrevDiff>", "WinMerge")
+    vim.map("gg", "<WinMerge_FirstDiff>", "WinMerge")
+    vim.map("G", "<WinMerge_LastDiff>", "WinMerge")
+    vim.map("/", "<WinMerge_Search>", "WinMerge")
+    vim.map("h", "<WinMerge_CopyToLeft>", "WinMerge")
+    vim.map("l", "<WinMerge_CopyToRight>", "WinMerge")
+    vim.map("H", "<WinMerge_CopyToLeftAndGoOn>", "WinMerge")
+    vim.map("L", "<WinMerge_CopyToRightAndGoOn>", "WinMerge")
+    vim.map("<c-h>", "<WinMerge_CopyToLeftAll>", "WinMerge")
+    vim.map("<c-l>", "<WinMerge_CopyToRightAll>", "WinMerge")
 return
 
 /*
 ; 对符合条件的控件使用insert模式，而不是normal模式
 ; 此段代码可以直接复制，但请修改AHK_CLASS的值和RegExMatch的第二个参数
-WinMergeWindowClassW_CheckMode()
+WinMerge_CheckMode()
 {
-    ControlGetFocus, ctrl, AHK_CLASS WinMergeWindowClassW
+    ControlGetFocus, ctrl, AHK_CLASS WinMerge
     ; msgbox, ctrl
     If RegExMatch(ctrl, "Afx")
         return true
@@ -53,11 +55,11 @@ WinMergeWindowClassW_CheckMode()
 */
 
 <WinMerge_NormalMode>:
-    vim.mode("normal", "WinMergeWindowClassW")
+    vim.mode("normal", "WinMerge")
 return
 
 <WinMerge_InsertMode>:
-    vim.mode("insert", "WinMergeWindowClassW")
+    vim.mode("insert", "WinMerge")
 return
 
 <WinMerge_NextDiff>:

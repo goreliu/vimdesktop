@@ -12,34 +12,36 @@
     vim.comment("<BeyondCompare4_CopyToLeft>", "复制到左侧")
     vim.comment("<BeyondCompare4_CopyToRight>", "复制到右侧")
 
-    ; insert模式
-    vim.mode("insert", "TViewForm")
+    vim.SetWin("BeyondCompare4", "TViewForm")
 
-    vim.map("<esc>", "<BeyondCompare4_NormalMode>", "TViewForm")
+    ; insert模式
+    vim.mode("insert", "BeyondCompare4")
+
+    vim.map("<esc>", "<BeyondCompare4_NormalMode>", "BeyondCompare4")
 
     ; normal模式
-    vim.mode("normal", "TViewForm")
+    vim.mode("normal", "BeyondCompare4")
 
-    vim.map("i", "<BeyondCompare4_InsertMode>", "TViewForm")
+    vim.map("i", "<BeyondCompare4_InsertMode>", "BeyondCompare4")
 
-    vim.map("<esc>", "<Pass>", "TViewForm")
+    vim.map("<esc>", "<Pass>", "BeyondCompare4")
     
-    vim.map("j", "<BeyondCompare4_NextDiffSection>", "TViewForm")
-    vim.map("k", "<BeyondCompare4_PrevDiffSection>", "TViewForm")
-    vim.map("J", "<BeyondCompare4_NextDiff>", "TViewForm")
-    vim.map("K", "<BeyondCompare4_PrevDiff>", "TViewForm")
-    vim.map("gg", "<BeyondCompare4_Home>", "TViewForm")
-    vim.map("G", "<BeyondCompare4_End>", "TViewForm")
-    vim.map("/", "<BeyondCompare4_Search>", "TViewForm")
-    vim.map("h", "<BeyondCompare4_CopyToLeft>", "TViewForm")
-    vim.map("l", "<BeyondCompare4_CopyToRight>", "TViewForm")
+    vim.map("j", "<BeyondCompare4_NextDiffSection>", "BeyondCompare4")
+    vim.map("k", "<BeyondCompare4_PrevDiffSection>", "BeyondCompare4")
+    vim.map("J", "<BeyondCompare4_NextDiff>", "BeyondCompare4")
+    vim.map("K", "<BeyondCompare4_PrevDiff>", "BeyondCompare4")
+    vim.map("gg", "<BeyondCompare4_Home>", "BeyondCompare4")
+    vim.map("G", "<BeyondCompare4_End>", "BeyondCompare4")
+    vim.map("/", "<BeyondCompare4_Search>", "BeyondCompare4")
+    vim.map("h", "<BeyondCompare4_CopyToLeft>", "BeyondCompare4")
+    vim.map("l", "<BeyondCompare4_CopyToRight>", "BeyondCompare4")
 return
 
 ; 对符合条件的控件使用insert模式，而不是normal模式
 ; 此段代码可以直接复制，但请修改AHK_CLASS的值和RegExMatch的第二个参数
-TViewForm_CheckMode()
+BeyondCompare4_CheckMode()
 {
-    ControlGetFocus, ctrl, AHK_CLASS TViewForm
+    ControlGetFocus, ctrl, AHK_CLASS BeyondCompare4
     ; msgbox, ctrl
     if RegExMatch(ctrl, "Edit2")
         return true
@@ -47,11 +49,11 @@ TViewForm_CheckMode()
 }
 
 <BeyondCompare4_NormalMode>:
-    vim.mode("normal", "TViewForm")
+    vim.mode("normal", "BeyondCompare4")
 return
 
 <BeyondCompare4_InsertMode>:
-    vim.mode("insert", "TViewForm")
+    vim.mode("insert", "BeyondCompare4")
 return
 
 <BeyondCompare4_NextDiffSection>:
