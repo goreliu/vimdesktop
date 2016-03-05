@@ -193,15 +193,24 @@ SearchFileForEdit(Action, Desc)
     lable := Action ":"
     funcMatch := ToMatch(Action) "\s*\(\)"
     FileEncoding,
-    Loop,%A_ScriptDir%\plugins\*.ahk,,1
+    Loop, %A_ScriptDir%\plugins\*.ahk, , 1
     {
         Loop, Read, %A_LoopFileFullPath%
         {
             if (A_LoopReadLine = lable || RegExMatch(A_LoopReadLine, funcMatch))
             {
                 EditFile(A_LoopFileFullPath, A_Index)
-                break
+                return
             }
+        }
+    }
+
+    Loop, Read, %A_ScriptDir%\core\VimDConfig.ahk
+    {
+        if (A_LoopReadLine = lable || RegExMatch(A_LoopReadLine, funcMatch))
+        {
+            EditFile(A_ScriptDir "\core\VimDConfig.ahk", A_Index)
+            return
         }
     }
 }
