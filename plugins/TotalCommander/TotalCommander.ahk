@@ -234,8 +234,6 @@
     vim.map("\", "<cm_ExchangeSelection>", "TTOTAL_CMD")
     vim.map("|", "<cm_ClearAll>", "TTOTAL_CMD")
     vim.map("-", "<cm_SwitchSeparateTree>", "TTOTAL_CMD")
-    vim.map("_", "<cm_Split>", "TTOTAL_CMD")
-    vim.map("+", "<cm_Combine>", "TTOTAL_CMD")
     vim.map("=", "<cm_MatchSrc>", "TTOTAL_CMD")
     vim.map(",", "<cm_SrcThumbs>", "TTOTAL_CMD")
     vim.map(";", "<TC_ListMark>", "TTOTAL_CMD")
