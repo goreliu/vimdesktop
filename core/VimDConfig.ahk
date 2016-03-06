@@ -14,6 +14,7 @@ return
         LV_Add("", plugin)
     GUI, VimDConfig_plugin:Add, ListView, glistview x170 y10 w650 h400 grid altsubmit, 序号|动作|描述（双击进入文件）
 
+    GUI, VimDConfig_plugin:Font, s12, Microsoft YaHei
     GUI, VimDConfig_plugin:Add, Text, x180 h25, 搜索：
     GUI, VimDConfig_plugin:Font, s10, Microsoft YaHei
     GUI, VimDConfig_plugin:Add, Edit, gsearch_plugin v_search x+10 w120 h25
