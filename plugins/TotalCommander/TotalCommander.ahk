@@ -2,6 +2,7 @@
     global TCPath
     global TCINI
     global TCMarkINI
+    global ini
 
     IniRead, TCPath, %ConfigPath%, TotalCommander_Config, TCPath
     IniRead, TCINI, %ConfigPath%, TotalCommander_Config, TCINI
@@ -1625,6 +1626,17 @@ Return
     FileMove, %SecondName%, %FirstName%
     FileMove, %FirstName%.bak, %SecondName%
 Return
+
+<Launch>:
+    launch_dir := ini.config.launch_dir
+    GoSub, <FocusTC>
+    ControlSetText, %TCEdit%, cd %launch_dir%, ahk_class TTOTAL_CMD
+    ControlSend, %TCEdit%, {enter}, ahk_class TTOTAL_CMD
+    GoSub, <cm_DirBranch>
+    GoSub, <cm_ShowQuickSearch>
+    ;ControlGetFocus, Ctrl, AHK_CLASS TTOTAL_CMD
+    ;Postmessage, 0x19E, 1, 1, %Ctrl%, AHK_CLASS TTOTAL_CMD
+return
 
 ; ADD HERE
 
