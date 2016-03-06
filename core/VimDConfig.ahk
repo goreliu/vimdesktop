@@ -265,7 +265,7 @@ EditFile(editPath, line := 1)
     
     If not FileExist(editor)
     {
-        MsgBox, 请配置 vimd.ini 中 [config] 中的 editor ！
+        MsgBox, 请配置 vimd.ini 中 [config] 中的 editor ，并重启 vimd ！
         return
     }
 
