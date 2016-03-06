@@ -16,8 +16,7 @@ return
 
     GUI, VimDConfig_plugin:Add, Text, x180 h25, 搜索：
     GUI, VimDConfig_plugin:Font, s10, Microsoft YaHei
-    GUI, VimDConfig_plugin:Add, Edit, v_search x+10 w120 h25
-    GUI, VimDConfig_plugin:Add, Button, gsearch_keymap x+15 w50 h25 Default, 搜索
+    GUI, VimDConfig_plugin:Add, Edit, gsearch_plugin v_search x+10 w120 h25
 
     LV_ModifyCol(1, "center")
     LV_ModifyCol(2, "left 250")
@@ -41,12 +40,15 @@ VimDConfig_LoadActions:
         GUI, VimDConfig_plugin:ListView, sysListview322
         idx := 1
         LV_Delete()
+
+        global current_plugin := ""
         for action, type in vim.ActionFromPlugin
         {
             If type = %plugin%
             {
                 Desc := vim.GetAction(action)
                 LV_Add("", idx, action, Desc.Comment)
+                current_plugin .= idx "`t" action "`t" Desc.Comment "`n"
                 idx++
             }
         }
@@ -75,8 +77,7 @@ VimDConfig_LoadActions:
     GUI, VimDConfig_keymap:Font, s12, Microsoft YaHei
     GUI, VimDConfig_keymap:Add, Text, x230 h25, 搜索：
     GUI, VimDConfig_keymap:Font, s10, Microsoft YaHei
-    GUI, VimDConfig_keymap:Add, Edit, v_search x+10 w120 h25
-    GUI, VimDConfig_keymap:Add, Button, gsearch_keymap x+15 w50 h25 Default, 搜索
+    GUI, VimDConfig_keymap:Add, Edit, gsearch_keymap v_search x+10 w120 h25
 
     LV_ModifyCol(1, "left 100")
     LV_ModifyCol(2, "left 250")
@@ -143,6 +144,7 @@ return
 VimDConfig_keymap_loadhotkey(win, mode = "")
 {
     global vim
+    global current_keymap := ""
     If strlen(mode)
     {
         winObj  := vim.GetWin(win)
@@ -160,10 +162,12 @@ VimDConfig_keymap_loadhotkey(win, mode = "")
             ActionDescList := vim.GetAction(i).Comment
             actionDesc := StrSplit(%ActionDescList%[key], "|")
             LV_ADD("", Key, actionDesc[1], actionDesc[2])
+            current_keymap .= Key "`t" actionDesc[1] "`t" actionDesc[2] "`n"
         }
         else
         {
             LV_Add("", Key, i, vim.GetAction(i).Comment)
+            current_keymap .= Key "`t" i "`t" vim.GetAction(i).Comment "`n"
         }
     }
 }
@@ -284,49 +288,33 @@ EditFile(editPath, line := 1)
 }
 
 search_keymap:
+    global current_keymap
+    search_to_display(current_keymap)
+return
+
+search_plugin:
+    global current_plugin
+    search_to_display(current_plugin)
+return
+
+search_to_display(lines)
+{
     Gui Submit, nohide
     GuiControlGet, OutputVar, , _search
-    if OutputVar =
-    {
-        ; TODO 适配 plugin 窗口
-        LV_Delete() ; 清理不掉，第二次加载后，都成了重复的了，不知道怎么处理
-        LV_ModifyCol(1, "left 100")
-        LV_ModifyCol(2, "left 250")
-        LV_ModifyCol(3, "left 400")
 
-        VimDConfig_keymap_loadHotkey(VimDConfig_keymap_loadmodelist(thiswin))
-        return
-    }
-
-    Loop % LV_GetCount()
-    {
-        LV_GetText(Text_1, A_Index, 1)
-        LV_GetText(Text_2, A_Index, 2)
-        LV_GetText(Text_3, A_Index, 3)
-        if InStr(Text_1, OutputVar) or InStr(Text_2, OutputVar) or InStr(Text_3, OutputVar) ;搜索全部
-        {
-            LV_GetText(Text_1, A_Index,1)
-            LV_GetText(Text_2, A_Index,2)
-            LV_GetText(Text_3, A_Index,3)
-            match = %Text_1%---%Text_2%---%Text_3%
-            zmatch .= match "`n"
-        }
-    }
-
-    text := StrSplit(zmatch, "`n")
+    text := StrSplit(lines, "`n")
 
     LV_Delete() ; 清理不掉，第二次加载后，都成了重复的了，不知道怎么处理
     GuiControl, -Redraw, listview ; 重新启用重绘 (上面把它禁用了)
-    for k,v in text
+    for k, v in text
     {
         if v =
             continue
-        list := StrSplit(v, "---")
-        LV_Add("", list[1], list[2], list[3])
+        if Instr(v, OutputVar)
+        {
+            list := StrSplit(v, "`t")
+            LV_Add("", list[1], list[2], list[3])
+        }
     }
     GuiControl, +Redraw, listview ; 重新启用重绘 (上面把它禁用了)
-
-    match =
-    zmatch =
-    OutputVar =
-return
+}
