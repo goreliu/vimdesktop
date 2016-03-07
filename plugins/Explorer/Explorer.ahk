@@ -135,10 +135,26 @@ return
 return
 
 <Explorer_GoToTC>:
-    ; 有时不能用
-    ControlFocus, Edit1
-    Send, {Click}^c
-    ;MsgBox % clipboard
-    GoSub, <TC_FocusTCCmd>
-    Send, cd ^v{enter}
+	OldClipboard := ClipboardAll
+	Clipboard =
+
+	Send, ^c
+	ClipWait, 0.3
+
+	if (!ErrorLevel)
+	{
+		FileToOpen := Clipboard
+		TC_OpenPath(FileToOpen)
+		Clipboard := OldClipboard
+		return
+	}
+	else
+	{
+        ; 这个比 WinGetTitle 好
+		ControlGetText, OutputVar, ToolbarWindow322, A
+		StringTrimLeft, FileToOpen, OutputVar, 4
+		TC_OpenPath(FileToOpen)
+		Clipboard := OldClipboard
+		return
+	}
 return

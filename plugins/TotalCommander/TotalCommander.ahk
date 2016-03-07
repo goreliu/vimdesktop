@@ -1636,6 +1636,11 @@ Return
     ;GoSub, <cm_ShowQuickSearch>
 return
 
+TC_OpenPath(path)
+{
+    Run, "%TCPath%" /O /T /A /L="%path%"
+}
+
 ; ADD HERE
 
 
