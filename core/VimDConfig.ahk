@@ -190,13 +190,6 @@ listview:
 
 return
 
- 
-ToMatch(str)
-{
-    str := RegExReplace(str,"\+|\?|\.|\*|\{|\}|\(|\)|\||\^|\$|\[|\]|\\","\$0")
-    Return RegExReplace(str,"\s","\s")
-}
-
 SearchFileForEdit(Action, Desc, EditKeyMapping)
 {
     if (Action = "key" || Action = "run" || EditKeyMapping)
@@ -221,13 +214,12 @@ SearchFileForEdit(Action, Desc, EditKeyMapping)
     }
 
     label := Action ":"
-    funcMatch := ToMatch(Action) "\s*\(\)"
     FileEncoding,
     Loop, %A_ScriptDir%\plugins\*.ahk, , 1
     {
         Loop, Read, %A_LoopFileFullPath%
         {
-            if (A_LoopReadLine = label || RegExMatch(A_LoopReadLine, funcMatch))
+            if (InStr(A_LoopReadLine, label) = 1)
             {
                 EditFile(A_LoopFileFullPath, A_Index)
                 return
@@ -239,7 +231,7 @@ SearchFileForEdit(Action, Desc, EditKeyMapping)
     {
         Loop, Read, %A_LoopFileFullPath%
         {
-            if (A_LoopReadLine = label || RegExMatch(A_LoopReadLine, funcMatch))
+            if (InStr(A_LoopReadLine, label) = 1)
             {
                 EditFile(A_LoopFileFullPath, A_Index)
                 return
