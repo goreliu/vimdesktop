@@ -298,7 +298,6 @@
     vim.map("zm", "<cm_Maximize>", "TTOTAL_CMD")
     vim.map("zr", "<cm_Restore>", "TTOTAL_CMD")
     vim.map("zv", "<cm_VerticalPanels>", "TTOTAL_CMD")
-    vim.map("zv", "<cm_VerticalPanels>", "TTOTAL_CMD")
     vim.map(".", "<Repeat>", "TTOTAL_CMD")
 
     vim.BeforeActionDo("TC_BeforeActionDo", "TTOTAL_CMD")
@@ -1692,7 +1691,7 @@ TCCOMMAND:
     vim.Comment("<cm_RightComments>", "右窗口: 显示文件备注")
     vim.Comment("<cm_RightShort>", "右窗口: 列表")
     vim.Comment("<cm_RightLong>", "详细信息")
-    vim.Comment("<cm_RightTre>", "右窗口: 文件夹树")
+    vim.Comment("<cm_RightTree>", "右窗口: 文件夹树")
     vim.Comment("<cm_RightQuickvie>", "右窗口: 快速查看")
     vim.Comment("<cm_RightQuickInternalOnl>", "右窗口: 快速查看(不用插件)")
     vim.Comment("<cm_RightHideQuickvie>", "右窗口: 关闭快速查看窗口")
@@ -2270,11 +2269,11 @@ return
 return
 ;<cm_LeftDirBranch>: >>左窗口: 展开所有文件夹{{{2
 <cm_LeftDirBranch>:
-    SendPos(203)
+    SendPos(2034)
 return
 ;<cm_LeftDirBranchSel>: >>左窗口: 只展开选中的文件夹{{{2
 <cm_LeftDirBranchSel>:
-    SendPos(204)
+    SendPos(2047)
 return
 ;<cm_LeftThumbs>: >>窗口: 缩略图{{{2
 <cm_LeftThumbs>:
@@ -2298,8 +2297,8 @@ return
 <cm_RightLong>:
     SendPos(202)
 return
-;<cm_RightTre>: >>右窗口: 文件夹树{{{2
-<cm_RightTre>:
+;<cm_RightTree>: >>右窗口: 文件夹树{{{2
+<cm_RightTree>:
     SendPos(203)
 return
 ;<cm_RightQuickvie>: >>右窗口: 快速查看{{{2
