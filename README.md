@@ -21,13 +21,15 @@
 
 [TODO](https://github.com/goreliu/vimdesktop/blob/master/doc/TODO.md)
 
-### 其他版本的 VimDesktop
+### VimDesktop 历史
 
-[linxinhong](http://git.oschina.net/linxinhong) 的原版 VimDesktop （开发处于停滞状态）：[oschina地址](http://git.oschina.net/linxinhong/VimDesktop) [github地址（已弃用）](https://github.com/linxinhong/VimDesktop)
+VimDesktop 的前身是 [linxinhong](http://git.oschina.net/linxinhong) 的 ViATc （现已停止更新）：[github地址](https://github.com/linxinhong/ViATc) [sourceforge地址](https://sourceforge.net/p/viatc/home/%E4%B8%BB%E9%A1%B5/)
 
-[linxinhong](http://git.oschina.net/linxinhong) 的 ViATc （VimDesktop 的前身，已停止更新）：[github地址](https://github.com/linxinhong/ViATc) [sourceforge地址](https://sourceforge.net/p/viatc/home/%E4%B8%BB%E9%A1%B5/)
+之后 [linxinhong](http://git.oschina.net/linxinhong) 将其升级为 [VimDesktop 1.0](https://github.com/victorwoo/vimdesktop)，该版本由 [linxinhong](http://git.oschina.net/linxinhong)、[victorwoo](https://github.com/victorwoo)、[wideweide](https://github.com/wideweide) 等人协同开发。
 
-[victorwoo](https://github.com/victorwoo) 的 VimDesktop （基于老版本的 linxinhong 版本的 VimDesktop 修改，已经一年多无更新）：[github地址](https://github.com/victorwoo/vimdesktop)
+再之后 [linxinhong](http://git.oschina.net/linxinhong) 后又升级为 [VimDesktop 2.0](http://git.oschina.net/linxinhong/VimDesktop)，2.0版本的核心文件和1.0版本相比改动较大，配置文件格式也有所不同。
+
+目前 [linxinhong](http://git.oschina.net/linxinhong) 将主要精力放在 [QuickZ](http://git.oschina.net/linxinhong/QuickZ) 上， [VimDesktop 2.0](http://git.oschina.net/linxinhong/VimDesktop) 已有较长时间没有更新。
 
 ### 此版本 VimDesktop 的历史和缘由
 
