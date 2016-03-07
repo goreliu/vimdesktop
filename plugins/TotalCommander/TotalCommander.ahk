@@ -71,7 +71,9 @@
     if (SaveMark <> 0)
     {
         IniRead, all_marks, %TCMarkINI%, mark, ms
-        if (all_marks <> "ERROR")
+        all_marks := StrReplace(all_marks, "ERROR", "")
+
+        if (all_marks <> "")
         {
             Mark["ms"] := all_marks
 
