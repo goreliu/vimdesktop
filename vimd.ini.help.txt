@@ -48,13 +48,13 @@ vim
 <w-c>=run|explorer
 <w-j>=<GKey>
 <w-`>=run|control
+<w-n>=<Launch>
 ;<w-f>=run|firefox
 ;<w-w>=run|mintty -e ~/.bin/tmux_starter
 ;<w-a>=run|c:\mine\app\foobar2000\foobar2000.exe
 ;<w-z>=run|c:\mine\app\AutoHotkey\AU3_Spy.exe
 ;<lc-;>=<enter>
 ;<w-;>=<enter>
-;<w-n>=<Launch>
 
 ; win剩余按键 n u v ' , .  / [ ] \ enter -
 
