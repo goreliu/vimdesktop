@@ -71,7 +71,7 @@
     if (SaveMark <> 0)
     {
         IniRead, all_marks, %TCMarkINI%, mark, ms
-        if (all_marks <> "")
+        if (all_marks <> "ERROR")
         {
             Mark["ms"] := all_marks
 
