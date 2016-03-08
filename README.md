@@ -15,7 +15,7 @@
 
 [TC 快捷键列表](https://github.com/goreliu/vimdesktop/wiki/TC%E5%BF%AB%E6%8D%B7%E9%94%AE%E5%88%97%E8%A1%A8)
 
-<a href="http://htmlpreview.github.io/?https://github.com/goreliu/vimdesktop/blob/master/doc/api.html" target="_blank">API</a>
+[API](https://github.com/goreliu/vimdesktop/wiki/API)
 
 [更新历史](https://github.com/goreliu/vimdesktop/blob/master/doc/HISTORY.md)
 
