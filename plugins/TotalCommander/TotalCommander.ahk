@@ -1638,13 +1638,19 @@ return
 
 TC_OpenPath(Path, InNewTab := true)
 {
+    LeftOrRight := "/R"
+    if Mod(LeftRight(), 2)
+    {
+        LeftOrRight := "/L"
+    }
+
     if (InNewTab)
     {
-        Run, "%TCPath%" /O /T /A /L="%Path%"
+        Run, "%TCPath%" /O /T /A "%LeftOrRight%"="%Path%"
     }
     else
     {
-        Run, "%TCPath%" /O /A /L="%Path%"
+        Run, "%TCPath%" /O /A "%LeftOrRight%"="%Path%"
     }
 }
 
