@@ -1636,9 +1636,16 @@ Return
     ;GoSub, <cm_ShowQuickSearch>
 return
 
-TC_OpenPath(path)
+TC_OpenPath(Path, InNewTab := true)
 {
-    Run, "%TCPath%" /O /T /A /L="%path%"
+    if (InNewTab)
+    {
+        Run, "%TCPath%" /O /T /A /L="%Path%"
+    }
+    else
+    {
+        Run, "%TCPath%" /O /A /L="%Path%"
+    }
 }
 
 ; ADD HERE

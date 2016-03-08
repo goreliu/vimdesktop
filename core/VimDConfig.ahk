@@ -192,11 +192,12 @@ return
 
 SearchFileForEdit(Action, Desc, EditKeyMapping)
 {
-    if (Action = "key" || Action = "run" || EditKeyMapping)
+    if (Action = "key" || Action = "run" || Action = "dir" || EditKeyMapping)
     {
         SearchLine := "=" Action
 
-        if (Action = "key" || Action = "run") {
+        if (Action = "key" || Action = "run" || Action = "dir")
+        {
             SearchLine := Action "|" Desc
         }
 

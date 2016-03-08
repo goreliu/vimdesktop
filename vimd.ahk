@@ -113,7 +113,7 @@ CheckHotKey()
         }
 
         vim.Mode(this_mode)
-        if RegExMatch(this_action, "^((run)|(key))\|")
+        if RegExMatch(this_action, "^((run)|(key)|(dir))\|")
         {
             vim.map(i, "VIMD_CMD")
             VIMD_CMD_LIST[i] := this_action
@@ -163,7 +163,7 @@ CheckHotKey()
 
             vim.mode(this_mode, i)
 
-            if RegExMatch(n, "i)^((run)|(key))\|")
+            if RegExMatch(n, "i)^((run)|(key)|(dir))\|")
             {
                 /*
                 示例：
@@ -192,6 +192,10 @@ VIMD_CMD()
     else if RegExMatch(VIMD_CMD_LIST[obj.keytemp], "i)^(key)\|", m)
     {
         Send, % substr(VIMD_CMD_LIST[obj.keytemp], strlen(m1) + 2)
+    }
+    else if RegExMatch(VIMD_CMD_LIST[obj.keytemp], "i)^(dir)\|", m)
+    {
+        TC_OpenPath(substr(VIMD_CMD_LIST[obj.keytemp], strlen(m1) + 2), false)
     }
 }
 

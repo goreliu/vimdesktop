@@ -187,6 +187,8 @@ OpenFileDialogExclude = password , 密码
 ; 运行命令，[=normal]可选，默认为normal模式
 ; <c-k>=key|^o
 ; 映射按键，[=normal]可选，默认为normal模式
+; <c-l>=dir|c:\test
+; 用TC打开目录，[=normal]可选，默认为normal模式
 
 
 b=<cm_UnpackFiles>
