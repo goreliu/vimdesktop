@@ -144,7 +144,7 @@ return
     if (!ErrorLevel)
     {
         FileToOpen := Clipboard
-        TC_OpenPath(FileToOpen)
+        TC_OpenPath(FileToOpen, true, "/L")
         Clipboard := OldClipboard
         return
     }
@@ -153,7 +153,7 @@ return
         ; 这个比 WinGetTitle 好
         ControlGetText, OutputVar, ToolbarWindow322, A
         StringTrimLeft, FileToOpen, OutputVar, 4
-        TC_OpenPath(FileToOpen)
+        TC_OpenPath(FileToOpen, true, "/L")
         Clipboard := OldClipboard
         return
     }

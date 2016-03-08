@@ -1636,12 +1636,15 @@ Return
     ;GoSub, <cm_ShowQuickSearch>
 return
 
-TC_OpenPath(Path, InNewTab := true)
+TC_OpenPath(Path, InNewTab := true, LeftOrRight := "")
 {
-    LeftOrRight := "/R"
-    if Mod(LeftRight(), 2)
+    if (LeftOrRight = "")
     {
-        LeftOrRight := "/L"
+        LeftOrRight := "/R"
+        if Mod(LeftRight(), 2)
+        {
+            LeftOrRight := "/L"
+        }
     }
 
     if (InNewTab)
