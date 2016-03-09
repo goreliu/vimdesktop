@@ -727,10 +727,6 @@ Class __vim
                 return "<Delete>"
             If RegExMatch(key, "i)^PrintScreen$")
                 return "<PrtSc>"
-            If RegExMatch(key, "^<$")
-                return "<LT>"
-            If RegExMatch(key, "^>$")
-                return "<RT>"
             If RegExMatch(key, "i)^shift\s&\s(.*)", m) or RegExMatch(key, "^\+(.*)", m)
                 return "<S-" this.Upper(m1) ">"
             If RegExMatch(key, "i)^lshift\s&\s(.*)", m) or RegExMatch(key, "^<\+(.*)", m)
