@@ -1657,6 +1657,19 @@ TC_OpenPath(Path, InNewTab := true, LeftOrRight := "")
     }
 }
 
+<TC_MarkFile>:
+    GoSub, <cm_EditComment>
+    ; 将备注设置为 m，可以通过将备注为 m 的文件显示成不同颜色，实现标记功能
+    ; 不要在已有备注的文件使用
+    Send, ^+{end}m{f2}
+return
+
+<TC_UnMarkFile>:
+    GoSub, <cm_EditComment>
+    ; 删除 TC_MarkFile 的文件标记，也可用于清空文件备注
+    Send, ^+{end}{del}{f2}
+return
+
 ; ADD HERE
 
 
