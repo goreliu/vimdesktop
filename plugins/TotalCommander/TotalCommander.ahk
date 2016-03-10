@@ -1670,6 +1670,21 @@ return
     Send, ^+{end}{del}{f2}
 return
 
+<TC_SelectCmd>:
+    OldClipboard := Clipboard
+    Clipboard := ""
+
+    GoSub, <cm_CommandBrowser>
+    sleep 100
+    WinWaitClose, AHK_CLASS TCmdSelForm
+    if (IsLabel("<" Clipboard ">") && Clipboard <> OldClipboard)
+    {
+        GoSub, <%Clipboard%>
+    }
+
+    Clipboard := OldClipboard
+return
+
 ; ADD HERE
 
 

@@ -228,5 +228,7 @@ u=<cm_CloseCurrentTab>
 <c-q>=<cm_CommandBrowser>
 <c-s>=<cm_CountDirContent>
 <c-y>=<cm_CopyFileDetailsToClip>
+<=<TC_SelectCmd>
 ;"=<TC_MarkFile>
 ;_=<TC_UnMarkFile>
+
