@@ -1672,7 +1672,6 @@ return
 
 <TC_SelectCmd>:
     OldClipboard := Clipboard
-    Clipboard := ""
 
     GoSub, <cm_CommandBrowser>
     sleep 100
