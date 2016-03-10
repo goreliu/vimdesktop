@@ -1463,8 +1463,8 @@ return
         IniWrite, WCMD_CHN.MNU, %TCINI%, Configuration, Mainmenu
         IniWrite, 0, %TCINI%, Configuration, RestrictInterface
 
-        Process, Close, totalcmd.exe
-        Process, Close, totalcmd64.exe
+        WinClose, AHK_CLASS TTOTAL_CMD
+        Sleep, 10
 
         Run, %TCPath%
         Loop, 4
