@@ -7,11 +7,13 @@
 
 [开发版本（无exe，请使用ahk运行）](https://github.com/goreliu/vimdesktop/archive/master.zip)
 
-### VimDesktop介绍
+### VimDesktop 介绍
 
 [中文版](https://github.com/goreliu/vimdesktop/wiki)
 
 [English version](https://github.com/goreliu/vimdesktop/wiki/VimDesktop-Introduction)
+
+### 文档
 
 [TC 快捷键列表](https://github.com/goreliu/vimdesktop/wiki/TC%E5%BF%AB%E6%8D%B7%E9%94%AE%E5%88%97%E8%A1%A8)
 
