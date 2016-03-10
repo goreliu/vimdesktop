@@ -59,9 +59,9 @@ return
 ; 对指定控件使用insert模式
 Explorer_ForceInsertMode()
 {
-    ControlGetFocus, ctrl, AHK_CLASS Explorer
+    ControlGetFocus, ctrl, AHK_CLASS CabinetWClass
     ;MsgBox ctrl
-    if RegExMatch(ctrl, "Edit")
+    if RegExMatch(ctrl, "Edit|DirectUIHWND1")
         return true
     return false
 }
