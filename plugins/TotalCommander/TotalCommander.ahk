@@ -1697,6 +1697,14 @@ return
     Clipboard := OldClipboard
 return
 
+; 自动设置的话显示效果滞后
+TC_SetTitle(text := "")
+{
+    WinGetTitle, Title, ahk_class TTOTAL_CMD
+    StringMid, N_Title, Title, 1, 21  ;保留TC的版本号信息
+    WinSetTitle, %N_Title% %text%
+}
+
 ; ADD HERE
 
 
