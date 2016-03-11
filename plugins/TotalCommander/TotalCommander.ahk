@@ -387,10 +387,10 @@ return
         if Ac = -1
             Winactivate, AHK_ClASS TTOTAL_CMD
         else
-        Ifwinnotactive, AHK_CLASS TTOTAL_CMD
-            Winactivate, AHK_CLASS TTOTAL_CMD
-        else
-            Winminimize, AHK_CLASS TTOTAL_CMD
+            Ifwinnotactive, AHK_CLASS TTOTAL_CMD
+                Winactivate, AHK_CLASS TTOTAL_CMD
+            else
+                Winminimize, AHK_CLASS TTOTAL_CMD
     }
     else
     {
@@ -1704,21 +1704,21 @@ return
 return
 
 <TC_ClearTitle>:
-    TC_SetTitle()
+    TC_SetTitle("", false)
 return
 
 ; 自动设置的话显示效果滞后
-TC_SetTitle(text := "")
+TC_SetTitle(Title := "", KeepVersion := true)
 {
-    WinGetTitle, Title, ahk_class TTOTAL_CMD
-    if (text = "")
+    if (KeepVersion)
     {
-        WinSetTitle,
+        WinGetTitle, OldTitle, ahk_class TTOTAL_CMD
+        StringMid, NewTitle, OldTitle, 1, 21  ;保留TC的版本号信息
+        WinSetTitle, ahk_class TTOTAL_CMD, , %NewTitle% - %Title%
     }
     else
     {
-        StringMid, N_Title, Title, 1, 21  ;保留TC的版本号信息
-        WinSetTitle, %N_Title% %text%
+        WinSetTitle, ahk_class TTOTAL_CMD, , %Title%
     }
 }
 
