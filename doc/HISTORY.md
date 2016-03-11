@@ -7,6 +7,7 @@ VimDesktop 2.0.7 (2016-03-??)
 - TC插件
     - 增加`<TC_MarkFile>`和`<TC_UnMarkFile>`功能，可和按标记显示文件颜色配合用于标记文件（如记录上次处理到的文件）。
     - 增加`<TC_SelectCmd>`功能，选择命令来执行，默认映射到`<`。
+    - 添加`TC_SetTitle()`函数用于设置 TC 标题栏文字，添加``<TC_ClearTitle>`标签用于清空 TC 标题栏文字。
 
 缺陷修复
 --------
