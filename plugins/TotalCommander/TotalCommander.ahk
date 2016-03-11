@@ -146,6 +146,11 @@
     vim.comment("<TC_CreateFileShortcutToStartup>", "创建当前光标下文件的快捷方式并发送到启动文件里")
     vim.comment("<TC_FilterSearchFNsuffix_exe>", "在当前目录里快速过滤exe扩展名的文件")
     vim.comment("<TC_TwoFileExchangeName>", "两个文件互换文件名")
+    vim.comment("<TC_SelectCmd>", "选择命令来执行")
+    vim.comment("<Launch>", "打开TC并跳转到配置文件中的路径")
+    vim.comment("<TC_MarkFile>", "标记文件，将文件注释改成m")
+    vim.comment("<TC_UnMarkFile>", "取消文件标记，将文件注释清空")
+    vim.comment("<TC_ClearTitle>", "将TC标题栏字符串设置为空")
 
     GoSub, TCCOMMAND
 
@@ -339,7 +344,7 @@ TTOTAL_CMD_CheckMode()
         return False
     Ifinstring, ctrl, RichEdit20W1
         return False
-    Ifinstring, ctrl, %TCListBox% 
+    Ifinstring, ctrl, %TCListBox%
         return False
     return True
 }
@@ -463,7 +468,7 @@ TC_azHistory()
             IniRead, history, %TCINI%, LeftHistory
 
         if RegExMatch(history, "RedirectSection=(.+)", HistoryRedirect)
-        { 
+        {
             StringReplace, HistoryRedirect1, HistoryRedirect1, `%COMMANDER_PATH`%, %TCPath%\..
             IniRead, history, %HistoryRedirect1%, LeftHistory
         }
@@ -529,7 +534,7 @@ TC_azHistory()
             value := 2127
         }
         name .= A_Tab "[&"  chr(idx+65) "]"
-        history_obj[idx] := name 
+        history_obj[idx] := name
         history_name_obj[name] := value
     }
     Menu, az, UseErrorLevel
@@ -1010,14 +1015,14 @@ NewFileOK()
         DstPath := A_Desktop
     NewFile := DstPath . "\" . NewFileName
     if FileExist(NewFile)
-    {   
+    {
         MsgBox, 4, 新建文件, 新建文件已存在，是否覆盖？
         IfMsgBox No
             return
     }
     if !FileExist(SrcPath)
         Run, fsutil file createnew "%NewFile%" 0, , Hide
-    else 
+    else
         FileCopy, %SrcPath%, %NewFile%, 1
 
     Gui, Destroy
@@ -1195,7 +1200,7 @@ TC_AlwayOnTop()
     if (ExStyle & 0x8)
         WinSet, AlwaysOnTop, off, ahk_class TTOTAL_CMD
     else
-        WinSet, AlwaysOnTop, on, ahk_class TTOTAL_CMD 
+        WinSet, AlwaysOnTop, on, ahk_class TTOTAL_CMD
 }
 
 ; LeftRight(){{{1
@@ -1427,7 +1432,7 @@ Totalcomander_select_tcdir(){
             SendPos(910)
         }
     return
-    
+
 ;使用外部查看器打开（alt+f3）
 <TC_OpenWithAlternateViewer>:
     send !{f3}
@@ -1641,6 +1646,7 @@ Return
     FileMove, %FirstName%.bak, %SecondName%
 Return
 
+; 未添加TC前缀，是因为以后可能用其他方式实现
 <Launch>:
     launch_dir := ini.config.launch_dir
     Run, %TCPath% %launch_dir%
@@ -1697,12 +1703,23 @@ return
     Clipboard := OldClipboard
 return
 
+<TC_ClearTitle>:
+    TC_SetTitle()
+return
+
 ; 自动设置的话显示效果滞后
 TC_SetTitle(text := "")
 {
     WinGetTitle, Title, ahk_class TTOTAL_CMD
-    StringMid, N_Title, Title, 1, 21  ;保留TC的版本号信息
-    WinSetTitle, %N_Title% %text%
+    if (text = "")
+    {
+        WinSetTitle,
+    }
+    else
+    {
+        StringMid, N_Title, Title, 1, 21  ;保留TC的版本号信息
+        WinSetTitle, %N_Title% %text%
+    }
 }
 
 ; ADD HERE
