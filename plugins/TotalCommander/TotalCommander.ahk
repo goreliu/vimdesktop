@@ -138,7 +138,7 @@
     vim.comment("<TC_MultiFilePersistOpen>", "多个文件一次性连续打开")
     vim.comment("<TC_CopyFileContents>", "不打开文件就复制文件内容")
     vim.comment("<TC_OpenDirAndPaste>", "不打开目录，直接把复制的文件贴进去")
-    vim.comment("<TC_MoveAllFileToPrevifolder>", "将当前文件夹下的所有文件移动到上层目录中")
+    vim.comment("<TC_MoveSelectedFileToPrevFolder>", "将当前文件夹下的选定文件移动到上层目录中")
     vim.comment("<TC_SrcQuickViewAndTab>", "预览文件时,光标自动移到对侧窗口里")
     vim.comment("<TC_CreateFileShortcut>", "创建当前光标下文件的快捷方式")
     vim.comment("<TC_CreateFileShortcutToDesktop>", "创建当前光标下文件的快捷方式并发送到桌面")
@@ -1542,8 +1542,8 @@ Return
     SendPos(2002)
 Return
 
-;<TC_MoveAllFileToPrevifolder>: >>将当前文件夹下的所有文件移动到上层目录中
-<TC_MoveAllFileToPrevifolder>:
+;<TC_MoveSelectedFileToPrevFolder>: >>将当前文件夹下的选定文件移动到上层目录中
+<TC_MoveSelectedFileToPrevFolder>:
     Send ^x
     SendPos(2002)
     Send ^v
