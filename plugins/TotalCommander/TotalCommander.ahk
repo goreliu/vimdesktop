@@ -1727,6 +1727,23 @@ TC_SetTitle(Title := "", KeepVersion := true)
     GoSub, <cm_GotoPreviousDir>
 return
 
+<TC_OpenDirsInFile>:
+    OldClipboard := Clipboard
+    Clipboard := ""
+    GoSub, <cm_CopyFullNamesToClip>
+    ClipWait
+    FileRead, Contents, %Clipboard%
+    Clipboard := OldClipboard
+    Loop, Parse, Contents, `n, `r
+    {
+        if FileExist(A_LoopField)
+        {
+            TC_OpenPath(A_LoopField, true)
+            Sleep, 100
+        }
+    }
+return
+
 ; ADD HERE
 
 
