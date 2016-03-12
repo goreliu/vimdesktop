@@ -1701,8 +1701,6 @@ return
     {
         GoSub, <%Clipboard%>
     }
-
-    Clipboard := OldClipboard
 return
 
 <TC_ClearTitle>:
