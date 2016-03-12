@@ -151,6 +151,7 @@
     vim.comment("<TC_MarkFile>", "标记文件，将文件注释改成m")
     vim.comment("<TC_UnMarkFile>", "取消文件标记，将文件注释清空")
     vim.comment("<TC_ClearTitle>", "将TC标题栏字符串设置为空")
+    vim.comment("<TC_ReOpenTab>", "重新打开之前关闭的标签页")
 
     GoSub, TCCOMMAND
 
@@ -260,6 +261,7 @@
     vim.map("gc", "<cm_CloseCurrentTab>", "TTOTAL_CMD")
     vim.map("gb", "<cm_OpenDirInNewTabOther>", "TTOTAL_CMD")
     vim.map("ge", "<cm_Exchange>", "TTOTAL_CMD")
+    vim.map("gr", "<TC_ReOpenTab>", "TTOTAL_CMD")
     vim.map("gw", "<cm_ExchangeWithTabs>", "TTOTAL_CMD")
     vim.map("g1", "<cm_SrcActivateTab1>", "TTOTAL_CMD")
     vim.map("g2", "<cm_SrcActivateTab2>", "TTOTAL_CMD")
@@ -1721,6 +1723,11 @@ TC_SetTitle(Title := "", KeepVersion := true)
         WinSetTitle, ahk_class TTOTAL_CMD, , %Title%
     }
 }
+
+<TC_ReOpenTab>:
+    GoSub, <cm_OpenNewTab>
+    GoSub, <cm_GotoPreviousDir>
+return
 
 ; ADD HERE
 
