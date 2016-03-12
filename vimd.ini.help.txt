@@ -225,10 +225,9 @@ u=<cm_CloseCurrentTab>
 <c-l>=<right>
 <c-m>=<cm_CompareDirs>
 <c-n>=<cm_FtpConnect>
-<c-q>=<cm_CommandBrowser>
+<c-q>=<TC_SelectCmd>
 <c-s>=<cm_CountDirContent>
 <c-y>=<cm_CopyFileDetailsToClip>
 <=<TC_SelectCmd>
 ;"=<TC_MarkFile>
 ;_=<TC_UnMarkFile>
-
