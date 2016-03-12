@@ -51,6 +51,7 @@
     vim.SetAction("<MouseRight>", "向右移动鼠标")
     vim.SetAction("<SearchInWeb>", "在网络搜索剪切板内容")
     vim.SetAction("<GKey>", "GKey全局快捷操作")
+    vim.SetAction("<Test>", "测试")
 
 
     vim.SetWin("General", "General")
@@ -931,4 +932,8 @@ return
 
 <SearchInWeb>:
     Run, https://www.baidu.com/s?wd=%clipboard%
+return
+
+<Test>:
+    Msgbox, 测试
 return
