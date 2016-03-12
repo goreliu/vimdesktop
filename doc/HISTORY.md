@@ -10,7 +10,7 @@ VimDesktop 2.0.7 (2016-03-11)
 新增功能
 --------
 - 主程序
-    - 增加 dir 类型命令，用 TC 打开目录，用法`xx=dir|cd:\test`。
+    - 增加 dir 类型命令，用 TC 打开目录，用法`xx=dir|c:\test`。
 - TC插件
     - 增加`<TC_MarkFile>`和`<TC_UnMarkFile>`功能，可和按标记显示文件颜色配合用于标记文件（如记录上次处理到的文件）。
     - 增加`<TC_SelectCmd>`功能，选择命令来执行，默认映射到`<`。
