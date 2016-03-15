@@ -314,6 +314,7 @@ MicrosoftExcel_CheckMode()
 }
 
 <Normal_Mode_MicrosoftExcel>:
+    Send, {esc}
     vim.Mode("normal","MicrosoftExcel")
     getExcel().Application.StatusBar := "NORMAL"
 return
