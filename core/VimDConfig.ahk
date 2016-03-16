@@ -286,7 +286,6 @@ SearchFileForEdit(Action, Desc, EditKeyMapping)
     }
 
     label := Action ":"
-    FileEncoding,
     Loop, %A_ScriptDir%\plugins\*.ahk, , 1
     {
         Loop, Read, %A_LoopFileFullPath%
