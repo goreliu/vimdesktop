@@ -74,7 +74,19 @@ ShowInfo()
     Loop, % obj.MaxIndex()
     {
         act := vim.GetAction(obj[A_Index]["Action"])
-        np .= obj[A_Index]["key"] "`t" act.Comment "`n"
+
+        ; Type = 1 : Function
+        if (act.Type = 1)
+        {
+            ActionDescList := act.Comment
+            Key := obj[A_Index]["key"]
+            np .= Key "`t" %ActionDescList%[Key] "`n"
+        }
+        else
+        {
+            np .= obj[A_Index]["key"] "`t" act.Comment "`n"
+        }
+
         If (A_Index = 1)
             np .= "=====================`n" 
     }
