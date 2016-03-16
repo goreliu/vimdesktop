@@ -6,6 +6,7 @@ Coordmode, Menu, Window
 SetControlDelay, -1
 SetKeyDelay, -1
 Detecthiddenwindows, on
+FileEncoding, utf-8
 
 Menu, Tray, Icon, %A_ScriptDir%\viatc.ico
 Menu, Tray, NoStandard

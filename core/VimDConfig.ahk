@@ -75,10 +75,18 @@ VimDConfig_LoadActions:
 
     GUI, VimDConfig_keymap:Add, GroupBox, x225 y10 w650 h420, 热键定义（双击进入对应文件，右键双击修改键映射）(&V)
     GUI, VimDConfig_keymap:Add, Listview, glistview x235 y36 w630 h380 grid, 热键|动作|描述
+    ;GUI, VimDConfig_keymap:Add, Listview, glistview x235 y36 w630 h380 grid, 序号|热键|动作|描述
     GUI, VimDConfig_keymap:Font, s12, Microsoft YaHei
     GUI, VimDConfig_keymap:Add, Text, x230 h25, 搜索：
     GUI, VimDConfig_keymap:Font, s10, Microsoft YaHei
     GUI, VimDConfig_keymap:Add, Edit, gsearch_keymap v_search x+10 w120 h25
+
+    /*
+    LV_ModifyCol(1, "left 50")
+    LV_ModifyCol(2, "left 100")
+    LV_ModifyCol(3, "left 250")
+    LV_ModifyCol(4, "left 400")
+    */
 
     LV_ModifyCol(1, "left 100")
     LV_ModifyCol(2, "left 250")
@@ -141,6 +149,69 @@ VimDConfig_keymap_loadhotkey:
     ControlGet, mode, Choice, , ListBox2
     VimDConfig_keymap_loadhotkey(win, mode)
 return
+
+VimDConfig_keymap_loadhotkey_new(win, mode = "")
+{
+    global vim
+    global current_keymap := ""
+    if StrLen(mode)
+    {
+        winObj  := vim.GetWin(win)
+        modeobj := winObj.modeList[mode]
+    }
+    else
+        modeobj := vim.GetMode(win)
+    Gui, VimDConfig_keymap:Default
+    idx := 1
+    LV_Delete()
+
+    for key, i in modeobj.keymapList
+    {
+        if (vim.GetAction(i).Type = 1)
+        {
+            ActionDescList := vim.GetAction(i).Comment
+            actionDesc := StrSplit(%ActionDescList%[key], "|")
+            current_keymap .= Key "`t" actionDesc[1]  "`n"
+        }
+        else
+        {
+            current_keymap .= Key "`t" i  "`n"
+        }
+    }
+
+    ;~ msgbox %current_keymap%
+    Clipboard:=current_keymap
+    for action, type in vim.ActionFromPlugin
+    {
+        if type = %win%
+        {
+            Desc := vim.GetAction(action)
+            ;~ if RegExMatch(current_keymap, action)
+            if InStr(current_keymap, action)
+            {
+                reg:="(.*)\t" . action
+                Loop, Parse, current_keymap, `n, `r
+                {
+                    if RegExMatch(A_LoopField, reg,m)
+                    {
+                        LV_Add("", idx, m1 ,action, Desc.Comment)
+                        break
+                    }
+                    else
+                        continue
+                }
+                idx++
+                ;~ LV_Add("", idx, "启用",action, Desc.Comment)
+            }
+            else
+            {
+                LV_Add("", idx, "未启用" ,action, Desc.Comment)
+                idx++
+            }
+        }
+    }
+    return
+}
 
 VimDConfig_keymap_loadhotkey(win, mode = "")
 {
