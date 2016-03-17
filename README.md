@@ -23,7 +23,7 @@
 
 [更新历史](https://github.com/goreliu/vimdesktop/wiki/HISTORY)
 
-[TODO](https://github.com/goreliu/vimdesktop/wiki/TODO)
+[开发计划](https://github.com/goreliu/vimdesktop/wiki/TODO)
 
 ### VimDesktop 历史
 
