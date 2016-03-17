@@ -76,7 +76,7 @@ CheckPlugin()
 
             if (FileExist(A_ScriptDir "\vimd.exe"))
             {
-                Run, %A_ScriptDir%\vimd.exe %A_ScriptDir%\plugins\check.ahk
+                Run, %A_ScriptDir%\vimd.exe "%A_ScriptDir%\plugins\check.ahk"
             }
             else
             {
