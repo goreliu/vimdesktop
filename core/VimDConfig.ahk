@@ -150,6 +150,9 @@ VimDConfig_keymap_loadhotkey:
     VimDConfig_keymap_loadhotkey(win, mode)
 return
 
+; 有Bug，暂时搁置
+; 双击进入代码失效
+; 插件名和Win名不对应的情况显示不出来
 VimDConfig_keymap_loadhotkey_new(win, mode = "")
 {
     global vim
@@ -179,14 +182,12 @@ VimDConfig_keymap_loadhotkey_new(win, mode = "")
         }
     }
 
-    ;~ msgbox %current_keymap%
     Clipboard:=current_keymap
     for action, type in vim.ActionFromPlugin
     {
         if type = %win%
         {
             Desc := vim.GetAction(action)
-            ;~ if RegExMatch(current_keymap, action)
             if InStr(current_keymap, action)
             {
                 reg:="(.*)\t" . action
@@ -201,11 +202,10 @@ VimDConfig_keymap_loadhotkey_new(win, mode = "")
                         continue
                 }
                 idx++
-                ;~ LV_Add("", idx, "启用",action, Desc.Comment)
             }
             else
             {
-                LV_Add("", idx, "未启用" ,action, Desc.Comment)
+                LV_Add("", idx, "无" ,action, Desc.Comment)
                 idx++
             }
         }
