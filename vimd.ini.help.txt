@@ -147,6 +147,11 @@ Explorer=1
 ;<c-j>=run|notepad.exe
 ;<c-k>=key|^o
 
+;[mintty]
+;set_class=mintty
+;set_file=mintty.exe
+;<esc>=<SwitchToEngIMEAndEsc>
+
 [TotalCommander_Config]
 ;TCPath: TotalCommander可执行文件路径--TC运行时，可被自动识别
 TCPath=C:\mine\app\totalcmd\TOTALCMD.EXE
