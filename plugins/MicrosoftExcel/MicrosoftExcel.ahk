@@ -1,316 +1,292 @@
 ﻿MicrosoftExcel:
-global Workbook
-global excel
-global Sheet
-global Cell
-global Selection
-global lLastRow ;整个表的最末尾行
-global lLastColumn ;整个表最末尾列
-global SelectionFirstRow ;当前选择内容首行
-global SelectionFirstColumn ;当前选择内容首列
-global SelectionLastColumn ;当前选择内容末列
-global SelectionLastRow ;当前选择内容末行
-global SelectionType ; 当前选择单元格类型 1=A1  2=A1:B1 4=A1:A2 16=A1:B2  18=A1:B1 A1:B2 20=A1:A2 A1:B2
-global FontColor:=-4165632  ;填充字体颜色-默认蓝色
-global CellColor:=-16711681 ;填充表格颜色-默认黄色
+    global Workbook
+    global excel
+    global Sheet
+    global Cell
+    global Selection
+    global lLastRow ;整个表的最末尾行
+    global lLastColumn ;整个表最末尾列
+    global SelectionFirstRow ;当前选择内容首行
+    global SelectionFirstColumn ;当前选择内容首列
+    global SelectionLastColumn ;当前选择内容末列
+    global SelectionLastRow ;当前选择内容末行
+    global SelectionType ; 当前选择单元格类型 1=A1  2=A1:B1 4=A1:A2 16=A1:B2  18=A1:B1 A1:B2 20=A1:A2 A1:B2
+    global FontColor:=-4165632  ;填充字体颜色-默认蓝色
+    global CellColor:=-16711681 ;填充表格颜色-默认黄色
 
-	vim.comment("<Insert_Mode_MicrosoftExcel>","insert模式")
-	vim.comment("<Normal_Mode_MicrosoftExcel>","normal模式")
-	vim.comment("<MicrosoftExcel_SheetReName>","重命名当前工作表名称")
-	vim.comment("<MicrosoftExcel_GoTo>","跳转到指定行列值的表格")
-	vim.comment("<MicrosoftExcel_SaveAndExit>","保存并退出")
-	vim.comment("<MicrosoftExcel_DiscardAndExit>","放弃修改并退出")
-	vim.comment("<excel_undo>","撤销")
-	vim.comment("<redo>","重做")
-	vim.comment("<MicrosoftExcel_SaveAndExit>","保存后退出")
-	vim.comment("<MicrosoftExcel_DiscardAndExit>","不保存退出")
+    vim.comment("<Insert_Mode_MicrosoftExcel>","insert模式")
+    vim.comment("<Normal_Mode_MicrosoftExcel>","normal模式")
+    vim.comment("<MicrosoftExcel_SheetReName>","重命名当前工作表名称")
+    vim.comment("<MicrosoftExcel_GoTo>","跳转到指定行列值的表格")
+    vim.comment("<MicrosoftExcel_SaveAndExit>","保存并退出")
+    vim.comment("<MicrosoftExcel_DiscardAndExit>","放弃修改并退出")
+    vim.comment("<excel_undo>","撤销")
+    vim.comment("<redo>","重做")
+    vim.comment("<MicrosoftExcel_SaveAndExit>","保存后退出")
+    vim.comment("<MicrosoftExcel_DiscardAndExit>","不保存退出")
 
-	vim.comment("<MicrosoftExcel_Color_Font>","设置选中区域字体为上次颜色")
-	vim.comment("<MicrosoftExcel_Color_Cell>","填充选中表格背景为上次颜色")
-	vim.comment("<MicrosoftExcel_Color_All>","同时应用字体颜色、背景颜色")
-	vim.comment("<MicrosoftExcel_Color_Menu_Font>","设置选中区域字体颜色")
-	vim.comment("<MicrosoftExcel_Color_Menu_Cell>","填充选中表格背景颜色")
-	vim.comment("<MicrosoftExcel_FocusHome>","定位到工作表开头")
-	vim.comment("<MicrosoftExcel_FocusEnd>","定位到工作表最后一个单元格")
+    vim.comment("<MicrosoftExcel_Color_Font>","设置选中区域字体为上次颜色")
+    vim.comment("<MicrosoftExcel_Color_Cell>","填充选中表格背景为上次颜色")
+    vim.comment("<MicrosoftExcel_Color_All>","同时应用字体颜色、背景颜色")
+    vim.comment("<MicrosoftExcel_Color_Menu_Font>","设置选中区域字体颜色")
+    vim.comment("<MicrosoftExcel_Color_Menu_Cell>","填充选中表格背景颜色")
+    vim.comment("<MicrosoftExcel_FocusHome>","定位到工作表开头")
+    vim.comment("<MicrosoftExcel_FocusEnd>","定位到工作表最后一个单元格")
 
-	vim.comment("<MicrosoftExcel_FocusRowHome>","定位到当前列首行")
-	vim.comment("<MicrosoftExcel_FocusRowEnd>","定位到当前列尾行")
+    vim.comment("<MicrosoftExcel_FocusRowHome>","定位到当前列首行")
+    vim.comment("<MicrosoftExcel_FocusRowEnd>","定位到当前列尾行")
 
-	vim.comment("<MicrosoftExcel_FocusColHome>","定位到当前行首列")
-	vim.comment("<MicrosoftExcel_FocusColEnd>","定位到当前行尾列")
+    vim.comment("<MicrosoftExcel_FocusColHome>","定位到当前行首列")
+    vim.comment("<MicrosoftExcel_FocusColEnd>","定位到当前行尾列")
 
-	vim.comment("<MicrosoftExcel_FocusAreaLeft>","定位到当前区域边缘-左")
-	vim.comment("<MicrosoftExcel_FocusAreaRight>","定位到当前区域边缘-右")
-	vim.comment("<MicrosoftExcel_FocusAreaUp>","定位到当前区域边缘-上")
-	vim.comment("<MicrosoftExcel_FocusAreaDown>","定位到当前区域边缘-下")
+    vim.comment("<MicrosoftExcel_FocusAreaLeft>","定位到当前区域边缘-左")
+    vim.comment("<MicrosoftExcel_FocusAreaRight>","定位到当前区域边缘-右")
+    vim.comment("<MicrosoftExcel_FocusAreaUp>","定位到当前区域边缘-上")
+    vim.comment("<MicrosoftExcel_FocusAreaDown>","定位到当前区域边缘-下")
 
-	vim.comment("<MicrosoftExcel_SelectToAreaLeft>","选择到当前区域边缘-左")
-	vim.comment("<MicrosoftExcel_SelectToAreaRight>","选择到当前区域边缘-右")
-	vim.comment("<MicrosoftExcel_SelectToAreaUp>","选择到当前区域边缘-上")
-	vim.comment("<MicrosoftExcel_SelectToAreaDown>","选择到当前区域边缘-下")
-	vim.comment("<MicrosoftExcel_Delete>","删除（=Delete键）")
-	vim.comment("<MicrosoftExcel_SelectAll>","选择全部=^a")
-	vim.comment("<MicrosoftExcel_Paste_Value>","粘贴数值")
-	vim.comment("<MicrosoftExcel_PageUp>","向上翻页")
-	vim.comment("<MicrosoftExcel_PageDown>","向下翻页")
-	vim.comment("<MicrosoftExcel_MicrosoftExcel_Cut>","剪切")
-	vim.comment("<MicrosoftExcel_Replace>","替换")
-	vim.comment("<MicrosoftExcel_Find>","查找")
+    vim.comment("<MicrosoftExcel_SelectToAreaLeft>","选择到当前区域边缘-左")
+    vim.comment("<MicrosoftExcel_SelectToAreaRight>","选择到当前区域边缘-右")
+    vim.comment("<MicrosoftExcel_SelectToAreaUp>","选择到当前区域边缘-上")
+    vim.comment("<MicrosoftExcel_SelectToAreaDown>","选择到当前区域边缘-下")
+    vim.comment("<MicrosoftExcel_Delete>","删除（=Delete键）")
+    vim.comment("<MicrosoftExcel_SelectAll>","选择全部=^a")
+    vim.comment("<MicrosoftExcel_Paste_Value>","粘贴数值")
+    vim.comment("<MicrosoftExcel_PageUp>","向上翻页")
+    vim.comment("<MicrosoftExcel_PageDown>","向下翻页")
+    vim.comment("<MicrosoftExcel_MicrosoftExcel_Cut>","剪切")
+    vim.comment("<MicrosoftExcel_Replace>","替换")
+    vim.comment("<MicrosoftExcel_Find>","查找")
 
-	vim.comment("<Alt_Mode_MicrosoftExcel>","alt命令模式")
+    vim.comment("<Alt_Mode_MicrosoftExcel>","alt命令模式")
 
     vim.SetWin("MicrosoftExcel", "XLMAIN")
 
-	;insert模式及快捷键
-	vim.mode("insert","MicrosoftExcel")
-	vim.map("<esc>","<Normal_Mode_MicrosoftExcel>","MicrosoftExcel")
+    ;insert模式及快捷键
+    vim.mode("insert","MicrosoftExcel")
+    vim.map("<esc>","<Normal_Mode_MicrosoftExcel>","MicrosoftExcel")
 
-	;normal模式及快捷键
-	vim.mode("normal","MicrosoftExcel")
-	vim.map("i","<Insert_Mode_MicrosoftExcel>","MicrosoftExcel")
-	vim.map("<esc>","<Normal_Mode_MicrosoftExcel>","MicrosoftExcel")
-	vim.map("I","<Alt_Mode_MicrosoftExcel>","MicrosoftExcel")
-	
-	;数字计数
-	;vim.map("0","<0>","MicrosoftExcel") vim中也没有0计数，0一般用于行首，建议注释掉
-	vim.map("1","<1>","MicrosoftExcel")
-	vim.map("2","<2>","MicrosoftExcel")
-	vim.map("3","<3>","MicrosoftExcel")
-	vim.map("4","<4>","MicrosoftExcel")
-	vim.map("5","<5>","MicrosoftExcel")
-	vim.map("6","<6>","MicrosoftExcel")
-	vim.map("7","<7>","MicrosoftExcel")
-	vim.map("8","<8>","MicrosoftExcel")
-	vim.map("9","<9>","MicrosoftExcel")
-	
-	;撤销与重复
-	vim.map("u","<excel_undo>","MicrosoftExcel")
-	vim.map("<c-r>","<redo>","MicrosoftExcel")
+    ;normal模式及快捷键
+    vim.mode("normal","MicrosoftExcel")
+    vim.map("i","<Insert_Mode_MicrosoftExcel>","MicrosoftExcel")
+    vim.map("<esc>","<Normal_Mode_MicrosoftExcel>","MicrosoftExcel")
+    vim.map("I","<Alt_Mode_MicrosoftExcel>","MicrosoftExcel")
 
-	;Z保存与退出
-	vim.map("ZZ","<MicrosoftExcel_SaveAndExit>","MicrosoftExcel")
-	vim.map("ZQ","<MicrosoftExcel_DiscardAndExit>","MicrosoftExcel")
-	
-	;颜色
-	vim.map("""","<MicrosoftExcel_Color_All>","MicrosoftExcel")
-	vim.map("'","<MicrosoftExcel_Color_Menu_Font>","MicrosoftExcel")
-	vim.map(";","<MicrosoftExcel_Color_Menu_Cell>","MicrosoftExcel")
+    ;数字计数
+    ;vim.map("0","<0>","MicrosoftExcel") vim中也没有0计数，0一般用于行首，建议注释掉
+    vim.map("1","<1>","MicrosoftExcel")
+    vim.map("2","<2>","MicrosoftExcel")
+    vim.map("3","<3>","MicrosoftExcel")
+    vim.map("4","<4>","MicrosoftExcel")
+    vim.map("5","<5>","MicrosoftExcel")
+    vim.map("6","<6>","MicrosoftExcel")
+    vim.map("7","<7>","MicrosoftExcel")
+    vim.map("8","<8>","MicrosoftExcel")
+    vim.map("9","<9>","MicrosoftExcel")
 
-	;d删除
-	vim.map("dd","<MicrosoftExcel_Delete>","MicrosoftExcel")
-	vim.map("D","<MicrosoftExcel_Delete>","MicrosoftExcel")
-	vim.map("dr","<MicrosoftExcel_删除选择行>","MicrosoftExcel")
-	vim.map("dc","<MicrosoftExcel_删除选择列>","MicrosoftExcel")
-	vim.map("dw","<MicrosoftExcel_工作表删除当前>","MicrosoftExcel")
+    ;撤销与重复
+    vim.map("u","<excel_undo>","MicrosoftExcel")
+    vim.map("<c-r>","<redo>","MicrosoftExcel")
 
-	;o插入/O插入在右
-	vim.map("or","<MicrosoftExcel_编辑插入新行在前>","MicrosoftExcel")
-	vim.map("oc","<MicrosoftExcel_编辑插入新列在左>","MicrosoftExcel")
-	vim.map("Or","<MicrosoftExcel_编辑插入新行在后>","MicrosoftExcel")
-	vim.map("Oc","<MicrosoftExcel_编辑插入新列在右>","MicrosoftExcel")
-	vim.map("ow","<MicrosoftExcel_工作表新建>","MicrosoftExcel")
-	
-	;s选择
-	vim.map("sk","<MicrosoftExcel_SelectToAreaUp>","MicrosoftExcel")
-	vim.map("sj","<MicrosoftExcel_SelectToAreaDown>","MicrosoftExcel")
-	vim.map("sh","<MicrosoftExcel_SelectToAreaLeft>","MicrosoftExcel")
-	vim.map("sl","<MicrosoftExcel_SelectToAreaRight>","MicrosoftExcel")
+    ;Z保存与退出
+    vim.map("ZZ","<MicrosoftExcel_SaveAndExit>","MicrosoftExcel")
+    vim.map("ZQ","<MicrosoftExcel_DiscardAndExit>","MicrosoftExcel")
+
+    ;颜色
+    vim.map("""","<MicrosoftExcel_Color_All>","MicrosoftExcel")
+    vim.map("'","<MicrosoftExcel_Color_Menu_Font>","MicrosoftExcel")
+    vim.map(";","<MicrosoftExcel_Color_Menu_Cell>","MicrosoftExcel")
+
+    ;d删除
+    vim.map("dd","<MicrosoftExcel_Delete>","MicrosoftExcel")
+    vim.map("D","<MicrosoftExcel_Delete>","MicrosoftExcel")
+    vim.map("dr","<MicrosoftExcel_删除选择行>","MicrosoftExcel")
+    vim.map("dc","<MicrosoftExcel_删除选择列>","MicrosoftExcel")
+    vim.map("dw","<MicrosoftExcel_工作表删除当前>","MicrosoftExcel")
+
+    ;o插入/O插入在右
+    vim.map("or","<MicrosoftExcel_编辑插入新行在前>","MicrosoftExcel")
+    vim.map("oc","<MicrosoftExcel_编辑插入新列在左>","MicrosoftExcel")
+    vim.map("Or","<MicrosoftExcel_编辑插入新行在后>","MicrosoftExcel")
+    vim.map("Oc","<MicrosoftExcel_编辑插入新列在右>","MicrosoftExcel")
+    vim.map("ow","<MicrosoftExcel_工作表新建>","MicrosoftExcel")
+
+    ;s选择
+    vim.map("sk","<MicrosoftExcel_SelectToAreaUp>","MicrosoftExcel")
+    vim.map("sj","<MicrosoftExcel_SelectToAreaDown>","MicrosoftExcel")
+    vim.map("sh","<MicrosoftExcel_SelectToAreaLeft>","MicrosoftExcel")
+    vim.map("sl","<MicrosoftExcel_SelectToAreaRight>","MicrosoftExcel")
     vim.map("sr","<MicrosoftExcel_选择整行>","MicrosoftExcel")
-	vim.map("sc","<MicrosoftExcel_选择整列>","MicrosoftExcel")
-	vim.map("sa","<MicrosoftExcel_SelectAll>","MicrosoftExcel")
+    vim.map("sc","<MicrosoftExcel_选择整列>","MicrosoftExcel")
+    vim.map("sa","<MicrosoftExcel_SelectAll>","MicrosoftExcel")
 
-	;f过滤命令
-	vim.map("ff","<MicrosoftExcel_自动过滤开启>","MicrosoftExcel")
-	vim.map("fl","<MicrosoftExcel_过滤当前列下拉菜单>","MicrosoftExcel")
-	vim.map("fd","<MicrosoftExcel_过滤打开筛选对话框>","MicrosoftExcel")
-	vim.map("fo","<MicrosoftExcel_过滤大于等于当前单元格>","MicrosoftExcel")
-	vim.map("fu","<MicrosoftExcel_过滤小于等于当前单元格>","MicrosoftExcel")
-	vim.map("f.","<MicrosoftExcel_过滤非空单元格>","MicrosoftExcel")
-	vim.map("fb","<MicrosoftExcel_过滤空单元格>","MicrosoftExcel")
-   
-	;因不区分数值型与文本型以及日期型的问题，以下过滤功能暂不完整
-	vim.map("fB","<MicrosoftExcel_过滤开头包含当前单元格>","MicrosoftExcel")
-	vim.map("fE","<MicrosoftExcel_过滤末尾包含当前单元格>","MicrosoftExcel")
-	vim.map("fs","<MicrosoftExcel_过滤等于当前单元格>","MicrosoftExcel")
-	vim.map("f<","<MicrosoftExcel_过滤小于当前单元格>","MicrosoftExcel")
-	vim.map("f>","<MicrosoftExcel_过滤大于当前单元格>","MicrosoftExcel")
-	vim.map("fi","<MicrosoftExcel_过滤包含当前单元格>","MicrosoftExcel")
-	vim.map("fe","<MicrosoftExcel_过滤不包含当前单元格>","MicrosoftExcel")
-	;以下过滤功能2013版测试无效
-	vim.map("fa","<MicrosoftExcel_过滤取消当前列>","MicrosoftExcel")
-	vim.map("fA","<MicrosoftExcel_过滤取消所有列>","MicrosoftExcel")	
+    ;f过滤命令
+    vim.map("ff","<MicrosoftExcel_自动过滤开启>","MicrosoftExcel")
+    vim.map("fl","<MicrosoftExcel_过滤当前列下拉菜单>","MicrosoftExcel")
+    vim.map("fd","<MicrosoftExcel_过滤打开筛选对话框>","MicrosoftExcel")
+    vim.map("fo","<MicrosoftExcel_过滤大于等于当前单元格>","MicrosoftExcel")
+    vim.map("fu","<MicrosoftExcel_过滤小于等于当前单元格>","MicrosoftExcel")
+    vim.map("f.","<MicrosoftExcel_过滤非空单元格>","MicrosoftExcel")
+    vim.map("fb","<MicrosoftExcel_过滤空单元格>","MicrosoftExcel")
 
-	;p粘贴
-	vim.map("p","<MicrosoftExcel_Paste>","MicrosoftExcel")
-	vim.map("P","<MicrosoftExcel_Paste_Select>","MicrosoftExcel")
+    ;因不区分数值型与文本型以及日期型的问题，以下过滤功能暂不完整
+    vim.map("fB","<MicrosoftExcel_过滤开头包含当前单元格>","MicrosoftExcel")
+    vim.map("fE","<MicrosoftExcel_过滤末尾包含当前单元格>","MicrosoftExcel")
+    vim.map("fs","<MicrosoftExcel_过滤等于当前单元格>","MicrosoftExcel")
+    vim.map("f<","<MicrosoftExcel_过滤小于当前单元格>","MicrosoftExcel")
+    vim.map("f>","<MicrosoftExcel_过滤大于当前单元格>","MicrosoftExcel")
+    vim.map("fi","<MicrosoftExcel_过滤包含当前单元格>","MicrosoftExcel")
+    vim.map("fe","<MicrosoftExcel_过滤不包含当前单元格>","MicrosoftExcel")
+    ;以下过滤功能2013版测试无效
+    vim.map("fa","<MicrosoftExcel_过滤取消当前列>","MicrosoftExcel")
+    vim.map("fA","<MicrosoftExcel_过滤取消所有列>","MicrosoftExcel")
+
+    ;p粘贴
+    vim.map("p","<MicrosoftExcel_Paste>","MicrosoftExcel")
+    vim.map("P","<MicrosoftExcel_Paste_Select>","MicrosoftExcel")
     ;pv希望以后用代码做，快捷键做会闪一下
     ;vim.map("v","<MicrosoftExcel_Paste_Value>","MicrosoftExcel")
 
-	;space翻页（PageUp）Shiht-space（PageDown）
-	vim.map("<space>","<MicrosoftExcel_PageDown>","MicrosoftExcel")
-	vim.map("<S-space>","<MicrosoftExcel_PageUp>","MicrosoftExcel")
+    ;space翻页（PageUp）Shiht-space（PageDown）
+    vim.map("<space>","<MicrosoftExcel_PageDown>","MicrosoftExcel")
+    vim.map("<S-space>","<MicrosoftExcel_PageUp>","MicrosoftExcel")
 
-	;x剪切
-	vim.map("x","<MicrosoftExcel_Cut>","MicrosoftExcel")
-	
-	;y复制
-	vim.map("yy","<MicrosoftExcel_Copy_Selection>","MicrosoftExcel")	
-	vim.map("Y","<MicrosoftExcel_Copy_Selection>","MicrosoftExcel")
-	vim.map("yr","<MicrosoftExcel_Copy_Row>","MicrosoftExcel")
-	vim.map("yc","<MicrosoftExcel_Copy_Col>","MicrosoftExcel")
-	vim.map("yh","<MicrosoftExcel_编辑自左侧复制>","MicrosoftExcel")
-	vim.map("yl","<MicrosoftExcel_编辑自右侧复制>","MicrosoftExcel")
-	vim.map("yk","<MicrosoftExcel_编辑自上侧复制>","MicrosoftExcel")
-	vim.map("yj","<MicrosoftExcel_编辑自下侧复制>","MicrosoftExcel")
-	vim.map("myl","<MicrosoftExcel_逐行编辑自左侧复制>","MicrosoftExcel")
-	vim.map("myr","<MicrosoftExcel_逐行编辑自右侧复制>","MicrosoftExcel")
-	vim.map("yw","<MicrosoftExcel_工作表复制当前>","MicrosoftExcel")
-	vim.map("yW","<MicrosoftExcel_工作表复制对话框>","MicrosoftExcel")
+    ;x剪切
+    vim.map("x","<MicrosoftExcel_Cut>","MicrosoftExcel")
 
-	;上下左右映射
-	vim.map("h","<left>","MicrosoftExcel")
-	vim.map("l","<right>","MicrosoftExcel")
-	vim.map("k","<up>","MicrosoftExcel")
-	vim.map("j","<down>","MicrosoftExcel")
+    ;y复制
+    vim.map("yy","<MicrosoftExcel_Copy_Selection>","MicrosoftExcel")
+    vim.map("Y","<MicrosoftExcel_Copy_Selection>","MicrosoftExcel")
+    vim.map("yr","<MicrosoftExcel_Copy_Row>","MicrosoftExcel")
+    vim.map("yc","<MicrosoftExcel_Copy_Col>","MicrosoftExcel")
+    vim.map("yh","<MicrosoftExcel_编辑自左侧复制>","MicrosoftExcel")
+    vim.map("yl","<MicrosoftExcel_编辑自右侧复制>","MicrosoftExcel")
+    vim.map("yk","<MicrosoftExcel_编辑自上侧复制>","MicrosoftExcel")
+    vim.map("yj","<MicrosoftExcel_编辑自下侧复制>","MicrosoftExcel")
+    vim.map("myl","<MicrosoftExcel_逐行编辑自左侧复制>","MicrosoftExcel")
+    vim.map("myr","<MicrosoftExcel_逐行编辑自右侧复制>","MicrosoftExcel")
+    vim.map("yw","<MicrosoftExcel_工作表复制当前>","MicrosoftExcel")
+    vim.map("yW","<MicrosoftExcel_工作表复制对话框>","MicrosoftExcel")
 
-	;上下左右选择映射
-	vim.map("H","<MicrosoftExcel_向左选择>","MicrosoftExcel")
-	vim.map("L","<MicrosoftExcel_向右选择>","MicrosoftExcel")
-	vim.map("K","<MicrosoftExcel_向上选择>","MicrosoftExcel")
-	vim.map("J","<MicrosoftExcel_向下选择>","MicrosoftExcel")
+    ;上下左右映射
+    vim.map("h","<left>","MicrosoftExcel")
+    vim.map("l","<right>","MicrosoftExcel")
+    vim.map("k","<up>","MicrosoftExcel")
+    vim.map("j","<down>","MicrosoftExcel")
 
- 	;g位置跳转
-	vim.map("gg","<MicrosoftExcel_FocusHome>","MicrosoftExcel")
-	vim.map("G","<MicrosoftExcel_FocusEnd>","MicrosoftExcel")
-	vim.map("grh","<MicrosoftExcel_FocusRowHome>","MicrosoftExcel")
-	vim.map("gre","<MicrosoftExcel_FocusRowEnd>","MicrosoftExcel")
-	vim.map("gch","<MicrosoftExcel_FocusColHome>","MicrosoftExcel")
-	vim.map("gce","<MicrosoftExcel_FocusColEnd>","MicrosoftExcel")
-	vim.map("gk","<MicrosoftExcel_FocusAreaUp>","MicrosoftExcel")
-	vim.map("gj","<MicrosoftExcel_FocusAreaDown>","MicrosoftExcel")
-	vim.map("gh","<MicrosoftExcel_FocusAreaLeft>","MicrosoftExcel")
-	vim.map("gl","<MicrosoftExcel_FocusAreaRight>","MicrosoftExcel")
-	vim.map("gwh","<MicrosoftExcel_工作表选择首个>","MicrosoftExcel")
-	vim.map("gwe","<MicrosoftExcel_工作表选择尾个>","MicrosoftExcel")
-	vim.map("gt","<MicrosoftExcel_工作表跳转下一个>","MicrosoftExcel")
-	vim.map("gT","<MicrosoftExcel_工作表跳转上一个>","MicrosoftExcel")
+    ;上下左右选择映射
+    vim.map("H","<MicrosoftExcel_向左选择>","MicrosoftExcel")
+    vim.map("L","<MicrosoftExcel_向右选择>","MicrosoftExcel")
+    vim.map("K","<MicrosoftExcel_向上选择>","MicrosoftExcel")
+    vim.map("J","<MicrosoftExcel_向下选择>","MicrosoftExcel")
 
-	vim.map("go","<MicrosoftExcel_GoTo>","MicrosoftExcel")
+    ;g位置跳转
+    vim.map("gg","<MicrosoftExcel_FocusHome>","MicrosoftExcel")
+    vim.map("G","<MicrosoftExcel_FocusEnd>","MicrosoftExcel")
+    vim.map("grh","<MicrosoftExcel_FocusRowHome>","MicrosoftExcel")
+    vim.map("gre","<MicrosoftExcel_FocusRowEnd>","MicrosoftExcel")
+    vim.map("gch","<MicrosoftExcel_FocusColHome>","MicrosoftExcel")
+    vim.map("gce","<MicrosoftExcel_FocusColEnd>","MicrosoftExcel")
+    vim.map("gk","<MicrosoftExcel_FocusAreaUp>","MicrosoftExcel")
+    vim.map("gj","<MicrosoftExcel_FocusAreaDown>","MicrosoftExcel")
+    vim.map("gh","<MicrosoftExcel_FocusAreaLeft>","MicrosoftExcel")
+    vim.map("gl","<MicrosoftExcel_FocusAreaRight>","MicrosoftExcel")
+    vim.map("gwh","<MicrosoftExcel_工作表选择首个>","MicrosoftExcel")
+    vim.map("gwe","<MicrosoftExcel_工作表选择尾个>","MicrosoftExcel")
+    vim.map("gt","<MicrosoftExcel_工作表跳转下一个>","MicrosoftExcel")
+    vim.map("gT","<MicrosoftExcel_工作表跳转上一个>","MicrosoftExcel")
 
-	;F填充
-	vim.map("Fk","<MicrosoftExcel_填充向上>","MicrosoftExcel")
-	vim.map("Fj","<MicrosoftExcel_填充向下>","MicrosoftExcel")
-	vim.map("Fh","<MicrosoftExcel_填充向左>","MicrosoftExcel")
-	vim.map("Fl","<MicrosoftExcel_填充向右>","MicrosoftExcel")
+    vim.map("go","<MicrosoftExcel_GoTo>","MicrosoftExcel")
 
-	;r重命名/替换
-	vim.map("rr","<MicrosoftExcel_Replace>","MicrosoftExcel")
-	vim.map("R","<MicrosoftExcel_Replace>","MicrosoftExcel")	
-	vim.map("rw","<MicrosoftExcel_SheetReName>","MicrosoftExcel")
-	
-	;/查找
-	vim.map("/","<MicrosoftExcel_Find>","MicrosoftExcel")
+    ;F填充
+    vim.map("Fk","<MicrosoftExcel_填充向上>","MicrosoftExcel")
+    vim.map("Fj","<MicrosoftExcel_填充向下>","MicrosoftExcel")
+    vim.map("Fh","<MicrosoftExcel_填充向左>","MicrosoftExcel")
+    vim.map("Fl","<MicrosoftExcel_填充向右>","MicrosoftExcel")
 
-	;w宽高/W指定值
-	vim.map("wr","<MicrosoftExcel_自适应宽度选择行>","MicrosoftExcel")
-	vim.map("wc","<MicrosoftExcel_自适应宽度选择列>","MicrosoftExcel")
-	vim.map("Wr","<MicrosoftExcel_编辑行宽指定值>","MicrosoftExcel")
-	vim.map("Wc","<MicrosoftExcel_编辑列宽指定值>","MicrosoftExcel")
+    ;r重命名/替换
+    vim.map("rr","<MicrosoftExcel_Replace>","MicrosoftExcel")
+    vim.map("R","<MicrosoftExcel_Replace>","MicrosoftExcel")
+    vim.map("rw","<MicrosoftExcel_SheetReName>","MicrosoftExcel")
 
-	;工作表
+    ;/查找
+    vim.map("/","<MicrosoftExcel_Find>","MicrosoftExcel")
 
-	vim.map(">w","<MicrosoftExcel_工作表移动向后>","MicrosoftExcel")
-	vim.map("<w","<MicrosoftExcel_工作表移动向前>","MicrosoftExcel")
-   
+    ;w宽高/W指定值
+    vim.map("wr","<MicrosoftExcel_自适应宽度选择行>","MicrosoftExcel")
+    vim.map("wc","<MicrosoftExcel_自适应宽度选择列>","MicrosoftExcel")
+    vim.map("Wr","<MicrosoftExcel_编辑行宽指定值>","MicrosoftExcel")
+    vim.map("Wc","<MicrosoftExcel_编辑列宽指定值>","MicrosoftExcel")
 
-    
+    ;工作表
 
+    vim.map(">w","<MicrosoftExcel_工作表移动向后>","MicrosoftExcel")
+    vim.map("<w","<MicrosoftExcel_工作表移动向前>","MicrosoftExcel")
 
+    ;:字体颜色命令
 
+    ;;单元格颜色命令
 
+    ;%页面设置命令
 
+    ;^设置格式命令
 
+    ;@视图指令
 
+    ;-横向线颜色命令
 
+    ;|纵向ActiveSheet.线颜色指令
 
+    ;`字体命令
+    vim.map("<S-,>","<XLmain_字体放大>","MicrosoftExcel")
+    vim.map("<S-.>","<XLmain_字体缩小>","MicrosoftExcel")
 
-	;:字体颜色命令
-
-	;;单元格颜色命令
-
-	;%页面设置命令
-
-	;^设置格式命令
-
-	;@视图指令
-
-	;-横向线颜色命令
-
-	;|纵向ActiveSheet.线颜色指令
-
-	;`字体命令
-	vim.map("<S-,>","<XLmain_字体放大>","MicrosoftExcel")
-	vim.map("<S-.>","<XLmain_字体缩小>","MicrosoftExcel")
-
-	;(名称
-	vim.map("<S-9>n","<MicrosoftExcel_名称工作簿定义>","MicrosoftExcel")
-	vim.map("<S-9>N","<MicrosoftExcel_名称当前工作表定义>","MicrosoftExcel")
+    ;(名称
+    vim.map("<S-9>n","<MicrosoftExcel_名称工作簿定义>","MicrosoftExcel")
+    vim.map("<S-9>N","<MicrosoftExcel_名称当前工作表定义>","MicrosoftExcel")
 
 
+    ;编辑
 
+    ;行指令
+    ;vim.map("rh","<MicrosoftExcel_隐藏选择行>","MicrosoftExcel")
+    ;vim.map("rH","<MicrosoftExcel_隐藏选择行取消>","MicrosoftExcel")
 
+    ;行填充作用不明显
+    ;vim.map("rf","<MicrosoftExcel_行填充>","MicrosoftExcel")
+    ;列指令
+    ;vim.map("ch","<MicrosoftExcel_隐藏选择列>","MicrosoftExcel")
+    ;vim.map("cH","<MicrosoftExcel_隐藏选择列取消>","MicrosoftExcel")
 
+    ;vim.map("e","<MicrosoftExcel_编辑行宽变窄>","MicrosoftExcel")
+    ;vim.map("E","<MicrosoftExcel_编辑行宽变宽>","MicrosoftExcel")
+    ;vim.map("q","<MicrosoftExcel_编辑列宽变窄>","MicrosoftExcel")
+    ;vim.map("Q","<MicrosoftExcel_编辑列宽变宽>","MicrosoftExcel")
 
+    ;m多区域逐行处理
+    ;vim.map("mr","<MicrosoftExcel_逐行合并>","MicrosoftExcel")
+    ;vim.map("mbd","<MicrosoftExcel_逐行边框下框线>","MicrosoftExcel")
+    ;vim.map("mbu","<MicrosoftExcel_逐行边框上框线>","MicrosoftExcel")
+    ;vim.map("mbs","<MicrosoftExcel_逐行边框外侧框线>","MicrosoftExcel")
+    ;vim.map("mbt","<MicrosoftExcel_逐行边框粗匣框线>","MicrosoftExcel")
+    ;vim.map("mR","<MicrosoftExcel_取消逐行合并>","MicrosoftExcel")
 
-	
+    ;测试
+    ;vim.map("t5","<XLMIAN_获取活动工作表边界>","MicrosoftExcel")
+    vim.map("t1","<LastRow>","MicrosoftExcel")
+    vim.map("t2","<LastColumn>","MicrosoftExcel")
+    vim.BeforeActionDo("MicrosoftExcel_BeforeActionDo", "MicrosoftExcel")
 
-	;编辑
-    
-    
-    	;行指令
-    	;vim.map("rh","<MicrosoftExcel_隐藏选择行>","MicrosoftExcel")
-    	;vim.map("rH","<MicrosoftExcel_隐藏选择行取消>","MicrosoftExcel")
-
-	;行填充作用不明显
-        ;vim.map("rf","<MicrosoftExcel_行填充>","MicrosoftExcel")
-    	;列指令
-    	;vim.map("ch","<MicrosoftExcel_隐藏选择列>","MicrosoftExcel")
-    	;vim.map("cH","<MicrosoftExcel_隐藏选择列取消>","MicrosoftExcel")
- 
-    	;vim.map("e","<MicrosoftExcel_编辑行宽变窄>","MicrosoftExcel")
-    	;vim.map("E","<MicrosoftExcel_编辑行宽变宽>","MicrosoftExcel")
-    	;vim.map("q","<MicrosoftExcel_编辑列宽变窄>","MicrosoftExcel")
-   	;vim.map("Q","<MicrosoftExcel_编辑列宽变宽>","MicrosoftExcel")
-
-   	;m多区域逐行处理
-    	;vim.map("mr","<MicrosoftExcel_逐行合并>","MicrosoftExcel")
-    	;vim.map("mbd","<MicrosoftExcel_逐行边框下框线>","MicrosoftExcel")
-    	;vim.map("mbu","<MicrosoftExcel_逐行边框上框线>","MicrosoftExcel")
-    	;vim.map("mbs","<MicrosoftExcel_逐行边框外侧框线>","MicrosoftExcel")
-    	;vim.map("mbt","<MicrosoftExcel_逐行边框粗匣框线>","MicrosoftExcel")
-    	;vim.map("mR","<MicrosoftExcel_取消逐行合并>","MicrosoftExcel")
-
-    	;测试
-    	;vim.map("t5","<XLMIAN_获取活动工作表边界>","MicrosoftExcel")
-    	vim.map("t1","<LastRow>","MicrosoftExcel")
-    	vim.map("t2","<LastColumn>","MicrosoftExcel")
-
-;Comment
-
-;Trigger
-;MicrosoftExcel
 return
-
-
 
 ;Action 如要跳转，请使用查找功能/
 
-MicrosoftExcel_CheckMode()
+MicrosoftExcel_BeforeActionDo()
 {
-	ControlGetFocus,ctrl,AHK_CLASS MicrosoftExcel
-	If RegExMatch(ctrl,"EXCEL61")
-		Return True
-	return False
+    ControlGetFocus,ctrl,AHK_CLASS XLMAIN
+
+    If RegExMatch(ctrl,"EXCEL61")
+        Return True
+    return False
 }
 
 <Normal_Mode_MicrosoftExcel>:
@@ -332,21 +308,21 @@ return
     ;插入模式下使用由Excel接管状态栏
     getExcel().Application.StatusBar := blank
 {
-	send {alt}
-	return
+    send {alt}
+    return
 }
 return
 
 <excel_undo>:
 {
-	send ^z
-	return
+    send ^z
+    return
 }
 
 <redo>:
 {
-	send ^y
-	return
+    send ^y
+    return
 }
 
 
@@ -360,10 +336,10 @@ return
 ;by dlt:改用快捷键方式，可被撤销
 <MicrosoftExcel_删除选择行>:
 {
-	send ^-
-	send !r
-	send {Enter}
-	return
+    send ^-
+    send !r
+    send {Enter}
+    return
 }
 
 <MicrosoftExcel_删除选择列>:
@@ -417,26 +393,26 @@ return
 ;s选择
 <MicrosoftExcel_SelectToAreaUp>:
 {
-	send,^+{Up}
-	return
+    send,^+{Up}
+    return
 }
 
 <MicrosoftExcel_SelectToAreaDown>:
 {
-	send,^+{Down}
-	return
+    send,^+{Down}
+    return
 }
 
 <MicrosoftExcel_SelectToAreaLeft>:
 {
-	send,^+{Left}
-	return
+    send,^+{Left}
+    return
 }
 
 <MicrosoftExcel_SelectToAreaRight>:
 {
-	send,^+{Right}
-	return
+    send,^+{Right}
+    return
 }
 
 <MicrosoftExcel_选择整行>:
@@ -525,11 +501,11 @@ return
 {
     Excel_Selection()
     InputBox, OutputVar ,输入名称
-	If ErrorLevel
-		Return
+    If ErrorLevel
+        Return
     inputbox, comments ,输入注释
-	If ErrorLevel
-		Return
+    If ErrorLevel
+        Return
     address:=Selection.address
     Name:=OutputVar
     RefersToR1C1:=address
@@ -543,11 +519,11 @@ return
 {
     Excel_Selection()
     InputBox, OutputVar ,输入名称
-	If ErrorLevel
-		Return
+    If ErrorLevel
+        Return
     inputbox, comments ,输入注释
-	If ErrorLevel
-		Return
+    If ErrorLevel
+        Return
     address:=Selection.address
     Name:=OutputVar
     RefersToR1C1:=address
@@ -912,8 +888,8 @@ MicrosoftExcel_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 ;by dlt:快捷键实现，可被撤销
 <MicrosoftExcel_隐藏选择行>:
 {
-	send ^9
-	return
+    send ^9
+    return
 }
 
 
@@ -923,8 +899,8 @@ MicrosoftExcel_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 ;by dlt:Ctrl+Shift+(
 <MicrosoftExcel_隐藏选择行取消>:
 {
-	send ^+(
-	return
+    send ^+(
+    return
 }
 
 
@@ -942,8 +918,8 @@ MicrosoftExcel_CustomAutoFilter(ArithmeticOpr,CurrentValue)
     Excel_Selection()
     Default:=Selection.RowHeight
     InputBox, inputvar,输入行宽,,,,,,,,,%Default%
-	If ErrorLevel
-		Return
+    If ErrorLevel
+        Return
     ;InputBox, OutputVar Title  ,,,,,,,,,
     Selection.RowHeight:=inputvar
     tooltip,%inputvar%
@@ -989,8 +965,8 @@ MicrosoftExcel_CustomAutoFilter(ArithmeticOpr,CurrentValue)
     Excel_Selection()
     Default:=Selection.ColumnWidth
     InputBox, inputvar,输入列宽,,,,,,,,,%Default%
-	If ErrorLevel
-		Return
+    If ErrorLevel
+        Return
     Selection.ColumnWidth:=inputvar
     tooltip,%inputvar%
     ;objRelease(excel)
@@ -1503,100 +1479,100 @@ MicrosoftExcel_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 
 <MicrosoftExcel_Copy_Selection>:
 {
-	send ^c
-	return
+    send ^c
+    return
 }
 
 <MicrosoftExcel_Copy_Row>:
 {
-	Excel_Selection()
-	Selection.EntireRow.Select
-	objrelease(excel)
-	send ^c
-	return
+    Excel_Selection()
+    Selection.EntireRow.Select
+    objrelease(excel)
+    send ^c
+    return
 }
 
 <MicrosoftExcel_Copy_Col>:
 {
-	Excel_Selection()
-	Selection.EntireColumn.Select
-	objrelease(excel)
-	send ^c
-	return
+    Excel_Selection()
+    Selection.EntireColumn.Select
+    objrelease(excel)
+    send ^c
+    return
 }
 
 <MicrosoftExcel_Paste>:
 {
-	send ^v
-	return
+    send ^v
+    return
 }
 
 <MicrosoftExcel_Paste_Select>:
 {
-	send ^!v
-	return
+    send ^!v
+    return
 }
 
 <MicrosoftExcel_Paste_Value>:
 {
-	send ^!v!v{enter}
-	return
+    send ^!v!v{enter}
+    return
 }
 
 <MicrosoftExcel_Color_Font>:
 {
-	getExcel().Selection.Font.Color := FontColor
-	return
+    getExcel().Selection.Font.Color := FontColor
+    return
 }
 
 
 
 <MicrosoftExcel_Color_Cell>:
 {
-	getExcel().Selection.Interior.Color := CellColor
-	return
+    getExcel().Selection.Interior.Color := CellColor
+    return
 }
 
 <MicrosoftExcel_Color_All>:
 {
-	getExcel().Selection.Font.Color := FontColor
-	getExcel().Selection.Interior.Color := CellColor
-	return
+    getExcel().Selection.Font.Color := FontColor
+    getExcel().Selection.Interior.Color := CellColor
+    return
 }
 
 <MicrosoftExcel_Color_Menu_Font>:
 {
-	InputColor(color)
+    InputColor(color)
 
-	if color = null 
-		return
-	if color = Transparent
-	{
-		MsgBox 字体颜色不支持透明色
-		return
-	}
+    if color = null
+        return
+    if color = Transparent
+    {
+        MsgBox 字体颜色不支持透明色
+        return
+    }
 
-	FontColor := ToBGR(color)
-	getExcel().Selection.Font.Color := FontColor
-	return
+    FontColor := ToBGR(color)
+    getExcel().Selection.Font.Color := FontColor
+    return
 }
 
 <MicrosoftExcel_Color_Menu_Cell>:
 {
-	InputColor(color)
+    InputColor(color)
 
-	if color = null
-		return
+    if color = null
+        return
 
-	if color = Transparent
-	{
-		getExcel().Selection.Interior.Pattern := -4142
-		return
-	}
+    if color = Transparent
+    {
+        getExcel().Selection.Interior.Pattern := -4142
+        return
+    }
 
-	CellColor := ToBGR(color)
-	getExcel().Selection.Interior.Color := CellColor
-	return
+    CellColor := ToBGR(color)
+    getExcel().Selection.Interior.Color := CellColor
+    return
 }
 
 ;编辑复制
@@ -1694,39 +1670,39 @@ MicrosoftExcel_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 
 <MicrosoftExcel_FocusEnd>:
 {
-	send ^{End}
-	return
+    send ^{End}
+    return
 }
 
 ; 模拟输入9个Ctrl+Up,差不多能到行首了
 <MicrosoftExcel_FocusRowHome>:
 {
-	send ^{Up}
-	send ^{Up}
-	send ^{Up}
-	send ^{Up}
-	send ^{Up}
-	send ^{Up}
-	send ^{Up}
-	send ^{Up}
-	send ^{Up}
-	return
+    send ^{Up}
+    send ^{Up}
+    send ^{Up}
+    send ^{Up}
+    send ^{Up}
+    send ^{Up}
+    send ^{Up}
+    send ^{Up}
+    send ^{Up}
+    return
 }
 
 
 ; 模拟输入9个Ctrl+Down，差不多能到尾行了
 <MicrosoftExcel_FocusRowEnd>:
 {
-	send ^{Down}
-	send ^{Down}
-	send ^{Down}
-	send ^{Down}
-	send ^{Down}
-	send ^{Down}
-	send ^{Down}
-	send ^{Down}
-	send ^{Down}
-	return
+    send ^{Down}
+    send ^{Down}
+    send ^{Down}
+    send ^{Down}
+    send ^{Down}
+    send ^{Down}
+    send ^{Down}
+    send ^{Down}
+    send ^{Down}
+    return
 }
 
 ; 快捷键Home可直接定位到首列
@@ -1753,26 +1729,26 @@ MicrosoftExcel_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 
 <MicrosoftExcel_FocusAreaUp>:
 {
-	send,^{Up}
-	return
+    send,^{Up}
+    return
 }
 
 <MicrosoftExcel_FocusAreaDown>:
 {
-	send,^{Down}
-	return
+    send,^{Down}
+    return
 }
 
 <MicrosoftExcel_FocusAreaLeft>:
 {
-	send,^{Left}
-	return
+    send,^{Left}
+    return
 }
 
 <MicrosoftExcel_FocusAreaRight>:
 {
-	send,^{Right}
-	return
+    send,^{Right}
+    return
 }
 
 
@@ -1892,15 +1868,15 @@ MicrosoftExcel_CustomAutoFilter(ArithmeticOpr,CurrentValue)
 ;工作表
 <MicrosoftExcel_SheetReName>:
 {
-	InputBox, NewSheetName ,输入新的工作表名称
-	If ErrorLevel
-		Return
-	if StrLen(NewSheetName)>0 {
-		Excel_ActiveSheet()
-		excel.ActiveSheet.Name := NewSheetName
-		;objRelease(excel)
-	}
-	return
+    InputBox, NewSheetName ,输入新的工作表名称
+    If ErrorLevel
+        Return
+    if StrLen(NewSheetName)>0 {
+        Excel_ActiveSheet()
+        excel.ActiveSheet.Name := NewSheetName
+        ;objRelease(excel)
+    }
+    return
 }
 
 
@@ -1964,27 +1940,27 @@ return
 
 <MicrosoftExcel_GoTo>:
 {
-	Excel_ActiveSheet()
-	InputBox, Reference , 输入跳转到的位置，如B5/b5：第二列，第5行
-	If ErrorLevel
-		Return
-	excel.ActiveSheet.Range(Reference).Select
-	;objRelease(excel)
-	return
+    Excel_ActiveSheet()
+    InputBox, Reference , 输入跳转到的位置，如B5/b5：第二列，第5行
+    If ErrorLevel
+        Return
+    excel.ActiveSheet.Range(Reference).Select
+    ;objRelease(excel)
+    return
 }
 
 <MicrosoftExcel_SaveAndExit>:
 {
-	send ^s
-	send !{F4}
-	return
+    send ^s
+    send !{F4}
+    return
 }
 
 <MicrosoftExcel_DiscardAndExit>:
 {
-	getExcel().ActiveWorkbook.Saved := true
-	getExcel().Quit
-	return
+    getExcel().ActiveWorkbook.Saved := true
+    getExcel().Quit
+    return
 }
 
 
@@ -2067,24 +2043,24 @@ return
 ;===================================================================
 ;直接获取Excel
 getExcel(){
-	;;objRelease(excel)    
-    
+    ;;objRelease(excel)
+
     if (excel.version <> "") {
         excel := ComObjCreate("Excel.Application") ; 创建Excel对象
     }
 
-	return excel
+    return excel
 }
 
 Excel_ActiveSheet()
 {
-    ;objRelease(excel)    
+    ;objRelease(excel)
     Sheet := getExcel().ActiveSheet ; 当前工作表
     return
 }
 Excel_ActiveCell()
 {
-    ;objRelease(excel)    
+    ;objRelease(excel)
     ;excel := ComObjCreate("Excel.Application") ; 创建Excel对象
     Cell := getExcel().ActiveCell ; 当前单元格
     return
@@ -2092,7 +2068,7 @@ Excel_ActiveCell()
 
 Excel_Selection()
 {
-    ;objRelease(excel)    
+    ;objRelease(excel)
     ;excel := ComObjCreate("Excel.Application") ; 创建Excel对象
     Selection:=getExcel().Selection ;选择对象
     return
