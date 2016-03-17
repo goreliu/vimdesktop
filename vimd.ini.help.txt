@@ -236,3 +236,4 @@ u=<cm_CloseCurrentTab>
 <=<TC_SelectCmd>
 ;"=<TC_MarkFile>
 ;_=<TC_UnMarkFile>
+;<esc>=<SwitchToEngIMEAndEsc>
