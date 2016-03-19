@@ -261,6 +261,7 @@ Class __vim
     }
 
     ; GetInputState {{{2
+    ; 0：英文 1：中文
     GetInputState(WinTitle = "A")
     {
         ControlGet, hwnd, HWND, , , %WinTitle%
