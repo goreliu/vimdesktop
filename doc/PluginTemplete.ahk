@@ -2,6 +2,7 @@
 ; 放入插件后，重新运行 vimd 会自动启用插件。
 ; 标签名请添加 PluginName_ 前缀，避免和其他插件冲突。
 
+; 该标签名需要和插件名一致
 PluginName:
     ; 定义注释（可选）
     vim.SetAction("<PluginName_NormalMode>", "进入normal模式")
@@ -9,9 +10,10 @@ PluginName:
     vim.SetAction("<PluginName_Function1>", "功能1")
     vim.SetAction("<PluginName_Function2>", "功能2")
 
+    ; 请务必调用 vim.SetWin 并保证 PluginName 和文件名一致，以避免名称混乱影响使用
     vim.SetWin("PluginName", "ahk_class名")
     ; 或：
-    vim.SetWin("PluginName", , "PluginName.exe")
+    vim.SetWin("PluginName", "ahk_class名", "PluginName.exe")
     ; 如果 class 和 exe 同时填写，以 exe 为准
 
     ; insert模式（如果无需 insert 模式，可去掉）
