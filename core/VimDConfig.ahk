@@ -10,7 +10,7 @@ return
     GUI, VimDConfig_plugin:Default
     GUI, VimDConfig_plugin:Font, s10, Microsoft YaHei
     GUI, VimDConfig_plugin:Add, ListView, x10 y10 w150 h400 grid altsubmit gVimDConfig_LoadActions, 插件
-    for plugin, obj in vim.pluginlist
+    for plugin, obj in vim.PluginList
         LV_Add("", plugin)
     GUI, VimDConfig_plugin:Add, ListView, glistview x170 y10 w650 h400 grid altsubmit, 序号|动作|描述（双击进入文件）
 
@@ -110,8 +110,10 @@ VimDConfig_keymap_loadwinlist()
     global vim
     list := "|全局"
     GUI, VimDConfig_keymap:Default
-    for win, obj in vim.WinList {
-        if vim.ExcludeWinList[win]{
+    for win, obj in vim.WinList
+    {
+        if vim.ExcludeWinList[win]
+        {
             continue
         }
         list .= "|" win
@@ -182,7 +184,7 @@ VimDConfig_keymap_loadhotkey_new(win, mode = "")
         }
     }
 
-    Clipboard:=current_keymap
+    Clipboard := current_keymap
     for action, type in vim.ActionFromPlugin
     {
         if type = %win%

@@ -159,9 +159,9 @@ Class __vim
         return this.PluginList[PluginName]
     }
 
-    ; Comment(action, desc, complex=1) {{{2
+    ; Comment(Action, Desc, Complex = 1) {{{2
     ; 兼容老版本的vimcore.ahk
-    Comment(action, desc = "", complex=1)
+    Comment(Action, Desc = "", Complex = 1)
     {
         act := this.SetAction(Action, Desc)
         if not complex ; 不允许多次运行
@@ -512,7 +512,8 @@ Class __vim
     }
     
     ; Delete(winName) {{{2
-    Delete(winName = "") {
+    Delete(winName = "")
+    {
         this.Control(false, winName, all := true)
         this.WinList[winName] := ""
     }
