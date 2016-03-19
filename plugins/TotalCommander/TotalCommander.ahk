@@ -188,6 +188,7 @@
     ;fb复制到收藏夹某个目录，fd移动到收藏夹的某个目录
     vim.map("fb", "<TC_CopyDirectoryHotlist>", "TotalCommander")
     vim.map("fd", "<TC_MoveDirectoryHotlist>", "TotalCommander")
+    vim.map("fg", "<cm_CopySrcPathToClip>", "TotalCommander")
     vim.map("ft", "<cm_SyncChangeDir>", "TotalCommander")
     vim.map("F", "<TC_SearchMode>", "TotalCommander")
     vim.map("gh", "<TC_GotoPreviousDirOther>", "TotalCommander")
