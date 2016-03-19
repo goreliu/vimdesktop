@@ -133,12 +133,20 @@ CheckHotKey()
 
     for i, k in ini
     {
-        if RegExMatch(i, "i)(config)|(exclude)|(global)|(plugins)")
+        PluginName := i
+
+        ; 兼容老的TC配置
+        if (PluginName = "TTOTAL_CMD")
+        {
+            PluginName := "TotalCommander"
+        }
+
+        if RegExMatch(PluginName, "i)(config)|(exclude)|(global)|(plugins)")
             continue
 
-        win := vim.SetWin(i, k.set_class, k.set_file)
-        vim.SetTimeOut(k.set_time_out, i)
-        vim.SetMaxCount(k.set_Max_count, i)
+        win := vim.SetWin(PluginName, k.set_class, k.set_file)
+        vim.SetTimeOut(k.set_time_out, PluginName)
+        vim.SetMaxCount(k.set_Max_count, PluginName)
         if (k.enable_show_info = 1)
         {
             win.SetInfo(true)
@@ -162,7 +170,7 @@ CheckHotKey()
                 this_action := RegExReplace(n, "\[=[^\[\]]*\]")
             }
 
-            vim.mode(this_mode, i)
+            vim.mode(this_mode, PluginName)
 
             if RegExMatch(n, "i)^((run)|(key)|(dir))\|")
             {
@@ -171,12 +179,12 @@ CheckHotKey()
                 <c-j>=run|notepad.exe
                 */
 
-                vim.map(m, "VIMD_CMD", i)
+                vim.map(m, "VIMD_CMD", PluginName)
                 VIMD_CMD_LIST[m] := n
             }
             else
             {
-                vim.map(m, this_action, i)
+                vim.map(m, this_action, PluginName)
             }
         }
     }
