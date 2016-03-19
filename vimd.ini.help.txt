@@ -147,7 +147,7 @@ Explorer=1
 ;<c-j>=run|notepad.exe
 ;<c-k>=key|^o
 
-;[mintty]
+;[Mintty]
 ;set_class=mintty
 ;set_file=mintty.exe
 ;<esc>=<SwitchToEngIMEAndEsc>
@@ -196,6 +196,7 @@ OpenFileDialogExclude = password , 密码
 ; 用TC打开目录，[=normal]可选，默认为normal模式
 
 
+a=<cm_SelectAll>
 b=<cm_UnpackFiles>
 c=<cm_MkDir>
 e=<cm_edit>
