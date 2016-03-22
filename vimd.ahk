@@ -135,11 +135,13 @@ CheckHotKey()
     {
         PluginName := i
 
+        /*
         ; 兼容老的TC配置
         if (PluginName = "TTOTAL_CMD")
         {
             PluginName := "TotalCommander"
         }
+        */
 
         if RegExMatch(PluginName, "i)(config)|(exclude)|(global)|(plugins)")
             continue

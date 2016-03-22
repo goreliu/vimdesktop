@@ -175,7 +175,7 @@ OpenFileDialogExclude = password , 密码
 
 
 ; Total Commander快捷键配置
-[TotalCommander]
+[TTOTAL_CMD]
 ; 热键定义语法
 ; f=<cm_SearchFor>[=normal]
 ; f： 热键，按下f
