@@ -61,7 +61,7 @@ Explorer_ForceInsertMode()
 {
     ControlGetFocus, ctrl, AHK_CLASS CabinetWClass
     ;MsgBox ctrl
-    if RegExMatch(ctrl, "Edit|DirectUIHWND1")
+    if (RegExMatch(ctrl, "Edit|DirectUIHWND1") or WinExist("ahk_class #32768"))
         return true
     return false
 }
