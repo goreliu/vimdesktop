@@ -153,6 +153,7 @@
     vim.Comment("<TC_ClearTitle>", "将TC标题栏字符串设置为空")
     vim.Comment("<TC_ReOpenTab>", "重新打开之前关闭的标签页")
     vim.Comment("<TC_OpenDirsInFile>", "将光标所在的文件内容中的文件夹在新标签页依次打开")
+    vim.Comment("<TC_CreateBlankFile>", "创建空文件")
 
     GoSub, TCCOMMAND
 
@@ -904,7 +905,7 @@ AddToTempFiles()
         return
     clipboard := ClipSaved
     if FileExist(AddPath)
-        Splitpath, AddPath, filename, , fileext, filenamenoext
+        Splitpath, AddPath, filename, , FileExt, filenamenoext
     else
         return
     Gui, Destroy
@@ -916,7 +917,7 @@ AddToTempFiles()
     Gui, Add, Button, x162 y80 w90 h30 gAddTempOK default, 确认(&S)
     Gui, Add, Button, x282 y80 w90 h30 gNewFileClose , 取消(&C)
     Gui, Show, w400 h120, 添加模板
-    if Fileext
+    if FileExt
     {
         Controlget, nf, hwnd, , edit2, A
         PostMessage, 0x0B1, 0, Strlen(filenamenoext), Edit2, A
@@ -929,7 +930,7 @@ AddTempOK()
 {
     Global TCPath
     GuiControlGet, SrcPath, , Static1
-    Splitpath, SrcPath, filename, , fileext, filenamenoext
+    Splitpath, SrcPath, filename, , FileExt, filenamenoext
     GuiControlGet, NewFileName, , Edit2
     SNDir := RegExReplace(TCPath, "[^\\]*$") . "ShellNew\"
     if Not FileExist(SNDir)
@@ -946,12 +947,18 @@ return
 NewFile:
     NewFile()
 return
-NewFile(File="")
+NewFile(File = "", Blank := False)
 {
     Global NewFile
     if Not File
         File := RegExReplace(NewFiles[A_ThisMenuItemPos], "(.*\[|\]$)", "")
-    if Not FileExist(File)
+    if (Blank)
+    {
+        FileName := "New.txt"
+        FileNamenoext := "New"
+        FileExt := "txt"
+    }
+    else if Not FileExist(File)
     {
         RegRead, ShellNewDir, HKEY_USERS, .default\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders
         if Not ShellNewDir
@@ -959,14 +966,14 @@ NewFile(File="")
         File := ShellNewDir . "\" file
         if RegExMatch(SubStr(file, -7), "NullFile")
         {
-            fileext := RegExReplace(NewFiles[A_ThisMenuItemPos], "(.*\(|\).*)")
-            File := "New" . fileext
-            FileName := "New" . fileext
+            FileExt := RegExReplace(NewFiles[A_ThisMenuItemPos], "(.*\(|\).*)")
+            File := "New" . FileExt
+            FileName := "New" . FileExt
             FileNamenoext := "New"
         }
     }
     else
-        Splitpath, file, filename, , fileext, filenamenoext
+        Splitpath, file, filename, , FileExt, filenamenoext
     Gui, Destroy
     Gui, Add, Text, x12 y20 w50 h20 +Center, 模板源
     Gui, Add, Edit, x72 y20 w300 h20 Disabled, %file%
@@ -975,7 +982,7 @@ NewFile(File="")
     Gui, Add, Button, x162 y80 w90 h30 gNewFileOk default, 确认(&S)
     Gui, Add, Button, x282 y80 w90 h30 gNewFileClose , 取消(&C)
     Gui, Show, w400 h120, 新建文件
-    if Fileext
+    if FileExt
     {
         Controlget, nf, hwnd, , edit2, A
         PostMessage, 0x0B1, 0, Strlen(filenamenoext), Edit2, A
@@ -1745,6 +1752,10 @@ return
             Sleep, 100
         }
     }
+return
+
+<TC_CreateBlankFile>:
+    NewFile("创建空文件", True)
 return
 
 ; ADD HERE
