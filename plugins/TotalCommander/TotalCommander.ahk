@@ -878,9 +878,9 @@ FileTempMenuCheck()
         Ext := "." . A_LoopFileExt
         IconFile := RegGetNewFileIcon(Ext)
         IconFile := RegExReplace(IconFile, "i)%systemroot%", A_WinDir)
-        IconFilePath := RegExReplace(IconFile, ", ?-?\d*", "")
+        IconFilePath := RegExReplace(IconFile, ",-?\d*", "")
         StringReplace, IconFilePath, IconFilePath, ", , A
-        IconFileIndex := RegExReplace(IconFile, ".*, ", "")
+        IconFileIndex := RegExReplace(IconFile, ".*,", "")
         IconFileIndex := IconFileIndex>=0?IconFileIndex+1:IconFileIndex
         ;MsgBox, %Ext%_%IconFile%_%IconFilePath%_%IconFileIndex%
         if Not FileExist(IconFilePath)
@@ -1115,11 +1115,11 @@ ReadNewFile()
         IconFile := RegGetNewFileIcon(Ext)
         IconFile := RegExReplace(IconFile, "i)%systemroot%", A_WinDir)
         IconFile := RegExReplace(IconFile, "i)%ProgramFiles%", A_ProgramFiles)
-        IconFilePath := RegExReplace(IconFile, ", ?-?\d*", "")
+        IconFilePath := RegExReplace(IconFile, ",-?\d*", "")
         StringReplace, IconFilePath, IconFilePath, ", , A
         if Not FileExist(IconFilePath)
             IconFilePath := ""
-        IconFileIndex := RegExReplace(IconFile, ".*, ", "")
+        IconFileIndex := RegExReplace(IconFile, ".*,", "")
         IconFileIndex := IconFileIndex>=0?IconFileIndex+1:IconFileIndex
         ;MsgBox, %IconFile%_%IconFilePath%_%IconFileIndex%
         if Not RegExMatch(IconFileIndex, "^-?\d*$")
