@@ -1482,7 +1482,7 @@ return
         IniWrite, 0, %TCINI%, Configuration, RestrictInterface
 
         WinClose, AHK_CLASS TTOTAL_CMD
-        Sleep, 10
+        Sleep, 50
 
         Run, %TCPath%
         Loop, 4
