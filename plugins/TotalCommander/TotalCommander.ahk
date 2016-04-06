@@ -127,7 +127,6 @@
     vim.Comment("<TC_SearchMode>", "连续搜索")
     vim.Comment("<TC_CopyUseQueues>", "无需确认，使用队列拷贝文件至另一窗口")
     vim.Comment("<TC_MoveUseQueues>", "无需确认，使用队列移动文件至另一窗口")
-    vim.Comment("<Repeat>", "重复上次操作")
     vim.Comment("<TC_ViewFileUnderCursor>", "使用查看器打开光标所在文件(shift+f3)")
     vim.Comment("<TC_OpenWithAlternateViewer>", "使用外部查看器打开(alt+f3)")
     vim.Comment("<TC_ToggleShowInfo>", "显示/隐藏 按键提示")
@@ -311,7 +310,6 @@
     vim.map("zm", "<cm_Maximize>", "TTOTAL_CMD")
     vim.map("zr", "<cm_Restore>", "TTOTAL_CMD")
     vim.map("zv", "<cm_VerticalPanels>", "TTOTAL_CMD")
-    vim.map(".", "<Repeat>", "TTOTAL_CMD")
 
     vim.BeforeActionDo("TC_BeforeActionDo", "TTOTAL_CMD")
 
