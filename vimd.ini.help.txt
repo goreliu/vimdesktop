@@ -230,7 +230,6 @@ u=<cm_CloseCurrentTab>
 <c-q>=<TC_SelectCmd>
 <c-s>=<cm_CountDirContent>
 <c-y>=<cm_CopyFileDetailsToClip>
-<=<TC_SelectCmd>
 ;"=<TC_MarkFile>
 ;_=<TC_UnMarkFile>
 ;<esc>=<SwitchToEngIMEAndEsc>
