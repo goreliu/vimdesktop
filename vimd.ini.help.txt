@@ -111,7 +111,7 @@ vim
 
 ; la剩余按键 7-0
 
-; 启用/禁用 插件，默认禁用
+; 启用（1）/禁用（0） 插件，默认禁用
 [plugins]
 General=1
 TotalCommander=1
