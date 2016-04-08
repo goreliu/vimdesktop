@@ -844,12 +844,12 @@ TC_ListMark()
     ControlGetPos, xn, yn, , , %TLB%, ahk_class TTOTAL_CMD
     Menu, FileTemp, Add
     Menu, FileTemp, DeleteAll
-    Menu, FileTemp, Add , F 文件夹, <cm_Mkdir>
-    Menu, FileTemp, Icon, F 文件夹, %A_WinDir%\system32\Shell32.dll, 4
-    Menu, FileTemp, Add , S 快捷方式, <cm_CreateShortcut>
+    Menu, FileTemp, Add , F >> 文件夹, <cm_Mkdir>
+    Menu, FileTemp, Icon, F >> 文件夹, %A_WinDir%\system32\Shell32.dll, 4
+    Menu, FileTemp, Add , S >> 快捷方式, <cm_CreateShortcut>
     if A_OSVersion in WIN_2000, WIN_XP
-        Menu, FileTemp, Icon, S 快捷方式, %A_WinDir%\system32\Shell32.dll, 30 ;我测试xp下必须是30
-    else Menu, FileTemp, Icon, S 快捷方式, %A_WinDir%\system32\Shell32.dll, 264 ;原来是264，xp下反正是有问题
+        Menu, FileTemp, Icon, S >> 快捷方式, %A_WinDir%\system32\Shell32.dll, 30 ;我测试xp下必须是30
+    else Menu, FileTemp, Icon, S >> 快捷方式, %A_WinDir%\system32\Shell32.dll, 264 ;原来是264，xp下反正是有问题
     FileTempMenuCheckNewStyle()
     Menu, FileTemp, Show, %xn%, %yn%
 return
