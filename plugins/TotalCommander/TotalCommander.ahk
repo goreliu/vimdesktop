@@ -1756,6 +1756,12 @@ return
     NewFile("创建空文件", True)
 return
 
+TC_Run(cmd)
+{
+    ControlSetText, %TCEdit%, %cmd%, ahk_class TTOTAL_CMD
+    ControlSend, %TCEdit%, {Enter}, ahk_class TTOTAL_CMD
+}
+
 ; ADD HERE
 
 
