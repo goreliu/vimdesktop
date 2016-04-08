@@ -1,4 +1,33 @@
-﻿;自动输入用户名/密码信息
+﻿KeePass:
+
+vim.SetAction("<KeePass_NormalMode>", "进入normal模式")
+
+vim.SetWin("KeePass", "KeePass", "KeePass.exe")
+
+ ; normal模式（必需）
+    vim.SetMode("normal", "KeePass")
+
+    vim.Map("j", "<Down>", "KeePass")
+    vim.Map("k", "<Up>", "KeePass")
+    vim.Map("/","<focusSearch>","KeePass")
+
+    vim.BeforeActionDo("KeePass_ForceInsertMode", "KeePass")
+
+return
+
+; 对指定控件使用insert模式
+KeePass_ForceInsertMode(){
+    ControlGetFocus, ctrl, A
+    if (RegExMatch(ctrl, "Edit"))
+        return true
+    return false
+}
+
+<focusSearch>:
+	ControlFocus,Edit1,A
+	return
+
+;自动输入用户名/密码信息
 <KeePassAutoType>:
 {
     preId := 0
@@ -142,6 +171,11 @@ AutoType()
         msgbox, 尚未配置KeePass的执行路径：KeePass_Config/Path
         return 0
     }
+
+    ;切换至英文输入法，并删除当前输入框中的内容
+    GoSub, <SwitchToEngIME>
+    send ^a
+    send {del}
     
     Run, %app% -auto-type
 }
