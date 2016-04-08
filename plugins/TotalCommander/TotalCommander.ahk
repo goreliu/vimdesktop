@@ -838,6 +838,22 @@ TC_ListMark()
     ControlGetPos, xn, yn, , , %TLB%, ahk_class TTOTAL_CMD
     Menu, MarkMenu, Show, %xn%, %yn%
 }
+
+<TC_CreateNewFileNewStyle>:
+    ControlGetFocus, TLB, ahk_class TTOTAL_CMD
+    ControlGetPos, xn, yn, , , %TLB%, ahk_class TTOTAL_CMD
+    Menu, FileTemp, Add
+    Menu, FileTemp, DeleteAll
+    Menu, FileTemp, Add , F 文件夹, <cm_Mkdir>
+    Menu, FileTemp, Icon, F 文件夹, %A_WinDir%\system32\Shell32.dll, 4
+    Menu, FileTemp, Add , S 快捷方式, <cm_CreateShortcut>
+    if A_OSVersion in WIN_2000, WIN_XP
+        Menu, FileTemp, Icon, S 快捷方式, %A_WinDir%\system32\Shell32.dll, 30 ;我测试xp下必须是30
+    else Menu, FileTemp, Icon, S 快捷方式, %A_WinDir%\system32\Shell32.dll, 264 ;原来是264，xp下反正是有问题
+    FileTempMenuCheckNewStyle()
+    Menu, FileTemp, Show, %xn%, %yn%
+return
+
 ; <TC_CreateNewFile> {{{1
 ; 新建文件
 <TC_CreateNewFile>:
@@ -872,6 +888,33 @@ FileTempMenuCheck()
         if A_Index = 1
             Menu, FileTemp, Add
         ft := chr(64+A_Index) . " >> " . A_LoopFileName
+        Menu, FileTemp, Add, %ft%, FileTempNew
+        Ext := "." . A_LoopFileExt
+        IconFile := RegGetNewFileIcon(Ext)
+        IconFile := RegExReplace(IconFile, "i)%systemroot%", A_WinDir)
+        IconFilePath := RegExReplace(IconFile, ",-?\d*", "")
+        StringReplace, IconFilePath, IconFilePath, ", , A
+        IconFileIndex := RegExReplace(IconFile, ".*,", "")
+        IconFileIndex := IconFileIndex>=0?IconFileIndex+1:IconFileIndex
+        ;MsgBox, %Ext%_%IconFile%_%IconFilePath%_%IconFileIndex%
+        if Not FileExist(IconFilePath)
+            Menu, FileTemp, Icon, %ft%, %A_WinDir%\system32\Shell32.dll, 1 ;-152
+        else
+            Menu, FileTemp, Icon, %ft%, %IconFilePath%, %IconFileIndex%
+    }
+}
+
+; 检查文件模板功能（新）
+FileTempMenuCheckNewStyle()
+{
+    Global TCPath
+    Splitpath, TCPath, , TCDir
+    Loop, %TCDir%\shellnew\*.*
+    {
+        if A_Index = 1
+            Menu, FileTemp, Add
+        ft := SubStr(A_LoopFileName, 1, 1) . " >> " . A_LoopFileName
+        ;ft := chr(64+A_Index) . " >> " . A_LoopFileName
         Menu, FileTemp, Add, %ft%, FileTempNew
         Ext := "." . A_LoopFileExt
         IconFile := RegGetNewFileIcon(Ext)
