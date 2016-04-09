@@ -54,6 +54,7 @@
         Global TInEdit := "TInEdit1"
         GLobal TCPanel1 := "Window1"
         Global TCPanel2 := "Window11"
+        Global TCPathPanel := "TPathPanel2"
     }
     else
     {
@@ -62,6 +63,7 @@
         Global TInEdit := "TInEdit1"
         Global TCPanel1 := "TPanel1"
         Global TCPanel2 := "TMyPanel8"
+        Global TCPathPanel := "TPathPanel1"
     }
 
     Global Mark := []
@@ -1538,10 +1540,10 @@ return
 return
 
 <TC_SuperReturn>:
-    ControlGetText, old_pwd, TPathPanel1
+    ControlGetText, old_pwd, %TCPathPanel%, AHK_CLASS TTOTAL_CMD
     GoSub, <cm_Return>
     sleep, 10
-    ControlGetText, new_pwd, TPathPanel1
+    ControlGetText, new_pwd, %TCPathPanel%, AHK_CLASS TTOTAL_CMD
 
     if (old_pwd <> new_pwd)
     {
