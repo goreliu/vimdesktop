@@ -189,7 +189,7 @@ return
     send, {enter}
 return
 <space>:
-    send, {enter}
+    send, {space}
 return
 <backspace>:
     send, {backspace}
