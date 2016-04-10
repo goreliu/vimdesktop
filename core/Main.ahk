@@ -5,7 +5,7 @@ global default_enable_show_info
 global editor
 global VIMD_CMD_LIST
 
-Init()
+VimdRun()
 {
     ConfigPath := A_ScriptDir "\vimd.ini"
     vim := class_vim()

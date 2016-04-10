@@ -16,11 +16,11 @@ Menu, Tray, Add,
 Menu, Tray, Add, 重启(&R), <Reload>
 Menu, Tray, Add, 退出(&X), <Exit>
 
-Init()
+VimdRun()
 
 return
 
-#Include %A_ScriptDir%\core\Init.ahk
+#Include %A_ScriptDir%\core\Main.ahk
 #Include %A_ScriptDir%\core\class_vim.ahk
 #Include %A_ScriptDir%\core\VimDConfig.ahk
 #Include %A_ScriptDir%\lib\class_EasyINI.ahk
