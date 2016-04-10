@@ -13,6 +13,7 @@ global vim := class_vim()
 global ini := class_EasyINI(A_ScriptDir "\vimd.ini")
 global default_enable_show_info := ini.config.default_enable_show_info
 global editor := ini.config.editor
+global VIMD_CMD_LIST := []
 
 Menu, Tray, Icon, %A_ScriptDir%\viatc.ico
 Menu, Tray, NoStandard
@@ -46,7 +47,7 @@ CheckPlugin()
 CheckHotKey()
 
 ; 用于接收来自 cehck.ahk 的信息
-OnMessage(0x4a, "Receive_WM_COPYDATA")
+OnMessage(0x4a, "ReceiveWMCopyData")
 
 return
 
@@ -82,8 +83,6 @@ CheckPlugin()
 
 CheckHotKey()
 {
-    global VIMD_CMD_LIST := IsObject(VIMD_CMD_LIST) ? VIMD_CMD_LIST : []
-
     for this_key, this_action in ini.global
     {
         this_mode := "normal"
@@ -160,7 +159,6 @@ CheckHotKey()
 
 VIMD_CMD()
 {
-    global VIMD_CMD_LIST
     obj := GetLastAction()
     if RegExMatch(VIMD_CMD_LIST[obj.keytemp], "i)^(run)\|", m)
     {
@@ -180,7 +178,7 @@ VIMD_CMD()
     }
 }
 
-Receive_WM_COPYDATA(wParam, lParam)
+ReceiveWMCopyData(wParam, lParam)
 {
     ; 获取 CopyDataStruct 的 lpData 成员.
     StringAddress := NumGet(lParam + 2 * A_PtrSize)
