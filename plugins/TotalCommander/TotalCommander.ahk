@@ -155,6 +155,7 @@
     vim.Comment("<TC_ReOpenTab>", "重新打开之前关闭的标签页")
     vim.Comment("<TC_OpenDirsInFile>", "将光标所在的文件内容中的文件夹在新标签页依次打开")
     vim.Comment("<TC_CreateBlankFile>", "创建空文件")
+    vim.Comment("<TC_PasteFileEx>", "粘贴文件，如果光标下为目录则粘贴进目录")
 
     GoSub, TCCOMMAND
 
@@ -1807,6 +1808,26 @@ TC_Run(cmd)
     ControlSetText, %TCEdit%, %cmd%, ahk_class TTOTAL_CMD
     ControlSend, %TCEdit%, {Enter}, ahk_class TTOTAL_CMD
 }
+
+; 粘贴文件，如果光标下为目录则粘贴进目录
+<TC_PasteFileEx>:
+    OldClip := ClipboardAll
+    Clipboard =
+    SendPos(524)   ;cm_ClearAll
+    SendPos(2018)  ;cm_CopyFullNamesToClip
+    ClipWait
+    TempClip := Clipboard
+    If (SubStr(TempClip, 0) == "\")
+    {
+        SendPos(1001)  ;cm_Return
+        Clipboard := OldClip
+        SendPos(2009)  ;cm_PasteFromClipboard
+        SendPos(2002)  ;cm_GoToParent
+    } else {
+        Clipboard := OldClip
+        SendPos(2009)  ;cm_PasteFromClipboard
+    }
+return
 
 ; ADD HERE
 
