@@ -565,7 +565,8 @@ Class __vim
         ; 获取当前的热键
         k := this.CheckCapsLock(this.Convert2VIM(A_ThisHotkey))
         ; 如果winName在排除窗口中，直接发送热键
-        if this.ExcludeWinList[winName] {
+        if this.ExcludeWinList[winName]
+        {
             Send, % this.Convert2AHK(k, ToSend := true)
             return
         }
@@ -764,6 +765,8 @@ Class __vim
             return "<RA-" this.Upper(m1) ">"
         if RegExMatch(key, "i)^lwin\s&\s(.*)", m) or RegExMatch(key, "^#(.*)", m)
             return "<W-" this.Upper(m1) ">"
+        if RegExMatch(key, "i)^space\s&\s(.*)", m)
+            return "<SP-" this.Upper(m1) ">"
         if RegExMatch(key, "i)^alt$")
             return "<Alt>"
         if RegExMatch(key, "i)^ctrl$")
@@ -828,6 +831,8 @@ Class __vim
                 return ToSend ? ">!" this.CheckToSend(m1) : ">!" m1
             if RegExMatch(key, "i)^w\-(.*)", m)
                 return ToSend ? "#" this.CheckToSend(m1) : "#" m1
+            if RegExMatch(key, "i)^SP\-(.*)", m)
+                return ToSend ? "{space}" this.CheckToSend(m1) : "space & " m1
         }
         else
             return key

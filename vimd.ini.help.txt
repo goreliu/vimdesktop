@@ -183,6 +183,9 @@ OpenFileDialogExclude = password , 密码
 ; <c-f>：ctrl + f
 ; <a-f>：alt + f
 ; <la-f>：lalt + f
+; <sp-f>：space + f
+; 使用<sp->时避免空格不可用，加下一行
+; <space>=key|{space}
 ;
 ; <c-j>=run|notepad.exe
 ; 运行命令，[=normal]可选，默认为normal模式
