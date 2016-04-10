@@ -4,8 +4,8 @@
     global TCMarkINI
     global ini
 
-    IniRead, TCPath, %ConfigPath%, TotalCommander_Config, TCPath
-    IniRead, TCINI, %ConfigPath%, TotalCommander_Config, TCINI
+    TCPath := ini.TotalCommander_Config.TCPath
+    TCINI := ini.TotalCommander_Config.TCINI
 
     if !FileExist(TCPath)
     {
@@ -20,6 +20,7 @@
             if ErrorLevel
                 WinGet, TCPath, ProcessPath, ahk_pid %ErrorLevel%
         }
+
         if TCPath
             IniWrite, %TCPath%, %ConfigPath%, TotalCommander_Config, TCPath
     }
@@ -67,9 +68,8 @@
     }
 
     Global Mark := []
-    Global SaveMark
+    Global SaveMark := ini.TotalCommander_Config.SaveMark
 
-    IniRead, SaveMark, %ConfigPath%, TotalCommander_Config, SaveMark
     if (SaveMark <> 0)
     {
         IniRead, all_marks, %TCMarkINI%, mark, ms
@@ -466,7 +466,7 @@ TC_azHistory()
     history := ""
     if Mod(LeftRight(), 2)
     {
-        IniRead, f, %ConfigPath%, redirect, LeftHistory
+        f := ini.redirect.LeftHistory
 
         if FileExist(f)
             IniRead, history, %f%, LeftHistory
@@ -481,7 +481,8 @@ TC_azHistory()
     }
     else
     {
-        IniRead, f, %ConfigPath%, redirect, RightHistory
+        f := ini.redirect.RightHistory
+
         if FileExist(f)
             IniRead, history, %f%, RightHistory
         else
