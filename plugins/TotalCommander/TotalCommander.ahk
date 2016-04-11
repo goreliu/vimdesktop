@@ -110,6 +110,7 @@
     vim.Comment("<TC_ForceDelete>", "强制删除")
     vim.Comment("<TC_ListMark>", "显示标记")
     vim.Comment("<TC_Toggle_50_100Percent>", "切换当前窗口显示状态50%~100%")
+    vim.Comment("<TC_Toggle_50_100Percent_V>", "切换当前（纵向）窗口显示状态50%~100%")
     vim.Comment("<TC_WinMaxLeft>", "最大化左侧窗口")
     vim.Comment("<TC_WinMaxRight>", "最大化右侧窗口")
     vim.Comment("<TC_GoLastTab>", "切换到最后一个标签")
@@ -306,6 +307,7 @@
     vim.map("Vw", "<cm_VisDirTabs>", "TTOTAL_CMD")
     vim.map("Ve", "<cm_CommandBrowser>", "TTOTAL_CMD")
     vim.map("zz", "<TC_Toggle_50_100Percent>", "TTOTAL_CMD")
+    vim.map("zh", "<TC_Toggle_50_100Percent_V>", "TTOTAL_CMD")
     vim.map("zi", "<TC_WinMaxLeft>", "TTOTAL_CMD")
     vim.map("zo", "<TC_WinMaxRight>", "TTOTAL_CMD")
     vim.map("zt", "<TC_AlwayOnTop>", "TTOTAL_CMD")
@@ -1477,7 +1479,7 @@ Totalcomander_select_tcdir()
     GuiControl, , Edit1, %tcdir%
 }
 
-;切换显示比例50%-100%
+; 切换当前（纵向）窗口显示状态50%~100%"
 <TC_Toggle_50_100Percent>:
     ControlGetPos, , , wp, hp, TPanel1, ahk_class TTOTAL_CMD
     ControlGetPos, , , w1, h1, TMyListBox1, ahk_class TTOTAL_CMD
@@ -1499,6 +1501,42 @@ Totalcomander_select_tcdir()
             SendPos(910)
     }
 return
+
+; 切换当前（纵向）窗口显示状态50%~100%"
+; 横向分割的窗口使用 TC_Toggle_50_100Percent 即可
+<TC_Toggle_50_100Percent_V>:
+    ControlGetPos, , , wp, hp, TPanel1, ahk_class TTOTAL_CMD
+    ControlGetPos, , , w1, h1, TMyListBox1, ahk_class TTOTAL_CMD
+    ControlGetPos, , , w2, h2, TMyListBox2, ahk_class TTOTAL_CMD
+    if (wp < hp)  ;纵向
+    {
+        if (abs(w1 - w2) > 2)
+        {
+            SendPos(909)
+        }
+        else
+        {
+            SendPos(910)
+            SendPos(305)
+        }
+    }
+    else          ;横向
+    {
+        if (abs(h1 - h2)  > 2)
+        {
+            SendPos(305)
+            SendPos(909)
+        }
+        /*
+        横向切换会错乱
+        else
+        {
+            SendPos(910)
+        }
+        */
+    }
+return
+
 
 ;使用外部查看器打开（alt+f3）
 <TC_OpenWithAlternateViewer>:

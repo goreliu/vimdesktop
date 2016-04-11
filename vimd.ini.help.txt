@@ -240,3 +240,5 @@ u=<cm_CloseCurrentTab>
 ;"=<TC_MarkFile>
 ;_=<TC_UnMarkFile>
 ;<esc>=<SwitchToEngIMEAndEsc>
+;zh=<TC_Toggle_50_100Percent>
+;zz=<TC_Toggle_50_100Percent_V>
