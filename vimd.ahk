@@ -1,4 +1,5 @@
-﻿#SingleInstance, Force
+﻿#NoEnv
+#SingleInstance, Force
 
 CoordMode, Tooltip, Screen
 CoordMode, Mouse, Screen
@@ -7,6 +8,7 @@ SetControlDelay, -1
 SetKeyDelay, -1
 Detecthiddenwindows, on
 FileEncoding, utf-8
+SendMode Input
 
 Menu, Tray, Icon, %A_ScriptDir%\viatc.ico
 Menu, Tray, NoStandard
