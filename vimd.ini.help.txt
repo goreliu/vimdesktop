@@ -54,60 +54,60 @@ vim
 
 ; win剩余按键 n u v ' , .  / [ ] \ enter -
 
-<la-a>=key|^a
+:<la-a>=key|^a
 ; 向左移动一个单词
-<la-b>=key|^{left}
+:<la-b>=key|^{left}
 ; 复制
-<la-c>=key|^{insert}
-<la-d>=<WindowRestore>
-<la-e>=<SearchInWeb>
-<la-f>=<FullScreen>
+:<la-c>=key|^{insert}
+:<la-d>=<WindowRestore>
+:<la-e>=<SearchInWeb>
+:<la-f>=<FullScreen>
 ; 第一行
-<la-g>=key|^{home}
-<la-h>=<left>
-<la-i>=<home>
-<la-j>=<down>
-<la-k>=<up>
-<la-l>=<right>
-<la-m>=<WindowMax>
-<la-n>=<pgdn>
-<la-o>=<end>
-<la-p>=<pgup>
-<la-q>=key|!{f4}
+:<la-g>=key|^{home}
+:<la-h>=<left>
+:<la-i>=<home>
+:<la-j>=<down>
+:<la-k>=<up>
+:<la-l>=<right>
+:<la-m>=<WindowMax>
+:<la-n>=<pgdn>
+:<la-o>=<end>
+:<la-p>=<pgup>
+:<la-q>=key|!{f4}
 ; 修改文件扩展名之外的部分
-<la-r>=key|{f2}{f2}
-<la-s>=key|^{tab}
+:<la-r>=key|{f2}{f2}
+:<la-s>=key|^{tab}
 ; 最后一行
-<la-t>=key|^{end}
-<la-u>=<CloseTab>
+:<la-t>=key|^{end}
+:<la-u>=<CloseTab>
 ; 粘贴
-<la-v>=key|+{insert}
+:<la-v>=key|+{insert}
 ; 向右移动一个单词
-<la-w>=key|^{right}
-<la-x>=key|^x
-<la-y>=key|^y
-<la-z>=key|^z
-<la-1>=key|{Media_Play_Pause}
-<la-2>=key|{Media_Next}
-<la-3>=key|{Volume_Down}
-<la-4>=key|{Volume_Up}
-<la-5>=key|{Media_Prev}
-<la-6>=key|{Volume_Mute}
-<la-up>=<MouseUp>
-<la-down>=<MouseDown>
-<la-left>=<MouseLeft>
-<la-right>=<MouseRight>
-<la-backspace>=key|^{backspace}
-<la-,>=<WindowMin>
-<la-.>=key|{del}
-<la-;>=key|{Enter}
-<la-`>=<ToggleCapsLock>
-<la-'>=<backspace>
-<la-[>=key|(
-<la-]>=key|)
-<la-/>=key|@
-<la-\>=key|^{del}
-<la-->=<vc_keymap>
+:<la-w>=key|^{right}
+:<la-x>=key|^x
+:<la-y>=key|^y
+:<la-z>=key|^z
+:<la-1>=key|{Media_Play_Pause}
+:<la-2>=key|{Media_Next}
+:<la-3>=key|{Volume_Down}
+:<la-4>=key|{Volume_Up}
+:<la-5>=key|{Media_Prev}
+:<la-6>=key|{Volume_Mute}
+:<la-up>=<MouseUp>
+:<la-down>=<MouseDown>
+:<la-left>=<MouseLeft>
+:<la-right>=<MouseRight>
+:<la-backspace>=key|^{backspace}
+:<la-,>=<WindowMin>
+:<la-.>=key|{del}
+:<la-;>=key|{Enter}
+:<la-`>=<ToggleCapsLock>
+:<la-'>=<backspace>
+:<la-[>=key|(
+:<la-]>=key|)
+:<la-/>=key|@
+:<la-\>=key|^{del}
+:<la-->=<vc_keymap>
 
 ; la剩余按键 7-0
 
