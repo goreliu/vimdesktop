@@ -1399,6 +1399,7 @@ return
     SendPos(526)
     SetTimer WaitMenuPop2
 return
+
 WaitMenuPop2:
     winget, menupop, , ahk_class #32768
     if menupop
@@ -1407,16 +1408,18 @@ WaitMenuPop2:
         SetTimer, WaitMenuOff2
     }
 return
+
 WaitMenuOff2:
     winget, menupop, , ahk_class #32768
     if not menupop
     {
-    SetTimer, WaitMenuOff2, off
-    goto, goonmove
+        SetTimer, WaitMenuOff2, off
+        goto, GoonMove
     }
 return
+
 GoonMove:
-    ControlFocus, %CurrentFocus% , ahk_class TTOTAL_CMD
+    ControlFocus, %CurrentFocus%, ahk_class TTOTAL_CMD
     SendPos(1005)
 return
 
@@ -1434,13 +1437,12 @@ return
     Send {Tab}
 return
 
-<Totalcomander_GUI>:
-return
-
 Totalcomander_select_tc:
     Totalcomander_select_tc()
 return
-Totalcomander_select_tc(){
+
+Totalcomander_select_tc()
+{
     GUI, FindTC:Default
     GuiControlGet, dir, , Edit1
     TCPath := dir "\totalcmd.exe"
@@ -1449,10 +1451,13 @@ Totalcomander_select_tc(){
     IniWrite, %TCPath%, %ConfigPath%, TotalCommander_Config, TCPath
     IniWrite, %TCINI%, %ConfigPath%, TotalCommander_Config, TCINI
 }
+
 Totalcomander_select_tc64:
     Totalcomander_select_tc64()
 return
-Totalcomander_select_tc64(){
+
+Totalcomander_select_tc64()
+{
     GUI, FindTC:Default
     GuiControlGet, dir, , Edit1
     TCPath := dir "\totalcmd64.exe"
@@ -1461,10 +1466,13 @@ Totalcomander_select_tc64(){
     IniWrite, %TCPath%, %ConfigPath%, TotalCommander_Config, TCPath
     IniWrite, %TCINI%, %ConfigPath%, TotalCommander_Config, TCINI
 }
+
 Totalcomander_select_tcdir:
     Totalcomander_select_tcdir()
 return
-Totalcomander_select_tcdir(){
+
+Totalcomander_select_tcdir()
+{
     FileSelectFolder, tcdir, , 0, 打开TC安装目录
     GuiControl, , Edit1, %tcdir%
 }
@@ -1474,21 +1482,23 @@ Totalcomander_select_tcdir(){
     ControlGetPos, , , wp, hp, TPanel1, ahk_class TTOTAL_CMD
     ControlGetPos, , , w1, h1, TMyListBox1, ahk_class TTOTAL_CMD
     ControlGetPos, , , w2, h2, TMyListBox2, ahk_class TTOTAL_CMD
-    if (wp  < hp)     ;纵向
-        {
-        if (abs(w1 - w2) > 2  )
+    if (wp < hp)
+    {
+        ;纵向
+        if (abs(w1 - w2) > 2)
             SendPos(909)
         else
             SendPos(910)
-        }
-    else    ;横向
-        {
-        if (abs(h1 - h2)  > 2  )
+    }
+    else
+    {
+        ;横向
+        if (abs(h1 - h2)  > 2)
             SendPos(909)
         else
             SendPos(910)
-        }
-    return
+    }
+return
 
 ;使用外部查看器打开（alt+f3）
 <TC_OpenWithAlternateViewer>:
