@@ -10,7 +10,7 @@ Detecthiddenwindows, on
 FileEncoding, utf-8
 SendMode Input
 
-Menu, Tray, Icon, %A_ScriptDir%\viatc.ico
+Menu, Tray, Icon, %A_ScriptDir%\vimd.ico
 Menu, Tray, NoStandard
 Menu, Tray, Add, 查看热键(&K), <vc_Keymap>
 Menu, Tray, Add, 查看插件(&P), <vc_Plugin>
