@@ -195,6 +195,8 @@ OpenFileDialogExclude = password , 密码
 ; 用TC打开目录，[=normal]可选，默认为normal模式
 ; <c-m>=tccmd|em_test
 ; 在TC的命令行运行命令，[=normal]可选，默认为normal模式
+; <c-n>=wshkey|xx
+; 映射按键，使用WScript.Shell的SendKeys()调用，[=normal]可选，默认为normal模式
 
 
 a=<cm_SelectAll>
