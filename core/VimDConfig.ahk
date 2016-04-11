@@ -280,7 +280,7 @@ return
 
 SearchFileForEdit(Action, Desc, EditKeyMapping)
 {
-    IsUserCmd := RegExMatch(Action, "^((run)|(key)|(dir)|(tccmd))$")
+    IsUserCmd := RegExMatch(Action, "^(run|key|dir|tccmd|wshkey)$")
     if (IsUserCmd || EditKeyMapping)
     {
         SearchLine := "=" Action

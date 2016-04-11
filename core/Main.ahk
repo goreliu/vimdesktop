@@ -4,6 +4,7 @@ global ini
 global default_enable_show_info
 global editor
 global VIMD_CMD_LIST
+global WshShell
 
 VimdRun()
 {
@@ -84,7 +85,7 @@ CheckHotKey()
         }
 
         vim.mode(this_mode)
-        if RegExMatch(this_action, "^((run)|(key)|(dir)|(tccmd))\|")
+        if RegExMatch(this_action, "^(run|key|dir|tccmd|wshkey)\|")
         {
             vim.map(this_key, "VIMD_CMD")
             VIMD_CMD_LIST[this_key] := this_action
@@ -130,7 +131,7 @@ CheckHotKey()
 
             vim.mode(this_mode, PluginName)
 
-            if RegExMatch(n, "i)^((run)|(key)|(dir)|(tccmd))\|")
+            if RegExMatch(n, "i)^(run|key|dir|tccmd|wshkey)\|")
             {
                 /*
                 示例：
@@ -166,6 +167,15 @@ VIMD_CMD()
     else if RegExMatch(VIMD_CMD_LIST[obj.keytemp], "i)^(tccmd)\|", m)
     {
         TC_Run(substr(VIMD_CMD_LIST[obj.keytemp], strlen(m1) + 2))
+    }
+    else if RegExMatch(VIMD_CMD_LIST[obj.keytemp], "i)^(wshkey)\|", m)
+    {
+        if (!WshShell)
+        {
+            WshShell := ComObjCreate("WScript.Shell")
+        }
+
+        WshShell.SendKeys(substr(VIMD_CMD_LIST[obj.keytemp], strlen(m1) + 2))
     }
 }
 
