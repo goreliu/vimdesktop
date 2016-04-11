@@ -257,7 +257,7 @@ Class __vim
     GetMode(winName = "")
     {
         winObj := This.GetWin(winName)
-        return winObj.modeList[winobj.ExistMode()]
+        return winObj.modeList[winObj.ExistMode()]
     }
 
     ; GetInputState {{{2
@@ -445,6 +445,8 @@ Class __vim
     ; Control(bold, winName) {{{2
     Control(bold, winName = "", all=false)
     {
+        local class
+
         winObj := this.GetWin(winName)
         class := winObj.Class
         filepath := winObj.filepath
@@ -545,8 +547,8 @@ Class __vim
                 return r
         }
         else
-            if winobj.count
-                return winobj.count
+            if winObj.count
+                return winObj.count
     }
 
     ; Clear() {{{2

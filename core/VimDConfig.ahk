@@ -144,7 +144,7 @@ VimDConfig_keymap_loadmodelist(win = "")
         winObj := vim.GetWin()
     Else
         winObj := vim.GetWin(win)
-    for mode, obj in winobj.modeList
+    for mode, obj in winObj.modeList
         mlist .= "|" mode
     GuiControl, , ListBox2, %mlist%
     return win
