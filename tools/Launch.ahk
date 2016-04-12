@@ -98,6 +98,11 @@ GenerateCommandList()
         {
             Loop, Files, %searchPath%\%ext%, R
             {
+                if (g_Conf.config.SearchFileExclude != ""
+                        && RegexMatch(A_LoopFileLongPath, g_Conf.config.SearchFileExclude))
+                {
+                    continue
+                }
                 FileAppend, file | %A_LoopFileLongPath%`n, %g_CommandsFile%,
             }
         }
