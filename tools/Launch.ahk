@@ -25,8 +25,8 @@ global g_CurrentCommand
 global g_CurrentCommandList
 ; 是否启用 TCMatch
 global g_EnableTCMatch = TCMatchOn(g_Conf.config.TCMatchPath)
-; 当前输入命令的参数，数组
-global g_Args
+; 当前输入命令的参数，数组，为了方便没有添加 g_ 前缀
+global Args
 
 if (FileExist(g_CommandsFile))
 {
@@ -119,7 +119,7 @@ SearchCommand(command = "", firstRun = false)
     ; 用逗号来判断参数
     if (InStr(command, ",") && g_CurrentCommand != "")
     {
-        g_Args := StrSplit(g_CurrentInput, ",")
+        Args := StrSplit(g_CurrentInput, ",")
         return
     }
 
@@ -321,12 +321,12 @@ DisplayText(text)
 ArgTest:
     result := ""
 
-    for index, argument in g_Args
+    for index, argument in Args
     {
         if (index == 1)
         {
             result .= "输入的命令名：" . argument
-                . "，共有 " . g_args.Length() . " 个参数。`n`n"
+                . "，共有 " . Args.Length() . " 个参数。`n`n"
         }
         else if (index > 1)
         {
