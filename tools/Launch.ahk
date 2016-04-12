@@ -4,18 +4,40 @@
 
 FileEncoding, utf-8
 
-global g_SearchFileDir := "A_ProgramsCommon | A_StartMenu | c:\mine\app\0link"
-global g_SearchFileType := "*.lnk | *.exe"
-global g_SearchFileInclude := ""
-global g_SearchFileExclude := ""
+; 从配置文件读取
+global g_SearchFileDir
+global g_SearchFileType
 
+; 自动生成的命令文件
 global g_CommandsFile := A_ScriptDir . "\Commands.txt"
+; 手动填写的命令文件
 global g_UserCommandsFile := A_ScriptDir . "\UserCommands.txt"
+; 配置文件
+global g_ConfFile := A_ScriptDir . "\Launch.ini"
 
+; 所有命令
 global g_Commands
+; 编辑框当前内容
 global g_CurrentInput
+; 当前匹配到的第一条命令
 global g_CurrentCommand
+; 当前匹配到的所有命令
 global g_CurrentCommandList
+global g_EnableTCMatch
+
+IniRead, g_SearchFileDir, %g_ConfFile%, config, SearchFileDir
+IniRead, g_SearchFileType, %g_ConfFile%, config, SearchFileType
+
+IniRead, TCMatchPath, %g_ConfFile%, config, TCMatchPath
+
+if (FileExist(TCMatchPath) && TCMatchOn(TCMatchPath))
+{
+    g_EnableTCMatch := true
+}
+else
+{
+    g_EnableTCMatch := false
+}
 
 if (FileExist(g_CommandsFile))
 {
@@ -34,7 +56,6 @@ Gui, Main:Add, Edit, gProcessInputCommand vSearchArea w600 h25
 Gui, Main:Add, Edit, w600 h250 ReadOnly gSelectCommand vDisplayArea, %commands%
 Gui, Main:Show, , Launch
 ;WinSet, Style, -0xC00000, A
-
 
 Hotkey, IfWinActive, Launch
 HotKey, enter, RunCurrentCommand
@@ -119,7 +140,7 @@ SearchCommand(command = "", firstRun = false)
             elementToShow := SubStr(element, 1, 68)
         }
 
-        if (InStr(currentCommand, command))
+        if (MatchCommand(currentCommand, command))
         {
             elementToRun := StrSplit(element, "（")[1]
 
@@ -168,6 +189,17 @@ return
 RunCurrentCommand:
     RunCommand(g_CurrentCommand)
 return
+
+MatchCommand(Haystack, Needle)
+{
+    if (g_EnableTCMatch)
+    {
+        return TCMatch(Haystack, Needle)
+
+    }
+
+    return InStr(Haystack, Needle)
+}
 
 RunCommand(command)
 {
@@ -298,4 +330,5 @@ RunWithCmd(command)
 }
 
 #include %A_ScriptDir%\Kanji\Kanji.ahk
+#include %A_ScriptDir%\TCMatch.ahk
 #include %A_ScriptDir%\Commands.ahk
