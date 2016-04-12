@@ -3,6 +3,7 @@
 #NoTrayIcon
 
 FileEncoding, utf-8
+SendMode Input
 
 ; 自动生成的命令文件
 global g_CommandsFile := A_ScriptDir . "\Commands.txt"
@@ -34,12 +35,9 @@ else
     GoSub, ReloadCommand
 }
 
-commands := SearchCommand("", true)
-
 Gui, Main:Font, s12
-Gui, Main:Add, Edit, gProcessInputCommand vSearchArea w600 h25
-;Gui, Main:Add, Button, w0 h0
-Gui, Main:Add, Edit, w600 h250 ReadOnly vDisplayArea, %commands%
+Gui, Main:Add, Edit, gProcessInputCommand vSearchArea w600 h25,
+Gui, Main:Add, Edit, w600 h250 ReadOnly vDisplayArea, % SearchCommand("", true)
 Gui, Main:Show, , Launch
 ;WinSet, Style, -0xC00000, A
 
@@ -58,10 +56,23 @@ Loop, Parse, bindKeys
     HotKey, ~+%A_LoopField%, AddCustomCommand
 }
 
+
+if (g_Conf.config.SaveInputText && g_Conf.auto.InputText != "")
+{
+    Send, % g_Conf.auto.InputText
+}
+
 return
 
 Esc::
+    if (g_Conf.config.SaveInputText)
+    {
+        g_Conf.DeleteKey("auto", "InputText")
+        g_Conf.AddKey("auto", "InputText", g_CurrentInput)
+        g_Conf.Save()
+    }
     ExitApp
+return
 
 GenerateCommandList()
 {
