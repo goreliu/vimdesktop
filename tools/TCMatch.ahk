@@ -1,4 +1,4 @@
-TCMatchOn(aDllPath, aOff:=False)
+﻿TCMatchOn(aDllPath, aOff:=False)
 {
     Static hModule := 0
     If !hModule && FileExist(aDllPath)

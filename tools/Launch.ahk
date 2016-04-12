@@ -4,16 +4,14 @@
 
 FileEncoding, utf-8
 
-; 从配置文件读取
-global g_SearchFileDir
-global g_SearchFileType
-
 ; 自动生成的命令文件
 global g_CommandsFile := A_ScriptDir . "\Commands.txt"
-; 手动填写的命令文件
-global g_UserCommandsFile := A_ScriptDir . "\UserCommands.txt"
 ; 配置文件
-global g_ConfFile := A_ScriptDir . "\Launch.ini"
+global g_Conf := class_EasyINI(A_ScriptDir . "\Launch.ini")
+
+; 从配置文件读取
+global g_SearchFileDir = g_Conf.config.SearchFileDir
+global g_SearchFileType = g_Conf.config.SearchFileType
 
 ; 所有命令
 global g_Commands
@@ -23,21 +21,8 @@ global g_CurrentInput
 global g_CurrentCommand
 ; 当前匹配到的所有命令
 global g_CurrentCommandList
-global g_EnableTCMatch
-
-IniRead, g_SearchFileDir, %g_ConfFile%, config, SearchFileDir
-IniRead, g_SearchFileType, %g_ConfFile%, config, SearchFileType
-
-IniRead, TCMatchPath, %g_ConfFile%, config, TCMatchPath
-
-if (FileExist(TCMatchPath) && TCMatchOn(TCMatchPath))
-{
-    g_EnableTCMatch := true
-}
-else
-{
-    g_EnableTCMatch := false
-}
+; 是否启用 TCMatch
+global g_EnableTCMatch = TCMatchOn(g_Conf.config.TCMatchPath)
 
 if (FileExist(g_CommandsFile))
 {
@@ -63,7 +48,10 @@ HotKey, enter, RunCurrentCommand
 bindKeys := "abcdefghijklmno"
 Loop, Parse, bindKeys
 {
-    HotKey, ~%A_LoopField%, RunSelectedCommand
+    ; lalt
+    HotKey, <!%A_LoopField%, RunSelectedCommand1
+    HotKey, ~%A_LoopField%, RunSelectedCommand2
+    HotKey, ~+%A_LoopField%, AddCustomCommand
 }
 
 return
@@ -90,7 +78,7 @@ GenerateCommandList()
         {
             Loop, Files, %searchPath%\%ext%, R
             {
-                FileAppend, file | %A_LoopFileLongPath%`n, %g_CommandsFile%, 
+                FileAppend, file | %A_LoopFileLongPath%`n, %g_CommandsFile%,
             }
         }
     }
@@ -128,7 +116,7 @@ SearchCommand(command = "", firstRun = false)
 
             break
         }
-            
+
         if (InStr(element, "file | ", true, 1))
         {
             ; 只搜不带扩展名的文件名
@@ -163,7 +151,7 @@ SearchCommand(command = "", firstRun = false)
             }
         }
     }
-    
+
     if (result == "")
     {
         if (SubStr(command, 1, 1) == ":" || SubStr(command, 1, 1) == ";")
@@ -195,7 +183,6 @@ MatchCommand(Haystack, Needle)
     if (g_EnableTCMatch)
     {
         return TCMatch(Haystack, Needle)
-
     }
 
     return InStr(Haystack, Needle)
@@ -223,7 +210,13 @@ RunCommand(command)
     }
 }
 
-RunSelectedCommand:
+RunSelectedCommand1:
+    index := Asc(SubStr(A_ThisHotkey, 3, 1)) - Asc("a") + 1
+
+    RunCommand(g_CurrentCommandList[index])
+return
+
+RunSelectedCommand2:
     ControlGetFocus, ctrl,
     if (ctrl == "Edit1")
     {
@@ -233,6 +226,25 @@ RunSelectedCommand:
     index := Asc(SubStr(A_ThisHotkey, 2, 1)) - Asc("a") + 1
 
     RunCommand(g_CurrentCommandList[index])
+return
+
+AddCustomCommand:
+    ControlGetFocus, ctrl,
+    if (ctrl == "Edit1")
+    {
+        return
+    }
+
+    index := Asc(SubStr(A_ThisHotkey, 3, 1)) - Asc("a") + 1
+
+    if (g_CurrentCommandList[index] != "")
+    {
+        g_Conf.AddKey("command", g_CurrentCommandList[index], g_CurrentInput)
+
+        g_Conf.Save()
+
+        LoadCommands()
+    }
 return
 
 LoadCommands()
@@ -246,9 +258,16 @@ LoadCommands()
 
     GoSub, UserCmd
 
-    Loop, Read, %g_UserCommandsFile%
+    for key, value in g_Conf.command
     {
-        g_Commands.Insert(A_LoopReadLine)
+        if (value != "")
+        {
+            g_Commands.Insert(key . "（" . value "）")
+        }
+        else
+        {
+            g_Commands.Insert(key)
+        }
     }
 
     Loop, Read, %g_CommandsFile%
@@ -329,6 +348,7 @@ RunWithCmd(command)
     }
 }
 
+#include %A_ScriptDir%\..\lib\class_EasyIni.ahk
 #include %A_ScriptDir%\Kanji\Kanji.ahk
 #include %A_ScriptDir%\TCMatch.ahk
 #include %A_ScriptDir%\Commands.ahk
