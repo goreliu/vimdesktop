@@ -4,6 +4,7 @@
 
 UserCmd:
     @("ClearClipboardFormat", "清除剪切板中文字的格式")
+    @("Calc", "计算器")
     @("SearchInWeb", "在浏览器（百度）搜索剪切板或输入内容")
     @("RunClipboard", "使用 ahk 的 Run 运行剪切板内容")
     @("T2S", "繁体转简体剪切板内容")
@@ -55,4 +56,8 @@ return
 
 RunClipboard:
     Run, %clipboard%
+return
+
+Calc:
+    DisplayText(Eval(Args[2]))
 return

@@ -402,6 +402,7 @@ RunWithCmd(command)
 }
 
 #include %A_ScriptDir%\..\lib\class_EasyIni.ahk
-#include %A_ScriptDir%\Kanji\Kanji.ahk
-#include %A_ScriptDir%\TCMatch.ahk
+#include %A_ScriptDir%\lib\Kanji\Kanji.ahk
+#include %A_ScriptDir%\lib\TCMatch.ahk
+#include %A_ScriptDir%\lib\Eval.ahk
 #include %A_ScriptDir%\Commands.ahk
