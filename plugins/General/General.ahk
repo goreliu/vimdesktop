@@ -51,7 +51,8 @@
     vim.SetAction("<MouseLeft>", "向左移动鼠标")
     vim.SetAction("<MouseRight>", "向右移动鼠标")
     vim.SetAction("<SearchInWeb>", "在网络搜索剪切板内容")
-    vim.SetAction("<GKey>", "GKey全局快捷操作")
+    vim.SetAction("<Launch>", "打开Launch工具")
+    vim.SetAction("<GKey>", "打开Launch工具")
     vim.SetAction("<Test>", "测试")
 
 
@@ -906,8 +907,13 @@ ShowHelp()
     showToolTipStatus := !showToolTipStatus
 return
 
+<Launch>:
+    Run, %A_ScriptDir%\tools\Launch.ahk
+return
+
+; 兼容老配置
 <GKey>:
-    Run, %A_ScriptDir%\tools\GKey.ahk
+    GoSub, <Launch>
 return
 
 <ToggleCapsLock>:

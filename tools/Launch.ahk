@@ -298,4 +298,4 @@ RunWithCmd(command)
 }
 
 #include %A_ScriptDir%\Kanji\Kanji.ahk
-#include %A_ScriptDir%\GKey.conf
+#include %A_ScriptDir%\Commands.ahk

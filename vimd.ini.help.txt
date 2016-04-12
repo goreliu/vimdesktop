@@ -22,8 +22,6 @@
 default_enable_show_info=1
 ; 配置编辑器，请填写完整路径，如果填写的是 notepad ，将使用 notepad2 的参数
 editor=
-; Win + n 进入的 Launch 目录
-launch_dir=
 ; 打印调试日志
 enable_log=0
 ; 打开调试窗口
@@ -42,9 +40,9 @@ vim
 ; 激活TC作为文件选择框，再次按下该快捷键可执行文件打开操作
 <w-o>=<TC_OpenTCDialog>
 <w-c>=run|explorer
-<w-j>=<GKey>
+<w-j>=<Launch>
+;<a-space>=<Launch>
 <w-`>=run|control
-<w-n>=<Launch>
 ;<w-f>=run|firefox
 ;<w-w>=run|mintty -e ~/.bin/tmux_starter
 ;<w-a>=run|c:\mine\app\foobar2000\foobar2000.exe
