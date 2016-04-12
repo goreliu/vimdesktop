@@ -25,6 +25,8 @@ global g_CurrentCommand
 global g_CurrentCommandList
 ; 是否启用 TCMatch
 global g_EnableTCMatch = TCMatchOn(g_Conf.config.TCMatchPath)
+; 当前输入命令的参数，数组
+global g_Args
 
 if (FileExist(g_CommandsFile))
 {
@@ -38,6 +40,10 @@ else
 Gui, Main:Font, s12
 Gui, Main:Add, Edit, gProcessInputCommand vSearchArea w600 h25,
 Gui, Main:Add, Edit, w600 h250 ReadOnly vDisplayArea, % SearchCommand("", true)
+if (g_Conf.config.ShowCurrentCommand)
+{
+    Gui, Main:Add, Edit, w600 h25 ReadOnly,
+}
 Gui, Main:Show, , Launch
 ;WinSet, Style, -0xC00000, A
 
@@ -55,7 +61,6 @@ Loop, Parse, bindKeys
     HotKey, ~%A_LoopField%, RunSelectedCommand2
     HotKey, ~+%A_LoopField%, AddCustomCommand
 }
-
 
 if (g_Conf.config.SaveInputText && g_Conf.auto.InputText != "")
 {
@@ -109,6 +114,7 @@ SearchCommand(command = "", firstRun = false)
     ; 用逗号来判断参数
     if (InStr(command, ",") && g_CurrentCommand != "")
     {
+        g_Args := StrSplit(g_CurrentInput, ",")
         return
     }
 
@@ -120,14 +126,6 @@ SearchCommand(command = "", firstRun = false)
     for index, element in g_Commands
     {
         currentCommand := StrSplit(element, " | ")[2]
-
-        ; 第一次运行只加载 function 类型
-        if (firstRun && !InStr(element, "function | ", 1))
-        {
-            result .= "`n`n键入内容 搜索，回车 执行（a），Alt + 字母 执行，F1 帮助，Esc 退出。`n"
-
-            break
-        }
 
         if (InStr(element, "file | ", true, 1))
         {
@@ -161,6 +159,15 @@ SearchCommand(command = "", firstRun = false)
             {
                 break
             }
+
+            ; 第一次运行只加载 function 类型
+            if (firstRun && (order - 97 >= 11))
+            {
+                result .= "`n`n现有 " g_Commands.Length() " 条命令。"
+                result .= "`n`n键入内容 搜索，回车 执行（a），Alt + 字母 执行，F1 帮助，Esc 退出。"
+
+                break
+            }
         }
     }
 
@@ -183,6 +190,11 @@ SearchCommand(command = "", firstRun = false)
     if (order - 97 == 1 && g_Conf.config.RunIfOnlyOne)
     {
         GoSub, RunCurrentCommand
+    }
+
+    if (g_Conf.config.ShowCurrentCommand)
+    {
+        ControlSetText, Edit3, %g_CurrentCommand%
     }
 
     return result
@@ -269,14 +281,6 @@ LoadCommands()
 {
     g_Commands := Object()
 
-    g_Commands.Insert("function | ReloadCommand（重载）")
-    g_Commands.Insert("function | Clip（显示剪切板内容）")
-    g_Commands.Insert("function | EditConfig（编辑配置文件）")
-    g_Commands.Insert("function | Help（帮助信息）")
-    g_Commands.Insert("function | ArgTest（参数测试：ArgTest,arg1,arg2,...）")
-
-    GoSub, UserCmd
-
     for key, value in g_Conf.command
     {
         if (value != "")
@@ -288,6 +292,14 @@ LoadCommands()
             g_Commands.Insert(key)
         }
     }
+
+    g_Commands.Insert("function | ReloadCommand（重载）")
+    g_Commands.Insert("function | Clip（显示剪切板内容）")
+    g_Commands.Insert("function | EditConfig（编辑配置文件）")
+    g_Commands.Insert("function | Help（帮助信息）")
+    g_Commands.Insert("function | ArgTest（参数测试：ArgTest,arg1,arg2,...）")
+
+    GoSub, UserCmd
 
     Loop, Read, %g_CommandsFile%
     {
@@ -304,11 +316,12 @@ DisplayText(text)
 ArgTest:
     result := ""
 
-    for index, argument in StrSplit(g_CurrentInput, ",")
+    for index, argument in g_Args
     {
         if (index == 1)
         {
-            result .= "输入的命令名：" . argument . "`n`n"
+            result .= "输入的命令名：" . argument
+                . "，共有 " . g_args.Length() . " 个参数。`n`n"
         }
         else if (index > 1)
         {

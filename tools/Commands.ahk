@@ -5,10 +5,11 @@
 UserCmd:
     @("PasteToNotepad", "在记事本显示剪切板内容")
     @("ClearClipboardFormat", "清除剪切板中文字的格式")
-    @("Dictionary", "词典，依赖 bash 和 ydcv")
-    @("Calendar", "用浏览器打开万年历")
+    @("SearchInWeb", "在浏览器（百度）搜索剪切板内容")
     @("T2S", "繁体转简体剪切板内容")
     @("ShowIp", "显示 IP")
+    @("Calendar", "用浏览器打开万年历")
+    @("Dictionary", "词典，依赖 bash 和 ydcv")
 return
 
 
@@ -25,7 +26,7 @@ ShowIp:
 return
 
 Dictionary:
-    word := StrSplit(g_CurrentInput, ",")[2]
+    word := g_Args[2]
     if (word == "")
     {
         word := clipboard
@@ -46,4 +47,8 @@ return
 
 ClearClipboardFormat:
     clipboard := clipboard
+return
+
+SearchInWeb:
+    Run, https://www.baidu.com/s?wd=%clipboard%
 return
