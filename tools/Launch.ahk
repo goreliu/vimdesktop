@@ -6,8 +6,9 @@ FileEncoding, utf-8
 
 ; 自动生成的命令文件
 global g_CommandsFile := A_ScriptDir . "\Commands.txt"
+global g_ConfFile := A_ScriptDir . "\Launch.ini"
 ; 配置文件
-global g_Conf := class_EasyINI(A_ScriptDir . "\Launch.ini")
+global g_Conf := class_EasyINI(g_ConfFile)
 
 ; 从配置文件读取
 global g_SearchFileDir = g_Conf.config.SearchFileDir
@@ -44,6 +45,7 @@ Gui, Main:Show, , Launch
 
 Hotkey, IfWinActive, Launch
 HotKey, enter, RunCurrentCommand
+HotKey, f1, Help
 
 bindKeys := "abcdefghijklmno"
 Loop, Parse, bindKeys
@@ -109,10 +111,7 @@ SearchCommand(command = "", firstRun = false)
         ; 第一次运行只加载 function 类型
         if (firstRun && !InStr(element, "function | ", 1))
         {
-            result .= "`n`n"
-            result .= "以上显示的仅为内置命令，请键入内容搜索，按 Esc 退出。`n"
-            result .= "可直接输入网址，如 www.baidu.com。`n"
-            result .= "可直接输入命令，如 `;ping www.baidu.com。`n"
+            result .= "`n`n键入内容 搜索，回车 执行（a），ctrl + 字母 执行，F1 帮助，Esc 退出。`n"
 
             break
         }
@@ -259,6 +258,7 @@ LoadCommands()
 
     g_Commands.Insert("function | ReloadCommand（重载）")
     g_Commands.Insert("function | Clip（显示剪切板内容）")
+    g_Commands.Insert("function | EditConfig（编辑配置文件）")
     g_Commands.Insert("function | Help（帮助信息）")
     g_Commands.Insert("function | ArgTest（参数测试：ArgTest,arg1,arg2,...）")
 
@@ -313,7 +313,18 @@ ReloadCommand:
 return
 
 Help:
-    DisplayText("帮助")
+    helpText := "帮助：`n`n"
+        . "键入内容 搜索，回车 执行（a），ctrl + 字母 执行，F1 帮助，Esc 退出。`n`n"
+        . "可直接输入网址，如 www.baidu.com`n"
+        . "分号开头则在 cmd 运行命令，如 `;ping www.baidu.com`n"
+        . "使用 run 调用 ahk 的 Run 命令，如 run ping www.baidu.com`n"
+        . "当搜索无结果时，回车 也等同 run 输入内容`n"
+
+    DisplayText(helpText)
+return
+
+EditConfig:
+    Run, % g_ConfFile
 return
 
 Clip:
