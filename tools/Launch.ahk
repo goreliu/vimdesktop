@@ -167,6 +167,11 @@ SearchCommand(command = "", firstRun = false)
     }
 
     DisplayText(result)
+
+    if (g_Conf.config.RunIfOnlyOne && order - 97 == 1)
+    {
+        GoSub, RunCurrentCommand
+    }
     return result
 }
 
