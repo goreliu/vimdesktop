@@ -39,13 +39,15 @@ commands := SearchCommand("", true)
 Gui, Main:Font, s12
 Gui, Main:Add, Edit, gProcessInputCommand vSearchArea w600 h25
 ;Gui, Main:Add, Button, w0 h0
-Gui, Main:Add, Edit, w600 h250 ReadOnly gSelectCommand vDisplayArea, %commands%
+Gui, Main:Add, Edit, w600 h250 ReadOnly vDisplayArea, %commands%
 Gui, Main:Show, , Launch
 ;WinSet, Style, -0xC00000, A
 
 Hotkey, IfWinActive, Launch
 HotKey, enter, RunCurrentCommand
+HotKey, ^j, ClearInput
 HotKey, f1, Help
+HotKey, f2, EditConfig
 
 bindKeys := "abcdefghijklmno"
 Loop, Parse, bindKeys
@@ -111,7 +113,7 @@ SearchCommand(command = "", firstRun = false)
         ; 第一次运行只加载 function 类型
         if (firstRun && !InStr(element, "function | ", 1))
         {
-            result .= "`n`n键入内容 搜索，回车 执行（a），ctrl + 字母 执行，F1 帮助，Esc 退出。`n"
+            result .= "`n`n键入内容 搜索，回车 执行（a），Alt + 字母 执行，F1 帮助，Esc 退出。`n"
 
             break
         }
@@ -175,8 +177,8 @@ SearchCommand(command = "", firstRun = false)
     return result
 }
 
-SelectCommand:
-    MsgBox good
+ClearInput:
+    ControlSetText, Edit1,
 return
 
 RunCurrentCommand:
@@ -295,15 +297,15 @@ ArgTest:
     {
         if (index == 1)
         {
-            result .= "输入命令名：" . argument . "`n`n"
+            result .= "输入的命令名：" . argument . "`n`n"
         }
-        else (index > 1)
+        else if (index > 1)
         {
             result .= "第 " . index - 1 " 个参数：" . argument . "`n"
         }
     }
 
-    MsgBox % result
+    DisplayText(result)
 return
 
 ReloadCommand:
@@ -314,11 +316,16 @@ return
 
 Help:
     helpText := "帮助：`n`n"
-        . "键入内容 搜索，回车 执行（a），ctrl + 字母 执行，F1 帮助，Esc 退出。`n`n"
+        . "键入内容 搜索，回车 执行（a），Alt + 字母 执行，F1 帮助，Esc 退出`n"
+        . "Tab + 字母 也可执行字母对应功能`n"
+        . "Tab + 大写字母 可将字母对应功能加入到配置文件，以便优先显示`n"
+        . "Ctrl + j 清除编辑框内容`n"
+        . "F2 编辑配置文件`n`n"
         . "可直接输入网址，如 www.baidu.com`n"
         . "分号开头则在 cmd 运行命令，如 `;ping www.baidu.com`n"
         . "使用 run 调用 ahk 的 Run 命令，如 run ping www.baidu.com`n"
         . "当搜索无结果时，回车 也等同 run 输入内容`n"
+        . "当输入内容包含逗号时，列表锁定，逗号作为命令参数的分隔符`n"
 
     DisplayText(helpText)
 return
