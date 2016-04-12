@@ -7,7 +7,7 @@ SendMode Input
 
 ; 自动生成的命令文件
 global g_CommandsFile := A_ScriptDir . "\Commands.txt"
-global g_ConfFile := A_ScriptDir . "\Launch.ini"
+global g_ConfFile := A_ScriptDir . "\RunZ.ini"
 ; 配置文件
 global g_Conf := class_EasyINI(g_ConfFile)
 
@@ -44,10 +44,10 @@ if (g_Conf.config.ShowCurrentCommand)
 {
     Gui, Main:Add, Edit, w600 h25 ReadOnly,
 }
-Gui, Main:Show, , Launch
+Gui, Main:Show, , RunZ
 ;WinSet, Style, -0xC00000, A
 
-Hotkey, IfWinActive, Launch
+Hotkey, IfWinActive, RunZ
 HotKey, enter, RunCurrentCommand
 HotKey, ^j, ClearInput
 HotKey, f1, Help
@@ -375,7 +375,7 @@ return
 
 RunAndGetOutput(command)
 {
-    tempFileName := "Launch.stdout.log"
+    tempFileName := "RunZ.stdout.log"
     fullCommand = bash -c "%command% &> %tempFileName%"
 
     if (!FileExist("c:\msys64\usr\bin\bash.exe"))
