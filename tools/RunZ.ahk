@@ -9,6 +9,12 @@ SendMode Input
 global g_SearchFileList := A_ScriptDir . "\SearchFileList.txt"
 ; 配置文件
 global g_ConfFile := A_ScriptDir . "\RunZ.ini"
+
+if !FileExist(g_ConfFile)
+{
+    FileCopy, %g_ConfFile%.help.txt, %g_ConfFile%
+}
+
 global g_Conf := class_EasyINI(g_ConfFile)
 
 ; 所有命令
