@@ -68,6 +68,11 @@ if (g_Conf.Gui.HideTitle)
     WinSet, Style, -0xC00000, A
 }
 
+if (g_Conf.Config.ExitIfInactivate)
+{
+    OnMessage(0x06, "WM_ACTIVATE")
+}
+
 Hotkey, IfWinActive, RunZ
 Hotkey, ~enter, RunCurrentCommand
 Hotkey, ^j, ClearInput
@@ -554,6 +559,18 @@ RemoveToolTip:
     ToolTip
     SetTimer, RemoveToolTip, Off
 return
+
+WM_ACTIVATE(wParam, lParam)
+{
+    if (wParam >= 1) ; 窗口激活
+    {
+        return
+    }
+    else if (wParam <= 0) ; 窗口非激活
+    {
+        GoSub, ExitRunZ
+    }
+}
 
 
 #include %A_ScriptDir%\..\lib\class_EasyIni.ahk
