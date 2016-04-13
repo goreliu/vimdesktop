@@ -63,8 +63,13 @@ HotKey, ~enter, RunCurrentCommand
 HotKey, ^j, ClearInput
 HotKey, f1, Help
 HotKey, f2, EditConfig
-HotKey, Esc, ExitRunZ
+HotKey, esc, ExitRunZ
 HotKey, ^d, OpenCurrentFilePath
+
+if (g_Conf.Config.RunInBackground)
+{
+    HotKey, esc, WindowMin
+}
 
 Loop, % g_DisplayRows
 {
@@ -93,6 +98,10 @@ ExitRunZ:
     }
 
     ExitApp
+return
+
+WindowMin:
+    WinMinimize, A
 return
 
 GenerateSearchFileList()
@@ -434,9 +443,9 @@ OpenPath(filePath)
         return
     }
 
-    if (FileExist(g_Conf.config.TCPath))
+    if (FileExist(g_Conf.Config.TCPath))
     {
-        TCPath := g_Conf.config.TCPath
+        TCPath := g_Conf.Config.TCPath
         Run, %TCPath% /O /A /L="%filePath%"
     }
     else
