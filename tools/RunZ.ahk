@@ -441,7 +441,7 @@ RunWithCmd(command)
     }
     else
     {
-        Run, % ComSpec " /C " command
+        Run, % ComSpec " /C " command " & pause"
     }
 }
 
