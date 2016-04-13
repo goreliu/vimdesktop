@@ -18,6 +18,8 @@ RunOnce=0
 TCPath=c:\totalcmd\totalcmd.exe
 ; 在后台运行
 RunInBackground=0
+; 加载控制面板中的功能
+LoadControlPanelFunctions=1
 
 ; 图形界面相关参数
 [Gui]
