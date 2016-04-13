@@ -2,7 +2,7 @@
 
 global Arg
 
-UserFunction:
+UserFunctions:
     ; 第一个参数为标签名，第二个为搜索项（内容随意）
     @("UserTest1", "用户测试（ut1）")
     @("UserTest2", "用户测试（ut2）")

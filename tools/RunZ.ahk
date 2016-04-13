@@ -381,9 +381,9 @@ LoadFiles()
         }
     }
 
-    GoSub, InternalFunction
+    GoSub, Functions
 
-    userFunctionLabel := "UserFunction"
+    userFunctionLabel := "UserFunctions"
     if (IsLabel(userFunctionLabel))
     {
         GoSub, %userFunctionLabel%

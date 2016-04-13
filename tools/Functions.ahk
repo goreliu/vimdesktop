@@ -1,6 +1,6 @@
 ﻿global Arg
 
-InternalFunction:
+Functions:
     @("Help", "帮助信息")
     @("AhkRun", "使用 Ahk 的 Run 运行 `; cmd", true)
     @("CmdRun", "使用 cmd 运行 : cmd", true)
