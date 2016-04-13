@@ -21,6 +21,8 @@ global g_Conf := class_EasyINI(g_ConfFile)
 global g_Commands
 ; 当搜索无结果时使用的命令
 global g_FallbackCommands
+; 当前是否使用着 g_FallbackCommands
+global g_UseFallbackCommands
 ; 编辑框当前内容
 global g_CurrentInput
 ; 当前匹配到的第一条命令
@@ -163,7 +165,7 @@ SearchCommand(command = "", firstRun = false)
     result := ""
     commandPrefix := SubStr(command, 1, 1)
 
-    if (commandPrefix ==  ";" || commandPrefix == ":")
+    if (commandPrefix == ";" || commandPrefix == ":")
     {
         if (commandPrefix == ";")
         {
@@ -183,7 +185,14 @@ SearchCommand(command = "", firstRun = false)
     ; 用空格来判断参数
     else if (InStr(command, " ") && g_CurrentCommand != "")
     {
-        Arg := SubStr(command, InStr(command, " ") + 1)
+        if (g_UseFallbackCommands)
+        {
+            Arg := command
+        }
+        else
+        {
+            Arg := SubStr(command, InStr(command, " ") + 1)
+        }
         return
     }
 
@@ -244,6 +253,7 @@ SearchCommand(command = "", firstRun = false)
 
     if (result == "")
     {
+        g_UseFallbackCommands := true
         g_CurrentCommand := g_FallbackCommands[1]
         g_CurrentCommandList := g_FallbackCommands
         Arg := g_CurrentInput
@@ -257,6 +267,10 @@ SearchCommand(command = "", firstRun = false)
 
             result .= Chr(g_FirstChar - 1 + index++) . " | " . element
         }
+    }
+    else
+    {
+        g_UseFallbackCommands := false
     }
 
     DisplaySearchResult(result)
