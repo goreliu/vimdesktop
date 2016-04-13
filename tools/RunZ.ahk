@@ -202,18 +202,28 @@ SearchCommand(command = "", firstRun = false)
 
     for index, element in g_Commands
     {
-        elementToSearch := StrSplit(element, " | ")[2]
+        splitedElement := StrSplit(element, " | ")
 
-        if (InStr(element, "file | ", true, 1))
+        if (splitedElement[1] == "file")
         {
-            ; 只搜不带扩展名的文件名
-            SplitPath, elementToSearch, , fileDir, , fileNameNoExt
-            elementToShow := SubStr("file | " . fileNameNoExt, 1, g_DisplayCols)
+            SplitPath, % splitedElement[2], , fileDir, , fileNameNoExt
+
+            ; 只搜索和展示不带扩展名的文件名
+            elementToSearch := fileNameNoExt
+            elementToShow := "file | " . fileNameNoExt
+
+            if (splitedElement.Length() >= 3)
+            {
+                elementToSearch .= " " . splitedElement[3]
+                elementToShow .= "（" . splitedElement[3] . "）"
+            }
+
+            elementToShow := SubStr(elementToShow, 1, g_DisplayCols)
 
             if (g_Conf.Config.SearchFullPath)
             {
                 ; TCMatch 在搜索路径时只搜索文件名，强行将 \ 转成空格
-                elementToSearch := StrReplace(fileDir . "\" . fileNameNoExt, "\", " ")
+                elementToSearch := StrReplace(fileDir, "\", " ") . " " . elementToSearch
             }
         }
         else
@@ -415,6 +425,14 @@ LoadFiles()
     Loop, Read, %g_SearchFileList%
     {
         g_Commands.Insert(A_LoopReadLine)
+    }
+
+    if (g_Conf.Config.LoadControlPanelFunctions)
+    {
+        Loop, Read, %A_ScriptDir%\ControlPanelFunctions.txt
+        {
+            g_Commands.Insert(A_LoopReadLine)
+        }
     }
 }
 
