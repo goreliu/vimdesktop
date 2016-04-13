@@ -6,7 +6,7 @@ FileEncoding, utf-8
 SendMode Input
 
 ; 自动生成的命令文件
-global g_CommandsFile := A_ScriptDir . "\Commands.txt"
+global g_CommandsFile := A_ScriptDir . "\SearchFileList.txt"
 global g_ConfFile := A_ScriptDir . "\RunZ.ini"
 ; 配置文件
 global g_Conf := class_EasyINI(g_ConfFile)
@@ -350,7 +350,13 @@ LoadCommands()
     @("Help", "帮助信息")
     @("ArgTest", "参数测试：ArgTest arg1,arg2,...")
 
-    GoSub, UserCmd
+    GoSub, InternalFunction
+
+    userFunctionLabel := "UserFunction"
+    if (IsLabel(userFunctionLabel))
+    {
+        GoSub, %userFunctionLabel%
+    }
 
     Loop, Read, %g_CommandsFile%
     {
@@ -462,4 +468,6 @@ RunWithCmd(command)
 #include %A_ScriptDir%\lib\Kanji\Kanji.ahk
 #include %A_ScriptDir%\lib\TCMatch.ahk
 #include %A_ScriptDir%\lib\Eval.ahk
-#include %A_ScriptDir%\Commands.ahk
+#include %A_ScriptDir%\Functions.ahk
+; 用户自定义命令
+#include *i %A_ScriptDir%\UserFunctions.ahk

@@ -1,8 +1,4 @@
-﻿; 该配置文件内容为 ahk 代码
-; 增加标签后，在 UserCmd 和 return 之间添加
-; @("标签名", "功能描述)
-
-UserCmd:
+﻿InternalFunction:
     @("ClearClipboardFormat", "清除剪切板中文字的格式")
     @("Calc", "计算器")
     @("SearchInWeb", "在浏览器（百度）搜索剪切板或输入内容")
