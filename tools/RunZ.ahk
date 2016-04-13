@@ -53,7 +53,10 @@ if (g_Conf.Gui.ShowCurrentCommand)
         . " w" g_Conf.Gui.WidgetWidth " h" g_Conf.Gui.EditHeight,
 }
 Gui, Main:Show, , RunZ
-;WinSet, Style, -0xC00000, A
+if (g_Conf.Gui.HideTitle)
+{
+    WinSet, Style, -0xC00000, A
+}
 
 Hotkey, IfWinActive, RunZ
 HotKey, ~enter, RunCurrentCommand
