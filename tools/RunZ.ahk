@@ -482,7 +482,8 @@ DeleteCurrentFile:
 return
 
 ShowCurrentFile:
-    ToolTip, % StrSplit(g_CurrentCommand, " | ")[2]
+    clipboard := StrSplit(g_CurrentCommand, " | ")[2]
+    ToolTip, % clipboard
     SetTimer, RemoveToolTip, 800
 return
 

@@ -19,7 +19,7 @@ TCPath=c:\totalcmd\totalcmd.exe
 ; 在后台运行
 RunInBackground=0
 
-; 图形显示相关参数
+; 图形界面相关参数
 [Gui]
 FontName=宋体
 FontSize=12
