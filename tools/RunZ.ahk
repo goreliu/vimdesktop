@@ -381,13 +381,13 @@ LoadFiles()
         }
     }
 
-    GoSub, Functions
-
     userFunctionLabel := "UserFunctions"
     if (IsLabel(userFunctionLabel))
     {
         GoSub, %userFunctionLabel%
     }
+
+    GoSub, Functions
 
     Loop, Read, %g_SearchFileList%
     {
