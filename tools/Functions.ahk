@@ -4,6 +4,7 @@ Functions:
     @("Help", "帮助信息")
     @("AhkRun", "使用 Ahk 的 Run 运行 `; cmd", true)
     @("CmdRun", "使用 cmd 运行 : cmd", true)
+    @("WinRRun", "使用 win + r 运行", true)
     @("RunAndDisplay", "使用 cmd 运行，并显示结果", true)
     @("ReloadFiles", "重新加载需要搜索的文件")
     @("Clip", "显示剪切板内容")
@@ -120,4 +121,11 @@ return
 
 RunAndDisplay:
     DisplayResult(RunAndGetOutput(Arg))
+return
+
+WinRRun:
+    Send, #r
+    sleep, 100
+    Send, %Arg%
+    Send, {enter}
 return
