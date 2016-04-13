@@ -29,6 +29,8 @@ global g_CurrentCommandList
 global g_EnableTCMatch = TCMatchOn(g_Conf.config.TCMatchPath)
 ; 列表排序的第一个字符
 global g_FirstChar := Asc("a")
+; 命令使用了显示框
+global g_UseDisplay
 ; 当前输入命令的参数，数组，为了方便没有添加 g_ 前缀
 global Arg
 
@@ -52,10 +54,11 @@ Gui, Main:Show, , RunZ
 ;WinSet, Style, -0xC00000, A
 
 Hotkey, IfWinActive, RunZ
-HotKey, enter, RunCurrentCommand
+HotKey, ~enter, RunCurrentCommand
 HotKey, ^j, ClearInput
 HotKey, f1, Help
 HotKey, f2, EditConfig
+HotKey, Esc, ExitRunZ
 
 bindKeys := "abcdefghijklmno"
 Loop, Parse, bindKeys
@@ -73,13 +76,14 @@ if (g_Conf.config.SaveInputText && g_Conf.auto.InputText != "")
 
 return
 
-Esc::
+ExitRunZ:
     if (g_Conf.config.SaveInputText)
     {
         g_Conf.DeleteKey("auto", "InputText")
         g_Conf.AddKey("auto", "InputText", g_CurrentInput)
         g_Conf.Save()
     }
+
     ExitApp
 return
 
@@ -137,7 +141,7 @@ SearchCommand(command = "", firstRun = false)
         g_CurrentCommandList.Insert(g_CurrentCommand)
         result .= "a | " . g_CurrentCommand
         Arg := SubStr(g_CurrentInput, 2)
-        DisplayResult(result)
+        DisplaySearchResult(result)
         return result
     }
     ; 用空格来判断参数
@@ -214,11 +218,11 @@ SearchCommand(command = "", firstRun = false)
         }
     }
 
-    DisplayResult(result)
+    DisplaySearchResult(result)
     return result
 }
 
-DisplayResult(result)
+DisplaySearchResult(result)
 {
     DisplayText(result)
 
@@ -238,7 +242,16 @@ ClearInput:
 return
 
 RunCurrentCommand:
-    RunCommand(g_CurrentCommand)
+    if (g_CurrentInput != "")
+    {
+        g_UseDisplay := false
+
+        RunCommand(g_CurrentCommand)
+        if (g_Conf.config.RunOnce && !g_UseDisplay)
+        {
+            GoSub, ExitRunZ
+        }
+    }
 return
 
 MatchCommand(Haystack, Needle)
@@ -346,6 +359,12 @@ DisplayText(text)
     ControlSetText, Edit2, %textToDisplay%
 }
 
+DisplayResult(result)
+{
+    DisplayText(result)
+    g_UseDisplay := true
+}
+
 ArgTest:
     Args := StrSplit(Arg, ",")
     result := "共有 " . Args.Length() . " 个参数。`n`n"
@@ -355,7 +374,7 @@ ArgTest:
         result .= "第 " . index - 1 " 个参数：" . argument . "`n"
     }
 
-    DisplayText(result)
+    DisplayResult(result)
 return
 
 ReloadCommand:
@@ -377,7 +396,7 @@ Help:
         . "当搜索无结果时，回车 也等同 run 输入内容`n"
         . "当输入内容包含空格时，列表锁定，逗号作为命令参数的分隔符`n"
 
-    DisplayText(helpText)
+    DisplayResult(helpText)
 return
 
 EditConfig:
@@ -385,7 +404,7 @@ EditConfig:
 return
 
 Clip:
-    DisplayText("剪切板内容长度 " . StrLen(clipboard) . " ：`n`n" . clipboard)
+    DisplayResult("剪切板内容长度 " . StrLen(clipboard) . " ：`n`n" . clipboard)
 return
 
 CmdRun:

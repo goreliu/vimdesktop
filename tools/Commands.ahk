@@ -14,7 +14,7 @@ UserCmd:
 return
 
 ShowIp:
-    DisplayText(A_IPAddress1
+    DisplayResult(A_IPAddress1
             . "`r`n" . A_IPAddress2
             . "`r`n" . A_IPAddress3
             . "`r`n" . A_IPAddress4)
@@ -27,7 +27,7 @@ Dictionary:
         word := clipboard
     }
 
-    DisplayText(RunAndGetOutput("echo " . word . " | ydcv"))
+    DisplayResult(RunAndGetOutput("echo " . word . " | ydcv"))
 return
 
 Calendar:
@@ -59,5 +59,5 @@ RunClipboard:
 return
 
 Calc:
-    DisplayText(Eval(Arg))
+    DisplayResult(Eval(Arg))
 return
