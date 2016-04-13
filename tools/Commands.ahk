@@ -21,7 +21,7 @@ ShowIp:
 return
 
 Dictionary:
-    word := Args[2]
+    word := Arg
     if (word == "")
     {
         word := clipboard
@@ -46,9 +46,9 @@ return
 
 SearchInWeb:
     word := clipboard
-    if (Args.Length() > 1)
+    if (Arg != "")
     {
-        word := Args[2]
+        word := Arg
     }
 
     Run, https://www.baidu.com/s?wd=%word%
@@ -59,5 +59,5 @@ RunClipboard:
 return
 
 Calc:
-    DisplayText(Eval(Args[2]))
+    DisplayText(Eval(Arg))
 return
