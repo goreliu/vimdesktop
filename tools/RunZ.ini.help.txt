@@ -32,6 +32,8 @@ ShowCurrentCommand=0
 FirstChar=a
 ; 在列表中显示的行数
 DisplayRows=15
+; 在列表中显示的文字列数（多出的会被截断）
+DisplayCols=68
 ; 隐藏标题栏
 HideTitle=0
 

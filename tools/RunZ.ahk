@@ -31,8 +31,10 @@ global g_CurrentCommandList
 global g_EnableTCMatch = TCMatchOn(g_Conf.Config.TCMatchPath)
 ; 列表第一列的首字母或数字
 global g_FirstChar := Asc(g_Conf.Gui.FirstChar)
-; 列表第一列的首字母或数字
+; 在列表中显示的行数
 global g_DisplayRows := g_Conf.Gui.DisplayRows
+; 在列表中显示的文字列数（多出的会被截断）
+global g_DisplayCols := g_Conf.Gui.DisplayCols
 ; 命令使用了显示框
 global g_UseDisplay
 ; 当前输入命令的参数，数组，为了方便没有添加 g_ 前缀
@@ -197,7 +199,7 @@ SearchCommand(command = "", firstRun = false)
         {
             ; 只搜不带扩展名的文件名
             SplitPath, elementToSearch, , fileDir, , fileNameNoExt
-            elementToShow := SubStr("file | " . fileNameNoExt, 1, 68)
+            elementToShow := SubStr("file | " . fileNameNoExt, 1, g_DisplayCols)
 
             if (g_Conf.Config.SearchFullPath)
             {
@@ -207,7 +209,7 @@ SearchCommand(command = "", firstRun = false)
         }
         else
         {
-            elementToShow := SubStr(element, 1, 68)
+            elementToShow := SubStr(element, 1, g_DisplayCols)
         }
 
         if (MatchCommand(elementToSearch, command))
