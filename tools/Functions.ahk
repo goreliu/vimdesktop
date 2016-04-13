@@ -112,5 +112,7 @@ RunClipboard:
 return
 
 Calc:
-    DisplayResult(Eval(Arg))
+    result := Eval(Arg)
+    DisplayResult(result)
+    clipboard := result
 return
