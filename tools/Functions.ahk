@@ -42,12 +42,6 @@ AhkRun:
     Run, %Arg%
 return
 
-ReloadFiles:
-    GenerateCommandList()
-
-    LoadFiles()
-return
-
 Clip:
     DisplayResult("剪切板内容长度 " . StrLen(clipboard) . " ：`n`n" . clipboard)
 return

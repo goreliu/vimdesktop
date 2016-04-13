@@ -87,7 +87,7 @@ ExitRunZ:
     ExitApp
 return
 
-GenerateCommandList()
+GenerateSearchFileList()
 {
     FileDelete, %g_SearchFileList%
 
@@ -116,6 +116,12 @@ GenerateCommandList()
         }
     }
 }
+
+ReloadFiles:
+    GenerateSearchFileList()
+
+    LoadFiles()
+return
 
 ProcessInputCommand:
     GuiControlGet, g_CurrentInput, , SearchArea
