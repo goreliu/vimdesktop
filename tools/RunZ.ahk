@@ -87,7 +87,7 @@ if (g_Conf.Config.RunInBackground)
 Loop, % g_DisplayRows
 {
     key := Chr(g_FirstChar + A_Index - 1)
-    ; lalt + 
+    ; lalt +
     Hotkey, <!%key%, RunSelectedCommand1
     ; tab +
     Hotkey, ~%key%, RunSelectedCommand2
@@ -397,10 +397,17 @@ LoadFiles()
         }
     }
 
-    userFunctionLabel := "UserFunctions"
-    if (IsLabel(userFunctionLabel))
+    if (FileExist(A_ScriptDir "\UserFunctions.ahk"))
     {
-        GoSub, %userFunctionLabel%
+        userFunctionLabel := "UserFunctions"
+        if (IsLabel(userFunctionLabel))
+        {
+            GoSub, %userFunctionLabel%
+        }
+        else
+        {
+            MsgBox, 未在 %A_ScriptDir%\UserFunctions.ahk 中发现 %userFunctionLabel% 标签，请修改！
+        }
     }
 
     GoSub, Functions
@@ -426,6 +433,12 @@ DisplayResult(result)
 ; AddAction(label, info, fallback)
 @(label, info, fallback = false)
 {
+    if (!IsLabel(label))
+    {
+        MsgBox, 未找到 %label% 标签，请检查 %A_ScriptDir%\UserFunctions.ahk 文件格式！
+        return
+    }
+
     g_Commands.Insert("function | " . label . "（" . info . "）")
     if (fallback)
     {
