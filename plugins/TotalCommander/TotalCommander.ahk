@@ -149,7 +149,6 @@
     vim.Comment("<TC_FilterSearchFNsuffix_exe>", "在当前目录里快速过滤exe扩展名的文件")
     vim.Comment("<TC_TwoFileExchangeName>", "两个文件互换文件名")
     vim.Comment("<TC_SelectCmd>", "选择命令来执行")
-    vim.Comment("<Launch>", "打开TC并跳转到配置文件中的路径")
     vim.Comment("<TC_MarkFile>", "标记文件，将文件注释改成m")
     vim.Comment("<TC_UnMarkFile>", "取消文件标记，将文件注释清空")
     vim.Comment("<TC_ClearTitle>", "将TC标题栏字符串设置为空")
@@ -1750,15 +1749,6 @@ Return
     FileMove, %SecondName%, %FirstName%
     FileMove, %FirstName%.bak, %SecondName%
 Return
-
-; 未添加TC前缀，是因为以后可能用其他方式实现
-<Launch>:
-    launch_dir := ini.config.launch_dir
-    Run, %TCPath% %launch_dir%
-    sleep, 100
-    GoSub, <cm_DirBranch>
-    ;GoSub, <cm_ShowQuickSearch>
-return
 
 TC_OpenPath(Path, InNewTab := true, LeftOrRight := "")
 {

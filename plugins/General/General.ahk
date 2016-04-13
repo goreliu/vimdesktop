@@ -51,7 +51,7 @@
     vim.SetAction("<MouseLeft>", "向左移动鼠标")
     vim.SetAction("<MouseRight>", "向右移动鼠标")
     vim.SetAction("<SearchInWeb>", "在网络搜索剪切板内容")
-    vim.SetAction("<GKey>", "GKey全局快捷操作")
+    vim.SetAction("<RunZ>", "打开RunZ工具")
     vim.SetAction("<Test>", "测试")
 
 
@@ -906,8 +906,8 @@ ShowHelp()
     showToolTipStatus := !showToolTipStatus
 return
 
-<GKey>:
-    Run, %A_ScriptDir%\tools\GKey.ahk
+<RunZ>:
+    Run, %A_ScriptDir%\tools\RunZ.ahk
 return
 
 <ToggleCapsLock>:
