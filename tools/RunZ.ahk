@@ -6,9 +6,9 @@ FileEncoding, utf-8
 SendMode Input
 
 ; 自动生成的命令文件
-global g_CommandsFile := A_ScriptDir . "\SearchFileList.txt"
-global g_ConfFile := A_ScriptDir . "\RunZ.ini"
+global g_SearchFileList := A_ScriptDir . "\SearchFileList.txt"
 ; 配置文件
+global g_ConfFile := A_ScriptDir . "\RunZ.ini"
 global g_Conf := class_EasyINI(g_ConfFile)
 
 ; 从配置文件读取
@@ -34,13 +34,13 @@ global g_UseDisplay
 ; 当前输入命令的参数，数组，为了方便没有添加 g_ 前缀
 global Arg
 
-if (FileExist(g_CommandsFile))
+if (FileExist(g_SearchFileList))
 {
-    LoadCommands()
+    LoadFiles()
 }
 else
 {
-    GoSub, ReloadCommand
+    GoSub, ReloadFiles
 }
 
 Gui, Main:Font, s12
@@ -89,7 +89,7 @@ return
 
 GenerateCommandList()
 {
-    FileDelete, %g_CommandsFile%
+    FileDelete, %g_SearchFileList%
 
     for dirIndex, dir in StrSplit(g_SearchFileDir, " | ")
     {
@@ -111,7 +111,7 @@ GenerateCommandList()
                 {
                     continue
                 }
-                FileAppend, file | %A_LoopFileLongPath%`n, %g_CommandsFile%,
+                FileAppend, file | %A_LoopFileLongPath%`n, %g_SearchFileList%,
             }
         }
     }
@@ -321,11 +321,11 @@ AddCustomCommand:
 
         g_Conf.Save()
 
-        LoadCommands()
+        LoadFiles()
     }
 return
 
-LoadCommands()
+LoadFiles()
 {
     g_Commands := Object()
     g_FallbackCommands := Object()
@@ -342,14 +342,6 @@ LoadCommands()
         }
     }
 
-    @("AhkRun", "使用 Ahk 的 Run 运行 `; cmd", true)
-    @("CmdRun", "使用 cmd 运行 : cmd", true)
-    @("ReloadCommand", "重新搜索文件")
-    @("Clip", "显示剪切板内容")
-    @("EditConfig", "编辑配置文件")
-    @("Help", "帮助信息")
-    @("ArgTest", "参数测试：ArgTest arg1,arg2,...")
-
     GoSub, InternalFunction
 
     userFunctionLabel := "UserFunction"
@@ -358,7 +350,7 @@ LoadCommands()
         GoSub, %userFunctionLabel%
     }
 
-    Loop, Read, %g_CommandsFile%
+    Loop, Read, %g_SearchFileList%
     {
         g_Commands.Insert(A_LoopReadLine)
     }
@@ -375,56 +367,6 @@ DisplayResult(result)
     DisplayText(result)
     g_UseDisplay := true
 }
-
-ArgTest:
-    Args := StrSplit(Arg, ",")
-    result := "共有 " . Args.Length() . " 个参数。`n`n"
-
-    for index, argument in Args
-    {
-        result .= "第 " . index - 1 " 个参数：" . argument . "`n"
-    }
-
-    DisplayResult(result)
-return
-
-ReloadCommand:
-    GenerateCommandList()
-
-    LoadCommands()
-return
-
-Help:
-    helpText := "帮助：`n`n"
-        . "键入内容 搜索，回车 执行（a），Alt + 字母 执行，F1 帮助，Esc 退出`n"
-        . "Tab + 字母 也可执行字母对应功能`n"
-        . "Tab + 大写字母 可将字母对应功能加入到配置文件，以便优先显示`n"
-        . "Ctrl + j 清除编辑框内容`n"
-        . "F2 编辑配置文件`n`n"
-        . "可直接输入网址，如 www.baidu.com`n"
-        . "分号开头则使用 ahk 的 Run 运行命令，如 `;ping www.baidu.com`n"
-        . "冒号开头则在 cmd 运行命令，如 :ping www.baidu.com`n"
-        . "当搜索无结果时，回车 也等同 run 输入内容`n"
-        . "当输入内容包含空格时，列表锁定，逗号作为命令参数的分隔符`n"
-
-    DisplayResult(helpText)
-return
-
-EditConfig:
-    Run, % g_ConfFile
-return
-
-Clip:
-    DisplayResult("剪切板内容长度 " . StrLen(clipboard) . " ：`n`n" . clipboard)
-return
-
-CmdRun:
-    RunWithCmd(Arg)
-return
-
-AhkRun:
-    Run, %Arg%
-return
 
 ; AddAction(label, info, fallback)
 @(label, info, fallback = false)

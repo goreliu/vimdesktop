@@ -1,4 +1,13 @@
-﻿InternalFunction:
+﻿global Arg
+
+InternalFunction:
+    @("Help", "帮助信息")
+    @("AhkRun", "使用 Ahk 的 Run 运行 `; cmd", true)
+    @("CmdRun", "使用 cmd 运行 : cmd", true)
+    @("ReloadFiles", "重新加载需要搜索的文件")
+    @("Clip", "显示剪切板内容")
+    @("EditConfig", "编辑配置文件")
+    @("ArgTest", "参数测试：ArgTest arg1,arg2,...")
     @("ClearClipboardFormat", "清除剪切板中文字的格式")
     @("Calc", "计算器")
     @("SearchInWeb", "在浏览器（百度）搜索剪切板或输入内容")
@@ -8,6 +17,58 @@
     @("Calendar", "用浏览器打开万年历")
     @("Dictionary", "词典，依赖 bash 和 ydcv")
 return
+
+Help:
+    helpText := "帮助：`n`n"
+        . "键入内容 搜索，回车 执行（a），Alt + 字母 执行，F1 帮助，Esc 退出`n"
+        . "Tab + 字母 也可执行字母对应功能`n"
+        . "Tab + 大写字母 可将字母对应功能加入到配置文件，以便优先显示`n"
+        . "Ctrl + j 清除编辑框内容`n"
+        . "F2 编辑配置文件`n`n"
+        . "可直接输入网址，如 www.baidu.com`n"
+        . "分号开头则使用 ahk 的 Run 运行命令，如 `;ping www.bidu.com`n"
+        . "冒号开头则在 cmd 运行命令，如 :ping www.baidu.com`n"
+        . "当搜索无结果时，回车 也等同 run 输入内容`n"
+        . "当输入内容包含空格时，列表锁定，逗号作为命令参数的分隔符`n"
+
+    DisplayResult(helpText)
+return
+
+CmdRun:
+    RunWithCmd(Arg)
+return
+
+AhkRun:
+    Run, %Arg%
+return
+
+ReloadFiles:
+    GenerateCommandList()
+
+    LoadFiles()
+return
+
+Clip:
+    DisplayResult("剪切板内容长度 " . StrLen(clipboard) . " ：`n`n" . clipboard)
+return
+
+EditConfig:
+    Run, % g_ConfFile
+return
+
+ArgTest:
+    Args := StrSplit(Arg, ",")
+    result := "共有 " . Args.Length() . " 个参数。`n`n"
+
+    for index, argument in Args
+    {
+        result .= "第 " . index - 1 " 个参数：" . argument . "`n"
+    }
+
+    DisplayResult(result)
+return
+
+
 
 ShowIp:
     DisplayResult(A_IPAddress1
