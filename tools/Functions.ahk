@@ -24,6 +24,7 @@ Help:
         . "Tab + 字母 也可执行字母对应功能`n"
         . "Tab + 大写字母 可将字母对应功能加入到配置文件，以便优先显示`n"
         . "Ctrl + j 清除编辑框内容`n"
+        . "Ctrl + d 用 TC 打开第一个文件所在目录`n"
         . "F2 编辑配置文件`n`n"
         . "可直接输入网址，如 www.baidu.com`n"
         . "分号开头则使用 ahk 的 Run 运行命令，如 `;ping www.bidu.com`n"

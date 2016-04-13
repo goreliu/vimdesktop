@@ -64,6 +64,7 @@ HotKey, ^j, ClearInput
 HotKey, f1, Help
 HotKey, f2, EditConfig
 HotKey, Esc, ExitRunZ
+HotKey, ^d, OpenCurrentFilePath
 
 Loop, % g_DisplayRows
 {
@@ -418,6 +419,30 @@ RunWithCmd(command)
     else
     {
         Run, % ComSpec " /C " command
+    }
+}
+
+OpenCurrentFilePath:
+    filePath := StrSplit(g_CurrentCommand, " | ")[2]
+    OpenPath(filePath)
+return
+
+OpenPath(filePath)
+{
+    if (!FileExist(filePath))
+    {
+        return
+    }
+
+    if (FileExist(g_Conf.config.TCPath))
+    {
+        TCPath := g_Conf.config.TCPath
+        Run, %TCPath% /O /A /L="%filePath%"
+    }
+    else
+    {
+        SplitPath, filePath, , fileDir, ,
+        Run, explorer "%fileDir%"
     }
 }
 
