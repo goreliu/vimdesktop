@@ -13,6 +13,12 @@ Functions:
     @("EditConfig", "编辑配置文件")
     @("ClearClipboardFormat", "清除剪切板中文字的格式")
     @("RunClipboard", "使用 ahk 的 Run 运行剪切板内容")
+    @("LogOff", "注销 登出")
+    @("RestartMachine", "重启")
+    @("ShutdownMachine", "关机")
+    @("SuspendMachine", "挂起 睡眠")
+    @("HibernateMachine", "休眠")
+    @("TurnMonitorOff", "关闭显示器")
     @("T2S", "繁体转简体剪切板内容")
     @("ShowIp", "显示 IP")
     @("Calendar", "用浏览器打开万年历")
@@ -128,4 +134,35 @@ WinRRun:
     sleep, 100
     Send, %Arg%
     Send, {enter}
+return
+
+LogOff:
+    Shutdown, 0
+return
+
+ShutdownMachine:
+    Shutdown, 1
+return
+
+RestartMachine:
+    Shutdown, 2
+return
+
+HibernateMachine:
+    ; 参数 #1: 使用 1 代替 0 来进行休眠而不是挂起。
+	; 参数 #2: 使用 1 代替 0 来立即挂起而不询问每个应用程序以获得许可。
+	; 参数 #3: 使用 1 而不是 0 来禁止所有的唤醒事件。
+    DllCall("PowrProf\SetSuspendState", "int", 1, "int", 0, "int", 0)
+return
+
+SuspendMachine:
+    DllCall("PowrProf\SetSuspendState", "int", 0, "int", 0, "int", 0)
+return
+
+TurnMonitorOff:
+	; 关闭显示器:
+	SendMessage, 0x112, 0xF170, 2,, Program Manager
+	; 0x112 is WM_SYSCOMMAND, 0xF170 is SC_MONITORPOWER.
+	; 对上面命令的注释: 使用 -1 代替 2 来打开显示器.
+	; 使用 1 代替 2 来激活显示器的节能模式.
 return

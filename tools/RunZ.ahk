@@ -229,6 +229,7 @@ SearchCommand(command = "", firstRun = false)
         else
         {
             elementToShow := SubStr(element, 1, g_DisplayCols)
+            elementToSearch := splitedElement[2]
         }
 
         if (MatchCommand(elementToSearch, command))
