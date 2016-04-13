@@ -23,6 +23,7 @@ Help:
         . "键入内容 搜索，回车 执行（a），Alt + 字母 执行，F1 帮助，Esc 退出`n"
         . "Tab + 字母 也可执行字母对应功能`n"
         . "Tab + 大写字母 可将字母对应功能加入到配置文件，以便优先显示`n"
+        . "Ctrl + r 重新创建待搜索文件列表`n"
         . "Ctrl + j 清除编辑框内容`n"
         . "Ctrl + d 用 TC 打开第一个文件所在目录`n"
         . "Ctrl + s 显示第一个文件的完整路径`n"
@@ -64,8 +65,6 @@ ArgTest:
 
     DisplayResult(result)
 return
-
-
 
 ShowIp:
     DisplayResult(A_IPAddress1

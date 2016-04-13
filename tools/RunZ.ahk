@@ -65,29 +65,30 @@ if (g_Conf.Gui.HideTitle)
 }
 
 Hotkey, IfWinActive, RunZ
-HotKey, ~enter, RunCurrentCommand
-HotKey, ^j, ClearInput
-HotKey, f1, Help
-HotKey, f2, EditConfig
-HotKey, esc, ExitRunZ
-HotKey, ^d, OpenCurrentFileDir
-HotKey, ^x, DeleteCurrentFile
-HotKey, ^s, ShowCurrentFile
+Hotkey, ~enter, RunCurrentCommand
+Hotkey, ^j, ClearInput
+Hotkey, f1, Help
+Hotkey, f2, EditConfig
+Hotkey, esc, ExitRunZ
+Hotkey, ^d, OpenCurrentFileDir
+Hotkey, ^x, DeleteCurrentFile
+Hotkey, ^s, ShowCurrentFile
+Hotkey, ^r, ReloadFiles
 
 if (g_Conf.Config.RunInBackground)
 {
-    HotKey, esc, WindowMin
+    Hotkey, esc, WindowMin
 }
 
 Loop, % g_DisplayRows
 {
     key := Chr(g_FirstChar + A_Index - 1)
     ; lalt + 
-    HotKey, <!%key%, RunSelectedCommand1
+    Hotkey, <!%key%, RunSelectedCommand1
     ; tab +
-    HotKey, ~%key%, RunSelectedCommand2
+    Hotkey, ~%key%, RunSelectedCommand2
     ; shift +
-    HotKey, ~+%key%, AddCustomCommand
+    Hotkey, ~+%key%, AddCustomCommand
 }
 
 if (g_Conf.Config.SaveInputText && g_Conf.Auto.InputText != "")
