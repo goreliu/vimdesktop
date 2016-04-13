@@ -157,20 +157,26 @@ SearchCommand(command = "", firstRun = false)
 
     for index, element in g_Commands
     {
-        currentCommand := StrSplit(element, " | ")[2]
+        elementToSearch := StrSplit(element, " | ")[2]
 
         if (InStr(element, "file | ", true, 1))
         {
             ; 只搜不带扩展名的文件名
-            SplitPath, currentCommand, , , , currentCommand
-            elementToShow := SubStr("file | " . currentCommand, 1, 68)
+            SplitPath, elementToSearch, , fileDir, , fileNameNoExt
+            elementToShow := SubStr("file | " . fileNameNoExt, 1, 68)
+
+            if (g_Conf.config.SearchFullPath)
+            {
+                ; TCMatch 在搜索路径时只搜索文件名，强行将 \ 转成空格
+                elementToSearch := StrReplace(fileDir . "\" . fileNameNoExt, "\", " ")
+            }
         }
         else
         {
             elementToShow := SubStr(element, 1, 68)
         }
 
-        if (MatchCommand(currentCommand, command))
+        if (MatchCommand(elementToSearch, command))
         {
             g_CurrentCommandList.Insert(element)
 
@@ -189,7 +195,6 @@ SearchCommand(command = "", firstRun = false)
             {
                 break
             }
-
             ; 第一次运行只加载 function 类型
             if (firstRun && (order - g_FirstChar >= 11))
             {
