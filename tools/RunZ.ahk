@@ -120,17 +120,36 @@ return
 
 SearchCommand(command = "", firstRun = false)
 {
+    result := ""
+    commandPrefix := SubStr(command, 1, 1)
+
+    if (commandPrefix ==  ";" || commandPrefix == ":")
+    {
+        if (commandPrefix == ";")
+        {
+            g_CurrentCommand := g_FallbackCommands[1]
+        }
+        else if (commandPrefix == ":")
+        {
+            g_CurrentCommand := g_FallbackCommands[2]
+        }
+
+        g_CurrentCommandList.Insert(g_CurrentCommand)
+        result .= "a | " . g_CurrentCommand
+        Arg := SubStr(g_CurrentInput, 2)
+        DisplayResult(result)
+        return result
+    }
     ; 用空格来判断参数
-    if (InStr(command, " ") && g_CurrentCommand != "")
+    else if (InStr(command, " ") && g_CurrentCommand != "")
     {
         Arg := SubStr(command, InStr(command, " ") + 1)
         return
     }
 
-    result := ""
-    order := g_FirstChar
-
     g_CurrentCommandList := Object()
+
+    order := g_FirstChar
 
     for index, element in g_Commands
     {
@@ -180,41 +199,30 @@ SearchCommand(command = "", firstRun = false)
 
     if (result == "")
     {
-        if (SubStr(command, 1, 1) == ";")
-        {
-            g_CurrentCommand := g_FallbackCommands[1]
-            g_CurrentCommandList.Insert(g_CurrentCommand)
-            result .= "a | " . g_CurrentCommand
-            Arg := SubStr(g_CurrentInput, 2)
-        }
-        else if (SubStr(command, 1, 1) == ":")
-        {
-            g_CurrentCommand := g_FallbackCommands[2]
-            g_CurrentCommandList.Insert(g_CurrentCommand)
-            result .= "a | " . g_CurrentCommand
-            Arg := SubStr(g_CurrentInput, 2)
-        }
-        else
-        {
-            g_CurrentCommand := g_FallbackCommands[1]
-            g_CurrentCommandList := g_FallbackCommands
-            Arg := g_CurrentInput
+        g_CurrentCommand := g_FallbackCommands[1]
+        g_CurrentCommandList := g_FallbackCommands
+        Arg := g_CurrentInput
 
-            for index, element in g_FallbackCommands
+        for index, element in g_FallbackCommands
+        {
+            if (index != 1)
             {
-                if (index != 1)
-                {
-                    result .= "`n"
-                }
-
-                result .= Chr(g_FirstChar - 1 + index++) . " | " . element 
+                result .= "`n"
             }
+
+            result .= Chr(g_FirstChar - 1 + index++) . " | " . element 
         }
     }
 
+    DisplayResult(result)
+    return result
+}
+
+DisplayResult(result)
+{
     DisplayText(result)
 
-    if (order - g_FirstChar == 1 && g_Conf.config.RunIfOnlyOne)
+    if (g_CurrentCommandList.Length() == 1 && g_Conf.config.RunIfOnlyOne)
     {
         GoSub, RunCurrentCommand
     }
@@ -223,8 +231,6 @@ SearchCommand(command = "", firstRun = false)
     {
         ControlSetText, Edit3, %g_CurrentCommand%
     }
-
-    return result
 }
 
 ClearInput:
