@@ -320,6 +320,11 @@ RunCommand(command)
             GoSub, %cmd%
         }
     }
+    else if (InStr(command, "cmd | ", true, 1))
+    {
+        cmd := StrSplit(command, " | ")[2]
+        RunWithCmd(cmd)
+    }
 }
 
 RunSelectedCommand1:
