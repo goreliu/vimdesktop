@@ -4,6 +4,7 @@ Functions:
     @("Help", "帮助信息")
     @("AhkRun", "使用 Ahk 的 Run 运行 `; cmd", true)
     @("CmdRun", "使用 cmd 运行 : cmd", true)
+    @("RunAndDisplay", "运行命令，并显示结果", true)
     @("ReloadFiles", "重新加载需要搜索的文件")
     @("Clip", "显示剪切板内容")
     @("Calc", "计算器")
@@ -115,4 +116,8 @@ Calc:
     result := Eval(Arg)
     DisplayResult(result)
     clipboard := result
+return
+
+RunAndDisplay:
+    DisplayResult(RunAndGetOutput(Arg))
 return
