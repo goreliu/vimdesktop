@@ -62,13 +62,15 @@ HotKey, f1, Help
 HotKey, f2, EditConfig
 HotKey, Esc, ExitRunZ
 
-bindKeys := "abcdefghijklmno"
-Loop, Parse, bindKeys
+Loop, % g_DisplayRows
 {
-    ; lalt
-    HotKey, <!%A_LoopField%, RunSelectedCommand1
-    HotKey, ~%A_LoopField%, RunSelectedCommand2
-    HotKey, ~+%A_LoopField%, AddCustomCommand
+    key := Chr(g_FirstChar + A_Index - 1)
+    ; lalt + 
+    HotKey, <!%key%, RunSelectedCommand1
+    ; tab +
+    HotKey, ~%key%, RunSelectedCommand2
+    ; shift +
+    HotKey, ~+%key%, AddCustomCommand
 }
 
 if (g_Conf.Config.SaveInputText && g_Conf.Auto.InputText != "")
@@ -299,7 +301,7 @@ RunCommand(command)
 }
 
 RunSelectedCommand1:
-    index := Asc(SubStr(A_ThisHotkey, 3, 1)) - Asc("a") + 1
+    index := Asc(SubStr(A_ThisHotkey, 3, 1)) - g_FirstChar + 1
 
     RunCommand(g_CurrentCommandList[index])
 return
@@ -311,7 +313,7 @@ RunSelectedCommand2:
         return
     }
 
-    index := Asc(SubStr(A_ThisHotkey, 2, 1)) - Asc("a") + 1
+    index := Asc(SubStr(A_ThisHotkey, 2, 1)) - g_FirstChar + 1
 
     RunCommand(g_CurrentCommandList[index])
 return
@@ -323,7 +325,7 @@ AddCustomCommand:
         return
     }
 
-    index := Asc(SubStr(A_ThisHotkey, 3, 1)) - Asc("a") + 1
+    index := Asc(SubStr(A_ThisHotkey, 3, 1)) - g_FirstChar + 1
 
     if (g_CurrentCommandList[index] != "")
     {
