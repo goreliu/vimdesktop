@@ -42,8 +42,11 @@ HideTitle=0
 ; 按键可以为空
 ;
 ; 示例：
+; file 和 url 都用 ahk 的 Run 运行
 ; file | notepad=note
-; run | calc
+; url | www.baidu.com=bd
+; cmd 在 cmd.exe 运行，会自动加上暂停
+; cmd | ipconfig
 [Command]
 ;function | Dictionary=d
 ;file | C:\Users\goreliu\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\百度云\百度云管家.lnk=gj
