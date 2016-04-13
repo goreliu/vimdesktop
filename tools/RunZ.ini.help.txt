@@ -20,6 +20,8 @@ TCPath=c:\totalcmd\totalcmd.exe
 RunInBackground=0
 ; 加载控制面板中的功能
 LoadControlPanelFunctions=1
+; 窗口失去焦点后程序退出
+ExitIfInactivate=0
 
 ; 图形界面相关参数
 [Gui]
