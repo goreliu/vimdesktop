@@ -336,6 +336,21 @@ RunCommand(command)
     if (RegexMatch(command, "^(file|url)"))
     {
         cmd := StrSplit(command, " | ")[2]
+
+        if (InStr(cmd, ".lnk"))
+        {
+            ; 处理 32 位 ahk 运行不了某些 64 位系统 .lnk 的问题
+            FileGetShortcut, %cmd%, filePath
+            if (!FileExist(filePath))
+            {
+                filePath := StrReplace(filePath, "C:\Program Files (x86)", "C:\Program Files")
+                if (FileExist(filePath))
+                {
+                    cmd := filePath
+                }
+            }
+        }
+
         Run, %cmd%
     }
     else if (InStr(command, "function | ", true, 1))
