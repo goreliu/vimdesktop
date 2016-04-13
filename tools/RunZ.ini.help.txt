@@ -50,7 +50,5 @@ HideTitle=0
 ; cmd 在 cmd.exe 运行，会自动加上暂停
 ; cmd | ipconfig
 [Command]
-;function | Dictionary=d
-;file | C:\Users\goreliu\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\百度云\百度云管家.lnk=gj
 [Auto]
 InputText=
