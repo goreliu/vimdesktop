@@ -70,7 +70,9 @@ HotKey, ^j, ClearInput
 HotKey, f1, Help
 HotKey, f2, EditConfig
 HotKey, esc, ExitRunZ
-HotKey, ^d, OpenCurrentFilePath
+HotKey, ^d, OpenCurrentFileDir
+HotKey, ^x, DeleteCurrentFile
+HotKey, ^s, ShowCurrentFile
 
 if (g_Conf.Config.RunInBackground)
 {
@@ -437,11 +439,6 @@ RunWithCmd(command)
     }
 }
 
-OpenCurrentFilePath:
-    filePath := StrSplit(g_CurrentCommand, " | ")[2]
-    OpenPath(filePath)
-return
-
 OpenPath(filePath)
 {
     if (!FileExist(filePath))
@@ -460,6 +457,34 @@ OpenPath(filePath)
         Run, explorer "%fileDir%"
     }
 }
+
+OpenCurrentFileDir:
+    filePath := StrSplit(g_CurrentCommand, " | ")[2]
+    OpenPath(filePath)
+return
+
+DeleteCurrentFile:
+    filePath := StrSplit(g_CurrentCommand, " | ")[2]
+
+    if (!FileExist(filePath))
+    {
+        return
+    }
+
+    FileRecycle, % filePath
+    GoSub, ReloadFiles
+return
+
+ShowCurrentFile:
+    ToolTip, % StrSplit(g_CurrentCommand, " | ")[2]
+    SetTimer, RemoveToolTip, 800
+return
+
+RemoveToolTip:
+    ToolTip
+    SetTimer, RemoveToolTip, Off
+return
+
 
 #include %A_ScriptDir%\..\lib\class_EasyIni.ahk
 #include %A_ScriptDir%\lib\Kanji\Kanji.ahk
