@@ -907,7 +907,14 @@ ShowHelp()
 return
 
 <RunZ>:
-    Run, %A_ScriptDir%\tools\RunZ.ahk
+    if (FileExist(A_ScriptDir "\vimd.exe"))
+    {
+        Run, %A_ScriptDir%\vimd.exe "%A_ScriptDir%\tools\RunZ.ahk"
+    }
+    else
+    {
+        Run, %A_ScriptDir%\tools\RunZ.ahk
+    }
 return
 
 <ToggleCapsLock>:
