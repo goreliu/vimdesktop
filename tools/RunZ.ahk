@@ -532,6 +532,27 @@ OpenPath(filePath)
     }
 }
 
+GetAllFunctions()
+{
+    result := ""
+    functionBegin := false
+
+    for index, element in g_Commands
+    {
+        if (InStr(element, "function | ") == 1)
+        {
+            functionBegin := true
+            result .= element "`n"
+        }
+        else if (functionBegin)
+        {
+            break
+        }
+    }
+
+    return result
+}
+
 OpenCurrentFileDir:
     filePath := StrSplit(g_CurrentCommand, " | ")[2]
     OpenPath(filePath)

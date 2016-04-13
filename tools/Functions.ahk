@@ -19,7 +19,7 @@ Functions:
     @("SuspendMachine", "挂起 睡眠")
     @("HibernateMachine", "休眠")
     @("TurnMonitorOff", "关闭显示器")
-    @("T2S", "繁体转简体剪切板内容")
+    @("T2S", "将剪切板中的内容繁体转简体")
     @("ShowIp", "显示 IP")
     @("Calendar", "用浏览器打开万年历")
     @("Dictionary", "词典，依赖 bash 和 ydcv")
@@ -41,7 +41,9 @@ Help:
         . "分号开头则使用 ahk 的 Run 运行命令，如 `;ping www.bidu.com`n"
         . "冒号开头则在 cmd 运行命令，如 :ping www.baidu.com`n"
         . "当搜索无结果时，回车 也等同 run 输入内容`n"
-        . "当输入内容包含空格时，列表锁定，逗号作为命令参数的分隔符"
+        . "当输入内容包含空格时，列表锁定，逗号作为命令参数的分隔符`n`n`n"
+        . "内置功能列表：`n`n"
+        . GetAllFunctions()
 
     DisplayResult(helpText)
 return
