@@ -146,6 +146,7 @@ return
         FileToOpen := Clipboard
         TC_OpenPath(FileToOpen, true, "/L")
         Clipboard := OldClipboard
+        OldClipboard =
         return
     }
     else
@@ -155,6 +156,7 @@ return
         StringTrimLeft, FileToOpen, OutputVar, 4
         TC_OpenPath(FileToOpen, true, "/L")
         Clipboard := OldClipboard
+        OldClipboard =
         return
     }
 return
