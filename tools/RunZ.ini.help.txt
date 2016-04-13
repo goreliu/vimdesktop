@@ -45,5 +45,6 @@ HideTitle=0
 ; file | notepad=note
 ; run | calc
 [Command]
+function | Dictionary=d
 [Auto]
 InputText=
