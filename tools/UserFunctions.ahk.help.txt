@@ -1,0 +1,31 @@
+﻿; 复制此文件为 UserFunctions.ahk 即可使用
+
+global Arg
+
+UserFunctions:
+    ; 第一个参数为标签名，第二个为搜索项（内容随意）
+    @("UserTest1", "用户测试（ut1）")
+    @("UserTest2", "用户测试（ut2）")
+    @("UserTest3", "用户测试（ut3）")
+    @("UserTest4", "用户测试（ut4）")
+return
+
+UserTest1:
+    ; 在指定目录启动软件
+    Run, notepad, c:
+return
+
+UserTest2:
+    ; 在列表框显示指定内容
+    DisplayResult(clipboard)
+return
+
+UserTest3:
+    ; 在 cmd.exe 里运行命令
+    RunWithCmd("ipconfig")
+return
+
+UserTest4:
+    ; 调用参数，输入的内容空格之后为参数，可根据自己的喜欢分割
+    MsgBox, % Arg
+return

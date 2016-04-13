@@ -16,7 +16,7 @@ Kanji(s,r:=""){ ;  r= 1-简繁 ""-繁简
 }
  
 __Kanji(){
-    FileRead,s,% A_ScriptDir "\Kanji\Kanji.txt"
+    FileRead,s,% A_ScriptDir "\lib\Kanji\Kanji.txt"
     f:=[], h:=[],s:=Trim(s)
     Loop,Parse,s,% A_Space
         f[a:=SubStr(A_Loopfield,1,1)]:=b:=SubStr(A_Loopfield,2),h[b]:=a

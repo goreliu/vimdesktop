@@ -1794,6 +1794,7 @@ return
     {
         GoSub, <%Clipboard%>
     }
+    OldClipboard =
 return
 
 <TC_ClearTitle>:
@@ -1827,6 +1828,7 @@ return
     ClipWait
     FileRead, Contents, %Clipboard%
     Clipboard := OldClipboard
+    OldClipboard =
     Loop, Parse, Contents, `n, `r
     {
         if FileExist(A_LoopField)
@@ -1849,7 +1851,7 @@ TC_Run(cmd)
 
 ; 粘贴文件，如果光标下为目录则粘贴进该目录
 <TC_PasteFileEx>:
-    OldClip := ClipboardAll
+    OldClipboard := ClipboardAll
     Clipboard =
     SendPos(524)   ;cm_ClearAll
     SendPos(2018)  ;cm_CopyFullNamesToClip
@@ -1858,13 +1860,14 @@ TC_Run(cmd)
     If (SubStr(TempClip, 0) == "\")
     {
         SendPos(1001)  ;cm_Return
-        Clipboard := OldClip
+        Clipboard := OldClipboard
         SendPos(2009)  ;cm_PasteFromClipboard
         SendPos(2002)  ;cm_GoToParent
     } else {
-        Clipboard := OldClip
+        Clipboard := OldClipboard
         SendPos(2009)  ;cm_PasteFromClipboard
     }
+    OldClipboard =
 return
 
 ; ADD HERE

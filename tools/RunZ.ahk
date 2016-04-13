@@ -6,19 +6,23 @@ FileEncoding, utf-8
 SendMode Input
 
 ; 自动生成的命令文件
-global g_CommandsFile := A_ScriptDir . "\Commands.txt"
-global g_ConfFile := A_ScriptDir . "\RunZ.ini"
+global g_SearchFileList := A_ScriptDir . "\SearchFileList.txt"
 ; 配置文件
-global g_Conf := class_EasyINI(g_ConfFile)
+global g_ConfFile := A_ScriptDir . "\RunZ.ini"
 
-; 从配置文件读取
-global g_SearchFileDir = g_Conf.config.SearchFileDir
-global g_SearchFileType = g_Conf.config.SearchFileType
+if !FileExist(g_ConfFile)
+{
+    FileCopy, %g_ConfFile%.help.txt, %g_ConfFile%
+}
+
+global g_Conf := class_EasyINI(g_ConfFile)
 
 ; 所有命令
 global g_Commands
 ; 当搜索无结果时使用的命令
 global g_FallbackCommands
+; 当前是否使用着 g_FallbackCommands
+global g_UseFallbackCommands
 ; 编辑框当前内容
 global g_CurrentInput
 ; 当前匹配到的第一条命令
@@ -26,58 +30,85 @@ global g_CurrentCommand
 ; 当前匹配到的所有命令
 global g_CurrentCommandList
 ; 是否启用 TCMatch
-global g_EnableTCMatch = TCMatchOn(g_Conf.config.TCMatchPath)
-; 列表排序的第一个字符
-global g_FirstChar := Asc("a")
+global g_EnableTCMatch = TCMatchOn(g_Conf.Config.TCMatchPath)
+; 列表第一列的首字母或数字
+global g_FirstChar := Asc(g_Conf.Gui.FirstChar)
+; 在列表中显示的行数
+global g_DisplayRows := g_Conf.Gui.DisplayRows
+; 在列表中显示的文字列数（多出的会被截断）
+global g_DisplayCols := g_Conf.Gui.DisplayCols
 ; 命令使用了显示框
 global g_UseDisplay
 ; 当前输入命令的参数，数组，为了方便没有添加 g_ 前缀
 global Arg
 
-if (FileExist(g_CommandsFile))
+if (FileExist(g_SearchFileList))
 {
-    LoadCommands()
+    LoadFiles()
 }
 else
 {
-    GoSub, ReloadCommand
+    GoSub, ReloadFiles
 }
 
-Gui, Main:Font, s12
-Gui, Main:Add, Edit, gProcessInputCommand vSearchArea w600 h25,
-Gui, Main:Add, Edit, w600 h250 ReadOnly vDisplayArea, % SearchCommand("", true)
-if (g_Conf.config.ShowCurrentCommand)
+Gui, Main:Font, % "s" g_Conf.Gui.FontSize, % g_Conf.Gui.FontName
+Gui, Main:Add, Edit, % "gProcessInputCommand vSearchArea"
+        . " w" g_Conf.Gui.WidgetWidth " h" g_Conf.Gui.EditHeight,
+Gui, Main:Add, Edit, % "ReadOnly vDisplayArea"
+        . " w" g_Conf.Gui.WidgetWidth " h" g_Conf.Gui.DisplayAreaHeight
+        , % SearchCommand("", true)
+if (g_Conf.Gui.ShowCurrentCommand)
 {
-    Gui, Main:Add, Edit, w600 h25 ReadOnly,
+    Gui, Main:Add, Edit, % "ReadOnly"
+        . " w" g_Conf.Gui.WidgetWidth " h" g_Conf.Gui.EditHeight,
 }
 Gui, Main:Show, , RunZ
-;WinSet, Style, -0xC00000, A
-
-Hotkey, IfWinActive, RunZ
-HotKey, ~enter, RunCurrentCommand
-HotKey, ^j, ClearInput
-HotKey, f1, Help
-HotKey, f2, EditConfig
-HotKey, Esc, ExitRunZ
-
-bindKeys := "abcdefghijklmno"
-Loop, Parse, bindKeys
+if (g_Conf.Gui.HideTitle)
 {
-    ; lalt
-    HotKey, <!%A_LoopField%, RunSelectedCommand1
-    HotKey, ~%A_LoopField%, RunSelectedCommand2
-    HotKey, ~+%A_LoopField%, AddCustomCommand
+    WinSet, Style, -0xC00000, A
 }
 
-if (g_Conf.config.SaveInputText && g_Conf.auto.InputText != "")
+if (g_Conf.Config.ExitIfInactivate)
 {
-    Send, % g_Conf.auto.InputText
+    OnMessage(0x06, "WM_ACTIVATE")
+}
+
+Hotkey, IfWinActive, RunZ
+Hotkey, ~enter, RunCurrentCommand
+Hotkey, ^j, ClearInput
+Hotkey, f1, Help
+Hotkey, f2, EditConfig
+Hotkey, esc, ExitRunZ
+Hotkey, ^d, OpenCurrentFileDir
+Hotkey, ^x, DeleteCurrentFile
+Hotkey, ^s, ShowCurrentFile
+Hotkey, ^r, ReloadFiles
+
+if (g_Conf.Config.RunInBackground)
+{
+    Hotkey, esc, WindowMin
+}
+
+Loop, % g_DisplayRows
+{
+    key := Chr(g_FirstChar + A_Index - 1)
+    ; lalt +
+    Hotkey, <!%key%, RunSelectedCommand1
+    ; tab +
+    Hotkey, ~%key%, RunSelectedCommand2
+    ; shift +
+    Hotkey, ~+%key%, AddCustomCommand
+}
+
+if (g_Conf.Config.SaveInputText && g_Conf.Auto.InputText != "")
+{
+    Send, % g_Conf.Auto.InputText
 }
 
 return
 
 ExitRunZ:
-    if (g_Conf.config.SaveInputText)
+    if (g_Conf.Config.SaveInputText)
     {
         g_Conf.DeleteKey("auto", "InputText")
         g_Conf.AddKey("auto", "InputText", g_CurrentInput)
@@ -87,11 +118,17 @@ ExitRunZ:
     ExitApp
 return
 
-GenerateCommandList()
-{
-    FileDelete, %g_CommandsFile%
+WindowMin:
+    WinMinimize, A
+return
 
-    for dirIndex, dir in StrSplit(g_SearchFileDir, " | ")
+GenerateSearchFileList()
+{
+    FileDelete, %g_SearchFileList%
+
+    searchFileType := g_Conf.Config.SearchFileType
+
+    for dirIndex, dir in StrSplit(g_Conf.Config.SearchFileDir, " | ")
     {
         if (InStr(dir, "A_") == 1)
         {
@@ -102,20 +139,26 @@ GenerateCommandList()
             searchPath := dir
         }
 
-        for extIndex, ext in StrSplit(g_SearchFileType, " | ")
+        for extIndex, ext in StrSplit(searchFileType, " | ")
         {
             Loop, Files, %searchPath%\%ext%, R
             {
-                if (g_Conf.config.SearchFileExclude != ""
-                        && RegexMatch(A_LoopFileLongPath, g_Conf.config.SearchFileExclude))
+                if (g_Conf.Config.SearchFileExclude != ""
+                        && RegexMatch(A_LoopFileLongPath, g_Conf.Config.SearchFileExclude))
                 {
                     continue
                 }
-                FileAppend, file | %A_LoopFileLongPath%`n, %g_CommandsFile%,
+                FileAppend, file | %A_LoopFileLongPath%`n, %g_SearchFileList%,
             }
         }
     }
 }
+
+ReloadFiles:
+    GenerateSearchFileList()
+
+    LoadFiles()
+return
 
 ProcessInputCommand:
     GuiControlGet, g_CurrentInput, , SearchArea
@@ -127,7 +170,7 @@ SearchCommand(command = "", firstRun = false)
     result := ""
     commandPrefix := SubStr(command, 1, 1)
 
-    if (commandPrefix ==  ";" || commandPrefix == ":")
+    if (commandPrefix == ";" || commandPrefix == ":")
     {
         if (commandPrefix == ";")
         {
@@ -147,7 +190,14 @@ SearchCommand(command = "", firstRun = false)
     ; 用空格来判断参数
     else if (InStr(command, " ") && g_CurrentCommand != "")
     {
-        Arg := SubStr(command, InStr(command, " ") + 1)
+        if (g_UseFallbackCommands)
+        {
+            Arg := command
+        }
+        else
+        {
+            Arg := SubStr(command, InStr(command, " ") + 1)
+        }
         return
     }
 
@@ -157,20 +207,37 @@ SearchCommand(command = "", firstRun = false)
 
     for index, element in g_Commands
     {
-        currentCommand := StrSplit(element, " | ")[2]
+        splitedElement := StrSplit(element, " | ")
 
-        if (InStr(element, "file | ", true, 1))
+        if (splitedElement[1] == "file")
         {
-            ; 只搜不带扩展名的文件名
-            SplitPath, currentCommand, , , , currentCommand
-            elementToShow := SubStr("file | " . currentCommand, 1, 68)
+            SplitPath, % splitedElement[2], , fileDir, , fileNameNoExt
+
+            ; 只搜索和展示不带扩展名的文件名
+            elementToSearch := fileNameNoExt
+            elementToShow := "file | " . fileNameNoExt
+
+            if (splitedElement.Length() >= 3)
+            {
+                elementToSearch .= " " . splitedElement[3]
+                elementToShow .= "（" . splitedElement[3] . "）"
+            }
+
+            elementToShow := SubStr(elementToShow, 1, g_DisplayCols)
+
+            if (g_Conf.Config.SearchFullPath)
+            {
+                ; TCMatch 在搜索路径时只搜索文件名，强行将 \ 转成空格
+                elementToSearch := StrReplace(fileDir, "\", " ") . " " . elementToSearch
+            }
         }
         else
         {
-            elementToShow := SubStr(element, 1, 68)
+            elementToShow := SubStr(element, 1, g_DisplayCols)
+            elementToSearch := splitedElement[2]
         }
 
-        if (MatchCommand(currentCommand, command))
+        if (MatchCommand(elementToSearch, command))
         {
             g_CurrentCommandList.Insert(element)
 
@@ -185,13 +252,12 @@ SearchCommand(command = "", firstRun = false)
 
             result .= Chr(order++) . " | " . elementToShow
 
-            if (order - g_FirstChar >= 15)
+            if (order - g_FirstChar >= g_DisplayRows)
             {
                 break
             }
-
             ; 第一次运行只加载 function 类型
-            if (firstRun && (order - g_FirstChar >= 11))
+            if (firstRun && (order - g_FirstChar >= g_DisplayRows - 4))
             {
                 result .= "`n`n现有 " g_Commands.Length() " 条命令。"
                 result .= "`n`n键入内容 搜索，回车 执行第一条，Alt + 字母 执行，F1 帮助，Esc 退出。"
@@ -203,6 +269,7 @@ SearchCommand(command = "", firstRun = false)
 
     if (result == "")
     {
+        g_UseFallbackCommands := true
         g_CurrentCommand := g_FallbackCommands[1]
         g_CurrentCommandList := g_FallbackCommands
         Arg := g_CurrentInput
@@ -214,8 +281,12 @@ SearchCommand(command = "", firstRun = false)
                 result .= "`n"
             }
 
-            result .= Chr(g_FirstChar - 1 + index++) . " | " . element 
+            result .= Chr(g_FirstChar - 1 + index++) . " | " . element
         }
+    }
+    else
+    {
+        g_UseFallbackCommands := false
     }
 
     DisplaySearchResult(result)
@@ -226,12 +297,12 @@ DisplaySearchResult(result)
 {
     DisplayText(result)
 
-    if (g_CurrentCommandList.Length() == 1 && g_Conf.config.RunIfOnlyOne)
+    if (g_CurrentCommandList.Length() == 1 && g_Conf.Config.RunIfOnlyOne)
     {
         GoSub, RunCurrentCommand
     }
 
-    if (g_Conf.config.ShowCurrentCommand)
+    if (g_Conf.Gui.ShowCurrentCommand)
     {
         ControlSetText, Edit3, %g_CurrentCommand%
     }
@@ -247,7 +318,7 @@ RunCurrentCommand:
         g_UseDisplay := false
 
         RunCommand(g_CurrentCommand)
-        if (g_Conf.config.RunOnce && !g_UseDisplay)
+        if (g_Conf.Config.RunOnce && !g_UseDisplay)
         {
             GoSub, ExitRunZ
         }
@@ -271,6 +342,21 @@ RunCommand(command)
     if (RegexMatch(command, "^(file|url)"))
     {
         cmd := StrSplit(command, " | ")[2]
+
+        if (InStr(cmd, ".lnk"))
+        {
+            ; 处理 32 位 ahk 运行不了某些 64 位系统 .lnk 的问题
+            FileGetShortcut, %cmd%, filePath
+            if (!FileExist(filePath))
+            {
+                filePath := StrReplace(filePath, "C:\Program Files (x86)", "C:\Program Files")
+                if (FileExist(filePath))
+                {
+                    cmd := filePath
+                }
+            }
+        }
+
         Run, %cmd%
     }
     else if (InStr(command, "function | ", true, 1))
@@ -281,10 +367,15 @@ RunCommand(command)
             GoSub, %cmd%
         }
     }
+    else if (InStr(command, "cmd | ", true, 1))
+    {
+        cmd := StrSplit(command, " | ")[2]
+        RunWithCmd(cmd)
+    }
 }
 
 RunSelectedCommand1:
-    index := Asc(SubStr(A_ThisHotkey, 3, 1)) - Asc("a") + 1
+    index := Asc(SubStr(A_ThisHotkey, 3, 1)) - g_FirstChar + 1
 
     RunCommand(g_CurrentCommandList[index])
 return
@@ -296,7 +387,7 @@ RunSelectedCommand2:
         return
     }
 
-    index := Asc(SubStr(A_ThisHotkey, 2, 1)) - Asc("a") + 1
+    index := Asc(SubStr(A_ThisHotkey, 2, 1)) - g_FirstChar + 1
 
     RunCommand(g_CurrentCommandList[index])
 return
@@ -308,7 +399,7 @@ AddCustomCommand:
         return
     }
 
-    index := Asc(SubStr(A_ThisHotkey, 3, 1)) - Asc("a") + 1
+    index := Asc(SubStr(A_ThisHotkey, 3, 1)) - g_FirstChar + 1
 
     if (g_CurrentCommandList[index] != "")
     {
@@ -316,16 +407,16 @@ AddCustomCommand:
 
         g_Conf.Save()
 
-        LoadCommands()
+        LoadFiles()
     }
 return
 
-LoadCommands()
+LoadFiles()
 {
     g_Commands := Object()
     g_FallbackCommands := Object()
 
-    for key, value in g_Conf.command
+    for key, value in g_Conf.Command
     {
         if (value != "")
         {
@@ -337,19 +428,32 @@ LoadCommands()
         }
     }
 
-    @("AhkRun", "使用 Ahk 的 Run 运行 `; cmd", true)
-    @("CmdRun", "使用 cmd 运行 : cmd", true)
-    @("ReloadCommand", "重新搜索文件")
-    @("Clip", "显示剪切板内容")
-    @("EditConfig", "编辑配置文件")
-    @("Help", "帮助信息")
-    @("ArgTest", "参数测试：ArgTest arg1,arg2,...")
+    if (FileExist(A_ScriptDir "\UserFunctions.ahk"))
+    {
+        userFunctionLabel := "UserFunctions"
+        if (IsLabel(userFunctionLabel))
+        {
+            GoSub, %userFunctionLabel%
+        }
+        else
+        {
+            MsgBox, 未在 %A_ScriptDir%\UserFunctions.ahk 中发现 %userFunctionLabel% 标签，请修改！
+        }
+    }
 
-    GoSub, UserCmd
+    GoSub, Functions
 
-    Loop, Read, %g_CommandsFile%
+    Loop, Read, %g_SearchFileList%
     {
         g_Commands.Insert(A_LoopReadLine)
+    }
+
+    if (g_Conf.Config.LoadControlPanelFunctions)
+    {
+        Loop, Read, %A_ScriptDir%\ControlPanelFunctions.txt
+        {
+            g_Commands.Insert(A_LoopReadLine)
+        }
     }
 }
 
@@ -365,59 +469,15 @@ DisplayResult(result)
     g_UseDisplay := true
 }
 
-ArgTest:
-    Args := StrSplit(Arg, ",")
-    result := "共有 " . Args.Length() . " 个参数。`n`n"
-
-    for index, argument in Args
-    {
-        result .= "第 " . index - 1 " 个参数：" . argument . "`n"
-    }
-
-    DisplayResult(result)
-return
-
-ReloadCommand:
-    GenerateCommandList()
-
-    LoadCommands()
-return
-
-Help:
-    helpText := "帮助：`n`n"
-        . "键入内容 搜索，回车 执行（a），Alt + 字母 执行，F1 帮助，Esc 退出`n"
-        . "Tab + 字母 也可执行字母对应功能`n"
-        . "Tab + 大写字母 可将字母对应功能加入到配置文件，以便优先显示`n"
-        . "Ctrl + j 清除编辑框内容`n"
-        . "F2 编辑配置文件`n`n"
-        . "可直接输入网址，如 www.baidu.com`n"
-        . "分号开头则使用 ahk 的 Run 运行命令，如 `;ping www.baidu.com`n"
-        . "冒号开头则在 cmd 运行命令，如 :ping www.baidu.com`n"
-        . "当搜索无结果时，回车 也等同 run 输入内容`n"
-        . "当输入内容包含空格时，列表锁定，逗号作为命令参数的分隔符`n"
-
-    DisplayResult(helpText)
-return
-
-EditConfig:
-    Run, % g_ConfFile
-return
-
-Clip:
-    DisplayResult("剪切板内容长度 " . StrLen(clipboard) . " ：`n`n" . clipboard)
-return
-
-CmdRun:
-    RunWithCmd(Arg)
-return
-
-AhkRun:
-    Run, %Arg%
-return
-
 ; AddAction(label, info, fallback)
 @(label, info, fallback = false)
 {
+    if (!IsLabel(label))
+    {
+        MsgBox, 未找到 %label% 标签，请检查 %A_ScriptDir%\UserFunctions.ahk 文件格式！
+        return
+    }
+
     g_Commands.Insert("function | " . label . "（" . info . "）")
     if (fallback)
     {
@@ -449,12 +509,95 @@ RunWithCmd(command)
     }
     else
     {
-        Run, % ComSpec " /C " command
+        Run, % ComSpec " /C " command " & pause"
     }
 }
+
+OpenPath(filePath)
+{
+    if (!FileExist(filePath))
+    {
+        return
+    }
+
+    if (FileExist(g_Conf.Config.TCPath))
+    {
+        TCPath := g_Conf.Config.TCPath
+        Run, %TCPath% /O /A /L="%filePath%"
+    }
+    else
+    {
+        SplitPath, filePath, , fileDir, ,
+        Run, explorer "%fileDir%"
+    }
+}
+
+GetAllFunctions()
+{
+    result := ""
+    functionBegin := false
+
+    for index, element in g_Commands
+    {
+        if (InStr(element, "function | ") == 1)
+        {
+            functionBegin := true
+            result .= element "`n"
+        }
+        else if (functionBegin)
+        {
+            break
+        }
+    }
+
+    return result
+}
+
+OpenCurrentFileDir:
+    filePath := StrSplit(g_CurrentCommand, " | ")[2]
+    OpenPath(filePath)
+return
+
+DeleteCurrentFile:
+    filePath := StrSplit(g_CurrentCommand, " | ")[2]
+
+    if (!FileExist(filePath))
+    {
+        return
+    }
+
+    FileRecycle, % filePath
+    GoSub, ReloadFiles
+return
+
+ShowCurrentFile:
+    clipboard := StrSplit(g_CurrentCommand, " | ")[2]
+    ToolTip, % clipboard
+    SetTimer, RemoveToolTip, 800
+return
+
+RemoveToolTip:
+    ToolTip
+    SetTimer, RemoveToolTip, Off
+return
+
+WM_ACTIVATE(wParam, lParam)
+{
+    if (wParam >= 1) ; 窗口激活
+    {
+        return
+    }
+    else if (wParam <= 0) ; 窗口非激活
+    {
+        GoSub, ExitRunZ
+    }
+}
+
 
 #include %A_ScriptDir%\..\lib\class_EasyIni.ahk
 #include %A_ScriptDir%\lib\Kanji\Kanji.ahk
 #include %A_ScriptDir%\lib\TCMatch.ahk
 #include %A_ScriptDir%\lib\Eval.ahk
-#include %A_ScriptDir%\Commands.ahk
+#include %A_ScriptDir%\Functions.ahk
+; 用户自定义命令
+#include *i %A_ScriptDir%\UserFunctions.ahk
