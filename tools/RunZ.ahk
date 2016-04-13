@@ -11,10 +11,6 @@ global g_SearchFileList := A_ScriptDir . "\SearchFileList.txt"
 global g_ConfFile := A_ScriptDir . "\RunZ.ini"
 global g_Conf := class_EasyINI(g_ConfFile)
 
-; 从配置文件读取
-global g_SearchFileDir = g_Conf.config.SearchFileDir
-global g_SearchFileType = g_Conf.config.SearchFileType
-
 ; 所有命令
 global g_Commands
 ; 当搜索无结果时使用的命令
@@ -26,9 +22,11 @@ global g_CurrentCommand
 ; 当前匹配到的所有命令
 global g_CurrentCommandList
 ; 是否启用 TCMatch
-global g_EnableTCMatch = TCMatchOn(g_Conf.config.TCMatchPath)
-; 列表排序的第一个字符
-global g_FirstChar := Asc("a")
+global g_EnableTCMatch = TCMatchOn(g_Conf.Config.TCMatchPath)
+; 列表第一列的首字母或数字
+global g_FirstChar := Asc(g_Conf.Gui.FirstChar)
+; 列表第一列的首字母或数字
+global g_DisplayRows := g_Conf.Gui.DisplayRows
 ; 命令使用了显示框
 global g_UseDisplay
 ; 当前输入命令的参数，数组，为了方便没有添加 g_ 前缀
@@ -43,12 +41,16 @@ else
     GoSub, ReloadFiles
 }
 
-Gui, Main:Font, s12
-Gui, Main:Add, Edit, gProcessInputCommand vSearchArea w600 h25,
-Gui, Main:Add, Edit, w600 h250 ReadOnly vDisplayArea, % SearchCommand("", true)
-if (g_Conf.config.ShowCurrentCommand)
+Gui, Main:Font, % "s" g_Conf.Gui.FontSize, % g_Conf.Gui.FontName
+Gui, Main:Add, Edit, % "gProcessInputCommand vSearchArea"
+        . " w" g_Conf.Gui.WidgetWidth " h" g_Conf.Gui.EditHeight,
+Gui, Main:Add, Edit, % "ReadOnly vDisplayArea"
+        . " w" g_Conf.Gui.WidgetWidth " h" g_Conf.Gui.DisplayAreaHeight
+        , % SearchCommand("", true)
+if (g_Conf.Gui.ShowCurrentCommand)
 {
-    Gui, Main:Add, Edit, w600 h25 ReadOnly,
+    Gui, Main:Add, Edit, % "ReadOnly"
+        . " w" g_Conf.Gui.WidgetWidth " h" g_Conf.Gui.EditHeight,
 }
 Gui, Main:Show, , RunZ
 ;WinSet, Style, -0xC00000, A
@@ -69,15 +71,15 @@ Loop, Parse, bindKeys
     HotKey, ~+%A_LoopField%, AddCustomCommand
 }
 
-if (g_Conf.config.SaveInputText && g_Conf.auto.InputText != "")
+if (g_Conf.Config.SaveInputText && g_Conf.Auto.InputText != "")
 {
-    Send, % g_Conf.auto.InputText
+    Send, % g_Conf.Auto.InputText
 }
 
 return
 
 ExitRunZ:
-    if (g_Conf.config.SaveInputText)
+    if (g_Conf.Config.SaveInputText)
     {
         g_Conf.DeleteKey("auto", "InputText")
         g_Conf.AddKey("auto", "InputText", g_CurrentInput)
@@ -91,7 +93,9 @@ GenerateSearchFileList()
 {
     FileDelete, %g_SearchFileList%
 
-    for dirIndex, dir in StrSplit(g_SearchFileDir, " | ")
+    searchFileType := g_Conf.Config.SearchFileType
+
+    for dirIndex, dir in StrSplit(g_Conf.Config.SearchFileDir, " | ")
     {
         if (InStr(dir, "A_") == 1)
         {
@@ -102,12 +106,12 @@ GenerateSearchFileList()
             searchPath := dir
         }
 
-        for extIndex, ext in StrSplit(g_SearchFileType, " | ")
+        for extIndex, ext in StrSplit(searchFileType, " | ")
         {
             Loop, Files, %searchPath%\%ext%, R
             {
-                if (g_Conf.config.SearchFileExclude != ""
-                        && RegexMatch(A_LoopFileLongPath, g_Conf.config.SearchFileExclude))
+                if (g_Conf.Config.SearchFileExclude != ""
+                        && RegexMatch(A_LoopFileLongPath, g_Conf.Config.SearchFileExclude))
                 {
                     continue
                 }
@@ -171,7 +175,7 @@ SearchCommand(command = "", firstRun = false)
             SplitPath, elementToSearch, , fileDir, , fileNameNoExt
             elementToShow := SubStr("file | " . fileNameNoExt, 1, 68)
 
-            if (g_Conf.config.SearchFullPath)
+            if (g_Conf.Config.SearchFullPath)
             {
                 ; TCMatch 在搜索路径时只搜索文件名，强行将 \ 转成空格
                 elementToSearch := StrReplace(fileDir . "\" . fileNameNoExt, "\", " ")
@@ -197,12 +201,12 @@ SearchCommand(command = "", firstRun = false)
 
             result .= Chr(order++) . " | " . elementToShow
 
-            if (order - g_FirstChar >= 15)
+            if (order - g_FirstChar >= g_DisplayRows)
             {
                 break
             }
             ; 第一次运行只加载 function 类型
-            if (firstRun && (order - g_FirstChar >= 11))
+            if (firstRun && (order - g_FirstChar >= g_DisplayRows - 4))
             {
                 result .= "`n`n现有 " g_Commands.Length() " 条命令。"
                 result .= "`n`n键入内容 搜索，回车 执行第一条，Alt + 字母 执行，F1 帮助，Esc 退出。"
@@ -225,7 +229,7 @@ SearchCommand(command = "", firstRun = false)
                 result .= "`n"
             }
 
-            result .= Chr(g_FirstChar - 1 + index++) . " | " . element 
+            result .= Chr(g_FirstChar - 1 + index++) . " | " . element
         }
     }
 
@@ -237,12 +241,12 @@ DisplaySearchResult(result)
 {
     DisplayText(result)
 
-    if (g_CurrentCommandList.Length() == 1 && g_Conf.config.RunIfOnlyOne)
+    if (g_CurrentCommandList.Length() == 1 && g_Conf.Config.RunIfOnlyOne)
     {
         GoSub, RunCurrentCommand
     }
 
-    if (g_Conf.config.ShowCurrentCommand)
+    if (g_Conf.Gui.ShowCurrentCommand)
     {
         ControlSetText, Edit3, %g_CurrentCommand%
     }
@@ -258,7 +262,7 @@ RunCurrentCommand:
         g_UseDisplay := false
 
         RunCommand(g_CurrentCommand)
-        if (g_Conf.config.RunOnce && !g_UseDisplay)
+        if (g_Conf.Config.RunOnce && !g_UseDisplay)
         {
             GoSub, ExitRunZ
         }
@@ -336,7 +340,7 @@ LoadFiles()
     g_Commands := Object()
     g_FallbackCommands := Object()
 
-    for key, value in g_Conf.command
+    for key, value in g_Conf.Command
     {
         if (value != "")
         {
