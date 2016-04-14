@@ -53,18 +53,18 @@ else
     GoSub, ReloadFiles
 }
 
-Gui, Main:Font, % "s" g_Conf.Gui.FontSize, % g_Conf.Gui.FontName
-Gui, Main:Add, Edit, % "gProcessInputCommand vSearchArea"
+Gui, Font, % "s" g_Conf.Gui.FontSize, % g_Conf.Gui.FontName
+Gui, Add, Edit, % "gProcessInputCommand vSearchArea"
         . " w" g_Conf.Gui.WidgetWidth " h" g_Conf.Gui.EditHeight,
-Gui, Main:Add, Edit, % "ReadOnly vDisplayArea"
+Gui, Add, Edit, % "ReadOnly vDisplayArea"
         . " w" g_Conf.Gui.WidgetWidth " h" g_Conf.Gui.DisplayAreaHeight
         , % SearchCommand("", true)
 if (g_Conf.Gui.ShowCurrentCommand)
 {
-    Gui, Main:Add, Edit, % "ReadOnly"
+    Gui, Add, Edit, % "ReadOnly"
         . " w" g_Conf.Gui.WidgetWidth " h" g_Conf.Gui.EditHeight,
 }
-Gui, Main:Show, , % g_WindowName
+Gui, Show, , % g_WindowName
 if (g_Conf.Gui.HideTitle)
 {
     WinSet, Style, -0xC00000, A
@@ -87,7 +87,6 @@ Hotkey, ^j, ClearInput
 Hotkey, f1, Help
 Hotkey, f2, EditConfig
 Hotkey, esc, ExitRunZ
-Hotkey, !f4, ExitRunZ
 Hotkey, ^d, OpenCurrentFileDir
 Hotkey, ^x, DeleteCurrentFile
 Hotkey, ^s, ShowCurrentFile
@@ -122,6 +121,10 @@ if (g_Conf.Config.SaveHistory)
     LoadHistoryCommands()
 }
 
+return
+
+GuiClose:
+    GoSub, ExitRunZ
 return
 
 ExitRunZ:
