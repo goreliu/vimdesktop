@@ -29,7 +29,3 @@ Session.vim
 *.exe
 vimd.ini
 Private
-SearchFileList.txt
-RunZ.ini
-.RunZ.ini.bak
-UserFunctions.ahk
