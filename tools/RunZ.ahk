@@ -8,14 +8,14 @@ SendMode Input
 ; 自动生成的命令文件
 global g_SearchFileList := A_ScriptDir . "\SearchFileList.txt"
 ; 配置文件
-confFile := A_ScriptDir . "\RunZ.ini"
+global g_ConfFile := A_ScriptDir . "\RunZ.ini"
 
-if !FileExist(confFile)
+if !FileExist(g_ConfFile)
 {
-    FileCopy, %confFile%.help.txt, %confFile%
+    FileCopy, %g_ConfFile%.help.txt, %g_ConfFile%
 }
 
-global g_Conf := class_EasyINI(confFile)
+global g_Conf := class_EasyINI(g_ConfFile)
 
 ; 所有命令
 global g_Commands
