@@ -4,9 +4,8 @@
 Name=TCDialog
 Comment=将TotalCommander作为文件打开、选择对话框
 Author=杜立涛
-Version=2014-8-8
-Url=https://raw.githubusercontent.com/victorwoo/vimdesktop/develop/src/VimDesktop/
-    Plugins/TotalCommander_Dialog/TotalCommander_Dialog.ahk
+Version=2016-4-14
+
 ```
 
 ## 帮助
@@ -25,8 +24,6 @@ Url=https://raw.githubusercontent.com/victorwoo/vimdesktop/develop/src/VimDeskto
 * `回车`：和ctrl + 回车类似，但当仅选择一个目录时，进入目录而不返回调用者
 
 ### 已知问题
-* 当返回的路径名过长（一般发生在多选时）， 的字符串会被截断为254字节
-* 因为临时修改的`esc`、`ctrl + 回车`、`shift + 回车`，返回时会重置，如果用户重新映射了这些快捷键，会被还原回去，去掉select模式的原因，是因为切换会normal模式后这些快捷键继续有效，怀疑是bug，未查明
 
 ### 可用命令
 * `<TC_OpenTCDialog>`：打开TC进行文件选择
@@ -50,6 +47,13 @@ OpenFileDialogExclude = password , 密码
 ## 更新历史
 
 ```
+2016-4-14 @杜立涛
+--------------------------
+优化将当前目录返回调用方的实现方法:方便保存文件时改名
+修正路径名过长时，选定文件的字符串被截断的问题：
+ * 第一步：粘贴文件夹路径，回车
+ * 第二部：粘贴不带路径的文件名，回车
+
 2016-2-23 @陌辞寒
 --------------------------
 不再新增select模式，改为重新映射快捷键，返回调用方前再清楚快捷键，绕过normal模式下快捷键依然有效的bug

@@ -107,8 +107,6 @@ return
 ; * 非TC窗口按下后激活TC窗口
 ; * TC窗口按下后复制当前选中文件返回原窗口后粘贴
 <TC_OpenTCDialog>:
-    ; 复制保存文件对话框中的文件名到剪切板
-    send, ^c
     WinGetClass, class, A
 
     ;在Total Commander按下快捷键时，激活调用窗体并执行粘贴操作
@@ -154,16 +152,26 @@ return
 <TC_Selected>:
     gosub, <TCDialog_UnMapKeys>
 
-    SendPos(2021)
+    ; cm_CopySrcPathToClip
+    SendPos(2029)
     sleep, 100
+    path := clipboard
+
+    ;<cm_CopyNamesToClip>: >>复制文件名{{{2
+    SendPos(2017)
+    sleep, 100    
 
     ;仅在多选时两侧增加双引号
+    files := clipboard
     IfInString, clipboard, `n
     {
         files := ""
         Loop, parse, clipboard, `n, `r
             files .= """" A_LoopField  """ "
-        clipboard := files
+    }else{
+	SendPos(2021)
+	sleep, 100
+	fullname := clipboard
     }
 
     ;未发现可激活的调用窗体时，最小化TC
@@ -178,6 +186,29 @@ return
 
     WinActivate, ahk_id %CallerId%
     WinWait, ahk_id %CallerId%
+    
+    ;非多选时，直接填入完整路径
+    IfNotInString, files, "
+    {
+	clipboard := fullname
+	send, {home}
+	send, ^v
+	send, {enter}
+	return
+    }
+
+    ;多选时，分为两步跳转如下：
+
+    ;第一步：跳转到当前路径
+    clipboard := path
+    send, ^a
+    send, {del}
+    send, ^v
+    send, {Enter}
+    sleep, 100
+    
+    ;第二步：提交文件名
+    clipboard := files
     send, ^v
     send, {Enter}
 return
@@ -185,12 +216,13 @@ return
 <TC_SelectedCurrentDir>:
     gosub, <TCDialog_UnMapKeys>
 
-    filename := "\" . clipboard
     ; cm_CopySrcPathToClip
     SendPos(2029)
     sleep, 100
 
-    clipboard := clipboard . filename
+    ;添加默认路径不带反斜杠，添加之
+    clipboard := clipboard . "\"
+
 
     ;未发现可激活的调用窗体时，最小化TC
     if CallerId = 0
@@ -204,6 +236,8 @@ return
 
     WinActivate, ahk_id %CallerId%
     WinWait, ahk_id %CallerId%
+
+    send, {home}
     send, ^v
-    send, {Enter}{Enter}
+    send, {Enter}
 return
