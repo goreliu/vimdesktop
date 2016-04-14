@@ -682,18 +682,12 @@ OpenPath(filePath)
 GetAllFunctions()
 {
     result := ""
-    functionBegin := false
 
     for index, element in g_Commands
     {
         if (InStr(element, "function | ") == 1)
         {
-            functionBegin := true
             result .= element "`n"
-        }
-        else if (functionBegin)
-        {
-            break
         }
     }
 
@@ -736,9 +730,18 @@ WM_ACTIVATE(wParam, lParam)
     }
     else if (wParam <= 0) ; 窗口非激活
     {
-        GoSub, ExitRunZ
+        SetTimer, ToExit, 50
     }
 }
+
+ToExit:
+    if (!WinExist("RunZ.ahk"))
+    {
+        GoSub, ExitRunZ
+    }
+
+    SetTimer, ToExit, Off
+return
 
 UrlDownloadToString(url)
 {
