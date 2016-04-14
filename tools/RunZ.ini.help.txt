@@ -21,8 +21,10 @@ TCPath=c:\totalcmd\totalcmd.exe
 RunInBackground=0
 ; 加载控制面板中的功能
 LoadControlPanelFunctions=1
-; 窗口失去焦点后程序退出
+; 窗口失去焦点后程序退出，启用后窗口置顶显示功能失效
 ExitIfInactivate=0
+; 窗口置顶显示
+WindowAlwaysOnTop=0
 ; 记录历史
 SaveHistory=1
 ; 记录历史的数量

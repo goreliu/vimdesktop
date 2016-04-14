@@ -68,6 +68,11 @@ if (g_Conf.Gui.HideTitle)
     WinSet, Style, -0xC00000, A
 }
 
+if (g_Conf.Config.WindowAlwaysOnTop)
+{
+    WinSet, AlwaysOnTop, On, A
+}
+
 if (g_Conf.Config.ExitIfInactivate)
 {
     OnMessage(0x06, "WM_ACTIVATE")
