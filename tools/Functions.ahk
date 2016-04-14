@@ -109,7 +109,7 @@ Dictionary:
 
 	if (parsed.basic.uk_phonetic != "" && parsed.basic.us_phonetic != "")
 	{
-		result .= " UK: " parsed.basic.uk_phonetic ", US: " parsed.basic.us_phonetic "`n"
+		result .= " UK: [" parsed.basic.uk_phonetic "], US: [" parsed.basic.us_phonetic "]`n"
 	}
 	else if (parse.basic.phonetic != "")
 	{
