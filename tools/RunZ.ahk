@@ -85,6 +85,7 @@ Hotkey, ^x, DeleteCurrentFile
 Hotkey, ^s, ShowCurrentFile
 Hotkey, ^r, ReloadFiles
 Hotkey, ^h, DisplayHistoryCommands
+Hotkey, ^b, DecreaseRank
 
 if (g_Conf.Config.RunInBackground)
 {
@@ -446,7 +447,7 @@ RunCommand(originCmd)
     }
 }
 
-IncreaseRank(cmd, show = false)
+IncreaseRank(cmd, show = false, inc := 1)
 {
     splitedCmd := StrSplit(cmd, " | ")
 
@@ -460,18 +461,25 @@ IncreaseRank(cmd, show = false)
     if cmdRank is integer
     {
         g_Conf.DeleteKey("Rank", cmd)
-        cmdRank++
+        cmdRank += inc
     }
     else
     {
-        cmdRank := 1
+        cmdRank := inc
     }
 
-    g_Conf.AddKey("Rank", cmd, cmdRank)
+    if (cmdRank > 0)
+    {
+        g_Conf.AddKey("Rank", cmd, cmdRank)
+    }
+    else
+    {
+        cmdRank := 0
+    }
 
     if (show)
     {
-        ToolTip, 增加 %cmd% 的权重到 %cmdRank%
+        ToolTip, 调整 %cmd% 的权重到 %cmdRank%
         SetTimer, RemoveToolTip, 800
     }
 }
@@ -506,6 +514,14 @@ IncreaseRank:
     if (g_CurrentCommandList[index] != "")
     {
         IncreaseRank(g_CurrentCommandList[index], true)
+        LoadFiles()
+    }
+return
+
+DecreaseRank:
+    if (g_CurrentCommand != "")
+    {
+        IncreaseRank(g_currentCommand, true, -1)
         LoadFiles()
     }
 return
