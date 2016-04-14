@@ -19,7 +19,6 @@ file | control Sticpl.cpl | 扫描仪和照相机
 file | control Sysdm.cpl | 系统
 file | control Telephon.cpl | 拨号规则和调制解调器
 file | control Timedate.cpl | 日期和时间
-file | rundll32.exe shell32.dll,Control_RunDLL appwiz.cpl,,2 | 启用或关闭Windows功能
 file | rundll32.exe shell32.dll,Control_RunDLL desk.cpl,,0 | 桌面图标
 file | rundll32.exe shell32.dll,Control_RunDLL desk.cpl,,1 | 屏幕保护
 file | rundll32.exe shell32.dll,Control_RunDLL desk.cpl,,2 | 外观和个性化
