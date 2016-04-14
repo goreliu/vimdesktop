@@ -1,6 +1,7 @@
 ﻿[Config]
+; 如果结果中只有一个则直接运行，注意避免搜到关机、重启等操作
 RunIfOnlyOne=0
-; 搜索的目录，可以使用 ahk 以 A_ 开头的变量，必须以 " | " 分隔
+; 搜索的目录，可以使用 全路径 或 ahk 以 A_ 开头的变量，必须以 " | " 分隔
 SearchFileDir=A_ProgramsCommon | A_StartMenu
 ; 搜索的文件类型，必须以 " | " 分隔
 SearchFileType=*.lnk | *.exe

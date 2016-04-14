@@ -648,7 +648,6 @@ GetInputState(WinTitle = "A")
 }
 
 
-
 #include %A_ScriptDir%\..\lib\class_EasyIni.ahk
 #include %A_ScriptDir%\lib\Kanji\Kanji.ahk
 #include %A_ScriptDir%\lib\TCMatch.ahk
