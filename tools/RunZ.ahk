@@ -202,6 +202,8 @@ SearchCommand(command = "", firstRun = false)
 {
     static useFallbackCommands
     result := ""
+    ; 供去重使用
+    fullResult := ""
     commandPrefix := SubStr(command, 1, 1)
 
     if (commandPrefix == ";" || commandPrefix == ":")
@@ -241,6 +243,11 @@ SearchCommand(command = "", firstRun = false)
 
     for index, element in g_Commands
     {
+        if (InStr(fullResult, element "`n"))
+        {
+            continue
+        }
+
         splitedElement := StrSplit(element, " | ")
 
         if (splitedElement[1] == "file")
@@ -273,6 +280,7 @@ SearchCommand(command = "", firstRun = false)
 
         if (MatchCommand(elementToSearch, command))
         {
+            fullResult .= element "`n"
             g_CurrentCommandList.Push(element)
 
             if (order == g_FirstChar)
@@ -435,12 +443,12 @@ RunCommand(originCmd)
     if (g_Conf.Config.AutoRank)
     {
         ; 去掉参数
-        cmd := splitedOriginCmd[1] + " | " splitedOriginCmd[2]
+        cmd := splitedOriginCmd[1]  " | " splitedOriginCmd[2]
         cmdRank := g_Conf.GetValue("Rank", cmd)
         if cmdRank is integer
         {
             g_Conf.DeleteKey("Rank", cmd)
-            cmdRank ++
+            cmdRank++
         }
         else
         {
@@ -492,6 +500,27 @@ LoadFiles()
 {
     g_Commands := Object()
     g_FallbackCommands := Object()
+
+    rankString := ""
+    for command, rank in g_Conf.Rank
+    {
+        rankString .= rank "`t" command "`n"
+    }
+
+    if (rankString != "")
+    {
+        Sort, rankString, R N
+
+        Loop, Parse, rankString, `n
+        {
+            if (A_LoopField == "")
+            {
+                continue
+            }
+
+            g_Commands.Push(StrSplit(A_loopField, "`t")[2])
+        }
+    }
 
     for key, value in g_Conf.Command
     {
