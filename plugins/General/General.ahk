@@ -51,6 +51,7 @@
     vim.SetAction("<MouseLeft>", "向左移动鼠标")
     vim.SetAction("<MouseRight>", "向右移动鼠标")
     vim.SetAction("<SearchInWeb>", "在网络搜索剪切板内容")
+    vim.SetAction("<RunZ>", "运行 RunZ")
     vim.SetAction("<Test>", "测试")
 
 
@@ -955,4 +956,21 @@ return
     ; 下方代码可只保留一个
     SwitchIME(0x04090409) ; 英语(美国) 美式键盘
     SwitchIME(0x08040804) ; 中文(中国) 简体中文-美式键盘
+return
+
+<RunZ>:
+    RunZPath := A_ScriptDir "..\RunZ\RunZ.ahk"
+    if (ini.config.runz_path != "")
+    {
+        RunZPath := ini.config.runz_path
+    }
+
+    if (FileExist(A_ScriptDir "\vimd.exe"))
+    {
+        Run, %A_ScriptDir%\vimd.exe "%RunZPath%"
+    }
+    else
+    {
+        Run, "%RunZPath%"
+    }
 return

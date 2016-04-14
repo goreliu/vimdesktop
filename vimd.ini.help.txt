@@ -22,6 +22,8 @@
 default_enable_show_info=1
 ; 配置编辑器，请填写完整路径，如果填写的是 notepad ，将使用 notepad2 的参数
 editor=
+; RunZ 路径，请填写 RunZ.ahk 的完整路径，默认在 ..\RunZ\RunZ.ahk
+runz_path=
 ; 打印调试日志
 enable_log=0
 ; 打开调试窗口
@@ -40,8 +42,8 @@ vim
 ; 激活TC作为文件选择框，再次按下该快捷键可执行文件打开操作
 <w-o>=<TC_OpenTCDialog>
 <w-c>=run|explorer
-;<w-j>=run|C:/MSYS64/home/goreliu/git/RunZ/RunZ.ahk
-;<a-space>=run|C:/MSYS64/home/goreliu/git/RunZ/RunZ.ahk
+;<w-j>=<RunZ>
+;<a-space>=<RunZ>
 <w-`>=run|control
 ;<w-f>=run|firefox
 ;<w-w>=run|mintty -e ~/.bin/tmux_starter
