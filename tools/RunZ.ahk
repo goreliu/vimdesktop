@@ -17,6 +17,8 @@ if !FileExist(g_ConfFile)
 
 global g_Conf := class_EasyINI(g_ConfFile)
 
+; 不能是 RunZ.ahk 的子串，否则按键绑定会有问题
+global g_WindowName := "RunZ "
 ; 所有命令
 global g_Commands
 ; 当搜索无结果时使用的命令
@@ -62,7 +64,7 @@ if (g_Conf.Gui.ShowCurrentCommand)
     Gui, Main:Add, Edit, % "ReadOnly"
         . " w" g_Conf.Gui.WidgetWidth " h" g_Conf.Gui.EditHeight,
 }
-Gui, Main:Show, , RunZ
+Gui, Main:Show, , % g_WindowName
 if (g_Conf.Gui.HideTitle)
 {
     WinSet, Style, -0xC00000, A
@@ -78,13 +80,14 @@ if (g_Conf.Config.ExitIfInactivate)
     OnMessage(0x06, "WM_ACTIVATE")
 }
 
-Hotkey, IfWinActive, RunZ
+Hotkey, IfWinActive, % g_WindowName
 ; 如果是 ~enter，有时候会响
 Hotkey, enter, RunCurrentCommand
 Hotkey, ^j, ClearInput
 Hotkey, f1, Help
 Hotkey, f2, EditConfig
 Hotkey, esc, ExitRunZ
+Hotkey, !f4, ExitRunZ
 Hotkey, ^d, OpenCurrentFileDir
 Hotkey, ^x, DeleteCurrentFile
 Hotkey, ^s, ShowCurrentFile
