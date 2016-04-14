@@ -74,7 +74,7 @@ if (g_Conf.Config.ExitIfInactivate)
 }
 
 Hotkey, IfWinActive, RunZ
-Hotkey, ~enter, RunCurrentCommand
+Hotkey, enter, RunCurrentCommand
 Hotkey, ^j, ClearInput
 Hotkey, f1, Help
 Hotkey, f2, EditConfig
@@ -593,11 +593,21 @@ WM_ACTIVATE(wParam, lParam)
     }
 }
 
+UrlDownloadToString(url)
+{
+	static whr := ComObjCreate("WinHttp.WinHttpRequest.5.1")
+	whr.Open("GET", url, true)
+	whr.Send()
+	whr.WaitForResponse()
+	return whr.ResponseText
+}
+
 
 #include %A_ScriptDir%\..\lib\class_EasyIni.ahk
 #include %A_ScriptDir%\lib\Kanji\Kanji.ahk
 #include %A_ScriptDir%\lib\TCMatch.ahk
 #include %A_ScriptDir%\lib\Eval.ahk
+#include %A_ScriptDir%\lib\JSON.ahk
 #include %A_ScriptDir%\Functions.ahk
 ; 用户自定义命令
 #include *i %A_ScriptDir%\UserFunctions.ahk

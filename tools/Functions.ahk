@@ -10,19 +10,19 @@ Functions:
     @("Clip", "显示剪切板内容")
     @("Calc", "计算器")
     @("SearchInWeb", "在浏览器（百度）搜索剪切板或输入内容", true)
+    @("Dictionary", "有道在线词典", true)
     @("EditConfig", "编辑配置文件")
     @("ClearClipboardFormat", "清除剪切板中文字的格式")
     @("RunClipboard", "使用 ahk 的 Run 运行剪切板内容")
     @("LogOff", "注销 登出")
     @("RestartMachine", "重启")
     @("ShutdownMachine", "关机")
-    @("SuspendMachine", "挂起 睡眠")
+    @("SuspendMachine", "挂起 睡眠 待机")
     @("HibernateMachine", "休眠")
     @("TurnMonitorOff", "关闭显示器")
     @("T2S", "将剪切板中的内容繁体转简体")
     @("ShowIp", "显示 IP")
     @("Calendar", "用浏览器打开万年历")
-    @("Dictionary", "词典，依赖 bash 和 ydcv")
     @("ArgTest", "参数测试：ArgTest arg1,arg2,...")
 return
 
@@ -83,7 +83,7 @@ ShowIp:
             . "`r`n" . A_IPAddress4)
 return
 
-Dictionary:
+Dictionarya:
     word := Arg
     if (word == "")
     {
@@ -91,6 +91,64 @@ Dictionary:
     }
 
     DisplayResult(RunAndGetOutput("echo " . word . " | ydcv"))
+return
+
+Dictionary:
+    word := Arg
+    if (word == "")
+    {
+        word := clipboard
+    }
+
+    url := "http://fanyi.youdao.com/openapi.do?keyfrom=YouDaoCV&key=659600698&"
+            . "type=data&doctype=json&version=1.2&q=" word
+    jsonText := StrReplace(UrlDownloadToString(url), "-phonetic", "_phonetic")
+
+    parsed := JSON.Load(jsonText)
+	result := parsed.query
+
+	if (parsed.basic.uk_phonetic != "" && parsed.basic.us_phonetic != "")
+	{
+		result .= " UK: [" parsed.basic.uk_phonetic "], US: [" parsed.basic.us_phonetic "]`n"
+	}
+	else if (parse.basic.phonetic != "")
+	{
+		result .= "  " parsed.basic.phonetic "`n"
+	}
+
+	if (parsed.basic.explains.Length() > 0)
+	{
+		result .= "`n  Word Explanation:`n"
+		for index, explain in parsed.basic.explains
+		{
+			result .= "     * " explain "`n"
+		}
+	}
+
+	if (parsed.web.Length() > 0)
+	{
+		result .= "`n  Web Reference:"
+
+		for i, element in parsed.web
+		{
+			result .= "`n   * " element.key
+			for j, value in element.value
+			{
+				if (j == 1)
+				{
+					result .= "`n       "
+				}
+				else
+				{
+					result .= "`; "
+				}
+
+				result .= value
+			}
+		}
+	}
+
+    DisplayResult(result)
 return
 
 Calendar:
