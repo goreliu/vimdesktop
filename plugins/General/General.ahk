@@ -959,7 +959,7 @@ return
 return
 
 <RunZ>:
-    RunZPath := A_ScriptDir "..\RunZ\RunZ.ahk"
+    RunZPath := A_ScriptDir "\..\RunZ\RunZ.ahk"
     if (ini.config.runz_path != "")
     {
         RunZPath := ini.config.runz_path
