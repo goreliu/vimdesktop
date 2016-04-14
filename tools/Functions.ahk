@@ -10,7 +10,7 @@ Functions:
     @("Clip", "显示剪切板内容")
     @("Calc", "计算器")
     @("SearchInWeb", "在浏览器（百度）搜索剪切板或输入内容", true)
-    @("Dictionary", "有道在线词典", true)
+    @("Dictionary", "有道在线词典翻译", true)
     @("EditConfig", "编辑配置文件")
     @("ClearClipboardFormat", "清除剪切板中文字的格式")
     @("RunClipboard", "使用 ahk 的 Run 运行剪切板内容")
@@ -83,16 +83,6 @@ ShowIp:
             . "`r`n" . A_IPAddress4)
 return
 
-Dictionarya:
-    word := Arg
-    if (word == "")
-    {
-        word := clipboard
-    }
-
-    DisplayResult(RunAndGetOutput("echo " . word . " | ydcv"))
-return
-
 Dictionary:
     word := Arg
     if (word == "")
@@ -101,7 +91,7 @@ Dictionary:
     }
 
     url := "http://fanyi.youdao.com/openapi.do?keyfrom=YouDaoCV&key=659600698&"
-            . "type=data&doctype=json&version=1.2&q=" word
+            . "type=data&doctype=json&version=1.2&q=" UrlEncode(word)
     jsonText := StrReplace(UrlDownloadToString(url), "-phonetic", "_phonetic")
 
     parsed := JSON.Load(jsonText)
@@ -111,27 +101,31 @@ Dictionary:
 	{
 		result .= " UK: [" parsed.basic.uk_phonetic "], US: [" parsed.basic.us_phonetic "]`n"
 	}
-	else if (parse.basic.phonetic != "")
+	else if (parsed.basic.phonetic != "")
 	{
-		result .= "  " parsed.basic.phonetic "`n"
+		result .= " [" parsed.basic.phonetic "]`n"
 	}
+    else
+    {
+        result .= "`n"
+    }
 
 	if (parsed.basic.explains.Length() > 0)
 	{
-		result .= "`n  Word Explanation:`n"
+		result .= "`n"
 		for index, explain in parsed.basic.explains
 		{
-			result .= "     * " explain "`n"
+			result .= "    * " explain "`n"
 		}
 	}
 
 	if (parsed.web.Length() > 0)
 	{
-		result .= "`n  Web Reference:"
+		result .= "`n----`n"
 
 		for i, element in parsed.web
 		{
-			result .= "`n   * " element.key
+			result .= "`n    * " element.key
 			for j, value in element.value
 			{
 				if (j == 1)

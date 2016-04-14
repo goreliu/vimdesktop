@@ -602,6 +602,24 @@ UrlDownloadToString(url)
 	return whr.ResponseText
 }
 
+; 修改自万年书妖的 Candy 里的 SksSub_UrlEncode 函数，用于转换编码。感谢！
+UrlEncode(url, enc = "UTF-8")
+{
+    enc := trim(enc)
+    If enc=
+        return url
+    formatInteger := A_FormatInteger
+    SetFormat, IntegerFast, H
+    VarSetCapacity(buff, StrPut(url, enc))
+    Loop % StrPut(url, &buff, enc) - 1
+    {
+        byte := NumGet(buff, A_Index-1, "UChar")
+        encoded .= byte > 127 or byte <33 ? "%" Substr(byte, 3) : Chr(byte)
+    }
+    SetFormat, IntegerFast, %formatInteger%
+    return encoded
+}
+
 
 #include %A_ScriptDir%\..\lib\class_EasyIni.ahk
 #include %A_ScriptDir%\lib\Kanji\Kanji.ahk
