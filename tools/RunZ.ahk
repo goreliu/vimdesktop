@@ -8,21 +8,19 @@ SendMode Input
 ; 自动生成的命令文件
 global g_SearchFileList := A_ScriptDir . "\SearchFileList.txt"
 ; 配置文件
-global g_ConfFile := A_ScriptDir . "\RunZ.ini"
+confFile := A_ScriptDir . "\RunZ.ini"
 
-if !FileExist(g_ConfFile)
+if !FileExist(confFile)
 {
-    FileCopy, %g_ConfFile%.help.txt, %g_ConfFile%
+    FileCopy, %confFile%.help.txt, %confFile%
 }
 
-global g_Conf := class_EasyINI(g_ConfFile)
+global g_Conf := class_EasyINI(confFile)
 
 ; 所有命令
 global g_Commands
 ; 当搜索无结果时使用的命令
 global g_FallbackCommands
-; 当前是否使用着 g_FallbackCommands
-global g_UseFallbackCommands
 ; 编辑框当前内容
 global g_CurrentInput
 ; 当前匹配到的第一条命令
@@ -39,6 +37,8 @@ global g_DisplayRows := g_Conf.Gui.DisplayRows
 global g_DisplayCols := g_Conf.Gui.DisplayCols
 ; 命令使用了显示框
 global g_UseDisplay
+; 历史命令
+global g_HistoryCommands
 ; 当前输入命令的参数，数组，为了方便没有添加 g_ 前缀
 global Arg
 
@@ -84,6 +84,7 @@ Hotkey, ^d, OpenCurrentFileDir
 Hotkey, ^x, DeleteCurrentFile
 Hotkey, ^s, ShowCurrentFile
 Hotkey, ^r, ReloadFiles
+Hotkey, ^h, DisplayHistoryCommands
 
 if (g_Conf.Config.RunInBackground)
 {
@@ -106,13 +107,39 @@ if (g_Conf.Config.SaveInputText && g_Conf.Auto.InputText != "")
     Send, % g_Conf.Auto.InputText
 }
 
+if (g_Conf.Config.SaveHistory)
+{
+    g_HistoryCommands := Object()
+    LoadHistoryCommands()
+}
+
 return
 
 ExitRunZ:
+    saveConf := false
+
     if (g_Conf.Config.SaveInputText)
     {
-        g_Conf.DeleteKey("auto", "InputText")
-        g_Conf.AddKey("auto", "InputText", g_CurrentInput)
+        g_Conf.DeleteKey("Auto", "InputText")
+        g_Conf.AddKey("Auto", "InputText", g_CurrentInput)
+        saveConf := true
+    }
+
+    if (g_Conf.Config.SaveHistory)
+    {
+        g_Conf.DeleteSection("History")
+        g_Conf.AddSection("History")
+
+        for index, element in g_HistoryCommands
+        {
+            g_Conf.AddKey("History", index, element)
+        }
+
+        saveConf := true
+    }
+
+    if (saveConf)
+    {
         g_Conf.Save()
     }
 
@@ -168,6 +195,7 @@ return
 
 SearchCommand(command = "", firstRun = false)
 {
+    static useFallbackCommands
     result := ""
     commandPrefix := SubStr(command, 1, 1)
 
@@ -182,7 +210,7 @@ SearchCommand(command = "", firstRun = false)
             g_CurrentCommand := g_FallbackCommands[2]
         }
 
-        g_CurrentCommandList.Insert(g_CurrentCommand)
+        g_CurrentCommandList.Push(g_CurrentCommand)
         result .= "a | " . g_CurrentCommand
         Arg := SubStr(g_CurrentInput, 2)
         DisplaySearchResult(result)
@@ -191,7 +219,7 @@ SearchCommand(command = "", firstRun = false)
     ; 用空格来判断参数
     else if (InStr(command, " ") && g_CurrentCommand != "")
     {
-        if (g_UseFallbackCommands)
+        if (useFallbackCommands)
         {
             Arg := command
         }
@@ -240,7 +268,7 @@ SearchCommand(command = "", firstRun = false)
 
         if (MatchCommand(elementToSearch, command))
         {
-            g_CurrentCommandList.Insert(element)
+            g_CurrentCommandList.Push(element)
 
             if (order == g_FirstChar)
             {
@@ -270,7 +298,7 @@ SearchCommand(command = "", firstRun = false)
 
     if (result == "")
     {
-        g_UseFallbackCommands := true
+        useFallbackCommands := true
         g_CurrentCommand := g_FallbackCommands[1]
         g_CurrentCommandList := g_FallbackCommands
         Arg := g_CurrentInput
@@ -287,7 +315,7 @@ SearchCommand(command = "", firstRun = false)
     }
     else
     {
-        g_UseFallbackCommands := false
+        useFallbackCommands := false
     }
 
     DisplaySearchResult(result)
@@ -341,14 +369,14 @@ MatchCommand(Haystack, Needle)
     return InStr(Haystack, Needle)
 }
 
-RunCommand(command)
+RunCommand(originCmd)
 {
-    command := StrSplit(command, "（")[1]
+    splitedOriginCmd := StrSplit(originCmd, " | ")
+    ; 去掉括号内的注释
+    cmd := StrSplit(splitedOriginCmd[2], "（")[1]
 
-    if (RegexMatch(command, "^(file|url)"))
+    if (splitedOriginCmd[1] == "file" || splitedOriginCmd[1] == "url")
     {
-        cmd := StrSplit(command, " | ")[2]
-
         if (InStr(cmd, ".lnk"))
         {
             ; 处理 32 位 ahk 运行不了某些 64 位系统 .lnk 的问题
@@ -365,18 +393,38 @@ RunCommand(command)
 
         Run, %cmd%
     }
-    else if (InStr(command, "function | ", true, 1))
+    else if (splitedOriginCmd[1] == "function")
     {
-        cmd := StrSplit(command, " | ")[2]
+        if (splitedOriginCmd.Length() >= 3)
+        {
+            Arg := splitedOriginCmd[3]
+        }
+
         if (IsLabel(cmd))
         {
             GoSub, %cmd%
         }
     }
-    else if (InStr(command, "cmd | ", true, 1))
+    else if (splitedOriginCmd[1] == "cmd")
     {
-        cmd := StrSplit(command, " | ")[2]
         RunWithCmd(cmd)
+    }
+
+    if (g_Conf.Config.SaveHistory && cmd != "DisplayHistoryCommands")
+    {
+        if (splitedOriginCmd.Length() == 2 && Arg != "")
+        {
+            g_HistoryCommands.InsertAt(1, originCmd " | " Arg)
+        }
+        else
+        {
+            g_HistoryCommands.InsertAt(1, originCmd)
+        }
+
+        if (g_HistoryCommands.Length() > g_Conf.Config.HistorySize)
+        {
+            g_HistoryCommands.Pop()
+        }
     }
 }
 
@@ -426,11 +474,11 @@ LoadFiles()
     {
         if (value != "")
         {
-            g_Commands.Insert(key . "（" . value "）")
+            g_Commands.Push(key . "（" . value "）")
         }
         else
         {
-            g_Commands.Insert(key)
+            g_Commands.Push(key)
         }
     }
 
@@ -451,14 +499,14 @@ LoadFiles()
 
     Loop, Read, %g_SearchFileList%
     {
-        g_Commands.Insert(A_LoopReadLine)
+        g_Commands.Push(A_LoopReadLine)
     }
 
     if (g_Conf.Config.LoadControlPanelFunctions)
     {
         Loop, Read, %A_ScriptDir%\ControlPanelFunctions.txt
         {
-            g_Commands.Insert(A_LoopReadLine)
+            g_Commands.Push(A_LoopReadLine)
         }
     }
 }
@@ -475,7 +523,34 @@ DisplayResult(result)
     g_UseDisplay := true
 }
 
-; AddAction(label, info, fallback)
+LoadHistoryCommands()
+{
+    for key, value in g_Conf.History
+    {
+        g_HistoryCommands.Push(value)
+    }
+}
+
+DisplayHistoryCommands:
+    result := ""
+    g_CurrentCommandList := Object()
+
+    for index, element in g_HistoryCommands
+    {
+        result .= Chr(g_FirstChar + index - 1) . " | " . element "`n"
+
+        if (index == 1)
+        {
+            g_CurrentCommand := element
+        }
+
+        g_CurrentCommandList.Push(element)
+    }
+
+    DisplayResult(result)
+return
+
+; AddFunction(label, info, fallback)
 @(label, info, fallback = false)
 {
     if (!IsLabel(label))
@@ -484,10 +559,10 @@ DisplayResult(result)
         return
     }
 
-    g_Commands.Insert("function | " . label . "（" . info . "）")
+    g_Commands.Push("function | " . label . "（" . info . "）")
     if (fallback)
     {
-        g_FallbackCommands.Insert("function | " . label . "（" . info . "）")
+        g_FallbackCommands.Push("function | " . label . "（" . info . "）")
     }
 }
 
