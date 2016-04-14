@@ -40,6 +40,8 @@ vim
 ; 激活TC作为文件选择框，再次按下该快捷键可执行文件打开操作
 <w-o>=<TC_OpenTCDialog>
 <w-c>=run|explorer
+;<w-j>=run|C:/MSYS64/home/goreliu/git/RunZ/RunZ.ahk
+;<a-space>=run|C:/MSYS64/home/goreliu/git/RunZ/RunZ.ahk
 <w-`>=run|control
 ;<w-f>=run|firefox
 ;<w-w>=run|mintty -e ~/.bin/tmux_starter
