@@ -138,6 +138,11 @@ ExitRunZ:
         saveConf := true
     }
 
+    if (g_Conf.AutoRank)
+    {
+        saveConf := true
+    }
+
     if (saveConf)
     {
         g_Conf.Save()
@@ -426,6 +431,24 @@ RunCommand(originCmd)
             g_HistoryCommands.Pop()
         }
     }
+
+    if (g_Conf.Config.AutoRank)
+    {
+        ; 去掉参数
+        cmd := splitedOriginCmd[1] + " | " splitedOriginCmd[2]
+        cmdRank := g_Conf.GetValue("Rank", cmd)
+        if cmdRank is integer
+        {
+            g_Conf.DeleteKey("Rank", cmd)
+            cmdRank ++
+        }
+        else
+        {
+            cmdRank := 1
+        }
+
+        g_Conf.AddKey("Rank", cmd, cmdRank)
+    }
 }
 
 RunSelectedCommand1:
@@ -457,7 +480,7 @@ AddCustomCommand:
 
     if (g_CurrentCommandList[index] != "")
     {
-        g_Conf.AddKey("command", g_CurrentCommandList[index], g_CurrentInput)
+        g_Conf.AddKey("Command", g_CurrentCommandList[index], g_CurrentInput)
 
         g_Conf.Save()
 
