@@ -99,7 +99,7 @@ Loop, % g_DisplayRows
     ; tab +
     Hotkey, ~%key%, RunSelectedCommand2
     ; shift +
-    Hotkey, ~+%key%, AddCustomCommand
+    Hotkey, ~+%key%, IncreaseRank
 }
 
 if (g_Conf.Config.SaveInputText && g_Conf.Auto.InputText != "")
@@ -442,20 +442,37 @@ RunCommand(originCmd)
 
     if (g_Conf.Config.AutoRank)
     {
-        ; 去掉参数
-        cmd := splitedOriginCmd[1]  " | " splitedOriginCmd[2]
-        cmdRank := g_Conf.GetValue("Rank", cmd)
-        if cmdRank is integer
-        {
-            g_Conf.DeleteKey("Rank", cmd)
-            cmdRank++
-        }
-        else
-        {
-            cmdRank := 1
-        }
+        IncreaseRank(originCmd)
+    }
+}
 
-        g_Conf.AddKey("Rank", cmd, cmdRank)
+IncreaseRank(cmd, show = false)
+{
+    splitedCmd := StrSplit(cmd, " | ")
+
+    if (splitedCmd.Length() >= 3)
+    {
+        ; 去掉参数
+        cmd := splitedCmd[1]  " | " splitedCmd[2]
+    }
+
+    cmdRank := g_Conf.GetValue("Rank", cmd)
+    if cmdRank is integer
+    {
+        g_Conf.DeleteKey("Rank", cmd)
+        cmdRank++
+    }
+    else
+    {
+        cmdRank := 1
+    }
+
+    g_Conf.AddKey("Rank", cmd, cmdRank)
+
+    if (show)
+    {
+        ToolTip, 增加 %cmd% 的权重到 %cmdRank%
+        SetTimer, RemoveToolTip, 800
     }
 }
 
@@ -477,7 +494,7 @@ RunSelectedCommand2:
     RunCommand(g_CurrentCommandList[index])
 return
 
-AddCustomCommand:
+IncreaseRank:
     ControlGetFocus, ctrl,
     if (ctrl == "Edit1")
     {
@@ -488,10 +505,7 @@ AddCustomCommand:
 
     if (g_CurrentCommandList[index] != "")
     {
-        g_Conf.AddKey("Command", g_CurrentCommandList[index], g_CurrentInput)
-
-        g_Conf.Save()
-
+        IncreaseRank(g_CurrentCommandList[index], true)
         LoadFiles()
     }
 return
