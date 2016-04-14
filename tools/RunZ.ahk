@@ -74,6 +74,7 @@ if (g_Conf.Config.ExitIfInactivate)
 }
 
 Hotkey, IfWinActive, RunZ
+; 如果是 ~enter，有时候会响
 Hotkey, enter, RunCurrentCommand
 Hotkey, ^j, ClearInput
 Hotkey, f1, Help
@@ -313,6 +314,11 @@ ClearInput:
 return
 
 RunCurrentCommand:
+    if (GetInputState() == 1)
+    {
+        Send, {enter}
+    }
+
     if (g_CurrentInput != "")
     {
         g_UseDisplay := false
@@ -619,6 +625,28 @@ UrlEncode(url, enc = "UTF-8")
     SetFormat, IntegerFast, %formatInteger%
     return encoded
 }
+
+; 0：英文 1：中文
+GetInputState(WinTitle = "A")
+{
+	ControlGet, hwnd, HWND, , , %WinTitle%
+	if (A_Cursor = "IBeam")
+		return 1
+	if (WinActive(WinTitle))
+	{
+		ptrSize := !A_PtrSize ? 4 : A_PtrSize
+		VarSetCapacity(stGTI, cbSize := 4 + 4 + (PtrSize * 6) + 16, 0)
+		NumPut(cbSize, stGTI, 0, "UInt")   ;   DWORD   cbSize;
+		hwnd := DllCall("GetGUIThreadInfo", Uint, 0, Uint, &stGTI)
+						 ? NumGet(stGTI, 8 + PtrSize, "UInt") : hwnd
+	}
+	return DllCall("SendMessage"
+		, UInt, DllCall("imm32\ImmGetDefaultIMEWnd", Uint, hwnd)
+		, UInt, 0x0283  ;Message : WM_IME_CONTROL
+		, Int, 0x0005  ;wParam  : IMC_GETOPENSTATUS
+		, Int, 0)      ;lParam  : 0
+}
+
 
 
 #include %A_ScriptDir%\..\lib\class_EasyIni.ahk
