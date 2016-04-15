@@ -965,6 +965,11 @@ return
         RunZPath := ini.config.runz_dir "\RunZ.ahk"
     }
 
+    if (!FileExist(RunZPath))
+    {
+        return
+    }
+
     if (FileExist(A_ScriptDir "\vimd.exe"))
     {
         Run, %A_ScriptDir%\vimd.exe "%RunZPath%"
