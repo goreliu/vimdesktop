@@ -960,9 +960,9 @@ return
 
 <RunZ>:
     RunZPath := A_ScriptDir "\..\RunZ\RunZ.ahk"
-    if (ini.config.runz_path != "")
+    if (ini.config.runz_dir != "")
     {
-        RunZPath := ini.config.runz_path
+        RunZPath := ini.config.runz_dir "\RunZ.ahk"
     }
 
     if (FileExist(A_ScriptDir "\vimd.exe"))
