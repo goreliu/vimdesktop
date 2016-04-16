@@ -16,6 +16,7 @@
     vim.SetAction("<WindowMoveRight>", "窗口移动到右侧")
     vim.SetAction("<WindowMoveCenter>", "窗口移动到中间")
     vim.SetAction("<WindowMax>", "最大化窗口")
+    vim.SetAction("<WindowMaxNoTitle>", "最大化窗口，并且隐藏标题栏")
     vim.SetAction("<WindowMin>", "最小化窗口")
     vim.SetAction("<WindowRestore>", "还原当前窗口")
     vim.SetAction("<FullScreen>", "全屏当前程序")
@@ -224,6 +225,10 @@ Return
 return
 <WindowMax>:
     WinMaximize, A
+return
+<WindowMaxNoTitle>:
+    WinMaximize, A
+    WinSet, Style, -0xc00000, A
 return
 <WindowMin>:
     WinMinimize, A
