@@ -39,6 +39,9 @@ vim
 <w-e>=<TC_ToggleTC>
 ; 重新加载VimDesktop
 <w-y>=<Reload>
+;<prtsc>=<PrintScreenAndSave>
+;<a-printscreen>=<PrintScreenAndSave>
+
 ; 激活TC作为文件选择框，再次按下该快捷键可执行文件打开操作
 <w-o>=<TC_OpenTCDialog>
 <w-c>=run|explorer
