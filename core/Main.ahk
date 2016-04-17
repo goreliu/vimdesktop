@@ -85,7 +85,7 @@ CheckHotKey()
         }
 
         vim.mode(this_mode)
-        if RegExMatch(this_action, "^(run|key|dir|tccmd|wshkey)\|")
+        if RegExMatch(this_action, "^(run|key|dir|tccmd|wshkey|function)\|")
         {
             vim.map(this_key, "VIMD_CMD")
             VIMD_CMD_LIST[this_key] := this_action
@@ -131,7 +131,7 @@ CheckHotKey()
 
             vim.mode(this_mode, PluginName)
 
-            if RegExMatch(n, "i)^(run|key|dir|tccmd|wshkey)\|")
+            if RegExMatch(n, "i)^(run|key|dir|tccmd|wshkey|function)\|")
             {
                 /*
                 示例：
@@ -163,6 +163,20 @@ VIMD_CMD()
     else if RegExMatch(VIMD_CMD_LIST[obj.keytemp], "i)^(dir)\|", m)
     {
         TC_OpenPath(substr(VIMD_CMD_LIST[obj.keytemp], strlen(m1) + 2), false)
+    }
+    else if RegExMatch(VIMD_CMD_LIST[obj.keytemp], "i)^(function)\|", m)
+    {
+        splitedCommand:= StrSplit(substr(VIMD_CMD_LIST[obj.keytemp], strlen(m1) + 2), "|")
+        functionName := splitedCommand[1]
+        if (IsFunc(functionName))
+        {
+            ; 简单起见只支持一个参数，需要更多函数的话请自行切割字符串
+            %functionName%(splitedCommand[2])
+        }
+        else
+        {
+            MsgBox, %functionName% 函数不存在！
+        }
     }
     else if RegExMatch(VIMD_CMD_LIST[obj.keytemp], "i)^(tccmd)\|", m)
     {

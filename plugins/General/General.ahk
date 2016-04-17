@@ -965,6 +965,11 @@ return
     MsgBox, 测试
 return
 
+TestFunction(arg)
+{
+    MsgBox, 参数：%arg%
+}
+
 /*
 <PrintScreenWindowAndSave>:
     WinGetPos x, y, w, h, A
@@ -1038,3 +1043,10 @@ return
         Run, "%RunZPath%"
     }
 return
+
+ClickContextMenu(key)
+{
+    Send, {AppsKey}
+    WinWait, ahk_class #32768
+    Send, %key%
+}

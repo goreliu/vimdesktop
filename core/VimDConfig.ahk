@@ -284,7 +284,7 @@ SearchFileForEdit(Action, Desc, EditKeyMapping)
     if (IsUserCmd || EditKeyMapping)
     {
         SearchLine := "=" Action
-        if (IsUserCmd)
+        if (IsUserCmd || Action == "function")
         {
             SearchLine := Action "|" Desc
         }
@@ -303,11 +303,16 @@ SearchFileForEdit(Action, Desc, EditKeyMapping)
     }
 
     label := Action ":"
+    if (Action == "function")
+    {
+        label := Desc
+    }
+
     Loop, %A_ScriptDir%\plugins\*.ahk, , 1
     {
         Loop, Read, %A_LoopFileFullPath%
         {
-            if (InStr(A_LoopReadLine, label) = 1)
+            if (InStr(A_LoopReadLine, label) == 1)
             {
                 EditFile(A_LoopFileFullPath, A_Index)
                 return

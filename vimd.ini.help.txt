@@ -199,6 +199,8 @@ OpenFileDialogExclude = password , 密码
 ; 在TC的命令行运行命令，[=normal]可选，默认为normal模式
 ; <c-n>=wshkey|xx
 ; 映射按键，使用WScript.Shell的SendKeys()调用，[=normal]可选，默认为normal模式
+; <c-o>=function|TestFunction|arg
+; 映射函数，|arg 可以省略，只支持一个参数
 
 
 a=<cm_SelectAll>
@@ -244,3 +246,5 @@ u=<cm_CloseCurrentTab>
 ;<esc>=<SwitchToEngIMEAndEsc>
 ;zh=<TC_Toggle_50_100Percent>
 ;zz=<TC_Toggle_50_100Percent_V>
+;b=function|ClickContextMenu|e
+;p=function|ClickContextMenu|a
