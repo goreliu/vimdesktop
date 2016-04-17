@@ -124,7 +124,7 @@ TCDialog=1
 TCCompare=1
 BeyondCompare4=1
 Foobar2000=1
-WizNote=1
+WizNote=0
 VimDConfig=1
 MicrosoftExcel=1
 Explorer=1
@@ -151,6 +151,10 @@ Explorer=1
 ;set_class=mintty
 ;set_file=mintty.exe
 ;<esc>=<SwitchToEngIMEAndEsc>
+
+;[Explorer]
+;f=<Explorer_GotoTC>
+;<S-F>=<Explorer_GotoTCInNewTab>
 
 [TotalCommander_Config]
 ;TCPath: TotalCommander可执行文件路径--TC运行时，可被自动识别

@@ -19,6 +19,7 @@ Explorer:
     vim.comment("<Explorer_Main>", "定位到右侧文件栏")
     vim.comment("<Explorer_Rename>", "重命名")
     vim.comment("<Explorer_GotoTC>", "使用TC打开当前目录")
+    vim.comment("<Explorer_GotoTCInNewTab>", "使用TC在新标签页打开当前目录")
 
     vim.SetWin("Explorer", "CabinetWClass")
 
@@ -50,7 +51,8 @@ Explorer:
     vim.map("<c-k>", "<up>", "Explorer")
     vim.map("gg", "<home>", "Explorer")
     vim.map("G", "<end>", "Explorer")
-    vim.map("f", "<Explorer_GotoTC>", "Explorer")
+    vim.map("f", "<Explorer_GotoTCInNewTab>", "Explorer")
+    vim.map("F", "<Explorer_GotoTC>", "Explorer")
 
     vim.BeforeActionDo("Explorer_ForceInsertMode", "Explorer")
 
@@ -135,6 +137,15 @@ return
 return
 
 <Explorer_GotoTC>:
+    Explorer_GotoTC(false)
+return
+
+<Explorer_GotoTCInNewTab>:
+    Explorer_GotoTC(true)
+return
+
+Explorer_GotoTC(newTab)
+{
     OldClipboard := ClipboardAll
     Clipboard =
 
@@ -144,15 +155,18 @@ return
     if (!ErrorLevel)
     {
         FileToOpen := Clipboard
-        TC_OpenPath(FileToOpen, true, "/L")
+        TC_OpenPath(FileToOpen, newTab, "/L")
         Clipboard := OldClipboard
         OldClipboard =
     }
     else
     {
-        TC_OpenPath(Explorer_GetPath(), true, "/L")
+        TC_OpenPath(Explorer_GetPath(), newTab, "/L")
     }
-return
+
+    Clipboard := OldClipboard
+    OldClipboard =
+}
 
 Explorer_GetPath(hwnd = "")
 {
