@@ -5,7 +5,7 @@ Explorer:
     ; 定义注释
     vim.comment("<Explorer_NormalMode>", "进入normal模式")
     vim.comment("<Explorer_InsertMode>", "进入insert模式")
-    vim.comment("<Explorer_GoToParent>", "进入上一层目录")
+    vim.comment("<Explorer_GotoParent>", "进入上一层目录")
     vim.comment("<Explorer_Enter>", "进入目录")
     vim.comment("<Explorer_IconViewX>", "图标视图 超大")
     vim.comment("<Explorer_IconViewR>", "图标视图 大")
@@ -18,7 +18,7 @@ Explorer:
     vim.comment("<Explorer_Tree>", "定位到左侧目录栏")
     vim.comment("<Explorer_Main>", "定位到右侧文件栏")
     vim.comment("<Explorer_Rename>", "重命名")
-    vim.comment("<Explorer_GoToTC>", "使用TC打开当前目录")
+    vim.comment("<Explorer_GotoTC>", "使用TC打开当前目录")
 
     vim.SetWin("Explorer", "CabinetWClass")
 
@@ -34,7 +34,7 @@ Explorer:
     
     vim.map("j", "<down>", "Explorer")
     vim.map("k", "<up>", "Explorer")
-    vim.map("h", "<Explorer_GoToParent>", "Explorer")
+    vim.map("h", "<Explorer_GotoParent>", "Explorer")
     vim.map("l", "<Explorer_Enter>", "Explorer")
 
     vim.map("t", "<Explorer_Tree>", "Explorer")
@@ -50,7 +50,7 @@ Explorer:
     vim.map("<c-k>", "<up>", "Explorer")
     vim.map("gg", "<home>", "Explorer")
     vim.map("G", "<end>", "Explorer")
-    vim.map("f", "<Explorer_GoToTC>", "Explorer")
+    vim.map("f", "<Explorer_GotoTC>", "Explorer")
 
     vim.BeforeActionDo("Explorer_ForceInsertMode", "Explorer")
 
@@ -74,7 +74,7 @@ return
     vim.mode("insert", "Explorer")
 return
 
-<Explorer_GoToParent>:
+<Explorer_GotoParent>:
     Send, !{up}
 return
 
@@ -134,7 +134,7 @@ return
     Send, {f2}
 return
 
-<Explorer_GoToTC>:
+<Explorer_GotoTC>:
     OldClipboard := ClipboardAll
     Clipboard =
 
@@ -147,16 +147,88 @@ return
         TC_OpenPath(FileToOpen, true, "/L")
         Clipboard := OldClipboard
         OldClipboard =
-        return
     }
     else
     {
-        ; 这个比 WinGetTitle 好
-        ControlGetText, OutputVar, ToolbarWindow322, A
-        StringTrimLeft, FileToOpen, OutputVar, 4
-        TC_OpenPath(FileToOpen, true, "/L")
-        Clipboard := OldClipboard
-        OldClipboard =
-        return
+        TC_OpenPath(Explorer_GetPath(), true, "/L")
     }
+return
+
+Explorer_GetPath(hwnd = "")
+{
+    if !(window := Explorer_GetWindow(hwnd))
+        return ErrorLevel := "Error"
+    if (window="desktop")
+        return A_Desktop
+    path := window.LocationURL
+    path := RegExReplace(path, "ftp://.*@", "ftp://")
+    StringReplace, path, path, file:///
+    StringReplace, path, path, /, \, All
+
+    ; thanks to polyethene
+    Loop
+        if RegExMatch(path, "i)(?<=%)[\da-f]{1,2}", hex)
+            StringReplace, path, path, `%%hex%, % Chr("0x" . hex), All
+        else Break
+    return path
+}
+
+Explorer_GetAll(hwnd = "")
+{
+    return Explorer_Get(hwnd)
+}
+
+Explorer_GetSelected(hwnd = "")
+{
+    return Explorer_Get(hwnd, true)
+}
+
+Explorer_GetWindow(hwnd = "")
+{
+    ; thanks to jethrow for some pointers here
+    WinGet, Process, ProcessName, % "ahk_id" hwnd := hwnd ? hwnd:WinExist("A")
+    WinGetClass class, ahk_id %hwnd%
+
+    if (Process!="explorer.exe")
+        return
+
+    if (class ~= "(Cabinet|Explore)WClass")
+    {
+        for window in ComObjCreate("Shell.Application").Windows
+        if (window.hwnd == hwnd)
+            return window
+    }
+    else if (class ~= "Progman|WorkerW")
+        return "desktop" ; desktop found
+}
+
+Explorer_Get(hwnd = "", selection = false)
+{
+    if !(window := Explorer_GetWindow(hwnd))
+        return ErrorLevel := "Error"
+    if (window="desktop")
+    {
+        ControlGet, hwWindow, HWND,, SysListView321, ahk_class Progman
+        if !hwWindow ; #D mode
+            ControlGet, hwWindow, HWND,, SysListView321, A
+        ControlGet, files, List, % ( selection ? "Selected":"") "Col1",,ahk_id %hwWindow%
+        base := SubStr(A_Desktop,0,1)=="\" ? SubStr(A_Desktop,1,-1) : A_Desktop
+        Loop, Parse, files, `n, `r
+        {
+            path := base "\" A_LoopField
+            IfExist %path% ; Ignore special icons like Computer (at least for now)
+                ret .= path "`n"
+        }
+    }
+    else
+    {
+        if selection
+            collection := window.document.SelectedItems
+        else
+            collection := window.document.Folder.Items
+        for item in collection
+        ret .= item.path "`n"
+    }
+    return Trim(ret,"`n")
+}
 return
