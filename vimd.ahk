@@ -12,11 +12,13 @@ SendMode Input
 
 Menu, Tray, Icon, %A_ScriptDir%\vimd.ico
 Menu, Tray, NoStandard
-Menu, Tray, Add, 查看热键(&K), <vc_Keymap>
-Menu, Tray, Add, 查看插件(&P), <vc_Plugin>
+Menu, Tray, Add, 热键 &K, <vc_Keymap>
+Menu, Tray, Add, 插件 &P, <vc_Plugin>
 Menu, Tray, Add,
-Menu, Tray, Add, 重启(&R), <Reload>
-Menu, Tray, Add, 退出(&X), <Exit>
+Menu, Tray, Add, 重启 &R, <Reload>
+Menu, Tray, Add, 退出 &X, <Exit>
+Menu, Tray, Default, 热键 &K
+Menu, Tray, Click, 1
 
 VimdRun()
 
