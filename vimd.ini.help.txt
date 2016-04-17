@@ -153,8 +153,8 @@ Explorer=1
 ;<esc>=<SwitchToEngIMEAndEsc>
 
 ;[Explorer]
-;f=<Explorer_GotoTC>
-;<S-F>=<Explorer_GotoTCInNewTab>
+;f=<Explorer_GotoTCX>
+;<S-F>=<Explorer_GotoTCInNewTabX>
 
 [TotalCommander_Config]
 ;TCPath: TotalCommander可执行文件路径--TC运行时，可被自动识别

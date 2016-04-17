@@ -19,7 +19,9 @@ Explorer:
     vim.comment("<Explorer_Main>", "定位到右侧文件栏")
     vim.comment("<Explorer_Rename>", "重命名")
     vim.comment("<Explorer_GotoTC>", "使用TC打开当前目录")
+    vim.comment("<Explorer_GotoTCX>", "使用TC打开当前目录，并关闭Explorer")
     vim.comment("<Explorer_GotoTCInNewTab>", "使用TC在新标签页打开当前目录")
+    vim.comment("<Explorer_GotoTCInNewTabX>", "使用TC在新标签页打开当前目录，并关闭Explorer")
 
     vim.SetWin("Explorer", "CabinetWClass")
 
@@ -140,11 +142,19 @@ return
     Explorer_GotoTC(false)
 return
 
+<Explorer_GotoTCX>:
+    Explorer_GotoTC(false, true)
+return
+
 <Explorer_GotoTCInNewTab>:
     Explorer_GotoTC(true)
 return
 
-Explorer_GotoTC(newTab)
+<Explorer_GotoTCInNewTabX>:
+    Explorer_GotoTC(true, true)
+return
+
+Explorer_GotoTC(newTab, closeExplorer = false)
 {
     OldClipboard := ClipboardAll
     Clipboard =
@@ -155,13 +165,22 @@ Explorer_GotoTC(newTab)
     if (!ErrorLevel)
     {
         FileToOpen := Clipboard
+        if (closeExplorer)
+        {
+            WinClose, A
+        }
         TC_OpenPath(FileToOpen, newTab, "/L")
         Clipboard := OldClipboard
         OldClipboard =
     }
     else
     {
-        TC_OpenPath(Explorer_GetPath(), newTab, "/L")
+        FileToOpen := Explorer_GetPath()
+        if (closeExplorer)
+        {
+            WinClose, A
+        }
+        TC_OpenPath(FileToOpen, newTab, "/L")
     }
 
     Clipboard := OldClipboard
@@ -172,7 +191,7 @@ Explorer_GetPath(hwnd = "")
 {
     if !(window := Explorer_GetWindow(hwnd))
         return ErrorLevel := "Error"
-    if (window="desktop")
+    if (window = "desktop")
         return A_Desktop
     path := window.LocationURL
     path := RegExReplace(path, "ftp://.*@", "ftp://")
