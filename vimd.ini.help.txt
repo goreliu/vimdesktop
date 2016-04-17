@@ -50,6 +50,7 @@ vim
 ;<w-f>=run|firefox
 ;<w-w>=run|mintty -e ~/.bin/tmux_starter
 ;<w-a>=run|c:\mine\app\foobar2000\foobar2000.exe
+;<w-v>=run|C:\ProgramData\Microsoft\Windows\Start Menu\Programs\为知笔记\为知笔记 Wiz.lnk
 ;<w-z>=run|c:\mine\app\AutoHotkey\AU3_Spy.exe
 ;<lc-;>=<enter>
 ;<w-;>=<enter>
@@ -201,7 +202,6 @@ OpenFileDialogExclude = password , 密码
 ; 映射按键，使用WScript.Shell的SendKeys()调用，[=normal]可选，默认为normal模式
 ; <c-o>=function|TestFunction|arg
 ; 映射函数，|arg 可以省略，只支持一个参数
-
 
 a=<cm_SelectAll>
 b=<cm_UnpackFiles>
