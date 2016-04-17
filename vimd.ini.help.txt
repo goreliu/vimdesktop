@@ -46,6 +46,7 @@ vim
 <w-o>=<TC_OpenTCDialog>
 <w-c>=run|explorer
 <w-j>=<RunZ>
+;<w-u>=run|..\RunZ\RunZ.ahk
 <w-`>=run|control
 ;<w-f>=run|firefox
 ;<w-w>=run|mintty -e ~/.bin/tmux_starter
@@ -55,7 +56,7 @@ vim
 ;<lc-;>=<enter>
 ;<w-;>=<enter>
 
-; win剩余按键 n u v ' , .  / [ ] \ enter -
+; win剩余按键 n u ' , .  / [ ] \ enter -
 
 ;<la-a>=key|^a
 ; 向左移动一个单词
