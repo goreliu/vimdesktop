@@ -52,6 +52,7 @@
     vim.SetAction("<MouseLeft>", "向左移动鼠标")
     vim.SetAction("<MouseRight>", "向右移动鼠标")
     vim.SetAction("<SearchInWeb>", "在网络搜索剪切板内容")
+    vim.SetAction("<PrintScreenAndSave>", "截图并保存")
     vim.SetAction("<RunZ>", "运行 RunZ")
     vim.SetAction("<Test>", "测试")
 

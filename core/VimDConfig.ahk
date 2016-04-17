@@ -10,15 +10,18 @@ return
     GUI, VimDConfig_plugin:Destroy
     GUI, VimDConfig_plugin:Default
     GUI, VimDConfig_plugin:Font, s10, Microsoft YaHei
-    GUI, VimDConfig_plugin:Add, ListView, x10 y10 w150 h400 grid altsubmit gVimDConfig_LoadActions, 插件
+
+    GUI, VimDConfig_plugin:Add, GroupBox, x10 y10 w170 h440, 插件 &P
+    GUI, VimDConfig_plugin:Add, ListView, x20 y35 w150 h400 grid altsubmit gVimDConfig_LoadActions, 名称
     for plugin, obj in vim.PluginList
         LV_Add("", plugin)
-    GUI, VimDConfig_plugin:Add, ListView, glistview x170 y10 w650 h400 grid altsubmit, 序号|动作|描述（双击进入文件）
 
-    GUI, VimDConfig_plugin:Font, s12, Microsoft YaHei
-    GUI, VimDConfig_plugin:Add, Text, x180 h25, 搜索：
-    GUI, VimDConfig_plugin:Font, s10, Microsoft YaHei
-    GUI, VimDConfig_plugin:Add, Edit, gsearch_plugin v_search x+10 w120 h25
+    GUI, VimDConfig_plugin:Add, GroupBox, x10 y460 w170 h70, 过滤 &F
+    GUI, VimDConfig_plugin:Add, Edit, x20 y490 gsearch_plugin v_search
+
+    GUI, VimDConfig_plugin:Add, GroupBox, x190 y10 w650 h520, 动作 &A
+    GUI, VimDConfig_plugin:Add, ListView, glistview x200 y35 w630 h482 grid altsubmit, 序号|动作|描述（双击进入文件）
+
 
     LV_ModifyCol(1, "center")
     LV_ModifyCol(2, "left 250")
