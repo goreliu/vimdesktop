@@ -1,10 +1,11 @@
 ﻿VimDConfig:
     vim.SetPlugin("VimDConfig", "Array", "0.1", "VimDesktop的配置界面")
-    vim.SetAction("<vc_plugin>", "显示 VimDesktop 插件信息")
-    vim.SetAction("<vc_keymap>", "显示 VimDesktop 热键信息")
+    vim.SetAction("<VimDConfig_Plugin>", "显示 VimDesktop 插件信息")
+    vim.SetAction("<VimDConfig_Keymap>", "显示 VimDesktop 热键信息")
+    vim.SetAction("<VimDConfig_EditConfig>", "打开 VimDesktop 配置文件")
 return
 
-<vc_plugin>:
+<VimDConfig_Plugin>:
 {
     GUI, VimDConfig_plugin:Destroy
     GUI, VimDConfig_plugin:Default
@@ -57,7 +58,7 @@ VimDConfig_LoadActions:
     return
 }
 
-<vc_keymap>:
+<VimDConfig_Keymap>:
 {
     menu, VimDConfig_keymap_menu, add
     menu, VimDConfig_keymap_menu, add, &Exit, VimDConfig_keymap_exit
@@ -90,7 +91,7 @@ VimDConfig_LoadActions:
     return
 }
 
-<VimDconfig_EditConfig>:
+<VimDConfig_EditConfig>:
     Run, %A_ScriptDir%\vimd.ini
 return
 

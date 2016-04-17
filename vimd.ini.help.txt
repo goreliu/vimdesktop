@@ -111,7 +111,7 @@ vim
 ;<la-]>=key|)
 ;<la-/>=key|@
 ;<la-\>=key|^{del}
-;<la-->=<vc_keymap>
+;<la-->=<VimDConfig_Keymap>
 
 ; la剩余按键 7-0
 

@@ -12,8 +12,8 @@ SendMode Input
 
 Menu, Tray, Icon, %A_ScriptDir%\vimd.ico
 Menu, Tray, NoStandard
-Menu, Tray, Add, 热键 &K, <vc_Keymap>
-Menu, Tray, Add, 插件 &P, <vc_Plugin>
+Menu, Tray, Add, 热键 &K, <VimDConfig_Keymap>
+Menu, Tray, Add, 插件 &P, <VimDConfig_Plugin>
 Menu, Tray, Add, 配置 &C, <VimDConfig_EditConfig>
 Menu, Tray, Add,
 Menu, Tray, Add, 重启 &R, <Reload>
