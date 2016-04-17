@@ -241,10 +241,16 @@ u=<cm_CloseCurrentTab>
 <c-q>=<TC_SelectCmd>
 <c-s>=<cm_CountDirContent>
 <c-y>=<cm_CopyFileDetailsToClip>
+; c-t 未用
 ;"=<TC_MarkFile>
 ;_=<TC_UnMarkFile>
 ;<esc>=<SwitchToEngIMEAndEsc>
 ;zh=<TC_Toggle_50_100Percent>
 ;zz=<TC_Toggle_50_100Percent_V>
+; 解压文件，e 是菜单对应的字母，下同
 ;b=function|ClickContextMenu|e
+; 添加文件到压缩包
 ;p=function|ClickContextMenu|a
+; 添加文件到压缩包，自动完成
+;<c-p>=function|ClickContextMenu|w
+;.=key|.{enter}
