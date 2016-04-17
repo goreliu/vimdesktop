@@ -90,6 +90,10 @@ VimDConfig_LoadActions:
     return
 }
 
+<VimDconfig_EditConfig>:
+    Run, %A_ScriptDir%\vimd.ini
+return
+
 VimDConfig_keymap_exit:
 {
     GUI, VimDConfig_keymap:Destroy
