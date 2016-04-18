@@ -189,7 +189,7 @@ VimDConfig_keymap_loadhotkey(win, mode = "")
         }
         else
         {
-            LV_Add("", ReGexReplace(Key, "<S-(.*)>", "$1"), i, vim.GetAction(i).Comment)
+            LV_Add("", RegExReplace(Key, "<S-(.*)>", "$1"), i, vim.GetAction(i).Comment)
             current_keymap .= Key "`t" i "`t" vim.GetAction(i).Comment "`n"
         }
     }
