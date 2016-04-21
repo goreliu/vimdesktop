@@ -184,12 +184,17 @@ VIMD_CMD()
     }
     else if RegExMatch(VIMD_CMD_LIST[obj.keytemp], "i)^(wshkey)\|", m)
     {
+        /*
         if (!WshShell)
         {
             WshShell := ComObjCreate("WScript.Shell")
         }
 
         WshShell.SendKeys(substr(VIMD_CMD_LIST[obj.keytemp], strlen(m1) + 2))
+        */
+
+        SendLevel, 1
+        Send, % substr(VIMD_CMD_LIST[obj.keytemp], strlen(m1) + 2)
     }
 }
 
