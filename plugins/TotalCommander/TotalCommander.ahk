@@ -646,6 +646,7 @@ TC_CopyNameOnly()
     if Not RegExMatch(clipboard, "^\..*")
     {
         clipboard := RegExReplace(clipboard, "m)\.[^.]*$")
+        clipboard := RegExReplace(clipboard, "m)\\$")
     }
 }
 ; <TC_ForceDelete>  {{{1
