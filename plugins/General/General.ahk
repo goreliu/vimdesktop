@@ -1010,6 +1010,27 @@ SwitchIME(dwLayout)
     SendMessage, 0x50, 0, HKL, %ctl%, A
 }
 
+; 来自天甜
+; 用法：SwitchIMEname("中文(简体) - 百度输入法")
+SwitchIMEByName(name)
+{
+    Loop, HKLM, SYSTEM\CurrentControlSet\Control\Keyboard Layouts, 1, 1
+    {
+        IfEqual, A_LoopRegName, Layout Text
+        {
+            RegRead, Value
+            IfInString,value,%name%
+            {
+                RegExMatch(A_LoopRegSubKey, "[^\\]+$", dwLayout)
+                HKL := DllCall("LoadKeyboardLayout", Str, dwLayout, UInt, 1)
+                ControlGetFocus, ctl, A
+                SendMessage, 0x50, 0, HKL, %ctl%, A
+                break
+            }
+        }
+    }
+}
+
 <SwitchToEngIME>:
     ; 下方代码可只保留一个
     SwitchIME(0x04090409) ; 英语(美国) 美式键盘
