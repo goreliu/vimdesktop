@@ -644,7 +644,9 @@ TC_CopyNameOnly()
     GoSub, <cm_CopyNamesToClip>
     ClipWait
     if Not RegExMatch(clipboard, "^\..*")
-        clipboard := RegExReplace(RegExReplace(clipboard, "\\$"), "\.[^\.]*$")
+    {
+        clipboard := RegExReplace(clipboard, "m)\.[^.]*$")
+    }
 }
 ; <TC_ForceDelete>  {{{1
 ; 强制删除
