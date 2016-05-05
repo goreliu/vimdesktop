@@ -133,7 +133,7 @@
     vim.Comment("<TC_ViewFileUnderCursor>", "使用查看器打开光标所在文件(shift+f3)")
     vim.Comment("<TC_OpenWithAlternateViewer>", "使用外部查看器打开(alt+f3)")
     vim.Comment("<TC_ToggleShowInfo>", "显示/隐藏 按键提示")
-    vim.Comment("<TC_ToggleMenu>", "显示/隐藏 菜单栏")
+    vim.Comment("<TC_ToggleMenu>", "显示/隐藏: 菜单栏")
     vim.Comment("<TC_SuperReturn>", "同回车键，但定位到第一个文件")
     vim.Comment("<TC_FileCopyForBak>", "将当前光标下的文件复制一份作为作为备份")
     vim.Comment("<TC_FileMoveForBak>", "将当前光标下的文件重命名为备份")
@@ -295,6 +295,7 @@
     vim.map("s0", "<cm_SrcUnsorted>", "TTOTAL_CMD")
     vim.map("v", "<cm_SrcCustomViewMenu>", "TTOTAL_CMD")
     vim.map("Vb", "<cm_VisButtonbar>", "TTOTAL_CMD")
+    vim.map("Vm", "<TC_ToggleMenu>", "TTOTAL_CMD")
     vim.map("Vd", "<cm_VisDriveButtons>", "TTOTAL_CMD")
     vim.map("Vo", "<cm_VisTwoDriveButtons>", "TTOTAL_CMD")
     vim.map("Vr", "<cm_VisDriveCombo>", "TTOTAL_CMD")
@@ -1568,7 +1569,7 @@ return
 
         if (!FileExist(noneMnuPath))
         {
-            FileAppend, , %noneMnuPath%
+            FileAppend, , %noneMnuPath%, UTF-8-RAW
         }
     }
     else
