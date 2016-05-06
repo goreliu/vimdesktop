@@ -53,10 +53,11 @@ vim
 ;<w-a>=run|c:\mine\app\foobar2000\foobar2000.exe
 ;<w-v>=run|C:\ProgramData\Microsoft\Windows\Start Menu\Programs\为知笔记\为知笔记 Wiz.lnk
 ;<w-z>=run|c:\mine\app\AutoHotkey\AU3_Spy.exe
+;<w-->=run|d:\book\AutoHotkey_Help_CN_v1.1.23.05.chm
 ;<lc-;>=<enter>
 ;<w-;>=<enter>
 
-; win剩余按键 n u ' , .  / [ ] \ enter -
+; win剩余按键 n ' . / [ ] \ enter
 
 ;<la-a>=key|^a
 ; 向左移动一个单词
