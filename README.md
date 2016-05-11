@@ -1,17 +1,14 @@
 ## ![icon](doc/images/vimdesktop_32.jpg) VimDesktop
 
-让所有 Windows 桌面程序拥有 Vim 操作风格的辅助工具
+让所有 Windows 桌面程序拥有 Vim 操作风格的辅助工具。
 
-### 下载地址
-[最新版本](https://github.com/goreliu/vimdesktop/releases/latest)
+### 链接
 
-### VimDesktop 介绍
+[详细介绍](https://github.com/goreliu/vimdesktop/wiki)
 
-[中文版](https://github.com/goreliu/vimdesktop/wiki)
+[Introduction](https://github.com/goreliu/vimdesktop/wiki/VimDesktop-Introduction)
 
-[English version](https://github.com/goreliu/vimdesktop/wiki/VimDesktop-Introduction)
-
-### 文档
+[下载地址](https://github.com/goreliu/vimdesktop/releases/latest)
 
 [文档首页](https://github.com/goreliu/vimdesktop/wiki)
 
