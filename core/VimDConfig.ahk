@@ -30,7 +30,6 @@ return
     LV_Modify(1, "Select")
 
     GUI, VimDConfig_plugin:Show
-    ControlFocus, Edit1, A
 return
 
 <VimDConfig_Keymap>:
@@ -95,6 +94,8 @@ VimDConfig_LoadActions:
             }
         }
     }
+
+    ControlFocus, Edit1, A
 return
 
 VimDConfig_keymap_exit:
@@ -130,6 +131,7 @@ VimDConfig_keymap_loadmodelist:
     GUI, VimDConfig_keymap:Default
     LV_delete()
     GuiControl, Choose, ListBox2, |normal
+    ControlFocus, Edit1, A
 return
 
 VimDConfig_keymap_loadmodelist(win = "")
@@ -208,7 +210,6 @@ listview:
         LV_GetText(SelectedDesc, A_EventInfo, 3)
         SearchFileForEdit(SelectedAction, SelectedDesc, true)
     }
-
 return
 
 SearchFileForEdit(Action, Desc, EditKeyMapping)
