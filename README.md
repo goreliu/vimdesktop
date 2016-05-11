@@ -5,8 +5,6 @@
 ### 下载地址
 [最新版本](https://github.com/goreliu/vimdesktop/releases/latest)
 
-[开发版本（无exe，请使用ahk运行）](https://github.com/goreliu/vimdesktop/archive/master.zip)
-
 ### VimDesktop 介绍
 
 [中文版](https://github.com/goreliu/vimdesktop/wiki)
@@ -22,8 +20,6 @@
 [API 列表](https://github.com/goreliu/vimdesktop/wiki/API%E5%88%97%E8%A1%A8)
 
 [更新历史](https://github.com/goreliu/vimdesktop/wiki/HISTORY)
-
-[开发计划](https://github.com/goreliu/vimdesktop/wiki/TODO)
 
 ### VimDesktop 历史
 
