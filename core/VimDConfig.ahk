@@ -25,7 +25,7 @@ return
 
     LV_ModifyCol(1, "center")
     LV_ModifyCol(2, "left 250")
-    LV_ModifyCol(3, "left 400")
+    LV_ModifyCol(3, "AutoHdr")
     GUI, VimDConfig_plugin:Show
     return
 }
@@ -84,7 +84,7 @@ VimDConfig_LoadActions:
 
     LV_ModifyCol(1, "left 100")
     LV_ModifyCol(2, "left 250")
-    LV_ModifyCol(3, "left 400")
+    LV_ModifyCol(3, "AutoHdr")
 
     VimDConfig_keymap_loadwinlist()
     VimDConfig_keymap_loadhotkey(VimDConfig_keymap_loadmodelist(thiswin))
