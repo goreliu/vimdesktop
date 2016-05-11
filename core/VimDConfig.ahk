@@ -10,32 +10,25 @@ return
     GUI, VimDConfig_plugin:Default
     GUI, VimDConfig_plugin:Font, s10, Microsoft YaHei
 
-    GUI, VimDConfig_plugin:Add, GroupBox, x10 y10 w170 h440, 插件 &P
-    GUI, VimDConfig_plugin:Add, ListView, x20 y35 w150 h400 grid altsubmit gVimDConfig_LoadActions, 名称
-    firstPlugin := true
-    for plugin, obj in vim.PluginList
-    {
-        if (firstPlugin)
-        {
-            LV_Add("Select", plugin)
-            firstPlugin := false
-        }
-        else
-        {
-            LV_Add("", plugin)
-        }
-    }
-
     GUI, VimDConfig_plugin:Add, GroupBox, x10 y460 w170 h70, 过滤 &F
     GUI, VimDConfig_plugin:Add, Edit, x20 y490 gsearch_plugin v_search
 
     GUI, VimDConfig_plugin:Add, GroupBox, x190 y10 w650 h520, 动作 &A
     GUI, VimDConfig_plugin:Add, ListView, glistview x200 y35 w630 h482 grid altsubmit, 序号|动作|描述（双击进入文件）
 
-
     LV_ModifyCol(1, "center")
     LV_ModifyCol(2, "left 250")
     LV_ModifyCol(3, "left 320")
+
+    ; 先创建右边的 ListView，再创建左边的 ListView，否则 LV_Modify 时会出问题。
+    GUI, VimDConfig_plugin:Add, GroupBox, x10 y10 w170 h440, 插件 &P
+    GUI, VimDConfig_plugin:Add, ListView, x20 y35 w150 h400 grid altsubmit gVimDConfig_LoadActions, 名称
+
+    for plugin, obj in vim.PluginList
+        LV_Add("", plugin)
+
+    LV_Modify(1, "Select")
+
     GUI, VimDConfig_plugin:Show
     ControlFocus, Edit1, A
 return
@@ -83,10 +76,10 @@ VimDConfig_LoadActions:
             return
         }
 
-        GUI, VimDConfig_plugin:ListView, sysListview321
+        GUI, VimDConfig_plugin:ListView, sysListview322
         LV_GetText(plugin, A_EventInfo)
         GUI, VimDConfig_plugin:Default
-        GUI, VimDConfig_plugin:ListView, sysListview322
+        GUI, VimDConfig_plugin:ListView, sysListview321
         idx := 1
         LV_Delete()
 
