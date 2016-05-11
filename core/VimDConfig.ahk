@@ -6,15 +6,25 @@
 return
 
 <VimDConfig_Plugin>:
-{
     GUI, VimDConfig_plugin:Destroy
     GUI, VimDConfig_plugin:Default
     GUI, VimDConfig_plugin:Font, s10, Microsoft YaHei
 
     GUI, VimDConfig_plugin:Add, GroupBox, x10 y10 w170 h440, 插件 &P
     GUI, VimDConfig_plugin:Add, ListView, x20 y35 w150 h400 grid altsubmit gVimDConfig_LoadActions, 名称
+    firstPlugin := true
     for plugin, obj in vim.PluginList
-        LV_Add("", plugin)
+    {
+        if (firstPlugin)
+        {
+            LV_Add("Select", plugin)
+            firstPlugin := false
+        }
+        else
+        {
+            LV_Add("", plugin)
+        }
+    }
 
     GUI, VimDConfig_plugin:Add, GroupBox, x10 y460 w170 h70, 过滤 &F
     GUI, VimDConfig_plugin:Add, Edit, x20 y490 gsearch_plugin v_search
@@ -27,42 +37,10 @@ return
     LV_ModifyCol(2, "left 250")
     LV_ModifyCol(3, "left 320")
     GUI, VimDConfig_plugin:Show
-    return
-}
-
-VimDConfig_LoadActions:
-{
-    If A_GuiEvent = I
-    {
-        if not InStr(ErrorLevel, "S", true)
-        {
-            return
-        }
-
-        GUI, VimDConfig_plugin:ListView, sysListview321
-        LV_GetText(plugin, A_EventInfo)
-        GUI, VimDConfig_plugin:Default
-        GUI, VimDConfig_plugin:ListView, sysListview322
-        idx := 1
-        LV_Delete()
-
-        global current_plugin := ""
-        for action, type in vim.ActionFromPlugin
-        {
-            If type = %plugin%
-            {
-                Desc := vim.GetAction(action)
-                LV_Add("", idx, action, Desc.Comment)
-                current_plugin .= idx "`t" action "`t" Desc.Comment "`n"
-                idx++
-            }
-        }
-    }
-    return
-}
+    ControlFocus, Edit1, A
+return
 
 <VimDConfig_Keymap>:
-{
     menu, VimDConfig_keymap_menu, add
     menu, VimDConfig_keymap_menu, add, &Exit, VimDConfig_keymap_exit
 
@@ -89,13 +67,41 @@ VimDConfig_LoadActions:
     VimDConfig_keymap_loadwinlist()
     VimDConfig_keymap_loadhotkey(VimDConfig_keymap_loadmodelist(thiswin))
 
-    GUI, VimDConfig_keymap:show
+    GUI, VimDConfig_keymap:Show
     ControlFocus, Edit1, A
-    return
-}
+return
 
 <VimDConfig_EditConfig>:
     Run, %A_ScriptDir%\vimd.ini
+return
+
+VimDConfig_LoadActions:
+    If A_GuiEvent = I
+    {
+        if not InStr(ErrorLevel, "S", true)
+        {
+            return
+        }
+
+        GUI, VimDConfig_plugin:ListView, sysListview321
+        LV_GetText(plugin, A_EventInfo)
+        GUI, VimDConfig_plugin:Default
+        GUI, VimDConfig_plugin:ListView, sysListview322
+        idx := 1
+        LV_Delete()
+
+        global current_plugin := ""
+        for action, type in vim.ActionFromPlugin
+        {
+            If type = %plugin%
+            {
+                Desc := vim.GetAction(action)
+                LV_Add("", idx, action, Desc.Comment)
+                current_plugin .= idx "`t" action "`t" Desc.Comment "`n"
+                idx++
+            }
+        }
+    }
 return
 
 VimDConfig_keymap_exit:
