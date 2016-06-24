@@ -49,7 +49,8 @@ vim
 ;<w-u>=run|..\RunZ\RunZ.ahk
 <w-`>=run|control
 ;<w-f>=run|firefox
-;<w-w>=run|mintty -e ~/.bin/tmux_starter
+;<w-q>=run|mintty -t " " -e zsh -l
+;<w-w>=run|mintty -t " " -e ssh -p 50248 127.0.0.1
 ;<w-a>=run|c:\mine\app\foobar2000\foobar2000.exe
 ;<w-v>=run|C:\ProgramData\Microsoft\Windows\Start Menu\Programs\为知笔记\为知笔记 Wiz.lnk
 ;<w-z>=run|c:\mine\app\AutoHotkey\AU3_Spy.exe
