@@ -299,7 +299,7 @@ EditFile(editPath, line := 1)
     StringReplace, args, args, $line, %line%
     StringReplace, args, args, $file, "%editPath%"
     target := editor " " args
-    if (OutExtension = "sh")
+    if (OutExtension = "sh" || OutExtension = "zsh")
     {
         target := "sh.exe " target
     }
