@@ -65,6 +65,7 @@
         Global TCPanel1 := "TPanel1"
         Global TCPanel2 := "TMyPanel8"
         Global TCPathPanel := "TPathPanel1"
+        Global TCPathPanelRight := "TPathPanel2"
     }
 
     Global Mark := []
@@ -1593,12 +1594,14 @@ return
 return
 
 <TC_SuperReturn>:
-    ControlGetText, old_pwd, %TCPathPanel%, AHK_CLASS TTOTAL_CMD
+    ControlGetText, old_pwd_left, %TCPathPanel%, AHK_CLASS TTOTAL_CMD
+    ControlGetText, old_pwd_right, %TCPathPanelRight%, AHK_CLASS TTOTAL_CMD
     GoSub, <cm_Return>
     sleep, 10
-    ControlGetText, new_pwd, %TCPathPanel%, AHK_CLASS TTOTAL_CMD
+    ControlGetText, new_pwd_left, %TCPathPanel%, AHK_CLASS TTOTAL_CMD
+    ControlGetText, new_pwd_right, %TCPathPanelRight%, AHK_CLASS TTOTAL_CMD
 
-    if (old_pwd <> new_pwd)
+    if (old_pwd_left != new_pwd_left || old_pwd_right != new_pwd_right)
     {
         ControlGetFocus, Ctrl, AHK_CLASS TTOTAL_CMD
         Postmessage, 0x19E, 1, 1, %Ctrl%, AHK_CLASS TTOTAL_CMD
