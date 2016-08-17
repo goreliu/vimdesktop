@@ -252,7 +252,7 @@
     vim.map("-", "<cm_SwitchSeparateTree>", "TTOTAL_CMD")
     vim.map("=", "<cm_MatchSrc>", "TTOTAL_CMD")
     vim.map(",", "<cm_SrcThumbs>", "TTOTAL_CMD")
-    vim.map(";", "<TC_ListMark>", "TTOTAL_CMD")
+    vim.map(";", "<cm_DirectoryHotlist>", "TTOTAL_CMD")
     vim.map(":", "<cm_FocusCmdLine>", "TTOTAL_CMD")
     vim.map("~", "<cm_SysInfo>", "TTOTAL_CMD")
     vim.map("``", "<TC_ToggleShowInfo>", "TTOTAL_CMD")

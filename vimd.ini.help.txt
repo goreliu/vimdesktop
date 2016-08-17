@@ -213,6 +213,7 @@ OpenFileDialogExclude = password , 密码
 a=<cm_SelectAll>
 b=<cm_UnpackFiles>
 c=<cm_MkDir>
+;d=<TC_ListMark>
 e=<cm_edit>
 h=<TC_GoToParentEx>
 i=<TC_CreateNewFileNewStyle>
