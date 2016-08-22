@@ -46,7 +46,6 @@ vim
 <w-o>=<TC_OpenTCDialog>
 <w-c>=run|explorer
 <w-j>=<RunZ>
-;<w-u>=run|..\RunZ\RunZ.ahk
 <w-`>=run|control
 ;<w-f>=run|firefox
 ;<w-q>=run|c:\mine\app\msys2\usr\bin\mintty -t " " -e /usr/bin/ssh -q -t -p 50248 127.0.0.1 'NOTMUX=1 zsh'

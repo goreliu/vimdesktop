@@ -940,6 +940,15 @@ return
     Run, https://www.baidu.com/s?wd=%clipboard%
 return
 
+<Test>:
+    MsgBox, 测试
+return
+
+TestFunction(arg)
+{
+    MsgBox, 参数：%arg%
+}
+
 <PrintScreenAndSave>:
     if (RegExMatch(A_ThisHotkey, "i)!PrintScreen"))
     {
@@ -950,32 +959,10 @@ return
         Send, {PrintScreen}
     }
 
-    Run, mspaint
-    Loop, 5
-    {
-        if (WinActive("ahk_class MSPaintApp"))
-        {
-            Send, ^v^s
-            break
-        }
-        sleep 100
-    }
-return
+    sleep, 50
 
-<Test>:
-    MsgBox, 测试
-return
-
-TestFunction(arg)
-{
-    MsgBox, 参数：%arg%
-}
-
-/*
-<PrintScreenWindowAndSave>:
-    WinGetPos x, y, w, h, A
-    ScreenSnapshot(A_Temp "\vimd.tmp.png", x "|" y "|" w "|" h "|")
-    Fileselectfile, selectedFile, s16, 截图.png, 另存为, PNG图片(*.png)
+    SaveImageFromClipboard(A_Temp "\vimd.tmp.png")
+    FileselectFile, selectedFile, s16, 截图.png, 另存为, PNG图片(*.png)
 
     if (selectedFile == "")
     {
@@ -988,8 +975,16 @@ TestFunction(arg)
     }
 
     FileMove, % A_Temp "\vimd.tmp.png", % selectedFile, 1
-
 return
+
+SaveImageFromClipboard(filename)
+{
+    pToken := Gdip_Startup()
+    pBitmap := Gdip_CreateBitmapFromClipboard()
+    Gdip_SaveBitmapToFile(pBitmap, filename)
+    Gdip_DisposeImage(pBitmap)
+    Gdip_Shutdown(pToken)
+}
 
 ; ScreenSnapshot("FullScreen.png")
 ; ScreenSnapshot("Area_xywh.png", "10|20|200|200")
@@ -1001,7 +996,6 @@ ScreenSnapshot(filename, area := 0)
     Gdip_DisposeImage(pBitmap)
     Gdip_Shutdown(pToken)
 }
-*/
 
 SwitchIME(dwLayout)
 {
