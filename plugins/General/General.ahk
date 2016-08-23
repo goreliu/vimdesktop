@@ -1039,10 +1039,10 @@ return
 return
 
 <RunZ>:
-    RunZPath := A_ScriptDir "\..\RunZ\RunZ.ahk"
+    RunZPath := A_ScriptDir "\..\RunZ\RunZ.exe"
     if (ini.config.runz_dir != "")
     {
-        RunZPath := ini.config.runz_dir "\RunZ.ahk"
+        RunZPath := ini.config.runz_dir "\RunZ.exe"
     }
 
     if (!FileExist(RunZPath))
@@ -1050,14 +1050,7 @@ return
         return
     }
 
-    if (FileExist(A_ScriptDir "\vimd.exe"))
-    {
-        Run, %A_ScriptDir%\vimd.exe "%RunZPath%"
-    }
-    else
-    {
-        Run, "%RunZPath%"
-    }
+    Run, "%RunZPath%"
 return
 
 ClickContextMenu(key)
