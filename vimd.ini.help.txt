@@ -248,6 +248,7 @@ u=<cm_CloseCurrentTab>
 <c-n>=<cm_FtpConnect>
 <c-q>=<TC_SelectCmd>
 <c-s>=<cm_CountDirContent>
+<c-t>=<cm_OpenDirInNewTab>
 <c-y>=<cm_CopyFileDetailsToClip>
 ; c-t 未用
 ;"=<TC_MarkFile>
