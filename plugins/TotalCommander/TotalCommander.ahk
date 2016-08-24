@@ -1045,6 +1045,10 @@ NewFile(File = "", Blank := False, Ext := "txt")
         PostMessage, 0x0B1, 0, Strlen(filenamenoext), Edit2, A
     }
     return
+
+    GuiEscape:
+        Gui, Destroy
+    return
 }
 ; 关闭新建文件窗口
 NewFileClose:
