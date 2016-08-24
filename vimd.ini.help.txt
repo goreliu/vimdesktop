@@ -45,11 +45,11 @@ vim
 ; 激活TC作为文件选择框，再次按下该快捷键可执行文件打开操作
 <w-o>=<TC_OpenTCDialog>
 <w-c>=run|explorer
-<w-j>=<RunZ>
 <w-`>=run|control
+;<w-u>=<RunZ>
 ;<w-f>=run|firefox
-;<w-q>=run|c:\mine\app\msys2\usr\bin\mintty -t " " -e /usr/bin/ssh -q -t -p 50248 127.0.0.1 'NOTMUX=1 zsh'
-;<w-w>=run|c:\mine\app\bash\bash_here.exe 1
+;<w-q>=run|c:\mine\app\wsl-terminal\bin\mintty -t " " -e /bin/wslbridge.exe -t zsh -c 'cd; exec zsh'
+;<w-w>=run|c:\mine\app\wsl-terminal\open-wsl.exe -a
 ;<w-a>=run|c:\mine\app\foobar2000\foobar2000.exe
 ;<w-v>=run|C:\ProgramData\Microsoft\Windows\Start Menu\Programs\为知笔记\为知笔记 Wiz.lnk
 ;<w-z>=run|c:\mine\app\AutoHotkey\AU3_Spy.exe
@@ -240,6 +240,7 @@ u=<cm_CloseCurrentTab>
 <c-f>=<pgdn>
 <c-g>=<cm_SetAttrib>
 <c-h>=<left>
+<c-i>=<TC_CreateBlankFileNoExt>
 <c-j>=<down>
 <c-k>=<up>
 <c-l>=<right>
@@ -260,4 +261,4 @@ u=<cm_CloseCurrentTab>
 ;p=function|ClickContextMenu|a
 ; 添加文件到压缩包，自动完成
 ;<c-p>=function|ClickContextMenu|w
-;.=key|.{enter}
+.=key|.{enter}

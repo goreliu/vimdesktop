@@ -156,6 +156,7 @@
     vim.Comment("<TC_ReOpenTab>", "重新打开之前关闭的标签页")
     vim.Comment("<TC_OpenDirsInFile>", "将光标所在的文件内容中的文件夹在新标签页依次打开")
     vim.Comment("<TC_CreateBlankFile>", "创建空文件")
+    vim.Comment("<TC_CreateBlankFileNoExt>", "创建无扩展名空文件")
     vim.Comment("<TC_PasteFileEx>", "粘贴文件，如果光标下为目录则粘贴进该目录")
 
     GoSub, TCCOMMAND
@@ -998,16 +999,21 @@ return
 NewFile:
     NewFile()
 return
-NewFile(File = "", Blank := False)
+NewFile(File = "", Blank := False, Ext := "txt")
 {
     Global NewFile
     if Not File
         File := RegExReplace(NewFiles[A_ThisMenuItemPos], "(.*\[|\]$)", "")
     if (Blank)
     {
-        FileName := "New.txt"
-        FileNamenoext := "New"
-        FileExt := "txt"
+        FileName := "New"
+        FileNameNoExt := "New"
+        FileExt := Ext
+
+        if (Ext != "")
+        {
+            FileName .= "." Ext
+        }
     }
     else if Not FileExist(File)
     {
@@ -1020,7 +1026,7 @@ NewFile(File = "", Blank := False)
             FileExt := RegExReplace(NewFiles[A_ThisMenuItemPos], "(.*\(|\).*)")
             File := "New" . FileExt
             FileName := "New" . FileExt
-            FileNamenoext := "New"
+            FileNameNoExt := "New"
         }
     }
     else
@@ -1848,6 +1854,10 @@ return
 
 <TC_CreateBlankFile>:
     NewFile("创建空文件", True)
+return
+
+<TC_CreateBlankFileNoExt>:
+    NewFile("创建空文件", True, "")
 return
 
 TC_Run(cmd)
