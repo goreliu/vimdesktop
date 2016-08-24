@@ -1613,8 +1613,11 @@ return
 
     if (old_pwd_left != new_pwd_left || old_pwd_right != new_pwd_right)
     {
+        Send, {down}
+        /*
         ControlGetFocus, Ctrl, AHK_CLASS TTOTAL_CMD
         Postmessage, 0x19E, 1, 1, %Ctrl%, AHK_CLASS TTOTAL_CMD
+        */
     }
 return
 
