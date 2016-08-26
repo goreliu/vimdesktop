@@ -54,6 +54,7 @@ vim
 ;<w-v>=run|C:\ProgramData\Microsoft\Windows\Start Menu\Programs\为知笔记\为知笔记 Wiz.lnk
 ;<w-z>=run|c:\mine\app\AutoHotkey\AU3_Spy.exe
 ;<w-->=run|d:\book\AutoHotkey_Help_CN_v1.1.23.05.chm
+;<w-n>=run|cmd
 ;<lc-;>=<enter>
 ;<w-;>=<enter>
 
@@ -217,6 +218,7 @@ e=<cm_edit>
 h=<TC_GoToParentEx>
 i=<TC_CreateNewFileNewStyle>
 l=<TC_SuperReturn>
+;m=<cm_SrcThumbs>
 o=<cm_ContextMenu>
 p=<cm_PackFiles>
 u=<cm_CloseCurrentTab>
@@ -251,6 +253,7 @@ u=<cm_CloseCurrentTab>
 <c-t>=<cm_OpenDirInNewTab>
 <c-y>=<cm_CopyFileDetailsToClip>
 ; c-t 未用
+;,=<TC_Mark>
 ;"=<TC_MarkFile>
 ;_=<TC_UnMarkFile>
 ;<esc>=<SwitchToEngIMEAndEsc>

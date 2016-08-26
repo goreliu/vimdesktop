@@ -55,8 +55,6 @@
 
     vim.map("``", "<Foobar2000_ToggleShowInfo>", Foobar2000_name)
 
-    vim.map("<alt>", "<Pass>", Foobar2000_name)
-
     vim.BeforeActionDo("Foobar2000_ForceInsertMode", Foobar2000_name)
 return
 
