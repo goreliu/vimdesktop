@@ -39,8 +39,8 @@ vim
 <w-e>=<TC_ToggleTC>
 ; 重新加载VimDesktop
 <w-y>=<Reload>
-;<prtsc>=<PrintScreenAndSave>
-;<a-printscreen>=<PrintScreenAndSave>
+<prtsc>=<PrintScreenAndSave>
+<a-printscreen>=<PrintScreenAndSave>
 
 ; 激活TC作为文件选择框，再次按下该快捷键可执行文件打开操作
 <w-o>=<TC_OpenTCDialog>
@@ -266,3 +266,7 @@ u=<cm_CloseCurrentTab>
 ; 添加文件到压缩包，自动完成
 ;<c-p>=function|ClickContextMenu|w
 .=key|.{enter}
+;<f9>=<TC_CopyUseQueues>
+;<f10>=<TC_MoveUseQueues>
+;<f11>=<cm_SwitchToPreviousTab>
+;<f12>=<cm_SwitchToNextTab>
