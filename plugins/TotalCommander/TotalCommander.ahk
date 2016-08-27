@@ -82,15 +82,7 @@
 
             Loop, Parse, all_marks
             {
-                if (A_LoopField = ";")
-                {
-                    ; 因为ini文件里分号是注释，改成读加号，必须手动写配置
-                    IniRead, new_mark, %TCMarkINI%, mark, +
-                }
-                else
-                {
-                    IniRead, new_mark, %TCMarkINI%, mark, %A_LoopField%
-                }
+                IniRead, new_mark, %TCMarkINI%, mark, %A_LoopField%
 
                 Mark[A_LoopField] := new_mark
                 Menu, MarkMenu, Add, %new_mark%, <AddMark>
