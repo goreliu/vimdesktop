@@ -7,11 +7,11 @@ global VIMD_CMD_LIST
 
 VimdRun()
 {
-    ConfigPath := A_ScriptDir "\vimd.ini"
+    ConfigPath := A_ScriptDir "\conf\vimd.ini"
     IniRead, CustomConfigPath, %ConfigPath%, config, custom_config_path
-    if (FileExist(A_ScriptDir "\" CustomConfigPath))
+    if (FileExist(A_ScriptDir "\conf\" CustomConfigPath))
     {
-        ConfigPath := A_ScriptDir "\" CustomConfigPath
+        ConfigPath := A_ScriptDir "\conf\" CustomConfigPath
     }
 
     vim := class_vim()
@@ -22,7 +22,7 @@ VimdRun()
 
     if (!FileExist(ConfigPath))
     {
-        FileCopy, %A_ScriptDir%\vimd.ini.help.txt, %ConfigPath%
+        FileCopy, %A_ScriptDir%\conf\vimd.ini.help.txt, %ConfigPath%
     }
 
     ini := class_EasyINI(ConfigPath)
