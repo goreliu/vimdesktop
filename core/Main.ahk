@@ -9,7 +9,7 @@ VimdRun()
 {
     ConfigPath := A_ScriptDir "\vimd.ini"
     IniRead, CustomConfigPath, %ConfigPath%, config, custom_config_path
-    if (CustomConfigPath != "")
+    if (FileExist(A_ScriptDir "\" CustomConfigPath))
     {
         ConfigPath := A_ScriptDir "\" CustomConfigPath
     }

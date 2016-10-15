@@ -64,7 +64,7 @@ return
 return
 
 <VimDConfig_EditConfig>:
-    Run, %A_ScriptDir%\vimd.ini
+    Run, %ConfigPath%
 return
 
 VimDConfig_LoadActions:
@@ -223,16 +223,16 @@ SearchFileForEdit(Action, Desc, EditKeyMapping)
             SearchLine := Action "|" Desc
         }
 
-        Loop, Read, %A_ScriptDir%\vimd.ini
+        Loop, Read, %ConfigPath%
         {
             if (InStr(A_LoopReadLine, SearchLine))
             {
-                EditFile(A_ScriptDir "\vimd.ini", A_Index)
+                EditFile(%ConfigPath%, A_Index)
                 return
             }
         }
 
-        EditFile(A_ScriptDir "\vimd.ini")
+        EditFile(%ConfigPath%)
         return
     }
 
@@ -289,7 +289,7 @@ EditFile(editPath, line := 1)
     
     If not FileExist(editor)
     {
-        MsgBox, 请配置 vimd.ini 中 [config] 中的 editor ，并重启 vimd ！
+        MsgBox, 请配置 %ConfigPath% 中 [config] 中的 editor ，并重启 vimd ！
         return
     }
 
