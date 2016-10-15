@@ -4,15 +4,17 @@ global ini
 global default_enable_show_info
 global editor
 global VIMD_CMD_LIST
-global WshShell
 
 VimdRun()
 {
     ConfigPath := A_ScriptDir "\vimd.ini"
+    IniRead, CustomConfigPath, %ConfigPath%, config, custom_config_path
+    if (CustomConfigPath != "")
+    {
+        ConfigPath := A_ScriptDir "\" CustomConfigPath
+    }
+
     vim := class_vim()
-    ini := class_EasyINI(A_ScriptDir "\vimd.ini")
-    default_enable_show_info := ini.config.default_enable_show_info
-    editor := ini.config.editor
     VIMD_CMD_LIST := []
 
     ; 给 check.ahk 使用
@@ -20,8 +22,12 @@ VimdRun()
 
     if (!FileExist(ConfigPath))
     {
-        FileCopy, %ConfigPath%.help.txt, %ConfigPath%
+        FileCopy, %A_ScriptDir%\vimd.ini.help.txt, %ConfigPath%
     }
+
+    ini := class_EasyINI(ConfigPath)
+    default_enable_show_info := ini.config.default_enable_show_info
+    editor := ini.config.editor
 
     if (ini.config.enable_log == 1)
     {
@@ -184,15 +190,6 @@ VIMD_CMD()
     }
     else if RegExMatch(VIMD_CMD_LIST[obj.keytemp], "i)^(wshkey)\|", m)
     {
-        /*
-        if (!WshShell)
-        {
-            WshShell := ComObjCreate("WScript.Shell")
-        }
-
-        WshShell.SendKeys(substr(VIMD_CMD_LIST[obj.keytemp], strlen(m1) + 2))
-        */
-
         SendLevel, 1
         Send, % substr(VIMD_CMD_LIST[obj.keytemp], strlen(m1) + 2)
     }
