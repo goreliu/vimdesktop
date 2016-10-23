@@ -29,7 +29,7 @@ enable_log=0
 ; 打开调试窗口
 enable_debug=0
 ; 自定义的配置文件路径，需要 .ini 扩展名，主要方便备份和升级
-custom_config_path=
+;custom_config_path=vimd_custom.ini
 
 [exclude]
 vim
