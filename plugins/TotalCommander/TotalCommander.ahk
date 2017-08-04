@@ -1581,11 +1581,11 @@ return
         IniWrite, 0, %TCINI%, Configuration, RestrictInterface
 
         WinClose, AHK_CLASS TTOTAL_CMD
-        Sleep, 50
 
-        Run, %TCPath%
         Loop, 4
         {
+            Sleep, 50
+            Run, %TCPath%
             IfWinNotActive, AHK_CLASS TTOTAL_CMD
                 WinActivate, AHK_CLASS TTOTAL_CMD
             else
