@@ -962,7 +962,7 @@ TestFunction(arg)
     sleep, 50
 
     SaveImageFromClipboard(A_Temp "\vimd.tmp.png")
-    FileselectFile, selectedFile, s16, 截图.png, 另存为, PNG图片(*.png)
+    FileselectFile, selectedFile, s16, 截图_%A_Now%.png, 另存为, PNG图片(*.png)
 
     if (selectedFile == "")
     {
