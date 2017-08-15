@@ -227,12 +227,12 @@ SearchFileForEdit(Action, Desc, EditKeyMapping)
         {
             if (InStr(A_LoopReadLine, SearchLine))
             {
-                EditFile(%ConfigPath%, A_Index)
+                EditFile(ConfigPath, A_Index)
                 return
             }
         }
 
-        EditFile(%ConfigPath%)
+        EditFile(ConfigPath)
         return
     }
 
