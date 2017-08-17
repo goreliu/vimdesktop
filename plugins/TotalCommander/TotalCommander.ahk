@@ -500,9 +500,8 @@ TC_azHistory()
     {
         idx := RegExReplace(A_LoopField, "=.*$")
         value := RegExReplace(A_LoopField, "^\d\d?=")
-        ;避免&被识别成快捷键
+        ; 避免&被识别成快捷键
         name := StrReplace(value, "&", ":＆:")
-        name := RegExReplace(name, "`t#.*$")
         if RegExMatch(Value, "::\{20D04FE0\-3AEA\-1069\-A2D8\-08002B30309D\}\|")
         {
             name  := RegExReplace(Value, "::\{20D04FE0\-3AEA\-1069\-A2D8\-08002B30309D\}\|")
@@ -538,7 +537,8 @@ TC_azHistory()
             name := RegExReplace(Value, "::\{645FF040\-5081\-101B\-9F08\-00AA002F954E\}\|")
             value := 2127
         }
-        name .= A_Tab "[&"  chr(idx+65) "]"
+
+        name := RegExReplace(name, "`t#.*$") A_Tab "[&"  chr(idx+65) "]"
         history_obj[idx] := name
         history_name_obj[name] := value
     }
