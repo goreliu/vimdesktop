@@ -16,6 +16,7 @@ Menu, Tray, Add, 热键 &K, <VimDConfig_Keymap>
 Menu, Tray, Add, 插件 &P, <VimDConfig_Plugin>
 Menu, Tray, Add, 配置 &C, <VimDConfig_EditConfig>
 Menu, Tray, Add,
+Menu, Tray, Add, 禁用 &S, <Suspend>
 Menu, Tray, Add, 重启 &R, <Reload>
 Menu, Tray, Add, 退出 &X, <Exit>
 Menu, Tray, Default, 热键 &K

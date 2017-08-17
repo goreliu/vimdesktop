@@ -10,6 +10,7 @@
     vim.SetAction("<Gen_NormalMode>", "浏览模式")
     vim.SetAction("<Gen_Toggle>", "启用/禁用vim热键(General插件)")
     vim.SetAction("<Reload>", "重新加载")
+    vim.SetAction("<Suspend>", "禁用")
     vim.SetAction("<WindowMoveDown>", "窗口移动到下方")
     vim.SetAction("<WindowMoveUp>", "窗口移动到上方")
     vim.SetAction("<WindowMoveLeft>", "窗口移动到左侧")
@@ -157,11 +158,14 @@ Gen_Toggle()
 cancelTooltip:
     Tooltip, , , , 19
 return
-<reload>:
-    reload
+<Reload>:
+    Reload
 return
 <Exit>:
     ExitApp
+return
+<Suspend>:
+    Suspend
 return
 <down>:
     send, {down}
