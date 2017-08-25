@@ -150,6 +150,7 @@
     vim.Comment("<TC_CreateBlankFile>", "创建空文件")
     vim.Comment("<TC_CreateBlankFileNoExt>", "创建无扩展名空文件")
     vim.Comment("<TC_PasteFileEx>", "粘贴文件，如果光标下为目录则粘贴进该目录")
+    vim.Comment("<TC_ThumbsView>", "缩略图试图，并且修改 h 和 l 为方向键")
 
     GoSub, TCCOMMAND
 
@@ -1600,17 +1601,24 @@ return
     ControlGetText, old_pwd_left, %TCPathPanel%, AHK_CLASS TTOTAL_CMD
     ControlGetText, old_pwd_right, %TCPathPanelRight%, AHK_CLASS TTOTAL_CMD
     GoSub, <cm_Return>
-    sleep, 10
-    ControlGetText, new_pwd_left, %TCPathPanel%, AHK_CLASS TTOTAL_CMD
-    ControlGetText, new_pwd_right, %TCPathPanelRight%, AHK_CLASS TTOTAL_CMD
 
-    if (old_pwd_left != new_pwd_left || old_pwd_right != new_pwd_right)
+    Loop, 5
     {
-        Send, {down}
-        /*
-        ControlGetFocus, Ctrl, AHK_CLASS TTOTAL_CMD
-        Postmessage, 0x19E, 1, 1, %Ctrl%, AHK_CLASS TTOTAL_CMD
-        */
+        ControlGetText, new_pwd_left, %TCPathPanel%, AHK_CLASS TTOTAL_CMD
+        ControlGetText, new_pwd_right, %TCPathPanelRight%, AHK_CLASS TTOTAL_CMD
+
+        if (old_pwd_left != new_pwd_left || old_pwd_right != new_pwd_right)
+        {
+            Send, {down}
+            /*
+            ControlGetFocus, Ctrl, AHK_CLASS TTOTAL_CMD
+            Postmessage, 0x19E, 1, 1, %Ctrl%, AHK_CLASS TTOTAL_CMD
+            */
+
+            return
+        }
+
+        sleep, 10
     }
 return
 
@@ -1885,6 +1893,20 @@ TC_Run(cmd)
         SendPos(2009)  ;cm_PasteFromClipboard
     }
     OldClipboard =
+return
+
+; 缩略图视图，并且临时修改 h 和 l 按键为左右方向键
+<TC_ThumbsView>:
+    GoSub, <cm_SrcThumbs>
+
+    InThumbsView := !(InThumbsView)
+    if (InThumbsView) {
+        vim.map("h", "<left>", "TTOTAL_CMD")
+        vim.map("l", "<right>", "TTOTAL_CMD")
+    } else {
+        vim.map("h", "<TC_GoToParentEx>", "TTOTAL_CMD")
+        vim.map("l", "<TC_SuperReturn>", "TTOTAL_CMD")
+    }
 return
 
 ; ADD HERE
@@ -2432,7 +2454,7 @@ return
 return
 ;<cm_SrcThumbs>: >>来源窗口: 缩略图{{{2
 <cm_SrcThumbs>:
-    SendPos(269    )
+    SendPos(269)
 return
 ;<cm_SrcCustomViewMenu>: >>来源窗口: 自定义视图菜单{{{2
 <cm_SrcCustomViewMenu>:
