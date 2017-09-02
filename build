@@ -2,12 +2,12 @@
 
 # 我自己用的打包脚本，放在这里方便维护
 
-rm -rf VimDesktop*
+rm -rf VimDesktop
 mkdir VimDesktop
 
 cp * VimDesktop -r 2>/dev/null
 cp /mnt/c/mine/app/AutoHotkey/AutoHotkeyU32.exe VimDesktop/vimd.exe
-rm -f VimDesktop/vimd.ini
+rm -f VimDesktop/conf/vimd.ini
 rm -f VimDesktop/build
 rm -rf VimDesktop/VimDesktop
 rm -rf VimDesktop/doc/wiki/.git
