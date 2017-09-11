@@ -48,6 +48,9 @@ VimdRun()
 
     ; 用于接收来自 cehck.ahk 的信息
     OnMessage(0x4a, "ReceiveWMCopyData")
+
+    ; 定时检查配置文件更新
+    SetTimer, WatchConfigFile, 2000
 }
 
 CheckPlugin()
@@ -210,6 +213,16 @@ ReceiveWMCopyData(wParam, lParam)
 
 VIMD_Reload:
     Reload
+return
+
+WatchConfigFile:
+    FileGetTime, newConfigFileModifyTime, %ConfigPath%
+
+    if (lastConfigFileModifyTime != "" && lastConfigFileModifyTime != newConfigFileModifyTime)
+    {
+        GoSub, VIMD_Reload
+    }
+    lastConfigFileModifyTime := newConfigFileModifyTime
 return
 
 /*
