@@ -919,8 +919,14 @@ FileTempMenuCheckNewStyle()
         if A_Index = 1
             Menu, FileTemp, Add
         ft := SubStr(A_LoopFileName, 1, 1) . " >> " . A_LoopFileName
-        ;ft := chr(64+A_Index) . " >> " . A_LoopFileName
         Menu, FileTemp, Add, %ft%, FileTempNew
+
+        if FileExist(TCDir "\shellnew\icons\" A_LoopFileExt ".ico")
+        {
+            Menu, FileTemp, Icon, %ft%, % TCDir "\shellnew\icons\" A_LoopFileExt ".ico"
+            continue
+        }
+
         Ext := "." . A_LoopFileExt
         IconFile := RegGetNewFileIcon(Ext)
         IconFile := RegExReplace(IconFile, "i)%systemroot%", A_WinDir)
