@@ -176,20 +176,11 @@ u=<cm_CloseCurrentTab>
 <c-s>=<cm_CountDirContent>
 <c-t>=<cm_OpenDirInNewTab>
 <c-y>=<cm_CopyFileDetailsToClip>
-; c-t 未用
+<f2>=<cm_RenameOnly>
+<f9>=<TC_CopyUseQueues>
+<f10>=<TC_MoveUseQueues>
+<f11>=<cm_SwitchToPreviousTab>
+<f12>=<cm_SwitchToNextTab>
+.=key|.{enter}
 ;"=<TC_MarkFile>
 ;_=<TC_UnMarkFile>
-;<esc>=<SwitchToEngIMEAndEsc>
-;zh=<TC_Toggle_50_100Percent>
-;zz=<TC_Toggle_50_100Percent_V>
-; 解压文件，e 是菜单对应的字母，下同
-;b=function|ClickContextMenu|e
-; 添加文件到压缩包
-;p=function|ClickContextMenu|a
-; 添加文件到压缩包，自动完成
-;<c-p>=function|ClickContextMenu|w
-.=key|.{enter}
-;<f9>=<TC_CopyUseQueues>
-;<f10>=<TC_MoveUseQueues>
-;<f11>=<cm_SwitchToPreviousTab>
-;<f12>=<cm_SwitchToNextTab>
