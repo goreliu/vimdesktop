@@ -12,6 +12,6 @@ rm -f VimDesktop/build
 rm -rf VimDesktop/VimDesktop
 rm -rf VimDesktop/doc/wiki/.git
 
-apack VimDesktop-$1.7z VimDesktop
+a VimDesktop-$1.7z VimDesktop
 rm -rf VimDesktop
 mv VimDesktop-$1.7z ~/tmp
