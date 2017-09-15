@@ -64,7 +64,7 @@ return
 return
 
 <VimDConfig_EditConfig>:
-    Run, %ConfigPath%
+    EditFile(ConfigPath)
 return
 
 VimDConfig_LoadActions:
