@@ -51,20 +51,30 @@
     if RegExMatch(TcPath, "i)totalcmd64\.exe$")
     {
         Global TCListBox := "LCLListBox"
+        ; 64 位的下方命令编辑框的 id 不固定，可能是 Edit1 或者 Edit2
+        ; 如果使用过了文件重命名，则是 Edit2，没法判断
         Global TCEdit := "Edit2"
-        Global TInEdit := "TInEdit1"
+        Global TInEdit := "Edit1"
         GLobal TCPanel1 := "Window1"
         Global TCPanel2 := "Window11"
-        Global TCPathPanel := "TPathPanel2"
+        Global TCPathPanel := "Window8"
+        Global TCPathPanelRight := "Window13"
     }
     else
     {
+        ; 左右面板
         Global TCListBox := "TMyListBox"
+        ; 底下命令编辑框
         Global TCEdit := "Edit1"
+        ; 重命名文件编辑框
         Global TInEdit := "TInEdit1"
+        ; 纵向分隔
         Global TCPanel1 := "TPanel1"
+        ; 横向分隔
         Global TCPanel2 := "TMyPanel8"
+        ; 左地址栏
         Global TCPathPanel := "TPathPanel1"
+        ; 右地址栏
         Global TCPathPanelRight := "TPathPanel2"
     }
 
@@ -1061,7 +1071,7 @@ NewFileOK:
 return
 NewFileOK()
 {
-    GuiControlGet, SrcPath, , Edit1
+    GuiControlGet, SrcPath, , %TCEdit%
     GuiControlGet, NewFileName, , Edit2
     ClipSaved := ClipboardAll
     Clipboard :=
@@ -1490,7 +1500,7 @@ return
 Totalcomander_select_tcdir()
 {
     FileSelectFolder, tcdir, , 0, 打开TC安装目录
-    GuiControl, , Edit1, %tcdir%
+    GuiControl, , %TCEdit%, %tcdir%
 }
 
 ; 切换当前（纵向）窗口显示状态50%~100%"
