@@ -113,18 +113,18 @@
     vim.Comment("<TC_Mark>", "标记功能")
     vim.Comment("<TC_ForceDelete>", "强制删除")
     vim.Comment("<TC_ListMark>", "显示标记")
-    vim.Comment("<TC_Toggle_50_100Percent>", "切换当前窗口显示状态50%~100%")
-    vim.Comment("<TC_Toggle_50_100Percent_V>", "切换当前（纵向）窗口显示状态50%~100%")
+    vim.Comment("<TC_Toggle_50_100Percent>", "切换当前窗口显示状态 50% ~ 100% ")
+    vim.Comment("<TC_Toggle_50_100Percent_V>", "切换当前（纵向）窗口显示状态 50% ~ 100%")
     vim.Comment("<TC_WinMaxLeft>", "最大化左侧窗口")
     vim.Comment("<TC_WinMaxRight>", "最大化右侧窗口")
     vim.Comment("<TC_GoLastTab>", "切换到最后一个标签")
     vim.Comment("<TC_CopyNameOnly>", "只复制文件名，不含扩展名")
-    vim.Comment("<TC_GotoLine>", "移动到[count]行，默认第一行")
-    vim.Comment("<TC_LastLine>", "移动到[count]行，默认最后一行")
+    vim.Comment("<TC_GotoLine>", "移动到 [count] 行，默认第一行")
+    vim.Comment("<TC_LastLine>", "移动到 [count] 行，默认最后一行")
     vim.Comment("<TC_Half>", "移动到窗口中间行")
     vim.Comment("<TC_CreateNewFile>", "文件模板")
     vim.Comment("<TC_GoToParentEx>", "返回到上层文件夹，可返回到我的电脑")
-    vim.Comment("<TC_AlwayOnTop>", "设置TC顶置")
+    vim.Comment("<TC_AlwayOnTop>", "设置 TC 顶置")
     vim.Comment("<TC_OpenDriveThis>", "打开驱动器列表:本侧")
     vim.Comment("<TC_OpenDriveThat>", "打开驱动器列表:另侧")
     vim.Comment("<TC_MoveDirectoryHotlist>", "移动到常用文件夹")
@@ -134,9 +134,9 @@
     vim.Comment("<TC_SearchMode>", "连续搜索")
     vim.Comment("<TC_CopyUseQueues>", "无需确认，使用队列拷贝文件至另一窗口")
     vim.Comment("<TC_MoveUseQueues>", "无需确认，使用队列移动文件至另一窗口")
-    vim.Comment("<TC_ViewFileUnderCursor>", "使用查看器打开光标所在文件(shift+f3)")
-    vim.Comment("<TC_OpenWithAlternateViewer>", "使用外部查看器打开(alt+f3)")
-    vim.Comment("<TC_ToggleShowInfo>", "显示/隐藏 按键提示")
+    vim.Comment("<TC_ViewFileUnderCursor>", "使用查看器打开光标所在文件（shift + f3）")
+    vim.Comment("<TC_OpenWithAlternateViewer>", "使用外部查看器打开（alt + f3）")
+    vim.Comment("<TC_ToggleShowInfo>", "显示/隐藏: 按键提示")
     vim.Comment("<TC_ToggleMenu>", "显示/隐藏: 菜单栏")
     vim.Comment("<TC_SuperReturn>", "同回车键，但定位到第一个文件")
     vim.Comment("<TC_FileCopyForBak>", "将当前光标下的文件复制一份作为作为备份")
@@ -150,18 +150,19 @@
     vim.Comment("<TC_CreateFileShortcut>", "创建当前光标下文件的快捷方式")
     vim.Comment("<TC_CreateFileShortcutToDesktop>", "创建当前光标下文件的快捷方式并发送到桌面")
     vim.Comment("<TC_CreateFileShortcutToStartup>", "创建当前光标下文件的快捷方式并发送到启动文件里")
-    vim.Comment("<TC_FilterSearchFNsuffix_exe>", "在当前目录里快速过滤exe扩展名的文件")
+    vim.Comment("<TC_FilterSearchFNsuffix_exe>", "在当前目录里快速过滤 exe 扩展名的文件")
     vim.Comment("<TC_TwoFileExchangeName>", "两个文件互换文件名")
     vim.Comment("<TC_SelectCmd>", "选择命令来执行")
     vim.Comment("<TC_MarkFile>", "标记文件，将文件注释改成m")
     vim.Comment("<TC_UnMarkFile>", "取消文件标记，将文件注释清空")
-    vim.Comment("<TC_ClearTitle>", "将TC标题栏字符串设置为空")
+    vim.Comment("<TC_ClearTitle>", "将 TC 标题栏字符串设置为空")
     vim.Comment("<TC_ReOpenTab>", "重新打开之前关闭的标签页")
     vim.Comment("<TC_OpenDirsInFile>", "将光标所在的文件内容中的文件夹在新标签页依次打开")
     vim.Comment("<TC_CreateBlankFile>", "创建空文件")
     vim.Comment("<TC_CreateBlankFileNoExt>", "创建无扩展名空文件")
     vim.Comment("<TC_PasteFileEx>", "粘贴文件，如果光标下为目录则粘贴进该目录")
     vim.Comment("<TC_ThumbsView>", "缩略图试图，并且修改 h 和 l 为方向键")
+    vim.Comment("<TC_Restart>", "重启 TC")
 
     GoSub, TCCOMMAND
 
@@ -1979,6 +1980,21 @@ FixTCEditId()
         TCEdit := "Edit2"
     }
 }
+
+<TC_Restart>:
+    WinClose, AHK_CLASS TTOTAL_CMD
+
+    Loop, 4
+    {
+        Sleep, 50
+        Run, %TCPath%
+        IfWinNotActive, AHK_CLASS TTOTAL_CMD
+            WinActivate, AHK_CLASS TTOTAL_CMD
+        else
+            Break
+        Sleep, 100
+    }
+return
 
 
 ; ADD HERE
