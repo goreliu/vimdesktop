@@ -54,7 +54,6 @@
 
         Global TCListBox := "LCLListBox"
         ; 64 位的下方命令编辑框的 id 不固定，可能是 Edit1 或者 Edit2
-        ; 如果使用过了文件重命名，则是 Edit2，否则是 Edit1
         Global TCEdit := "Edit1"
         Global TInEdit := "Edit1"
         GLobal TCPanel1 := "Window1"
@@ -1970,13 +1969,14 @@ return
 
 FixTCEditId()
 {
-    if (TC64bit && TCEdit == "Edit1")
+    ControlGetText, Result, Edit2, ahk_class TTOTAL_CMD
+    if (ErrorLevel)
     {
-        ControlGetText, Result, Edit2, ahk_class TTOTAL_CMD
-        if (!ErrorLevel)
-        {
-            TCEdit := "Edit2"
-        }
+        TCEdit := "Edit1"
+    }
+    else
+    {
+        TCEdit := "Edit2"
     }
 }
 
