@@ -50,10 +50,12 @@
 
     if RegExMatch(TcPath, "i)totalcmd64\.exe$")
     {
+        Global TC64bit := True
+
         Global TCListBox := "LCLListBox"
         ; 64 位的下方命令编辑框的 id 不固定，可能是 Edit1 或者 Edit2
-        ; 如果使用过了文件重命名，则是 Edit2，没法判断
-        Global TCEdit := "Edit2"
+        ; 如果使用过了文件重命名，则是 Edit2，否则是 Edit1
+        Global TCEdit := "Edit1"
         Global TInEdit := "Edit1"
         GLobal TCPanel1 := "Window1"
         Global TCPanel2 := "Window11"
@@ -592,6 +594,12 @@ azHistorySelect()
     {
         ThisMenuItem := RegExReplace(A_ThisMenuItem, "\t.*$")
         ThisMenuItem := StrReplace(ThisMenuItem, ":＆:", "&")
+
+        if (TC64bit)
+        {
+            FixTCEditId()
+        }
+
         ControlSetText, %TCEdit%, cd %ThisMenuItem%, ahk_class TTOTAL_CMD
         ControlSend, %TCEdit%, {enter}, ahk_class TTOTAL_CMD
         ControlGetFocus, Ctrl, AHK_CLASS TTOTAL_CMD
@@ -728,6 +736,12 @@ TC_Mark()
     vim.mode("insert")
     GoSub, <cm_FocusCmdLine>
     ControlGet, EditId, Hwnd, , AHK_CLASS TTOTAL_CMD
+
+    if (TC64bit)
+    {
+        FixTCEditId()
+    }
+
     ControlSetText, %TCEdit%, m, AHK_CLASS TTOTAL_CMD
     Postmessage, 0xB1, 2, 2, %TCEdit%, AHK_CLASS TTOTAL_CMD
     SetTimer, <MarkTimer>, 100
@@ -738,6 +752,12 @@ return
 MarkTimer()
 {
     ControlGetFocus, ThisControl, AHK_CLASS TTOTAL_CMD
+
+    if (TC64bit)
+    {
+        FixTCEditId()
+    }
+
     ControlGetText, OutVar, %TCEdit%, AHK_CLASS TTOTAL_CMD
     Match_TCEdit := "i)^" . TCEdit . "$"
     if Not RegExMatch(ThisControl, Match_TCEdit) OR Not RegExMatch(Outvar, "i)^m.?")
@@ -834,6 +854,12 @@ AddMark()
         Postmessage 1075, 2127, 0, , ahk_class TTOTAL_CMD
         return
     }
+
+    if (TC64bit)
+    {
+        FixTCEditId()
+    }
+
     ControlSetText, %TCEdit%, cd %ThisMenuItem%, ahk_class TTOTAL_CMD
     ControlSend, %TCEdit%, {Enter}, ahk_class TTOTAL_CMD
     ControlGetFocus, Ctrl, AHK_CLASS TTOTAL_CMD
@@ -1071,7 +1097,7 @@ NewFileOK:
 return
 NewFileOK()
 {
-    GuiControlGet, SrcPath, , %TCEdit%
+    GuiControlGet, SrcPath, , Edit1
     GuiControlGet, NewFileName, , Edit2
     ClipSaved := ClipboardAll
     Clipboard :=
@@ -1500,7 +1526,8 @@ return
 Totalcomander_select_tcdir()
 {
     FileSelectFolder, tcdir, , 0, 打开TC安装目录
-    GuiControl, , %TCEdit%, %tcdir%
+
+    GuiControl, , Edit1, %tcdir%
 }
 
 ; 切换当前（纵向）窗口显示状态50%~100%"
@@ -1740,6 +1767,12 @@ Return
         FileMove, %dir%\%name_no_ext%.lnk, %USERPROFILE%\desktop\
 
         ; 如果不想打开桌面目录的话，注释以下4行
+
+        if (TC64bit)
+        {
+            FixTCEditId()
+        }
+
         ControlSetText, %TCEdit%, cd %USERPROFILE%\desktop\, ahk_class TTOTAL_CMD
         ControlSend, %TCEdit%, {enter}, ahk_class TTOTAL_CMD
         ControlGetFocus, Ctrl, AHK_CLASS TTOTAL_CMD
@@ -1757,6 +1790,11 @@ Return
         ; MsgBox, %Clipboard%
         FileCreateShortcut, %Clipboard%, %dir%\%name_no_ext%.lnk
         FileMove, %dir%\%name_no_ext%.lnk, %appdata%\Microsoft\Windows\Start Menu\Programs\Startup\
+
+        if (TC64bit)
+        {
+            FixTCEditId()
+        }
 
         ; 如果不想打开启动目录的话，注释以下4行
         ControlSetText, %TCEdit%, cd %appdata%\Microsoft\Windows\Start Menu\Programs\Startup\, ahk_class TTOTAL_CMD
@@ -1886,6 +1924,11 @@ return
 
 TC_Run(cmd)
 {
+    if (TC64bit)
+    {
+        FixTCEditId()
+    }
+
     ControlSetText, %TCEdit%, %cmd%, ahk_class TTOTAL_CMD
     ControlSend, %TCEdit%, {Enter}, ahk_class TTOTAL_CMD
 }
@@ -1924,6 +1967,19 @@ return
         vim.map("l", "<TC_SuperReturn>", "TTOTAL_CMD")
     }
 return
+
+FixTCEditId()
+{
+    if (TC64bit && TCEdit == "Edit1")
+    {
+        ControlGetText, Result, Edit2, ahk_class TTOTAL_CMD
+        if (!ErrorLevel)
+        {
+            TCEdit := "Edit2"
+        }
+    }
+}
+
 
 ; ADD HERE
 
