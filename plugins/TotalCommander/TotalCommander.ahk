@@ -1338,9 +1338,9 @@ LeftRight()
 ;<TC_OpenDriveThis>: >>打开驱动器列表:本侧{{{2
 <TC_OpenDriveThis>:
     ControlGetFocus, CurrentFocus, AHK_CLASS TTOTAL_CMD
-    if CurrentFocus not in TMyListBox2, TMyListBox1
+    if CurrentFocus not in %TCListBox%2, %TCListBox%1
         return
-    if CurrentFocus in TMyListBox2
+    if CurrentFocus in %TCListBox%2
         SendPos(131)
     else
         SendPos(231)
@@ -1349,9 +1349,9 @@ return
 ;<TC_OpenDriveThat>: >>打开驱动器列表:另侧{{{2
 <TC_OpenDriveThat>:
     ControlGetFocus, CurrentFocus, AHK_CLASS TTOTAL_CMD
-    if CurrentFocus not in TMyListBox2, TMyListBox1
+    if CurrentFocus not in %TCListBox%2, %TCListBox%1
         return
-    if CurrentFocus in TMyListBox2
+    if CurrentFocus in %TCListBox%2
         SendPos(231)
     else
         SendPos(131)
@@ -1360,12 +1360,12 @@ return
 ;<DirectoryHotlistother>: >>常用文件夹:另一侧{{{2
 <DirectoryHotlistother>:
     ControlGetFocus, CurrentFocus, AHK_CLASS TTOTAL_CMD
-    if CurrentFocus not in TMyListBox2, TMyListBox1
+    if CurrentFocus not in %TCListBox%2, %TCListBox%1
         return
-    if CurrentFocus in TMyListBox2
-        otherlist = TMyListBox1
+    if CurrentFocus in %TCListBox%2
+        otherlist = %TCListBox%1
     else
-        otherlist = TMyListBox2
+        otherlist = %TCListBox%2
     ControlFocus, %otherlist% , ahk_class TTOTAL_CMD
     SendPos(526)
     SetTimer WaitMenuPop3
@@ -1393,12 +1393,12 @@ return
 ;<TC_CopyDirectoryHotlist>: >>复制到常用文件夹{{{2
 <TC_CopyDirectoryHotlist>:
     ControlGetFocus, CurrentFocus, AHK_CLASS TTOTAL_CMD
-    if CurrentFocus not in TMyListBox2, TMyListBox1
+    if CurrentFocus not in %TCListBox%2, %TCListBox%1
         return
-    if CurrentFocus in TMyListBox2
-        otherlist = TMyListBox1
+    if CurrentFocus in %TCListBox%2
+        otherlist = %TCListBox%1
     else
-        otherlist = TMyListBox2
+        otherlist = %TCListBox%2
     ControlFocus, %otherlist% , ahk_class TTOTAL_CMD
     SendPos(526)
     SetTimer WaitMenuPop1
@@ -1441,12 +1441,12 @@ return
 <TC_MoveDirectoryHotlist>:
     if SendPos(0)
         ControlGetFocus, CurrentFocus, AHK_CLASS TTOTAL_CMD
-    if CurrentFocus not in TMyListBox2, TMyListBox1
+    if CurrentFocus not in %TCListBox%2, %TCListBox%1
         return
-    if CurrentFocus in TMyListBox2
-        otherlist = TMyListBox1
+    if CurrentFocus in %TCListBox%2
+        otherlist = %TCListBox%1
     else
-        otherlist = TMyListBox2
+        otherlist = %TCListBox%2
     ControlFocus, %otherlist% , ahk_class TTOTAL_CMD
     SendPos(526)
     SetTimer WaitMenuPop2
@@ -1532,9 +1532,9 @@ Totalcomander_select_tcdir()
 
 ; 切换当前（纵向）窗口显示状态50%~100%"
 <TC_Toggle_50_100Percent>:
-    ControlGetPos, , , wp, hp, TPanel1, ahk_class TTOTAL_CMD
-    ControlGetPos, , , w1, h1, TMyListBox1, ahk_class TTOTAL_CMD
-    ControlGetPos, , , w2, h2, TMyListBox2, ahk_class TTOTAL_CMD
+    ControlGetPos, , , wp, hp, %TCPanel1%, ahk_class TTOTAL_CMD
+    ControlGetPos, , , w1, h1, %TCListBox%1, ahk_class TTOTAL_CMD
+    ControlGetPos, , , w2, h2, %TCListBox%2, ahk_class TTOTAL_CMD
     if (wp < hp)
     {
         ;纵向
@@ -1556,9 +1556,9 @@ return
 ; 切换当前（纵向）窗口显示状态50%~100%"
 ; 横向分割的窗口使用 TC_Toggle_50_100Percent 即可
 <TC_Toggle_50_100Percent_V>:
-    ControlGetPos, , , wp, hp, TPanel1, ahk_class TTOTAL_CMD
-    ControlGetPos, , , w1, h1, TMyListBox1, ahk_class TTOTAL_CMD
-    ControlGetPos, , , w2, h2, TMyListBox2, ahk_class TTOTAL_CMD
+    ControlGetPos, , , wp, hp, %TCPanel1%, ahk_class TTOTAL_CMD
+    ControlGetPos, , , w1, h1, %TCListBox%1, ahk_class TTOTAL_CMD
+    ControlGetPos, , , w2, h2, %TCListBox%2, ahk_class TTOTAL_CMD
     if (wp < hp)  ;纵向
     {
         if (abs(w1 - w2) > 2)
@@ -1986,13 +1986,13 @@ FixTCEditId()
 
     Loop, 4
     {
-        Sleep, 50
+        Sleep, 100
         Run, %TCPath%
+        Sleep, 50
         IfWinNotActive, AHK_CLASS TTOTAL_CMD
             WinActivate, AHK_CLASS TTOTAL_CMD
         else
             Break
-        Sleep, 100
     }
 return
 
