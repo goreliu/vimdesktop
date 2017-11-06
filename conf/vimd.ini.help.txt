@@ -57,7 +57,6 @@ TCDialog=1
 TCCompare=1
 BeyondCompare4=1
 Foobar2000=1
-WizNote=0
 VimDConfig=1
 MicrosoftExcel=1
 Explorer=1
