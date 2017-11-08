@@ -828,6 +828,7 @@ Class __vim
             if RegExMatch(key, "i)^A\-(.*)", m)
                 return ToSend ? "!" this.CheckToSend(m1) : "!" m1
             if RegExMatch(key, "i)^LA\-(.*)", m)
+                ; 这里有问题，先不处理
                 return ToSend ? "<!" this.CheckToSend(m1) : "<!" m1
             if RegExMatch(key, "i)^RA\-(.*)", m)
                 return ToSend ? ">!" this.CheckToSend(m1) : ">!" m1
