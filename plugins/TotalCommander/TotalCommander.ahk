@@ -226,7 +226,7 @@
     vim.map("d", "<cm_DirectoryHotlist>", "TTOTAL_CMD")
     vim.map("D", "<cm_OpenDesktop>", "TTOTAL_CMD")
     vim.map("e", "<cm_ContextMenu>", "TTOTAL_CMD")
-    vim.map("E", "<cm_ExeCuteDOS>", "TTOTAL_CMD")
+    vim.map("E", "<cm_ExecuteDOS>", "TTOTAL_CMD")
     vim.map("n", "<TC_azHistory>", "TTOTAL_CMD")
     vim.map("m", "<TC_Mark>", "TTOTAL_CMD")
     vim.map("M", "<TC_Half>", "TTOTAL_CMD")

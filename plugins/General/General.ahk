@@ -941,7 +941,7 @@ return
 return
 
 <SearchInWeb>:
-    Run, https://www.baidu.com/s?wd=%clipboard%
+    Run, https://www.baidu.com/s?wd=%Clipboard%
 return
 
 <Test>:
@@ -1049,6 +1049,26 @@ return
     }
 
     Run, "%RunZPath%"
+return
+
+<AppendClipboard>:
+    OldClipboard := Clipboard
+    Clipboard =
+    Send, ^c
+    ClipWait, 2
+    Clipboard := OldClipboard . Clipboard
+return
+
+<OpenBaiduNetdiskLink>:
+    Clipboard =
+    Send, ^c
+    ClipWait, 1
+
+    Result := StrSplit(StrReplace(StrReplace(Clipboard, "链接："), "密码："), " ")
+    Run, % Result[1]
+    Sleep, 1500
+    Send, % Result[2]
+    Send, {Enter}
 return
 
 ClickContextMenu(key)
