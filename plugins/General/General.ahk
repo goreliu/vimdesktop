@@ -1064,9 +1064,9 @@ return
     Send, ^c
     ClipWait, 1
 
-    Result := StrSplit(StrReplace(StrReplace(Clipboard, "链接："), "密码："), " ")
+    Result := StrSplit(RegExReplace(Clipboard, "(链接：|密码：|提取)"), " ")
     Run, % Result[1]
-    Sleep, 1500
+    Sleep, 2000
     Send, % Result[2]
     Send, {Enter}
 return
