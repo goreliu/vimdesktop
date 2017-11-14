@@ -1,5 +1,6 @@
 ﻿#NoEnv
 #SingleInstance, Force
+#MaxHotkeysPerInterval 200
 
 CoordMode, Tooltip, Screen
 CoordMode, Mouse, Screen
