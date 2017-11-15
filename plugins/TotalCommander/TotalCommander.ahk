@@ -1958,6 +1958,10 @@ return
 <TC_ThumbsView>:
     GoSub, <cm_SrcThumbs>
 
+    GoSub, <TC_ThumbsViewSwitchKey>
+return
+
+<TC_ThumbsViewSwitchKey>:
     InThumbsView := !(InThumbsView)
     if (InThumbsView) {
         vim.map("h", "<left>", "TTOTAL_CMD")
