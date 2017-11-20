@@ -3,6 +3,9 @@
 ~LWin Up::
     return
 
+~LAlt Up::
+    return
+
 <MY_OpenChrome>:
     if (!WinExist("ahk_class Chrome_WidgetWin_1"))
     {
