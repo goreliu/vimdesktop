@@ -1,7 +1,7 @@
 ﻿; 我自己使用的文件，放在这里为了避免丢失，会从发布包删除
 
-~LWin Up::
-    return
+;~LWin Up::
+;    return
 
 ~LAlt Up::
     return
