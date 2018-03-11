@@ -35,6 +35,7 @@ return
 #Include %A_ScriptDir%\lib\ini.ahk
 #Include %A_ScriptDir%\lib\gdip.ahk
 #Include %A_ScriptDir%\lib\Logger.ahk
+#Include %A_ScriptDir%\lib\InputColor.ahk
 #Include %A_ScriptDir%\plugins\plugins.ahk
 ; 用户自定义配置
 #Include *i %A_ScriptDir%\custom.ahk
