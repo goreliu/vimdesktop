@@ -7,6 +7,11 @@ global VIMD_CMD_LIST
 
 VimdRun()
 {
+    if (IsFunc("CustomInit"))
+    {
+        CustomInit()
+    }
+
     ConfigPath := A_ScriptDir "\conf\vimd.ini"
     IniRead, CustomConfigPath, %ConfigPath%, config, custom_config_path
     if (FileExist(A_ScriptDir "\conf\" CustomConfigPath))
