@@ -7,7 +7,7 @@ CoordMode, Mouse, Screen
 Coordmode, Menu, Window
 SetControlDelay, -1
 SetKeyDelay, -1
-Detecthiddenwindows, on
+;Detecthiddenwindows, on
 FileEncoding, utf-8
 SendMode Input
 
