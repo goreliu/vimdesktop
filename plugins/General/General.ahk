@@ -274,7 +274,7 @@ FullScreen() {
         WinSet, Style, ^0xC40000, ahk_id %WindowID%
         WinMove, ahk_id %WindowID%, , 0, 0, A_ScreenWidth, A_ScreenHeight
         WindowState := 1 ", " WinPosX ", " WinPosY ", " WindowWidth ", " WindowHeight
-        ;Msgbox 再按一下刚刚的热键退出全屏
+        ;MsgBox 再按一下刚刚的热键退出全屏
     }
     FullScreenID[windowID] := WindowState
 }
@@ -1077,3 +1077,10 @@ ClickContextMenu(key)
     WinWait, ahk_class #32768
     Send, %key%
 }
+
+<RunAhkInClipboard>:
+    tmp_file := A_Temp "\tmpcode.ahk"
+    FileDelete, %tmp_file%
+    FileAppend, %Clipboard%, %tmp_file%
+    Run, %A_ScriptDir%\vimd.exe %tmp_file%
+return
