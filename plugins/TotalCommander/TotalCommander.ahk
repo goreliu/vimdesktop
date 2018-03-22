@@ -1641,28 +1641,8 @@ return
 return
 
 <TC_SuperReturn>:
-    ControlGetText, old_pwd_left, %TCPathPanel%, AHK_CLASS TTOTAL_CMD
-    ControlGetText, old_pwd_right, %TCPathPanelRight%, AHK_CLASS TTOTAL_CMD
     GoSub, <cm_Return>
-
-    Loop, 5
-    {
-        ControlGetText, new_pwd_left, %TCPathPanel%, AHK_CLASS TTOTAL_CMD
-        ControlGetText, new_pwd_right, %TCPathPanelRight%, AHK_CLASS TTOTAL_CMD
-
-        if (old_pwd_left != new_pwd_left || old_pwd_right != new_pwd_right)
-        {
-            Send, {down}
-            /*
-            ControlGetFocus, Ctrl, AHK_CLASS TTOTAL_CMD
-            Postmessage, 0x19E, 1, 1, %Ctrl%, AHK_CLASS TTOTAL_CMD
-            */
-
-            return
-        }
-
-        sleep, 10
-    }
+    GoSub, <cm_GoToFirstEntry>
 return
 
 ;<TC_FileCopyForBak>: >>将当前光标下的文件复制一份作为作为备份
@@ -2249,6 +2229,7 @@ TCCOMMAND:
     vim.Comment("<cm_TransferRight>", "在右窗口打开光标处的文件夹或压缩包")
     vim.Comment("<cm_EditPath>", "编辑来源窗口的路径")
     vim.Comment("<cm_GoToFirstFile>", "光标移到列表中的第一个文件")
+    vim.Comment("<cm_GoToFirstEntry>", "光标移到列表中的第一个文件或目录")
     vim.Comment("<cm_GotoNextDrive>", "转到下一个驱动器")
     vim.Comment("<cm_GotoPreviousDrive>", "转到上一个驱动器")
     vim.Comment("<cm_GotoNextSelected>", "转到下一个选中的文件")
@@ -4333,4 +4314,8 @@ return
 ;<cm_ContentStopLoadFields>: >>停止后台加载备注{{{2
 <cm_ContentStopLoadFields>:
     SendPos(5514)
+return
+;<cm_GoToFirstEntry>: >>光标移到列表中的第一个文件或目录{{{2
+<cm_GoToFirstEntry>:
+    SendPos(2049)
 return
