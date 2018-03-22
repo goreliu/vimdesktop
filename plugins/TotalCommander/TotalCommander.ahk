@@ -1641,8 +1641,24 @@ return
 return
 
 <TC_SuperReturn>:
+    ControlGetText, old_pwd_left, %TCPathPanel%, AHK_CLASS TTOTAL_CMD
+    ControlGetText, old_pwd_right, %TCPathPanelRight%, AHK_CLASS TTOTAL_CMD
+
     GoSub, <cm_Return>
-    GoSub, <cm_GoToFirstEntry>
+
+    Loop, 5
+    {
+        ControlGetText, new_pwd_left, %TCPathPanel%, AHK_CLASS TTOTAL_CMD
+        ControlGetText, new_pwd_right, %TCPathPanelRight%, AHK_CLASS TTOTAL_CMD
+
+        if (old_pwd_left != new_pwd_left || old_pwd_right != new_pwd_right)
+        {
+            GoSub, <cm_GoToFirstEntry>
+            return
+        }
+
+        Sleep, 10
+    }
 return
 
 ;<TC_FileCopyForBak>: >>将当前光标下的文件复制一份作为作为备份
