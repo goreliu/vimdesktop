@@ -2445,6 +2445,8 @@ TCCOMMAND:
     vim.Comment("<cm_LoadAllOnDemandFields>", "所有文件都按需加载备注")
     vim.Comment("<cm_LoadSelOnDemandFields>", "仅选中的文件按需加载备注")
     vim.Comment("<cm_ContentStopLoadFields>", "停止后台加载备注")
+    vim.Comment("<cm_FocusSrc>", "光标切换至源面板")
+    vim.Comment("<cm_FocusTrg>", "光标切换至目标面板")
 return
 SendPos(Number)
 {
@@ -4318,4 +4320,12 @@ return
 ;<cm_GoToFirstEntry>: >>光标移到列表中的第一个文件或目录{{{2
 <cm_GoToFirstEntry>:
     SendPos(2049)
+return
+;<cm_FocusSrc>: >>光标切换至源面板{{{2
+<cm_FocusSrc>:
+    SendPos(4005)
+return
+;<cm_FocusTrg>: >>光标切换至目标面板{{{2
+<cm_FocusTrg>:
+    SendPos(4006)
 return
