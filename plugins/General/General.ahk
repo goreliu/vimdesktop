@@ -1084,3 +1084,7 @@ ClickContextMenu(key)
     FileAppend, %Clipboard%, %tmp_file%
     Run, %A_ScriptDir%\vimd.exe %tmp_file%
 return
+
+<SuspendMachine>:
+    DllCall("PowrProf\SetSuspendState", "int", 0, "int", 0, "int", 0)
+return
