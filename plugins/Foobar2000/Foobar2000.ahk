@@ -4,18 +4,10 @@
     global Foobar2000_exe := "Foobar2000.exe"
     global Foobar2000_list_classnn := "{4B94B650-C2D8-40de-A0AD-E8FADF62D56C}1"
 
-    ;vim.comment("<Foobar2000_NormalMode>", "进入normal模式")
-    ;vim.comment("<Foobar2000_InsertMode>", "进入insert模式")
     vim.comment("<Foobar2000_Search>", "打开搜索窗口")
     vim.comment("<Foobar2000_Tree>", "定位到目录窗口")
     vim.comment("<Foobar2000_List>", "定位到播放列表")
     vim.comment("<Foobar2000_ToggleShowInfo>", "显示/隐藏 按键提示")
-
-    /*
-    ; insert模式
-    vim.mode("insert", Foobar2000_name)
-    vim.map("<esc>", "<Foobar2000_NormalMode>", Foobar2000_name)
-    */
 
     ; normal模式
     vim.SetWin(Foobar2000_name, Foobar2000_class, Foobar2000_exe)
@@ -66,20 +58,6 @@ Foobar2000_ForceInsertMode()
         return true
     return false
 }
-
-/*
-<Foobar2000_NormalMode>:
-    DisplayMode(Foobar2000_name, "normal")
-
-    vim.mode("normal", Foobar2000_name)
-return
-
-<Foobar2000_InsertMode>:
-    DisplayMode(Foobar2000_name, "insert")
-
-    vim.mode("insert", Foobar2000_name)
-return
-*/
 
 <Foobar2000_Search>:
     send ^f

@@ -54,7 +54,7 @@ VimdRun()
 
 CheckPlugin()
 {
-	ExtensionsAHK := A_ScriptDir "\plugins\plugins.ahk"
+    ExtensionsAHK := A_ScriptDir "\plugins\plugins.ahk"
 
     ; 检测是否有新增插件
     Loop, %A_ScriptDir%\plugins\*, 2, 0
@@ -64,21 +64,21 @@ CheckPlugin()
         {
             MsgBox, 发现新插件 %A_LoopFileName%，将自动加载该插件
 
-			Filedelete, %ExtensionsAHK%
+            Filedelete, %ExtensionsAHK%
 
-			Loop, %A_ScriptDir%\plugins\*.*, 2
-				plugins .=  "#include *i `%A_ScriptDir`%\plugins\" A_LoopFileName "\" A_LoopFileName ".ahk`n"
-			FileAppend, %plugins%, %ExtensionsAHK%
+            Loop, %A_ScriptDir%\plugins\*.*, 2
+                plugins .=  "#include *i `%A_ScriptDir`%\plugins\" A_LoopFileName "\" A_LoopFileName ".ahk`n"
+            FileAppend, %plugins%, %ExtensionsAHK%
 
-			SaveTime := "/*`r`n[ExtensionsTime]`r`n"
-			Loop, %A_ScriptDir%\plugins\*.*, 2
-			{
-				plugin :=  A_ScriptDir "\plugins\" A_LoopFileName "\" A_LoopFileName ".ahk"
-				FileGetTime, ExtensionsTime, %plugin%, M
-				SaveTime .= A_LoopFileName "=" ExtensionsTime "`r`n"
-			}
-			SaveTime .= "*/`r`n"
-			FileAppend, %SaveTime%, %ExtensionsAHK%
+            SaveTime := "/*`r`n[ExtensionsTime]`r`n"
+            Loop, %A_ScriptDir%\plugins\*.*, 2
+            {
+                plugin :=  A_ScriptDir "\plugins\" A_LoopFileName "\" A_LoopFileName ".ahk"
+                FileGetTime, ExtensionsTime, %plugin%, M
+                SaveTime .= A_LoopFileName "=" ExtensionsTime "`r`n"
+            }
+            SaveTime .= "*/`r`n"
+            FileAppend, %SaveTime%, %ExtensionsAHK%
 
             IniWrite, 1, %ConfigPath%, plugins, %A_LoopFileName%
             Reload
