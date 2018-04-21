@@ -31,9 +31,8 @@ return
 #Include %A_ScriptDir%\core\class_vim.ahk
 #Include %A_ScriptDir%\core\VimDConfig.ahk
 #Include %A_ScriptDir%\lib\class_EasyINI.ahk
-#Include %A_ScriptDir%\lib\acc.ahk
-#Include %A_ScriptDir%\lib\ini.ahk
-#Include %A_ScriptDir%\lib\gdip.ahk
+#Include %A_ScriptDir%\lib\Acc.ahk
+#Include %A_ScriptDir%\lib\GDIP.ahk
 #Include %A_ScriptDir%\lib\Logger.ahk
 #Include %A_ScriptDir%\plugins\plugins.ahk
 ; 用户自定义配置
