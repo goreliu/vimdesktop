@@ -2337,3 +2337,5 @@ return
 
     return
 }
+
+#Include %A_ScriptDir%\plugins\MicrosoftExcel\InputColor.ahk
