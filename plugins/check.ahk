@@ -23,37 +23,4 @@ Loop, %A_ScriptDir%\*.*, 2
 }
 SaveTime .= "*/`r`n"
 FileAppend, %SaveTime%, %ExtensionsAHK%
-FileRead, Extensions, %ExtensionsAHK%
-Send_WM_COPYDATA("reload")
 Exit
-
-Send_WM_COPYDATA(StringToSend)
-{
-    VarSetCapacity(CopyDataStruct, 3*A_PtrSize, 0)
-    SizeInBytes := (StrLen(StringToSend) + 1) * (A_IsUnicode ? 2 : 1)
-    NumPut(SizeInBytes, CopyDataStruct, A_PtrSize)
-    NumPut(&StringToSend, CopyDataStruct, 2*A_PtrSize)
-    Prev_DetectHiddenWindows := A_DetectHiddenWindows
-    Prev_TitleMatchMode := A_TitleMatchMode
-    DetectHiddenWindows On
-    SetTitleMatchMode 2
-    iniRead, hwnd, %A_Temp%\vimd_auto.ini, auto, hwnd
-    SendMessage, 0x4a, 0, &CopyDataStruct, , ahk_id %hwnd%
-    DetectHiddenWindows %Prev_DetectHiddenWindows%
-    SetTitleMatchMode %Prev_TitleMatchMode%
-    return ErrorLevel
-}
-
-ToMatch(str)
-{
-    str := RegExReplace(str, "\+|\?|\.|\*|\{|\}|\(|\)|\||\^|\$|\[|\]|\\", "\$0")
-    Return RegExReplace(str, "\s", "\s")
-}
-
-ToReplace(str)
-{
-    If RegExMatch(str, "\$")
-        return Regexreplace(str, "\$", "$$$$")
-    Else
-        Return str
-}

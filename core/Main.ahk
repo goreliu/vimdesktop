@@ -22,9 +22,6 @@ VimdRun()
     vim := class_vim()
     VIMD_CMD_LIST := []
 
-    ; 给 check.ahk 使用
-    IniWrite, %A_ScriptHwnd%, %A_Temp%\vimd_auto.ini, auto, hwnd
-
     if (!FileExist(ConfigPath))
     {
         FileCopy, %A_ScriptDir%\conf\vimd.ini.help.txt, %ConfigPath%
@@ -50,9 +47,6 @@ VimdRun()
 
     CheckPlugin()
     CheckHotKey()
-
-    ; 用于接收来自 cehck.ahk 的信息
-    OnMessage(0x4a, "ReceiveWMCopyData")
 
     ; 定时检查配置文件更新
     SetTimer, WatchConfigFile, 2000
@@ -203,19 +197,6 @@ VIMD_CMD()
     }
 }
 
-ReceiveWMCopyData(wParam, lParam)
-{
-    ; 获取 CopyDataStruct 的 lpData 成员.
-    StringAddress := NumGet(lParam + 2 * A_PtrSize)
-    ; 从结构中复制字符串.
-    AHKReturn := StrGet(StringAddress)
-    if RegExMatch(AHKReturn, "i)reload")
-    {
-        Settimer, VIMD_Reload, 500
-        return true
-    }
-}
-
 VIMD_Reload:
     Reload
 return
@@ -229,20 +210,3 @@ WatchConfigFile:
     }
     lastConfigFileModifyTime := newConfigFileModifyTime
 return
-
-/*
-RunAsAdmin()
-{
-    local params, uacrep
-    Loop %0%
-        params .= " " (InStr(%A_Index%, " ") ? """" %A_Index% """" : %A_Index%)
-    if(A_IsCompiled)
-        uacrep := DllCall("shell32\ShellExecute", uint, 0, str, "RunAs", str, A_ScriptFullPath, str, "/r" params, str, A_WorkingDir, int, 1)
-    else
-        uacrep := DllCall("shell32\ShellExecute", uint, 0, str, "RunAs", str, A_AhkPath, str, "/r """ A_ScriptFullPath """" params, str, A_WorkingDir, int, 1)
-    if(uacrep = 42) ;UAC Prompt confirmed, application may run as admin
-        ExitApp
-    else
-        MsgBox 未能获取管理员权限，这可能导致部分功能无法运行。
-}
-*/
