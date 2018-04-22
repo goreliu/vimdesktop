@@ -1096,3 +1096,7 @@ return
 <CancelAlwaysOnTop>:
     WinSet, AlwaysOnTop, off, A
 return
+
+<ToggleTitleBar>:
+    WinSet, Style, ^0xC40000, A
+return
