@@ -1092,3 +1092,7 @@ return
 <AlwaysOnTop>:
     WinSet, AlwaysOnTop, on, A
 return
+
+<CancelAlwaysOnTop>:
+    WinSet, AlwaysOnTop, off, A
+return
