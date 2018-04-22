@@ -1088,3 +1088,7 @@ return
 <SuspendMachine>:
     DllCall("PowrProf\SetSuspendState", "int", 0, "int", 0, "int", 0)
 return
+
+<AlwaysOnTop>:
+    WinSet, AlwaysOnTop, on, A
+return
