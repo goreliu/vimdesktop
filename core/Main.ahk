@@ -7,10 +7,10 @@ global VIMD_CMD_LIST
 
 VimdRun()
 {
-	CustomInit := "CustomInit"
+    CustomInit := "CustomInit"
     if (IsLabel(CustomInit))
     {
-		GoSub, %CustomInit%
+        GoSub, %CustomInit%
     }
 
     ConfigPath := A_ScriptDir "\conf\vimd.ini"
