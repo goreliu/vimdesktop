@@ -163,6 +163,8 @@
     vim.Comment("<TC_PasteFileEx>", "粘贴文件，如果光标下为目录则粘贴进该目录")
     vim.Comment("<TC_ThumbsView>", "缩略图试图，并且修改 h 和 l 为方向键")
     vim.Comment("<TC_Restart>", "重启 TC")
+    vim.Comment("<TC_PreviousParallelDir>", "切换到上一个同级目录")
+    vim.Comment("<TC_NextParallelDir>", "切换到下一个同级目录")
 
     GoSub, TCCOMMAND
 
@@ -1963,7 +1965,7 @@ return
         vim.map("h", "<left>", "TTOTAL_CMD")
         vim.map("l", "<right>", "TTOTAL_CMD")
     } else {
-        vim.map("h", "<TC_GoToParentEx>", "TTOTAL_CMD")
+        vim.map("h", "<cm_GoToParent>", "TTOTAL_CMD")
         vim.map("l", "<TC_SuperReturn>", "TTOTAL_CMD")
     }
 return
@@ -1997,15 +1999,109 @@ FixTCEditId()
 return
 
 <TC_PreviousParallelDir>:
-    GoSub, <TC_GoToParentEx>
+    ControlGetText, old_pwd_left, %TCPathPanel%, AHK_CLASS TTOTAL_CMD
+    ControlGetText, old_pwd_right, %TCPathPanelRight%, AHK_CLASS TTOTAL_CMD
+
+    pwd_left := old_pwd_left
+    pwd_right := old_pwd_right
+
+    GoSub, <cm_GoToParent>
+
+    ControlGetText, new_pwd_left, %TCPathPanel%, AHK_CLASS TTOTAL_CMD
+    ControlGetText, new_pwd_right, %TCPathPanelRight%, AHK_CLASS TTOTAL_CMD
+
+    if (old_pwd_left == new_pwd_left && old_pwd_right == new_pwd_right) {
+        GoSub, <cm_GotoPreviousDrive>
+        GoSub, <cm_GoToFirstEntry>
+        return
+    }
+
     Send, {up}
-    GoSub, <TC_SuperReturn>
+
+    old_pwd_left := new_pwd_left
+    old_pwd_right := new_pwd_right
+
+    GoSub, <cm_GoToDir>
+
+    is_dir := False
+
+    Loop, 5
+    {
+        ControlGetText, new_pwd_left, %TCPathPanel%, AHK_CLASS TTOTAL_CMD
+        ControlGetText, new_pwd_right, %TCPathPanelRight%, AHK_CLASS TTOTAL_CMD
+
+        if (old_pwd_left != new_pwd_left || old_pwd_right != new_pwd_right)
+        {
+            ; 通过 .. 返回了上层目录
+            if (StrLen(old_pwd_left) > StrLen(new_pwd_left) `
+                || new_pwd_left == "\\此电脑\*.*" && old_pwd_left != new_pwd_left)
+            {
+                TC_Run("cd " StrReplace(pwd_left, "*.*"))
+            }
+            else if (StrLen(old_pwd_right) > StrLen(new_pwd_right) `
+                || new_pwd_right == "\\此电脑\*.*" && old_pwd_right != new_pwd_right)
+            {
+                TC_Run("cd " StrReplace(pwd_right, "*.*"))
+            }
+
+            GoSub, <cm_GoToFirstEntry>
+
+            return
+        }
+
+        Sleep, 10
+    }
+
+    if (!is_dir)
+    {
+        Send, {down}
+        GoSub, <cm_GoToDir>
+    }
 return
 
 <TC_NextParallelDir>:
-    GoSub, <TC_GoToParentEx>
+    ControlGetText, old_pwd_left, %TCPathPanel%, AHK_CLASS TTOTAL_CMD
+    ControlGetText, old_pwd_right, %TCPathPanelRight%, AHK_CLASS TTOTAL_CMD
+
+    GoSub, <cm_GoToParent>
+
+    ControlGetText, new_pwd_left, %TCPathPanel%, AHK_CLASS TTOTAL_CMD
+    ControlGetText, new_pwd_right, %TCPathPanelRight%, AHK_CLASS TTOTAL_CMD
+
+    if (old_pwd_left == new_pwd_left && old_pwd_right == new_pwd_right) {
+        GoSub, <cm_GotoNextDrive>
+        GoSub, <cm_GoToFirstEntry>
+        return
+    }
+
     Send, {down}
-    GoSub, <TC_SuperReturn>
+
+    ControlGetText, old_pwd_left, %TCPathPanel%, AHK_CLASS TTOTAL_CMD
+    ControlGetText, old_pwd_right, %TCPathPanelRight%, AHK_CLASS TTOTAL_CMD
+
+    GoSub, <cm_GoToDir>
+
+    is_dir := False
+
+    Loop, 5
+    {
+        ControlGetText, new_pwd_left, %TCPathPanel%, AHK_CLASS TTOTAL_CMD
+        ControlGetText, new_pwd_right, %TCPathPanelRight%, AHK_CLASS TTOTAL_CMD
+
+        if (old_pwd_left != new_pwd_left || old_pwd_right != new_pwd_right)
+        {
+            GoSub, <cm_GoToFirstEntry>
+            return
+        }
+
+        Sleep, 10
+    }
+
+    if (!is_dir)
+    {
+        Send, {up}
+        GoSub, <cm_GoToDir>
+    }
 return
 
 ; ADD HERE
