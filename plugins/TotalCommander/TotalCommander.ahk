@@ -1996,9 +1996,19 @@ FixTCEditId()
     }
 return
 
+<TC_PreviousParallelDir>:
+    GoSub, <TC_GoToParentEx>
+    Send, {up}
+    GoSub, <TC_SuperReturn>
+return
+
+<TC_NextParallelDir>:
+    GoSub, <TC_GoToParentEx>
+    Send, {down}
+    GoSub, <TC_SuperReturn>
+return
 
 ; ADD HERE
-
 
 
 ; TC自带命令 {{{1
