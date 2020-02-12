@@ -2023,8 +2023,6 @@ return
 
     GoSub, <cm_GoToDir>
 
-    is_dir := False
-
     Loop, 5
     {
         ControlGetText, new_pwd_left, %TCPathPanel%, AHK_CLASS TTOTAL_CMD
@@ -2050,12 +2048,6 @@ return
         }
 
         Sleep, 10
-    }
-
-    if (!is_dir)
-    {
-        Send, {down}
-        GoSub, <cm_GoToDir>
     }
 return
 
@@ -2101,6 +2093,7 @@ return
     {
         Send, {up}
         GoSub, <cm_GoToDir>
+        GoSub, <cm_GoToFirstEntry>
     }
 return
 
