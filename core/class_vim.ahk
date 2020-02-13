@@ -767,21 +767,21 @@ Class __vim
         if RegExMatch(key, "i)^rshift\s&\s(.*)", m) or RegExMatch(key, "^>\+(.*)", m)
             return "<RS-" this.Upper(m1) ">"
         if RegExMatch(key, "i)^Ctrl\s&\s(.*)", m) or RegExMatch(key, "^\^(.*)", m)
-            return "<C-" this.Upper(m1) ">"
+            return "<c-" m1 ">"
         if RegExMatch(key, "i)^lctrl\s&\s(.*)", m) or RegExMatch(key, "^<\^(.*)", m)
-            return "<LC-" this.Upper(m1) ">"
+            return "<lc-" m1 ">"
         if RegExMatch(key, "i)^rctrl\s&\s(.*)", m) or RegExMatch(key, "^>\^(.*)", m)
-            return "<RC-" this.Upper(m1) ">"
+            return "<rc-" m1 ">"
         if RegExMatch(key, "i)^alt\s&\s(.*)", m) or RegExMatch(key, "^\!(.*)", m)
-            return "<A-" this.Upper(m1) ">"
+            return "<a-" m1 ">"
         if RegExMatch(key, "i)^lalt\s&\s(.*)", m) or RegExMatch(key, "^<\!(.*)", m)
-            return "<LA-" this.Upper(m1) ">"
+            return "<la-" m1 ">"
         if RegExMatch(key, "i)^ralt\s&\s(.*)", m) or RegExMatch(key, "^>\!(.*)", m)
-            return "<RA-" this.Upper(m1) ">"
+            return "<ra-" m1 ">"
         if RegExMatch(key, "i)^lwin\s&\s(.*)", m) or RegExMatch(key, "^#(.*)", m)
-            return "<W-" this.Upper(m1) ">"
+            return "<w-" m1 ">"
         if RegExMatch(key, "i)^space\s&\s(.*)", m)
-            return "<SP-" this.Upper(m1) ">"
+            return "<sp-" m1 ">"
         if RegExMatch(key, "i)^alt$")
             return "<Alt>"
         if RegExMatch(key, "i)^ctrl$")
@@ -829,22 +829,23 @@ Class __vim
             if RegExMatch(key, "i)^S\-(.*)", m)
                 return ToSend ? "+" this.CheckToSend(m1) : "+" m1 
             if RegExMatch(key, "i)^LS\-(.*)", m)
-                return ToSend ? "<+" this.CheckToSend(m1) : "<+" m1
+                return ToSend ? "+" this.CheckToSend(m1) : "<+" m1
             if RegExMatch(key, "i)^RS-(.*)", m)
-                return ToSend ? ">+" this.CheckToSend(m1) : ">+" m1
+                return ToSend ? "+" this.CheckToSend(m1) : ">+" m1
             if RegExMatch(key, "i)^C\-(.*)", m)
                 return ToSend ? "^" this.CheckToSend(m1) : "^" m1
             if RegExMatch(key, "i)^LC\-(.*)", m)
-                return ToSend ? "<^" this.CheckToSend(m1) : "<^" m1
+                return ToSend ? "^" this.CheckToSend(m1) : "<^" m1
             if RegExMatch(key, "i)^RC\-(.*)", m)
-                return ToSend ? ">^" this.CheckToSend(m1) : ">^" m1
+                return ToSend ? "^" this.CheckToSend(m1) : ">^" m1
             if RegExMatch(key, "i)^A\-(.*)", m)
                 return ToSend ? "!" this.CheckToSend(m1) : "!" m1
             if RegExMatch(key, "i)^LA\-(.*)", m)
-                ; 这里有问题，先不处理
-                return ToSend ? "<!" this.CheckToSend(m1) : "<!" m1
+                ; 暂时先不区分左右键
+                return ToSend ? "!" this.CheckToSend(m1): "<!" m1
+                ;return ToSend ? "{lalt down}" this.CheckToSend(m1) "{lalt up}": "<!" m1
             if RegExMatch(key, "i)^RA\-(.*)", m)
-                return ToSend ? ">!" this.CheckToSend(m1) : ">!" m1
+                return ToSend ? "!" this.CheckToSend(m1) : ">!" m1
             if RegExMatch(key, "i)^w\-(.*)", m)
                 return ToSend ? "#" this.CheckToSend(m1) : "#" m1
             if RegExMatch(key, "i)^SP\-(.*)", m)
