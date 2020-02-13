@@ -134,7 +134,8 @@ CheckHotKey()
         }
 
         class_name := Key.set_class
-        if (class_name == "") {
+        if (class_name == "")
+        {
             class_name := PluginName
         }
 

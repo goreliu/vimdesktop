@@ -196,9 +196,22 @@ Class __vim
             rw := this.WinList[winName]
         else
             rw := this.WinList[winName] := new __win(class, filepath, title)
-        this.WinInfo["class`t"class]       := winName
-        this.WinInfo["filepath`t"filepath] := winName
-        this.WinInfo["title`t"title]       := winName
+
+        if (class != "")
+        {
+            this.WinInfo["class`t"class]       := winName
+        }
+
+        if (filepath != "")
+        {
+            this.WinInfo["filepath`t"filepath] := winName
+        }
+
+        if (title != "")
+        {
+            this.WinInfo["title`t"title]       := winName
+        }
+
         return rw
     }
 
