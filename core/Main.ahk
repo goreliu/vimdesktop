@@ -163,7 +163,7 @@ CheckHotKey()
                 */
 
                 vim.map(m, "VIMD_CMD", PluginName)
-                VIMD_CMD_LIST[class_name "#" m] := n
+                VIMD_CMD_LIST[PluginName "#" m] := n
             }
             else
             {
