@@ -665,7 +665,7 @@ Class __vim
             if strlen(actionName := modeObj.GetKeymap(winObj.LastKey))
             {
                 actObj := this.GetAction(actionName)
-                __vimLastAction := {"LastKey":k, "winName":winName, "ActionName":ActionName, "KeyTemp":winObj.KeyTemp, "Count":winObj.Count}
+                __vimLastAction := {"LastKey":k, "WinName":winName, "ActionName":ActionName, "KeyTemp":winObj.KeyTemp, "Count":winObj.Count}
                 actObj.Do(winObj.Count)
                 winObj.Count := 0
             }
@@ -697,7 +697,7 @@ Class __vim
         if act
         {
             winObj.HideMore()
-            __vimLastAction := {"LastKey":k, "winName":winName, "ActionName":ActionName, "KeyTemp":winObj.KeyTemp, "Count":winObj.Count}
+            __vimLastAction := {"LastKey":k, "WinName":winName, "ActionName":ActionName, "KeyTemp":winObj.KeyTemp, "Count":winObj.Count}
             act.Do(winObj.Count)
             winObj.Count := 0
             winObj.KeyTemp := ""

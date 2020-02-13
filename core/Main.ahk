@@ -133,6 +133,11 @@ CheckHotKey()
             win.SetInfo(true)
         }
 
+        class_name := Key.set_class
+        if (class_name == "") {
+            class_name := PluginName
+        }
+
         for m, n in Key
         {
             if RegExMatch(m, "i)(set_class)|(set_file)|(set_time_out)|(set_max_count)|(enable_show_info)")
@@ -157,7 +162,7 @@ CheckHotKey()
                 */
 
                 vim.map(m, "VIMD_CMD", PluginName)
-                VIMD_CMD_LIST[m] := n
+                VIMD_CMD_LIST[class_name "#" m] := n
             }
             else
             {
@@ -170,21 +175,28 @@ CheckHotKey()
 VIMD_CMD()
 {
     obj := GetLastAction()
-    if RegExMatch(VIMD_CMD_LIST[obj.keytemp], "i)^(run)\|", m)
+    key := obj.KeyTemp
+
+    if (obj.WinName != "")
     {
-        Run, % substr(VIMD_CMD_LIST[obj.keytemp], strlen(m1) + 2)
+        key := obj.WinName "#" obj.KeyTemp
     }
-    else if RegExMatch(VIMD_CMD_LIST[obj.keytemp], "i)^(key)\|", m)
+
+    if RegExMatch(VIMD_CMD_LIST[key], "i)^(run)\|", m)
     {
-        Send, % substr(VIMD_CMD_LIST[obj.keytemp], strlen(m1) + 2)
+        Run, % substr(VIMD_CMD_LIST[key], strlen(m1) + 2)
     }
-    else if RegExMatch(VIMD_CMD_LIST[obj.keytemp], "i)^(dir)\|", m)
+    else if RegExMatch(VIMD_CMD_LIST[key], "i)^(key)\|", m)
     {
-        TC_OpenPath(substr(VIMD_CMD_LIST[obj.keytemp], strlen(m1) + 2), false)
+        Send, % substr(VIMD_CMD_LIST[key], strlen(m1) + 2)
     }
-    else if RegExMatch(VIMD_CMD_LIST[obj.keytemp], "i)^(function)\|", m)
+    else if RegExMatch(VIMD_CMD_LIST[key], "i)^(dir)\|", m)
     {
-        splitedCommand:= StrSplit(substr(VIMD_CMD_LIST[obj.keytemp], strlen(m1) + 2), "|")
+        TC_OpenPath(substr(VIMD_CMD_LIST[key], strlen(m1) + 2), false)
+    }
+    else if RegExMatch(VIMD_CMD_LIST[key], "i)^(function)\|", m)
+    {
+        splitedCommand:= StrSplit(substr(VIMD_CMD_LIST[key], strlen(m1) + 2), "|")
         functionName := splitedCommand[1]
         if (IsFunc(functionName))
         {
@@ -196,14 +208,14 @@ VIMD_CMD()
             MsgBox, %functionName% 函数不存在！
         }
     }
-    else if RegExMatch(VIMD_CMD_LIST[obj.keytemp], "i)^(tccmd)\|", m)
+    else if RegExMatch(VIMD_CMD_LIST[key], "i)^(tccmd)\|", m)
     {
-        TC_Run(substr(VIMD_CMD_LIST[obj.keytemp], strlen(m1) + 2))
+        TC_Run(substr(VIMD_CMD_LIST[key], strlen(m1) + 2))
     }
-    else if RegExMatch(VIMD_CMD_LIST[obj.keytemp], "i)^(wshkey)\|", m)
+    else if RegExMatch(VIMD_CMD_LIST[key], "i)^(wshkey)\|", m)
     {
         SendLevel, 1
-        Send, % substr(VIMD_CMD_LIST[obj.keytemp], strlen(m1) + 2)
+        Send, % substr(VIMD_CMD_LIST[key], strlen(m1) + 2)
     }
 }
 

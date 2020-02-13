@@ -180,18 +180,24 @@ VimDConfig_keymap_loadhotkey(win, mode = "")
     LV_delete()
     for key, i in modeobj.keymapList
     {
+        action_key := key
+        if (win != "")
+        {
+            action_key := win "#" key
+        }
+
         ; Type = 1 : Function
         if (vim.GetAction(i).Type = 1)
         {
             ActionDescList := vim.GetAction(i).Comment
-            actionDesc := StrSplit(%ActionDescList%[key], "|")
-            LV_ADD("", Key, actionDesc[1], actionDesc[2])
-            current_keymap .= Key "`t" actionDesc[1] "`t" actionDesc[2] "`n"
+            actionDesc := StrSplit(%ActionDescList%[action_key], "|")
+            LV_ADD("", key, actionDesc[1], actionDesc[2])
+            current_keymap .= key "`t" actionDesc[1] "`t" actionDesc[2] "`n"
         }
         else
         {
-            LV_Add("", RegExReplace(Key, "<S-(.*)>", "$1"), i, vim.GetAction(i).Comment)
-            current_keymap .= Key "`t" i "`t" vim.GetAction(i).Comment "`n"
+            LV_Add("", RegExReplace(key, "<S-(.*)>", "$1"), i, vim.GetAction(i).Comment)
+            current_keymap .= key "`t" i "`t" vim.GetAction(i).Comment "`n"
         }
     }
 }
