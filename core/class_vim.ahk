@@ -746,7 +746,7 @@ Class __vim
     {
         if RegExMatch(key, "^[A-Z]$")
             return "<S-" this.Upper(key) ">"
-		if RegExMatch(key, "i)^(F[0-9]{1,2}|Numpad.*)$")
+        if RegExMatch(key, "i)^(F[0-9]{1,2}|Numpad.*)$")
             return "<" key ">"
         if RegExMatch(key, "i)^(AppsKey|Tab|Enter|Space|Home|End|CapsLock|ScrollLock|Up|Down|Left|Right|PgUp|PgDn|Pause)$")
             return "<" key ">"
@@ -808,7 +808,7 @@ Class __vim
         if RegExMatch(key, "^<.*>$")
         {
             key := SubStr(key, 2, strlen(key)-2)
-			if RegExMatch(key, "i)^(F[0-9]{1,2}|Numpad.*)$")
+            if RegExMatch(key, "i)^(F[0-9]{1,2}|Numpad.*)$")
                 return ToSend ? "{" key "}" : key
             if RegExMatch(key, "i)^(AppsKey|Tab|Enter|Space|Home|End|CapsLock|ScrollLock|Up|Down|Left|Right|PgUp|PgDn|BS|ESC|Insert|Delete|Pause)$")
                 return ToSend ? "{" key "}" : key
