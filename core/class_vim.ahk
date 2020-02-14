@@ -746,17 +746,17 @@ Class __vim
     {
         if RegExMatch(key, "^[A-Z]$")
             return "<S-" this.Upper(key) ">"
-        if RegExMatch(key, "i)^((F1)|(F2)|(F3)|(F4)|(F5)|(F6)|(F7)|(F8)|(F9)|(F10)|(F11)|(F12))$")
+		if RegExMatch(key, "i)^(F[0-9]{1,2}|Numpad.*)$")
             return "<" key ">"
-        if RegExMatch(key, "i)^((AppsKey)|(Tab)|(Enter)|(Space)|(Home)|(End)|(CapsLock)|(ScrollLock)|(Up)|(Down)|(Left)|(Right)|(PgUp)|(PgDn)|(Pause))$")
+        if RegExMatch(key, "i)^(AppsKey|Tab|Enter|Space|Home|End|CapsLock|ScrollLock|Up|Down|Left|Right|PgUp|PgDn|Pause)$")
             return "<" key ">"
-        if RegExMatch(key, "i)^((BS)|(BackSpace))$")
+        if RegExMatch(key, "i)^(BS|BackSpace)$")
             return "<BS>"
-        if RegExMatch(key, "i)^((Esc)|(Escape))$")
+        if RegExMatch(key, "i)^(Esc|Escape)$")
             return "<Esc>"
-        if RegExMatch(key, "i)^((Ins)|(Insert))$")
+        if RegExMatch(key, "i)^(Ins|Insert)$")
             return "<Insert>"
-        if RegExMatch(key, "i)^((Del)|(Delete))$")
+        if RegExMatch(key, "i)^(Del|Delete)$")
             return "<Delete>"
         if RegExMatch(key, "i)^PrintScreen$")
             return "<PrtSc>"
@@ -808,9 +808,9 @@ Class __vim
         if RegExMatch(key, "^<.*>$")
         {
             key := SubStr(key, 2, strlen(key)-2)
-            if RegExMatch(key, "i)^((F1)|(F2)|(F3)|(F4)|(F5)|(F6)|(F7)|(F8)|(F9)|(F10)|(F11)|(F12))$")
+			if RegExMatch(key, "i)^(F[0-9]{1,2}|Numpad.*)$")
                 return ToSend ? "{" key "}" : key
-            if RegExMatch(key, "i)^((AppsKey)|(Tab)|(Enter)|(Space)|(Home)|(End)|(CapsLock)|(ScrollLock)|(Up)|(Down)|(Left)|(Right)|(PgUp)|(PgDn)|(BS)|(ESC)|(Insert)|(Delete)|(Pause))$")
+            if RegExMatch(key, "i)^(AppsKey|Tab|Enter|Space|Home|End|CapsLock|ScrollLock|Up|Down|Left|Right|PgUp|PgDn|BS|ESC|Insert|Delete|Pause)$")
                 return ToSend ? "{" key "}" : key
             if RegExMatch(key, "i)^PrtSc$")
                 return ToSend ? "{PrintScreen}" : "PrintScreen"
@@ -857,9 +857,9 @@ Class __vim
 
     CheckToSend(key)
     {
-        if RegExMatch(key, "i)^((F1)|(F2)|(F3)|(F4)|(F5)|(F6)|(F7)|(F8)|(F9)|(F10)|(F11)|(F12))$")
+        if RegExMatch(key, "i)^(F[0-9]{1,2}|Numpad.*)$")
             return "{" key "}" 
-        if RegExMatch(key, "i)^((AppsKey)|(Tab)|(Enter)|(Space)|(Home)|(End)|(CapsLock)|(ScrollLock)|(Up)|(Down)|(Left)|(Right)|(PgUp)|(PgDn)|(BS)|(ESC)|(Insert)|(Delete)|(Pause))$")
+        if RegExMatch(key, "i)^(AppsKey|Tab|Enter|Space|Home|End|CapsLock|ScrollLock|Up|Down|Left|Right|PgUp|PgDn|BS|ESC|Insert|Delete|Pause)$")
             return "{" key "}"
         if RegExMatch(key, "i)^PrtSc$")
             return "{PrintScreen}"
