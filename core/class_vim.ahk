@@ -80,7 +80,7 @@ ShowInfo()
         if (act.Type = 1)
         {
             ActionDescList := act.Comment
-            np .= key "`t" %ActionDescList%[Key] "`n"
+            np .= key "`t" %ActionDescList%[vim.LastFoundWin "#" Key] "`n"
         }
         else
         {
