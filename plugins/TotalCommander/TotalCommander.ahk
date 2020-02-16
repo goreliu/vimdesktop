@@ -509,8 +509,8 @@ TC_azHistory()
     ;MsgBox, %f%_%TCINI%_%history%
     history_obj := []
     Global history_name_obj := []
-    Loop, Parse, history, `n
-        max := A_index
+    count := 0
+
     Loop, Parse, history, `n
     {
         idx := RegExReplace(A_LoopField, "=.*$")
@@ -556,14 +556,20 @@ TC_azHistory()
         name := RegExReplace(name, "`t#.*$") A_Tab "[&"  chr(idx+65) "]"
         history_obj[idx] := name
         history_name_obj[name] := value
+
+        if (++count >= 26)
+        {
+            break
+        }
     }
+
     Menu, az, UseErrorLevel
     Menu, az, add
     Menu, az, deleteall
     size := TCConfig.GetValue("TotalCommander_Config", "MenuIconSize")
     if not size
         size := 20
-    Loop, %max%
+    Loop, %count%
     {
         idx := A_Index - 1
         name := history_obj[idx]
