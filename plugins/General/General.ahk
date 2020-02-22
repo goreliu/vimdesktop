@@ -1100,3 +1100,8 @@ return
 <ToggleTitleBar>:
     WinSet, Style, ^0xC40000, A
 return
+
+<TurnMonitorOff>:
+    Sleep, 200
+    SendMessage, 0x112, 0xF170, 2, , Program Manager
+return
