@@ -54,7 +54,7 @@ Foobar2000_ForceInsertMode()
 {
     ControlGetFocus, ctrl
     ;MsgBox % ctrl
-    if RegExMatch(ctrl, "Edit")
+    if RegExMatch(ctrl, "Edit|Eslyric_Scintilla1")
         return true
     return false
 }
