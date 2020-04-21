@@ -958,6 +958,14 @@ FileTempMenuCheckNewStyle()
 {
     Global TCPath
     Splitpath, TCPath, , TCDir
+
+    blankico := False
+
+    if FileExist(TCDir "\shellnew\blankico")
+    {
+        blankico := True
+    }
+
     Loop, %TCDir%\shellnew\*.*
     {
         if A_Index = 1
@@ -965,7 +973,12 @@ FileTempMenuCheckNewStyle()
         ft := SubStr(A_LoopFileName, 1, 1) . " >> " . A_LoopFileName
         Menu, FileTemp, Add, %ft%, FileTempNew
 
-        if FileExist(TCDir "\shellnew\icons\" A_LoopFileExt ".ico")
+        if (blankico)
+        {
+            Menu, FileTemp, Icon, %ft%, %A_WinDir%\system32\Shell32.dll, 1 ;-152
+            continue
+        }
+        else if FileExist(TCDir "\shellnew\icons\" A_LoopFileExt ".ico")
         {
             Menu, FileTemp, Icon, %ft%, % TCDir "\shellnew\icons\" A_LoopFileExt ".ico"
             continue
