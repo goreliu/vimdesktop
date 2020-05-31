@@ -1662,23 +1662,35 @@ return
 return
 
 <TC_SuperReturn>:
-    ControlGetText, old_pwd_left, %TCPathPanel%, AHK_CLASS TTOTAL_CMD
-    ControlGetText, old_pwd_right, %TCPathPanelRight%, AHK_CLASS TTOTAL_CMD
+    left_panel := TCPathPanel
+    right_panel := TCPathPanelRight
+
+    ControlGetText, old_pwd_left, %left_panel%, AHK_CLASS TTOTAL_CMD
+
+    if (Substr(old_pwd_left, 1) != ":" && Substr(old_pwd_left, 1) != "\")
+    {
+        ; 打开 FTP 时
+        left_panel := "Window9"
+        right_panel := "Window14"
+        ControlGetText, old_pwd_left, %left_panel%, AHK_CLASS TTOTAL_CMD
+    }
+
+    ControlGetText, old_pwd_right, %right_panel%, AHK_CLASS TTOTAL_CMD
 
     GoSub, <cm_Return>
 
     Loop, 5
     {
-        ControlGetText, new_pwd_left, %TCPathPanel%, AHK_CLASS TTOTAL_CMD
-        ControlGetText, new_pwd_right, %TCPathPanelRight%, AHK_CLASS TTOTAL_CMD
+        Sleep, 10
+
+        ControlGetText, new_pwd_left, %left_panel%, AHK_CLASS TTOTAL_CMD
+        ControlGetText, new_pwd_right, %right_panel%, AHK_CLASS TTOTAL_CMD
 
         if (old_pwd_left != new_pwd_left || old_pwd_right != new_pwd_right)
         {
             GoSub, <cm_GoToFirstEntry>
             return
         }
-
-        Sleep, 10
     }
 return
 
