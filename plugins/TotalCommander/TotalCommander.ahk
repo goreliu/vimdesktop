@@ -1667,7 +1667,7 @@ return
 
     ControlGetText, old_pwd_left, %left_panel%, AHK_CLASS TTOTAL_CMD
 
-    if (Substr(old_pwd_left, 1) != ":" && Substr(old_pwd_left, 1) != "\")
+    if (Substr(old_pwd_left, 2, 1) != ":" && Substr(old_pwd_left, 2, 1) != "\")
     {
         ; 打开 FTP 时
         left_panel := "Window9"
