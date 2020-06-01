@@ -1580,6 +1580,18 @@ return
     ControlGetPos, , , wp, hp, %TCPanel1%, ahk_class TTOTAL_CMD
     ControlGetPos, , , w1, h1, %TCListBox%1, ahk_class TTOTAL_CMD
     ControlGetPos, , , w2, h2, %TCListBox%2, ahk_class TTOTAL_CMD
+    ControlGetPos, , , w3, h3, %TCListBox%3, ahk_class TTOTAL_CMD
+    ; msgbox % "wp " wp " hp " hp " w1 " w1 " h1 " h1 " w2 " w2 " h2 " h2 " w3 " w3 " h3 " h3
+
+    ; 修复打开 FTP 等地址后失效的问题
+    if (w3 > 0 && h3 > 0)
+    {
+        w1 := w2
+        h1 := h2
+        w2 := w3
+        h2 := h3
+    }
+
     if (wp < hp)  ;纵向
     {
         if (abs(w1 - w2) > 2)
