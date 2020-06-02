@@ -2079,7 +2079,7 @@ return
     if (InStr(OldPwd, "\\\"))
     {
         ; 网络文件系统比较慢，等待下
-        Sleep 50
+        Sleep, 50
     }
 
     GoSub, <cm_GotoPrev>
@@ -2135,23 +2135,29 @@ return
     if (InStr(OldPwd, "\\\"))
     {
         ; 网络文件系统比较慢，等待下
-        Sleep 50
+        Sleep, 50
     }
 
     GoSub, <cm_GotoNext>
+    GoSub, <cm_GoToDir>
+
+    if (InStr(OldPwd, "\\\"))
+    {
+        ; 网络文件系统比较慢，等待下
+        Sleep, 50
+    }
 
     Clipboard := ""
-    GoSub, <cm_CopyFullNamesToClip>
+    GoSub, <cm_CopySrcPathToClip>
     ClipWait
 
-    if (OldPwd != Clipboard)
+    if (OldPwd != Clipboard && InStr(OldPwd, Clipboard))
     {
-        GoSub, <cm_GoToDir>
-        GoSub, <cm_GoToFirstEntry>
+        ; 下一个是文件而不是目录
+        GoSub, <cm_GotoPreviousDir>
     }
     else
     {
-        GoSub, <cm_GotoPreviousDir>
         GoSub, <cm_GoToFirstEntry>
     }
 
