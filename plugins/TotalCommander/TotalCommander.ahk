@@ -2074,102 +2074,115 @@ FixTCEditId()
 return
 
 <TC_PreviousParallelDir>:
-    ControlGetText, old_pwd_left, %TCPathPanel%, AHK_CLASS TTOTAL_CMD
-    ControlGetText, old_pwd_right, %TCPathPanelRight%, AHK_CLASS TTOTAL_CMD
+    ClipSaved := ClipboardAll
+    Clipboard := ""
+    GoSub, <cm_CopySrcPathToClip>
+    ClipWait
 
-    pwd_left := old_pwd_left
-    pwd_right := old_pwd_right
+    OldPwd := Clipboard
 
-    GoSub, <cm_GoToParent>
-
-    ControlGetText, new_pwd_left, %TCPathPanel%, AHK_CLASS TTOTAL_CMD
-    ControlGetText, new_pwd_right, %TCPathPanelRight%, AHK_CLASS TTOTAL_CMD
-
-    if (old_pwd_left == new_pwd_left && old_pwd_right == new_pwd_right) {
+    if (StrLen(OldPwd) == 3)
+    {
+        ; 在根分区
         GoSub, <cm_GotoPreviousDrive>
         GoSub, <cm_GoToFirstEntry>
+
+        Clipboard := ClipSaved
+        ClipSaved := ""
+
         return
     }
-
-    Send, {up}
-
-    old_pwd_left := new_pwd_left
-    old_pwd_right := new_pwd_right
-
-    GoSub, <cm_GoToDir>
-
-    Loop, 5
+    else if (RegExMatch(OldPwd, "^\\\\\\\w+\\\w+$"))
     {
-        ControlGetText, new_pwd_left, %TCPathPanel%, AHK_CLASS TTOTAL_CMD
-        ControlGetText, new_pwd_right, %TCPathPanelRight%, AHK_CLASS TTOTAL_CMD
+        Clipboard := ClipSaved
+        ClipSaved := ""
 
-        if (old_pwd_left != new_pwd_left || old_pwd_right != new_pwd_right)
-        {
-            ; 通过 .. 返回了上层目录
-            if (StrLen(old_pwd_left) > StrLen(new_pwd_left) `
-                || new_pwd_left == "\\此电脑\*.*" && old_pwd_left != new_pwd_left)
-            {
-                TC_Run("cd " StrReplace(pwd_left, "*.*"))
-            }
-            else if (StrLen(old_pwd_right) > StrLen(new_pwd_right) `
-                || new_pwd_right == "\\此电脑\*.*" && old_pwd_right != new_pwd_right)
-            {
-                TC_Run("cd " StrReplace(pwd_right, "*.*"))
-            }
-
-            GoSub, <cm_GoToFirstEntry>
-
-            return
-        }
-
-        Sleep, 10
+        return
     }
-return
-
-<TC_NextParallelDir>:
-    ControlGetText, old_pwd_left, %TCPathPanel%, AHK_CLASS TTOTAL_CMD
-    ControlGetText, old_pwd_right, %TCPathPanelRight%, AHK_CLASS TTOTAL_CMD
 
     GoSub, <cm_GoToParent>
 
-    ControlGetText, new_pwd_left, %TCPathPanel%, AHK_CLASS TTOTAL_CMD
-    ControlGetText, new_pwd_right, %TCPathPanelRight%, AHK_CLASS TTOTAL_CMD
-
-    if (old_pwd_left == new_pwd_left && old_pwd_right == new_pwd_right) {
-        GoSub, <cm_GotoNextDrive>
-        GoSub, <cm_GoToFirstEntry>
-        return
+    if (InStr(OldPwd, "\\\"))
+    {
+        ; 网络文件系统比较慢，等待下
+        Sleep 50
     }
 
-    Send, {down}
+    GoSub, <cm_GotoPrev>
 
-    ControlGetText, old_pwd_left, %TCPathPanel%, AHK_CLASS TTOTAL_CMD
-    ControlGetText, old_pwd_right, %TCPathPanelRight%, AHK_CLASS TTOTAL_CMD
+    Clipboard := ""
+    GoSub, <cm_CopyFullNamesToClip>
+    ClipWait
 
-    GoSub, <cm_GoToDir>
-
-    is_dir := False
-
-    Loop, 5
+    if (!InStr(OldPwd, Clipboard))
     {
-        ControlGetText, new_pwd_left, %TCPathPanel%, AHK_CLASS TTOTAL_CMD
-        ControlGetText, new_pwd_right, %TCPathPanelRight%, AHK_CLASS TTOTAL_CMD
-
-        if (old_pwd_left != new_pwd_left || old_pwd_right != new_pwd_right)
-        {
-            GoSub, <cm_GoToFirstEntry>
-            return
-        }
-
-        Sleep, 10
-    }
-
-    if (!is_dir)
-    {
-        Send, {up}
         GoSub, <cm_GoToDir>
         GoSub, <cm_GoToFirstEntry>
     }
+    else
+    {
+        GoSub, <cm_GotoPreviousDir>
+        GoSub, <cm_GoToFirstEntry>
+    }
+
+    Clipboard := ClipSaved
+    ClipSaved := ""
+return
+
+<TC_NextParallelDir>:
+    ClipSaved := ClipboardAll
+    Clipboard := ""
+    GoSub, <cm_CopySrcPathToClip>
+    ClipWait
+
+    OldPwd := Clipboard
+
+    if (StrLen(OldPwd) == 3)
+    {
+        ; 在根分区
+        GoSub, <cm_GotoNextDrive>
+        GoSub, <cm_GoToFirstEntry>
+
+        Clipboard := ClipSaved
+        ClipSaved := ""
+
+        return
+    }
+    else if (RegExMatch(OldPwd, "^\\\\\\\w+\\\w+$"))
+    {
+        Clipboard := ClipSaved
+        ClipSaved := ""
+
+        return
+    }
+
+    GoSub, <cm_GoToParent>
+
+    if (InStr(OldPwd, "\\\"))
+    {
+        ; 网络文件系统比较慢，等待下
+        Sleep 50
+    }
+
+    GoSub, <cm_GotoNext>
+
+    Clipboard := ""
+    GoSub, <cm_CopyFullNamesToClip>
+    ClipWait
+
+    if (OldPwd != Clipboard)
+    {
+        GoSub, <cm_GoToDir>
+        GoSub, <cm_GoToFirstEntry>
+    }
+    else
+    {
+        GoSub, <cm_GotoPreviousDir>
+        GoSub, <cm_GoToFirstEntry>
+    }
+
+    Clipboard := ClipSaved
+    ClipSaved := ""
 return
 
 ; ADD HERE
@@ -2424,6 +2437,9 @@ TCCOMMAND:
     vim.Comment("<cm_GotoPreviousDrive>", "转到上一个驱动器")
     vim.Comment("<cm_GotoNextSelected>", "转到下一个选中的文件")
     vim.Comment("<cm_GotoPrevSelected>", "转到上一个选中的文件")
+    vim.Comment("<cm_GotoNext>", "转到下一个文件")
+    vim.Comment("<cm_GotoPrev>", "转到上一个文件")
+    vim.Comment("<cm_GotoLast>", "转到最后一个文件")
     vim.Comment("<cm_GotoDriveA>", "转到驱动器 A")
     vim.Comment("<cm_GotoDriveC>", "转到驱动器 C")
     vim.Comment("<cm_GotoDriveD>", "转到驱动器 D")
@@ -3640,6 +3656,18 @@ return
 ;<cm_GotoPrevSelected>: >>转到上一个选中的文件{{{2
 <cm_GotoPrevSelected>:
     SendPos(2054)
+return
+;<cm_GoToNext>: >>转到下一个文件{{{2
+<cm_GotoNext>:
+    SendPos(2055)
+return
+;<cm_GotoPrev>: >>转到上一个文件{{{2
+<cm_GotoPrev>:
+    SendPos(2056)
+return
+;<cm_GotoLast>: >>转到最后一个文件{{{2
+<cm_GotoLast>:
+    SendPos(2057)
 return
 ;<cm_GotoDriveA>: >>转到驱动器 A{{{2
 <cm_GotoDriveA>:
