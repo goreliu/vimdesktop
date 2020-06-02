@@ -1677,6 +1677,34 @@ return
 return
 
 <TC_SuperReturn>:
+    ClipSaved := ClipboardAll
+    Clipboard := ""
+    GoSub, <cm_CopySrcPathToClip>
+    ClipWait
+
+    OldPwd := Clipboard
+
+    GoSub, <cm_Return>
+
+    Loop, 5
+    {
+        Sleep, 10
+
+        Clipboard := ""
+        GoSub, <cm_CopySrcPathToClip>
+        ClipWait
+
+        if (OldPwd != Clipboard)
+        {
+            GoSub, <cm_GoToFirstEntry>
+            break
+        }
+    }
+
+    Clipboard := ClipSaved
+    ClipSaved := ""
+
+    /*
     left_panel := TCPathPanel
     right_panel := TCPathPanelRight
 
@@ -1707,6 +1735,7 @@ return
             return
         }
     }
+    */
 return
 
 ;<TC_FileCopyForBak>: >>将当前光标下的文件复制一份作为作为备份
