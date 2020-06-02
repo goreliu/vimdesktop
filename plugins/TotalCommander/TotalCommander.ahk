@@ -1359,28 +1359,6 @@ LeftRight()
 }
 
 ; 增强命令 By 流彩 {{{1
-;<TC_OpenDriveThis>: >>打开驱动器列表:本侧{{{2
-<TC_OpenDriveThis>:
-    ControlGetFocus, CurrentFocus, AHK_CLASS TTOTAL_CMD
-    if CurrentFocus not in %TCListBox%2, %TCListBox%1
-        return
-    if CurrentFocus in %TCListBox%2
-        SendPos(131)
-    else
-        SendPos(231)
-return
-
-;<TC_OpenDriveThat>: >>打开驱动器列表:另侧{{{2
-<TC_OpenDriveThat>:
-    ControlGetFocus, CurrentFocus, AHK_CLASS TTOTAL_CMD
-    if CurrentFocus not in %TCListBox%2, %TCListBox%1
-        return
-    if CurrentFocus in %TCListBox%2
-        SendPos(231)
-    else
-        SendPos(131)
-return
-
 ;<DirectoryHotlistother>: >>常用文件夹:另一侧{{{2
 <DirectoryHotlistother>:
     ControlGetFocus, CurrentFocus, AHK_CLASS TTOTAL_CMD
@@ -2061,16 +2039,12 @@ FixTCEditId()
 <TC_Restart>:
     WinClose, AHK_CLASS TTOTAL_CMD
 
-    Loop, 4
-    {
-        Sleep, 100
-        Run, %TCPath%
-        Sleep, 50
-        IfWinNotActive, AHK_CLASS TTOTAL_CMD
-            WinActivate, AHK_CLASS TTOTAL_CMD
-        else
-            Break
-    }
+    ; 好像不需要 Sleep
+    ; Sleep, 100
+
+    Run, %TCPath%
+    WinWait, AHK_CLASS TTOTAL_CMD
+    WinActivate, AHK_CLASS TTOTAL_CMD
 return
 
 <TC_PreviousParallelDir>:
