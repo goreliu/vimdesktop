@@ -663,21 +663,26 @@ AddMark:
     } else if (InStr(ThisMenuItem, "\\") == 1) {
         if (ThisMenuItem == "\\桌面") {
             Postmessage 1075, 2121, 0, , ahk_class TTOTAL_CMD
+            return
         } else if (ThisMenuItem == "\\计算机") {
             Postmessage 1075, 2122, 0, , ahk_class TTOTAL_CMD
+            return
         } else if (ThisMenuItem == "\\所有控制面板项") {
             Postmessage 1075, 2123, 0, , ahk_class TTOTAL_CMD
+            return
         } else if (ThisMenuItem = "\\Fonts") {
             Postmessage 1075, 2124, 0, , ahk_class TTOTAL_CMD
+            return
         } else if (ThisMenuItem == "\\网络") {
             Postmessage 1075, 2125, 0, , ahk_class TTOTAL_CMD
+            return
         } else if (ThisMenuItem == "\\打印机") {
             Postmessage 1075, 2126, 0, , ahk_class TTOTAL_CMD
+            return
         } else if (ThisMenuItem == "\\回收站") {
             Postmessage 1075, 2127, 0, , ahk_class TTOTAL_CMD
+            return
         }
-
-        return
     }
 
     FixTCEditId()
@@ -689,7 +694,6 @@ AddMark:
     ControlSend, %TCEdit%, {Enter}, ahk_class TTOTAL_CMD
     ControlGetFocus, Ctrl, ahk_class TTOTAL_CMD
     Postmessage, 0x19E, 1, 1, %Ctrl%, ahk_class TTOTAL_CMD
-    return
 return
 
 ; 显示标记
