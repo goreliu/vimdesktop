@@ -2,7 +2,6 @@
 ; 仅用于必须临时使用Explorer的场景。
 
 Explorer:
-    ; 定义注释
     vim.comment("<Explorer_NormalMode>", "进入normal模式")
     vim.comment("<Explorer_InsertMode>", "进入insert模式")
     vim.comment("<Explorer_GotoParent>", "进入上一层目录")

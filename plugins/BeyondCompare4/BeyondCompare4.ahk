@@ -1,5 +1,4 @@
 ﻿BeyondCompare4:
-    ; 定义注释
     vim.comment("<BeyondCompare4_NormalMode>", "进入normal模式")
     vim.comment("<BeyondCompare4_InsertMode>", "进入insert模式")
     vim.comment("<BeyondCompare4_NextDiffSection>", "下一处不同")

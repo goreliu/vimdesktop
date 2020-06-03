@@ -26,7 +26,7 @@
     vim.map("7", "<7>", Foobar2000_name)
     vim.map("8", "<8>", Foobar2000_name)
     vim.map("9", "<9>", Foobar2000_name)
-    
+
     vim.map("j", "<down>", Foobar2000_name)
     vim.map("k", "<up>", Foobar2000_name)
     vim.map("l", "<enter>", Foobar2000_name)
@@ -41,7 +41,7 @@
     vim.map("p", "<Media_Prev>", Foobar2000_name)
     vim.map("s", "<Media_Stop>", Foobar2000_name)
     vim.map("z", "<ShowHelp>", Foobar2000_name)
-    
+
     vim.map("N", "<NextTab>", Foobar2000_name)
     vim.map("P", "<PrevTab>", Foobar2000_name)
 
