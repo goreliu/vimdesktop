@@ -34,4 +34,4 @@ VimDesktop 的前身是 [linxinhong](http://git.oschina.net/linxinhong) 的 ViAT
 
 此版本包含 [VimDesktop 1](https://github.com/victorwoo/vimdesktop) 和 [VimDesktop 2](http://git.oschina.net/linxinhong/VimDesktop) 的全部功能。
 
-2020 年起，我不再发布新版本，不再保证原有功能继续存在，不再保证配置的向后兼容性，不再回答任何功能相关问题，我会根据自己的需求随意修改代码，请不要随意更新。
+2020 年起，我不再发布新版本，不再保证原有功能继续保留，不再保证配置的向后兼容性，不再回答任何功能相关问题，我会根据自己的需求随意修改代码，请不要随意更新。如果有人想维护该软件的公共版本，可以通过 ly50247@126.com 联系我。
