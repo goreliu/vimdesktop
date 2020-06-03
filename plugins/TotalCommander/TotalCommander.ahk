@@ -260,7 +260,7 @@
     vim.map("-", "<cm_SwitchSeparateTree>", "TTOTAL_CMD")
     vim.map("=", "<cm_MatchSrc>", "TTOTAL_CMD")
     vim.map(",", "<cm_SrcThumbs>", "TTOTAL_CMD")
-    vim.map(";", "<cm_DirectoryHotlist>", "TTOTAL_CMD")
+    vim.map(";", "<TC_ListMark>", "TTOTAL_CMD")
     vim.map(":", "<cm_FocusCmdLine>", "TTOTAL_CMD")
     vim.map("~", "<cm_SysInfo>", "TTOTAL_CMD")
     vim.map("``", "<TC_ToggleShowInfo>", "TTOTAL_CMD")
@@ -826,40 +826,45 @@ return
 AddMark()
 {
     ; &x >> dir
-    ThisMenuItem := SubStr(A_ThisMenuItem, 7, StrLen(A_ThisMenuItem))
-    if RegExMatch(ThisMenuItem, "i)\\\\桌面$")
+    ; &x >> run cmd
+    ThisMenuItem := SubStr(A_ThisMenuItem, 7)
+
+    if (InStr(ThisMenuItem, "run ") == 1)
     {
-        Postmessage 1075, 2121, 0, , ahk_class TTOTAL_CMD
+        Run, % SubStr(ThisMenuItem, 5)
         return
     }
-    if RegExMatch(ThisMenuItem, "i)\\\\计算机$")
+    else if (InStr(ThisMenuItem, "\\") == 1)
     {
-        Postmessage 1075, 2122, 0, , ahk_class TTOTAL_CMD
-        return
-    }
-    if RegExMatch(ThisMenuItem, "i)\\\\所有控制面板项$")
-    {
-        Postmessage 1075, 2123, 0, , ahk_class TTOTAL_CMD
-        return
-    }
-    if RegExMatch(ThisMenuItem, "i)\\\\Fonts$")
-    {
-        Postmessage 1075, 2124, 0, , ahk_class TTOTAL_CMD
-        return
-    }
-    if RegExMatch(ThisMenuItem, "i)\\\\网络$")
-    {
-        Postmessage 1075, 2125, 0, , ahk_class TTOTAL_CMD
-        return
-    }
-    if RegExMatch(ThisMenuItem, "i)\\\\打印机$")
-    {
-        Postmessage 1075, 2126, 0, , ahk_class TTOTAL_CMD
-        return
-    }
-    if RegExMatch(ThisMenuItem, "i)\\\\回收站$")
-    {
-        Postmessage 1075, 2127, 0, , ahk_class TTOTAL_CMD
+        if (ThisMenuItem == "\\桌面")
+        {
+            Postmessage 1075, 2121, 0, , ahk_class TTOTAL_CMD
+        }
+        else if (ThisMenuItem == "\\计算机")
+        {
+            Postmessage 1075, 2122, 0, , ahk_class TTOTAL_CMD
+        }
+        else if (ThisMenuItem == "\\所有控制面板项")
+        {
+            Postmessage 1075, 2123, 0, , ahk_class TTOTAL_CMD
+        }
+        else if (ThisMenuItem == "\\Fonts")
+        {
+            Postmessage 1075, 2124, 0, , ahk_class TTOTAL_CMD
+        }
+        else if (ThisMenuItem == "\\网络")
+        {
+            Postmessage 1075, 2125, 0, , ahk_class TTOTAL_CMD
+        }
+        else if (ThisMenuItem == "\\打印机")
+        {
+            Postmessage 1075, 2126, 0, , ahk_class TTOTAL_CMD
+        }
+        else if (ThisMenuItem == "\\回收站")
+        {
+            Postmessage 1075, 2127, 0, , ahk_class TTOTAL_CMD
+        }
+
         return
     }
 
