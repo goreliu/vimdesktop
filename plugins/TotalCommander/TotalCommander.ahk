@@ -11,14 +11,12 @@
     Splitpath, TCPath, , TCDir
     TCMarkIni := TCDir "\TCMark.ini"
 
-    if (!FileExist(TCPath) || !FileExist(TCIni))
-    {
+    if (!FileExist(TCPath) || !FileExist(TCIni)) {
         MsgBox, 请在配置文件中设置正确的 TotalCommander 地址
         return
     }
 
-    if (InStr(TCPath, "totalcmd64.exe"))
-    {
+    if (InStr(TCPath, "totalcmd64.exe")) {
         TC64Bit := true
 
         global TCListBox := "LCLListBox"
@@ -29,9 +27,7 @@
         global TCPanel2 := "Window11"
         global TCPathPanel := "Window8"
         global TCPathPanelRight := "Window13"
-    }
-    else
-    {
+    } else {
         ; 左右面板
         global TCListBox := "TMyListBox"
         ; 底下命令编辑框
@@ -51,13 +47,11 @@
     global Mark := []
     global SaveMark := ini.TotalCommander_Config.SaveMark
 
-    if (SaveMark != 0)
-    {
+    if (SaveMark != 0) {
         IniRead, all_marks, %TCMarkIni%, mark, ms
         all_marks := StrReplace(all_marks, "ERROR", "")
 
-        if (all_marks != "")
-        {
+        if (all_marks != "") {
             Mark["ms"] := all_marks
 
             Loop, Parse, all_marks
@@ -72,17 +66,20 @@
 
     global NewFiles := []
 
+    Gosub, TCCommand
+
     vim.Comment("<TC_NormalMode>", "返回正常模式")
     vim.Comment("<TC_InsertMode>", "进入插入模式")
     vim.Comment("<TC_ToggleTC>", "打开/激活TC")
-    vim.Comment("<TC_FocusTCCmd>", "激活TC，定位到命令行")
+    vim.Comment("<TC_FocusTC>", "激活 TC")
+    vim.Comment("<TC_FocusTCCmd>", "激活 TC，并定位到命令行")
     vim.Comment("<TC_AZHistory>", "a-z历史导航")
     vim.Comment("<TC_DownSelect>", "向下选择")
     vim.Comment("<TC_UpSelect>", "向上选择")
     vim.Comment("<TC_Mark>", "标记功能")
     vim.Comment("<TC_ForceDelete>", "强制删除")
     vim.Comment("<TC_ListMark>", "显示标记")
-    vim.Comment("<TC_Toggle_50_100Percent>", "切换当前窗口显示状态 50% ~ 100% ")
+    vim.Comment("<TC_Toggle_50_100Percent>", "切换当前窗口显示状态 50% ~ 100%")
     vim.Comment("<TC_Toggle_50_100Percent_V>", "切换当前（纵向）窗口显示状态 50% ~ 100%")
     vim.Comment("<TC_WinMaxLeft>", "最大化左侧窗口")
     vim.Comment("<TC_WinMaxRight>", "最大化右侧窗口")
@@ -115,7 +112,7 @@
     vim.Comment("<TC_OpenDirAndPaste>", "不打开目录，直接把复制的文件贴进去")
     vim.Comment("<TC_MoveSelectedFilesToPrevFolder>", "将当前文件夹下的选定文件移动到上层目录中")
     vim.Comment("<TC_MoveAllFilesToPrevFolder>", "将当前文件夹下的全部文件移动到上层目录中")
-    vim.Comment("<TC_SrcQuickViewAndTab>", "预览文件时,光标自动移到对侧窗口里")
+    vim.Comment("<TC_SrcQuickViewAndTab>", "预览文件时，光标自动移到对侧窗口里")
     vim.Comment("<TC_CreateFileShortcut>", "创建当前光标下文件的快捷方式")
     vim.Comment("<TC_CreateFileShortcutToDesktop>", "创建当前光标下文件的快捷方式并发送到桌面")
     vim.Comment("<TC_CreateFileShortcutToStartup>", "创建当前光标下文件的快捷方式并发送到启动文件里")
@@ -135,8 +132,6 @@
     vim.Comment("<TC_PreviousParallelDir>", "切换到上一个同级目录")
     vim.Comment("<TC_NextParallelDir>", "切换到下一个同级目录")
 
-    Gosub, TCCommand
-
     vim.SetWin("TCQuickSearch", "TQUICKSEARCH")
     vim.Mode("normal", "TCQuickSearch")
     vim.Map("J", "<Down>", "TCQuickSearch")
@@ -151,20 +146,16 @@
 
     vim.Mode("normal", "TTOTAL_CMD")
 
-    ;复制/移动到右侧 f取file的意思 filecopy
     vim.Map("fc", "<cm_CopyOtherpanel>", "TTOTAL_CMD")
     vim.Map("fx", "<cm_MoveOnly>", "TTOTAL_CMD")
 
-    ;使用队列复制/移动到右侧 q-queue, fcq会影响对fc的使用，改用fqc/fqx的方式
     vim.Map("fqc", "<TC_CopyUseQueues>", "TTOTAL_CMD")
     vim.Map("fqx", "<TC_MoveUseQueues>", "TTOTAL_CMD")
 
-    ;ff复制到剪切板 fz剪切到剪切板 fv粘贴
     vim.Map("ff", "<cm_CopyToClipboard>", "TTOTAL_CMD")
     vim.Map("fz", "<cm_CutToClipboard>", "TTOTAL_CMD")
     vim.Map("fv", "<cm_PasteFromClipboard>", "TTOTAL_CMD")
 
-    ;fb复制到收藏夹某个目录，fd移动到收藏夹的某个目录
     vim.Map("fb", "<TC_CopyDirectoryHotlist>", "TTOTAL_CMD")
     vim.Map("fd", "<TC_MoveDirectoryHotlist>", "TTOTAL_CMD")
     vim.Map("fg", "<cm_CopySrcPathToClip>", "TTOTAL_CMD")
@@ -237,7 +228,6 @@
     vim.Map("gg", "<TC_GoToLine>", "TTOTAL_CMD")
     vim.Map("g$", "<TC_LastLine>", "TTOTAL_CMD")
 
-    ;与vim保持一致
     vim.Map("gt", "<cm_SwitchToNextTab>", "TTOTAL_CMD")
     vim.Map("gT", "<cm_SwitchToPreviousTab>", "TTOTAL_CMD")
     vim.Map("gc", "<cm_CloseCurrentTab>", "TTOTAL_CMD")
@@ -296,8 +286,7 @@
     vim.BeforeActionDo("TC_BeforeActionDo", "TTOTAL_CMD")
 return
 
-TC_BeforeActionDo()
-{
+TC_BeforeActionDo() {
     WinGet, MenuID, ID, ahk_class #32768
     if MenuID
         return true
@@ -327,54 +316,34 @@ return
         WinGet, AC, MinMax, ahk_class TTOTAL_CMD
         if Ac = -1
             Winactivate, ahk_class TTOTAL_CMD
-        else
-        {
+        else {
             Ifwinnotactive, ahk_class TTOTAL_CMD
                 Winactivate, ahk_class TTOTAL_CMD
             else
                 Winminimize, ahk_class TTOTAL_CMD
         }
-    }
-    else
-    {
+    } else {
         Run, %TCPath%
         WinWait, ahk_class TTOTAL_CMD
         IfWinNotActive, ahk_class TTOTAL_CMD
             WinActivate, ahk_class TTOTAL_CMD
     }
-
-    ;SetTimer, AUTHTC, on
 return
 
-;激活TC
-<FocusTC>:
-{
+<TC_FocusTC>:
     IfWinExist, ahk_class TTOTAL_CMD
         Winactivate, ahk_class TTOTAL_CMD
-    else
-    {
+    else {
         Run, %TCPath%
         WinWait, ahk_class TTOTAL_CMD
         IfWinNotActive, ahk_class TTOTAL_CMD
             WinActivate, ahk_class TTOTAL_CMD
     }
-    return
-}
-
-;激活TC，并定位到命令行
-<TC_FocusTCCmd>:
-    Gosub, <FocusTC>
-    SendPos(4003)
 return
 
-AUTHTC:
-    WinGetText, string, ahk_class TNASTYNAGSCREEN
-    if Strlen(string)
-    {
-        RegExMatch(string, "\d", idx)
-        ControlClick, TButton%idx%, ahk_class TNASTYNAGSCREEN, , , , NA
-        settimer, AUTHTC, off
-    }
+<TC_FocusTCCmd>:
+    Gosub, <TC_FocusTC>
+    SendPos(4003)
 return
 
 <TC_AZHistory>:
@@ -382,8 +351,7 @@ return
     Sleep, 200
 
     history := ""
-    if Mod(LeftRight(), 2)
-    {
+    if Mod(LeftRight(), 2) {
         f := ini.redirect.LeftHistory
 
         if FileExist(f)
@@ -391,14 +359,11 @@ return
         else
             IniRead, history, %TCIni%, LeftHistory
 
-        if RegExMatch(history, "RedirectSection=(.+)", HistoryRedirect)
-        {
+        if RegExMatch(history, "RedirectSection=(.+)", HistoryRedirect) {
             StringReplace, HistoryRedirect1, HistoryRedirect1, `%COMMANDER_PATH`%, %TCPath%\..
             IniRead, history, %HistoryRedirect1%, LeftHistory
         }
-    }
-    else
-    {
+    } else {
         f := ini.redirect.RightHistory
 
         if FileExist(f)
@@ -406,8 +371,7 @@ return
         else
             IniRead, history, %TCIni%, RightHistory
 
-        if RegExMatch(history, "RedirectSection=(.+)", HistoryRedirect)
-        {
+        if RegExMatch(history, "RedirectSection=(.+)", HistoryRedirect) {
             StringReplace, HistoryRedirect1, HistoryRedirect1, `%COMMANDER_PATH`%, %TCPath%\..
             IniRead, history, %HistoryRedirect1%, RightHistory
         }
@@ -425,40 +389,27 @@ return
         ; 避免&被识别成快捷键
         name := StrReplace(value, "&", ":＆:")
 
-        if (InStr(value, "::") == 1)
-        {
-            if (InStr(value, "::|") == 1)
-            {
+        if (InStr(value, "::") == 1) {
+            if (InStr(value, "::|") == 1) {
                 name  := StrReplace(value, "::|")
                 value := 2121
-            }
-            else if (InStr(value, "::{20D04FE0-3AEA-1069-A2D8-08002B30309D}|") == 1)
-            {
+            } else if (InStr(value, "::{20D04FE0-3AEA-1069-A2D8-08002B30309D}|") == 1) {
                 name  := StrReplace(value, "::{20D04FE0-3AEA-1069-A2D8-08002B30309D}|")
                 value := 2122
-            }
-            else if (InStr(value, "::{21EC2020-3AEA-1069-A2DD-08002B30309D}\::{2227A280-3AEA-1069-A2DE-08002B30309D}|") == 1)
-            {
+            } else if (InStr(value, "::{21EC2020-3AEA-1069-A2DD-08002B30309D}\::{2227A280-3AEA-1069-A2DE-08002B30309D}|") == 1) {
                 name  := StrReplace(value, "::{21EC2020-3AEA-1069-A2DD-08002B30309D}\::{2227A280-3AEA-1069-A2DE-08002B30309D}|")
                 value := 2126
-            }
-            else if (InStr(value, "::{208D2C60-3AEA-1069-A2D7-08002B30309D}|") == 1) ;NothingIsBig的是XP系统，网上邻居是这个调整
-            {
+            } else if (InStr(value, "::{208D2C60-3AEA-1069-A2D7-08002B30309D}|") == 1) {
+                ; NothingIsBig 的是 XP 系统，网上邻居是这个调整
                 name := StrReplace(value, "::{208D2C60-3AEA-1069-A2D7-08002B30309D}|")
                 value := 2125
-            }
-            else if (InStr(value, "::{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}|") == 1)
-            {
+            } else if (InStr(value, "::{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}|") == 1) {
                 name := StrReplace(value, "::{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}|")
                 value := 2125
-            }
-            else if (InStr(value, "::{26EE0668-A00A-44D7-9371-BEB064C98683}\0|") == 1)
-            {
+            } else if (InStr(value, "::{26EE0668-A00A-44D7-9371-BEB064C98683}\0|") == 1) {
                 name := StrReplace(value, "::{26EE0668-A00A-44D7-9371-BEB064C98683}\0|")
                 value := 2123
-            }
-            else if (InStr(value, "::{645FF040-5081-101B-9F08-00AA002F954E}|") == 1)
-            {
+            } else if (InStr(value, "::{645FF040-5081-101B-9F08-00AA002F954E}|") == 1) {
                 name := StrReplace(value, "::{645FF040-5081-101B-9F08-00AA002F954E}|")
                 value := 2127
             }
@@ -468,8 +419,7 @@ return
         history_obj[idx] := name
         history_name_obj[name] := value
 
-        if (++count >= 26)
-        {
+        if (++count >= 26) {
             break
         }
     }
@@ -481,8 +431,7 @@ return
     if not size
         size := 20
 
-    Loop, %count%
-    {
+    Loop, %count% {
         idx := A_Index - 1
         name := history_obj[idx]
         Menu, az, Add, %name%, AZHistorySelect
@@ -497,8 +446,7 @@ return
 AZHistorySelect:
     global history_name_obj
 
-    if (InStr(A_ThisMenuItem, "\\") == 1)
-    {
+    if (InStr(A_ThisMenuItem, "\\") == 1) {
         if (history_name_obj[A_ThisMenuItem] == 2121)
             Gosub, <cm_OpenDesktop>
         else if (history_name_obj[A_ThisMenuItem] == 2122)
@@ -511,14 +459,11 @@ AZHistorySelect:
             Gosub, <cm_OpenPrinters>
         else if (history_name_obj[A_ThisMenuItem] == 2127)
             Gosub, <cm_OpenRecycled>
-        else
-        {
+        else {
             MsgBox, 打开 %A_ThisMenuItem% 失败
             return
         }
-    }
-    else
-    {
+    } else {
         ThisMenuItem := RegExReplace(A_ThisMenuItem, "\t.*$")
         ThisMenuItem := StrReplace(ThisMenuItem, ":＆:", "&")
 
@@ -549,8 +494,7 @@ return
 
 WinMaxLR(lr)
 {
-    if lr
-    {
+    if lr {
         ControlGetPos, x, y, w, h, %TCPanel2%, ahk_class TTOTAL_CMD
         ControlGetPos, tm1x, tm1y, tm1W, tm1H, %TCPanel1%, ahk_class TTOTAL_CMD
         if (tm1w < tm1h) ; 判断纵向还是横向 Ture为竖 false为横
@@ -561,9 +505,7 @@ WinMaxLR(lr)
             ControlMove, %TCPanel1%, 0, y+h, , , ahk_class TTOTAL_CMD
         ControlClick, %TCPanel1%, ahk_class TTOTAL_CMD
         WinActivate ahk_class TTOTAL_CMD
-    }
-    else
-    {
+    } else {
         ControlMove, %TCPanel1%, 0, 0, , , ahk_class TTOTAL_CMD
         ControlClick, %TCPanel1%, ahk_class TTOTAL_CMD
         WinActivate ahk_class TTOTAL_CMD
@@ -580,12 +522,9 @@ return
     Gosub, <cm_CopyNamesToClip>
     ClipWait
 
-    if (InStr(Clipboard, "\") == StrLen(Clipboard))
-    {
+    if (InStr(Clipboard, "\") == StrLen(Clipboard)) {
         Clipboard := SubStr(Clipboard, 1, -1)
-    }
-    else if (InStr(Clipboard, "."))
-    {
+    } else if (InStr(Clipboard, ".")) {
         Clipboard := RegExReplace(Clipboard, "m)\.[^.]*$")
     }
 return
@@ -594,15 +533,15 @@ return
     Send +{Delete}
 return
 
-; 转到[count]行, 缺省第一行
+; 转到 [count] 行, 缺省第一行
 <TC_GotoLine>:
-    if ( count := vim.GetCount("TTOTAL_CMD")) > 1
+    if (count := vim.GetCount("TTOTAL_CMD") > 1)
         TC_GotoLine(count)
     else
         TC_GotoLine(1)
 return
 
-; 转到[count]行, 最后一行
+; 转到 [count] 行, 最后一行
 <TC_LastLine>:
     if (count := vim.GetCount("TTOTAL_CMD") > 1)
         TC_GotoLine(count)
@@ -610,22 +549,17 @@ return
         TC_GotoLine(0)
 return
 
-TC_GotoLine(Index)
-{
+TC_GotoLine(Index) {
     Vim_HotKeyCount := 0
     ControlGetFocus, Ctrl, ahk_class TTOTAL_CMD
-    if Index
-    {
-        ;Index--
+    if Index {
         ControlGet, text, List, , %ctrl%, ahk_class TTOTAL_CMD
         Stringsplit, T, Text, `n
         Last := T0 - 1
         if Index > %Last%
             Index := Last
         Postmessage, 0x19E, %Index%, 1, %Ctrl%, ahk_class TTOTAL_CMD
-    }
-    else
-    {
+    } else {
         ControlGet, text, List, , %ctrl%, ahk_class TTOTAL_CMD
         Stringsplit, T, Text, `n
         Last := T0 - 1
@@ -644,7 +578,7 @@ TC_GotoLine(Index)
     Hight := ErrorLevel
     SendMessage, 0x018E, 0, 0, , ahk_id %cid%
     Top := ErrorLevel
-    HalfLine := Ceil( ((h-h1)/Hight)/2 ) + Top
+    HalfLine := Ceil(((h - h1) / Hight) / 2 ) + Top
     PostMessage, 0x19E, %HalfLine%, 1, , AHK_id %cid%
 return
 
@@ -668,14 +602,13 @@ MarkTimer:
 
     ControlGetText, OutVar, %TCEdit%, ahk_class TTOTAL_CMD
     Match_TCEdit := "i)^" . TCEdit . "$"
-    if Not RegExMatch(ThisControl, Match_TCEdit) OR Not RegExMatch(Outvar, "i)^m.?")
-    {
+    if Not RegExMatch(ThisControl, Match_TCEdit) OR Not RegExMatch(Outvar, "i)^m.?") {
         vim.Mode("normal")
         Settimer, MarkTimer, Off
         return
     }
-    if RegExMatch(OutVar, "i)^m.+")
-    {
+
+    if RegExMatch(OutVar, "i)^m.+") {
         vim.Mode("normal")
         SetTimer, MarkTimer, off
         ControlSetText, %TCEdit%, , ahk_class TTOTAL_CMD
@@ -688,34 +621,30 @@ MarkTimer:
         Clipboard := ClipSaved
         ClipSaved := ""
 
-        if StrLen(Path) > 80
-        {
+        if (StrLen(Path) > 80) {
             SplitPath, Path, , PathDir
             Path1 := SubStr(Path, 1, 15)
             Path2 := SubStr(Path, RegExMatch(Path, "\\[^\\]*$")-Strlen(Path))
             Path := Path1 . "..." . SubStr(Path2, 1, 65) "..."
         }
+
         m := SubStr(OutVar, 2, 1)
         mPath := "&" . m . " >> " . Path
-        if RegExMatch(Mark["ms"], m)
-        {
+        if RegExMatch(Mark["ms"], m) {
             DelM := Mark[m]
             Menu, MarkMenu, Delete, %DelM%
             Menu, MarkMenu, Add, %mPath%, AddMark
             Mark[m] := mPath
-            if (SaveMark != 0)
-            {
+
+            if (SaveMark != 0) {
                 IniWrite, %mPath%, %TCMarkIni%, mark, %m%
             }
-        }
-        else
-        {
+        } else {
             Menu, MarkMenu, Add, %mPath%, AddMark
             marks := Mark["ms"] . m
             Mark["ms"] := marks
             Mark[m] := mPath
-            if (SaveMark != 0)
-            {
+            if (SaveMark != 0) {
                 IniWrite, %marks%, %TCMarkIni%, mark, ms
                 IniWrite, %mPath%, %TCMarkIni%, mark, %m%
             }
@@ -728,39 +657,23 @@ AddMark:
     ; &x >> run cmd
     ThisMenuItem := SubStr(A_ThisMenuItem, 7)
 
-    if (InStr(ThisMenuItem, "run ") == 1)
-    {
+    if (InStr(ThisMenuItem, "run ") == 1) {
         Run, % SubStr(ThisMenuItem, 5)
         return
-    }
-    else if (InStr(ThisMenuItem, "\\") == 1)
-    {
-        if (ThisMenuItem == "\\桌面")
-        {
+    } else if (InStr(ThisMenuItem, "\\") == 1) {
+        if (ThisMenuItem == "\\桌面") {
             Postmessage 1075, 2121, 0, , ahk_class TTOTAL_CMD
-        }
-        else if (ThisMenuItem == "\\计算机")
-        {
+        } else if (ThisMenuItem == "\\计算机") {
             Postmessage 1075, 2122, 0, , ahk_class TTOTAL_CMD
-        }
-        else if (ThisMenuItem == "\\所有控制面板项")
-        {
+        } else if (ThisMenuItem == "\\所有控制面板项") {
             Postmessage 1075, 2123, 0, , ahk_class TTOTAL_CMD
-        }
-        else if (ThisMenuItem = "\\Fonts")
-        {
+        } else if (ThisMenuItem = "\\Fonts") {
             Postmessage 1075, 2124, 0, , ahk_class TTOTAL_CMD
-        }
-        else if (ThisMenuItem == "\\网络")
-        {
+        } else if (ThisMenuItem == "\\网络") {
             Postmessage 1075, 2125, 0, , ahk_class TTOTAL_CMD
-        }
-        else if (ThisMenuItem == "\\打印机")
-        {
+        } else if (ThisMenuItem == "\\打印机") {
             Postmessage 1075, 2126, 0, , ahk_class TTOTAL_CMD
-        }
-        else if (ThisMenuItem == "\\回收站")
-        {
+        } else if (ThisMenuItem == "\\回收站") {
             Postmessage 1075, 2127, 0, , ahk_class TTOTAL_CMD
         }
 
@@ -808,31 +721,25 @@ return
 return
 
 ; 检查文件模板功能
-FileTempMenuCheck()
-{
+FileTempMenuCheck() {
     global TCDir
 
     blankico := false
 
-    if FileExist(TCDir "\ShellNew\blankico")
-    {
+    if FileExist(TCDir "\ShellNew\blankico") {
         blankico := true
     }
 
-    Loop, %TCDir%\ShellNew\*.*
-    {
+    Loop, %TCDir%\ShellNew\*.* {
         if A_Index = 1
             Menu, FileTemp, Add
         ft := SubStr(A_LoopFileName, 1, 1) . " >> " . A_LoopFileName
         Menu, FileTemp, Add, %ft%, FileTempNew
 
-        if (blankico)
-        {
+        if (blankico) {
             Menu, FileTemp, Icon, %ft%, %A_WinDir%\system32\Shell32.dll, 1 ;-152
             continue
-        }
-        else if FileExist(TCDir "\ShellNew\icons\" A_LoopFileExt ".ico")
-        {
+        } else if FileExist(TCDir "\ShellNew\icons\" A_LoopFileExt ".ico") {
             Menu, FileTemp, Icon, %ft%, % TCDir "\ShellNew\icons\" A_LoopFileExt ".ico"
             continue
         }
@@ -858,32 +765,27 @@ FileTempNew:
 return
 
 ; 新建文件
-NewFile(File = "", Blank := false, Ext := "txt")
-{
+NewFile(File = "", Blank := false, Ext := "txt") {
     global NewFile
 
     if Not File
         File := RegExReplace(NewFiles[A_ThisMenuItemPos], "(.*\[|\]$)", "")
 
-    if (Blank)
-    {
+    if (Blank) {
         FileName := "New"
         FileNameNoExt := "New"
         FileExt := Ext
 
-        if (Ext != "")
-        {
+        if (Ext != "") {
             FileName .= "." Ext
         }
-    }
-    else if Not FileExist(File)
-    {
+    } else if Not FileExist(File) {
         RegRead, ShellNewDir, HKEY_USERS, .default\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders
         if Not ShellNewDir
             ShellNewDir := "C:\windows\ShellNew"
         File := ShellNewDir . "\" file
-        if (SubStr(file, -7) = "NullFile")
-        {
+
+        if (SubStr(file, -7) = "NullFile") {
             FileExt := RegExReplace(NewFiles[A_ThisMenuItemPos], "(.*\(|\).*)")
             File := "New" . FileExt
             FileName := "New" . FileExt
@@ -902,8 +804,7 @@ NewFile(File = "", Blank := false, Ext := "txt")
     Gui, Add, Button, x282 y80 w90 h30 gNewFileClose , 取消(&C)
     Gui, Show, w400 h120, 新建文件
 
-    if FileExt
-    {
+    if FileExt {
         Controlget, nf, hwnd, , edit2, A
         PostMessage, 0x0B1, 0, Strlen(filenamenoext), Edit2, A
     }
@@ -932,28 +833,22 @@ NewFileOK:
     Clipboard := ClipSaved
     ClipSaved := ""
 
-    if (DstPath == "")
-    {
+    if (DstPath == "") {
         return
     }
 
-    if (InStr(DstPath, "\\") == 1)
-    {
-        if (RegExMatch(DstPath, "^\\\\(计算机|所有控制面板项|Fonts|网络|打印机|回收站)$"))
-        {
+    if (InStr(DstPath, "\\") == 1) {
+        if (RegExMatch(DstPath, "^\\\\(计算机|所有控制面板项|Fonts|网络|打印机|回收站)$")) {
             MsgBox, 0, 提示, 无法在此处创建新文件
             Gui, Destroy
             return
-        }
-        else if (DstPath == "\\桌面")
-        {
+        } else if (DstPath == "\\桌面") {
             DstPath := A_Desktop
         }
     }
 
     NewFile := DstPath . "\" . NewFileName
-    if FileExist(NewFile)
-    {
+    if FileExist(NewFile) {
         MsgBox, 4, 新建文件, 新建文件已存在，是否覆盖？
         IfMsgBox No
         {
@@ -961,12 +856,9 @@ NewFileOK:
         }
     }
 
-    if FileExist(SrcPath)
-    {
+    if FileExist(SrcPath) {
         FileCopy, %SrcPath%, %NewFile%, 1
-    }
-    else
-    {
+    } else {
         Run, fsutil file createnew "%NewFile%" 0, , Hide
     }
 
@@ -974,14 +866,12 @@ NewFileOK:
 
     WinActivate, ahk_class TTOTAL_CMD
     ControlGetFocus, FocusCtrl, ahk_class TTOTAL_CMD
-    if (InStr(FocusCtrl, TCListBox) == 1)
-    {
+    if (InStr(FocusCtrl, TCListBox) == 1) {
         Gosub, <cm_RereadSource>
         ControlGet, Text, List, , %FocusCtrl%, ahk_class TTOTAL_CMD
         Loop, Parse, Text, `n
         {
-            if (InStr(A_LoopField, NewFileName) == 1)
-            {
+            if (InStr(A_LoopField, NewFileName) == 1) {
                 Postmessage, 0x19E, % A_Index - 1, 1, %FocusCtrl%, ahk_class TTOTAL_CMD
                 break
             }
@@ -991,8 +881,7 @@ return
 
 ; 获取新建文件的源
 ; reg 为后缀
-RegGetNewFilePath(reg)
-{
+RegGetNewFilePath(reg) {
     RegRead, GetRegPath, HKEY_CLASSES_ROOT, %Reg%, FileName
     IF Not ErrorLevel
         return GetRegPath
@@ -1003,8 +892,7 @@ RegGetNewFilePath(reg)
 
 ; 获取新建文件类型名
 ; reg 为后缀
-RegGetNewFileType(reg)
-{
+RegGetNewFileType(reg) {
     RegRead, FileType, HKEY_CLASSES_ROOT, %Reg%
     if Not ErrorLevel
         return FileType
@@ -1012,8 +900,7 @@ RegGetNewFileType(reg)
 
 ; 获取文件描述
 ; reg 为后缀
-RegGetNewFileDescribe(reg)
-{
+RegGetNewFileDescribe(reg) {
     FileType := RegGetNewFileType(reg)
     RegRead, FileDesc, HKEY_CLASSES_ROOT, %FileType%
     if Not ErrorLevel
@@ -1022,8 +909,7 @@ RegGetNewFileDescribe(reg)
 
 ; 获取文件对应的图标
 ; reg 为后缀
-RegGetNewFileIcon(reg)
-{
+RegGetNewFileIcon(reg) {
     IconPath := RegGetNewFileType(reg) . "\DefaultIcon"
     RegRead, FileIcon, HKEY_CLASSES_ROOT, %IconPath%
     if Not ErrorLevel
@@ -1039,8 +925,7 @@ RegGetNewFileIcon(reg)
     Clipboard := ClipSaved
     ClipSaved := ""
 
-    if RegExMatch(Path, "^.:\\$")
-    {
+    if RegExMatch(Path, "^.:\\$") {
         Gosub, <cm_OpenDrives>
         Path := "i)" . RegExReplace(Path, "\\", "")
         ControlGetFocus, focus_control, ahk_class TTOTAL_CMD
@@ -1048,17 +933,14 @@ RegGetNewFileIcon(reg)
         Loop, Parse, Outvar, `n
         {
             if Not A_LoopField
-                Break
-            if RegExMatch(A_LoopField, Path)
-            {
+                break
+            if RegExMatch(A_LoopField, Path) {
                 Focus := A_Index - 1
-                Break
+                break
             }
         }
         PostMessage, 0x19E, %Focus%, 1, %focus_control%, ahk_class TTOTAL_CMD
-    }
-    else
-    {
+    } else {
         Gosub, <cm_GoToParent>
     }
 return
@@ -1071,29 +953,26 @@ return
         WinSet, AlwaysOnTop, on, ahk_class TTOTAL_CMD
 return
 
-LeftRight()
-{
+LeftRight() {
     location := 0
     ControlGetPos, x1, y1, , , %TCPanel1%, ahk_class TTOTAL_CMD
     if x1 > %y1%
         location += 2
     ControlGetFocus, TLB, ahk_class TTOTAL_CMD
     ControlGetPos, x2, y2, wn, , %TLB%, ahk_class TTOTAL_CMD
-    if location
-    {
+    if (location) {
         if x1 > %x2%
             location += 1
-    }
-    else
-    {
+    } else {
         if y1 > %y2%
             location += 1
     }
+
     return location
 }
 
 ; 增强命令 By 流彩
-;<DirectoryHotlistother>: >>常用文件夹:另一侧{{{2
+; 常用文件夹:另一侧
 <DirectoryHotlistother>:
     ControlGetFocus, CurrentFocus, ahk_class TTOTAL_CMD
     if CurrentFocus not in %TCListBox%2, %TCListBox%1
@@ -1109,8 +988,7 @@ return
 
 WaitMenuPop3:
     winget, menupop, , ahk_class #32768
-    if menupop
-    {
+    if menupop {
         SetTimer, WaitMenuPop3, Off
         SetTimer, WaitMenuOff3
     }
@@ -1118,8 +996,7 @@ return
 
 WaitMenuOff3:
     winget, menupop, , ahk_class #32768
-    if not menupop
-    {
+    if not menupop {
         SetTimer, WaitMenuOff3, off
         goto, goonhot
     }
@@ -1154,8 +1031,7 @@ return
 
 WaitMenuOff1:
     winget, menupop, , ahk_class #32768
-    if not menupop
-    {
+    if not menupop {
         SetTimer, WaitMenuOff1, off
         goto, gooncopy
     }
@@ -1166,19 +1042,16 @@ gooncopy:
     SendPos(3101)
 return
 
-;<TC_CopyUseQueues>: >>无需确认，使用队列拷贝文件至另一窗口{{{2
 <TC_CopyUseQueues>:
     Send {F5}
     Send {F2}
 return
 
-;<TC_MoveUseQueues>: >>无需确认，使用队列移动文件至另一窗口{{{2
 <TC_MoveUseQueues>:
     Send {F6}
     Send {F2}
 return
 
-;<TC_MoveDirectoryHotlist>: >>移动到常用文件夹{{{2
 <TC_MoveDirectoryHotlist>:
     if SendPos(0)
         ControlGetFocus, CurrentFocus, ahk_class TTOTAL_CMD
@@ -1195,8 +1068,7 @@ return
 
 WaitMenuPop2:
     winget, menupop, , ahk_class #32768
-    if menupop
-    {
+    if menupop {
         SetTimer, WaitMenuPop2 , Off
         SetTimer, WaitMenuOff2
     }
@@ -1204,8 +1076,7 @@ return
 
 WaitMenuOff2:
     winget, menupop, , ahk_class #32768
-    if not menupop
-    {
+    if not menupop {
         SetTimer, WaitMenuOff2, off
         goto, GoonMove
     }
@@ -1216,35 +1087,29 @@ GoonMove:
     SendPos(1005)
 return
 
-;<TC_GotoPreviousDirOther>: >>后退另一侧{{{2
 <TC_GotoPreviousDirOther>:
     Send {Tab}
     SendPos(570)
     Send {Tab}
 return
 
-;<TC_GotoNextDirOther>: >>前进另一侧{{{2
 <TC_GotoNextDirOther>:
     Send {Tab}
     SendPos(571)
     Send {Tab}
 return
 
-; 切换当前（纵向）窗口显示状态50%~100%"
 <TC_Toggle_50_100Percent>:
     ControlGetPos, , , wp, hp, %TCPanel1%, ahk_class TTOTAL_CMD
     ControlGetPos, , , w1, h1, %TCListBox%1, ahk_class TTOTAL_CMD
     ControlGetPos, , , w2, h2, %TCListBox%2, ahk_class TTOTAL_CMD
-    if (wp < hp)
-    {
+    if (wp < hp) {
         ;纵向
         if (abs(w1 - w2) > 2)
             SendPos(909)
         else
             SendPos(910)
-    }
-    else
-    {
+    } else {
         ;横向
         if (abs(h1 - h2)  > 2)
             SendPos(909)
@@ -1253,7 +1118,6 @@ return
     }
 return
 
-; 切换当前（纵向）窗口显示状态50%~100%"
 ; 横向分割的窗口使用 TC_Toggle_50_100Percent 即可
 <TC_Toggle_50_100Percent_V>:
     ControlGetPos, , , wp, hp, %TCPanel1%, ahk_class TTOTAL_CMD
@@ -1263,50 +1127,42 @@ return
     ; msgbox % "wp " wp " hp " hp " w1 " w1 " h1 " h1 " w2 " w2 " h2 " h2 " w3 " w3 " h3 " h3
 
     ; 修复打开 FTP 等地址后失效的问题
-    if (w3 > 0 && h3 > 0)
-    {
+    if (w3 > 0 && h3 > 0) {
         w1 := w2
         h1 := h2
         w2 := w3
         h2 := h3
     }
 
-    if (wp < hp)  ;纵向
-    {
-        if (abs(w1 - w2) > 2)
-        {
+    if (wp < hp)  {
+        ; 纵向
+
+        if (abs(w1 - w2) > 2) {
             SendPos(909)
-        }
-        else
-        {
+        } else {
             SendPos(910)
             SendPos(305)
         }
-    }
-    else          ;横向
-    {
-        if (abs(h1 - h2)  > 2)
-        {
+    } else {
+        ; 横向
+
+        if (abs(h1 - h2)  > 2) {
             SendPos(305)
             SendPos(909)
         }
         /*
         横向切换会错乱
-        else
-        {
+        else {
             SendPos(910)
         }
         */
     }
 return
 
-
-;使用外部查看器打开（alt+f3）
 <TC_OpenWithAlternateViewer>:
     send !{f3}
 return
 
-;使用查看器打开光标所在文件（shift+f3）
 <TC_ViewFileUnderCursor>:
     send +{f3}
 return
@@ -1318,8 +1174,7 @@ return
 <TC_ToggleMenu>:
     IniRead, Mainmenu, %TCIni%, Configuration, Mainmenu
 
-    if (Mainmenu = "WCMD_CHN.MNU")
-    {
+    if (Mainmenu = "WCMD_CHN.MNU") {
         WinGet,TChwnd,Id,ahk_class TTOTAL_CMD
         DllCall("SetMenu", "uint", TChwnd, "uint", 0)
         IniWrite, NONE.MNU, %TCIni%, Configuration, Mainmenu
@@ -1327,26 +1182,26 @@ return
 
         noneMnuPath := RegExReplace(TCPath, "i)totalcmd6?4?.exe$", "LANGUAGE\NONE.MNU")
 
-        if (!FileExist(noneMnuPath))
-        {
+        if (!FileExist(noneMnuPath)) {
             FileAppend, , %noneMnuPath%, UTF-8-RAW
         }
-    }
-    else
-    {
+    } else {
         IniWrite, WCMD_CHN.MNU, %TCIni%, Configuration, Mainmenu
         IniWrite, 0, %TCIni%, Configuration, RestrictInterface
 
         WinClose, ahk_class TTOTAL_CMD
 
-        Loop, 4
-        {
+        Loop, 4 {
             Sleep, 50
+
             Run, %TCPath%
+            WinWait, ahk_class TTOTAL_CMD
+
             IfWinNotActive, ahk_class TTOTAL_CMD
                 WinActivate, ahk_class TTOTAL_CMD
             else
-                Break
+                break
+
             Sleep, 100
         }
     }
@@ -1362,16 +1217,14 @@ return
 
     Gosub, <cm_Return>
 
-    Loop, 5
-    {
+    Loop, 5 {
         Sleep, 10
 
         Clipboard := ""
         Gosub, <cm_CopySrcPathToClip>
         ClipWait
 
-        if (OldPwd != Clipboard)
-        {
+        if (OldPwd != Clipboard) {
             Gosub, <cm_GoToFirstEntry>
             break
         }
@@ -1381,7 +1234,6 @@ return
     ClipSaved := ""
 return
 
-;<TC_FileCopyForBak>: >>将当前光标下的文件复制一份作为作为备份
 <TC_FileCopyForBak>:
     Clipboard :=
     SendPos(2018)
@@ -1389,7 +1241,6 @@ return
     filecopy, %Clipboard%, %Clipboard%.bak
 Return
 
-;<TC_FileMoveForBak>: >>将当前光标下的文件重命名为备份
 <TC_FileMoveForBak>:
     Clipboard :=
     SendPos(2018)
@@ -1402,7 +1253,6 @@ Return
         FileMoveDir, %dir%, %dir%.bak
 Return
 
-;<TC_MultiFilePersistOpen>: >>多个文件一次性连续打开
 <TC_MultiFilePersistOpen>:
     Clipboard :=
     Sendpos(2018)
@@ -1415,31 +1265,26 @@ Return
     }
 Return
 
-;<TC_CopyFileContents>: >>不打开文件就复制文件内容
 <TC_CopyFileContents>:
     Clipboard :=
     SendPos(2018)
     ClipWait
     fileread, Contents, %Clipboard%
-    Clipboard :=
-    Clipboard = %Contents%
+    Clipboard := Contents
 Return
 
-;<TC_OpenDirAndPaste>: >>不打开目录，直接把复制的文件贴进去
 <TC_OpenDirAndPaste>:
     SendPos(1001)
     SendPos(2009)
     SendPos(2002)
 Return
 
-;<TC_MoveSelectedFilesToPrevFolder>: >>将当前文件夹下的选定文件移动到上层目录中
 <TC_MoveSelectedFilesToPrevFolder>:
     Send ^x
     SendPos(2002)
     Send ^v
 Return
 
-;<TC_MoveAllFilesToPrevFolder>: >>将当前文件夹下的全部文件移动到上层目录中
 ; 时间控制不好可能会误删文件，慎用
 <TC_MoveAllFilesToPrevFolder>:
     Send ^a
@@ -1451,14 +1296,12 @@ Return
     Send {del}
 Return
 
-;<TC_SrcQuickViewAndTab>: >>预览文件时,光标自动移到对侧窗口里
 <TC_SrcQuickViewAndTab>:
     SendPos(304)
     Send, {Tab}
     Send, {Shift}
 Return
 
-;<TC_CreateFileShortcut>: >>创建当前光标下文件的快捷方式
 <TC_CreateFileShortcut>:
     Clipboard :=
     SendPos(2018)
@@ -1471,7 +1314,6 @@ Return
         FileCreateShortcut, %dir%, %dir%.lnk
 Return
 
-;<TC_CreateFileShortcutToDesktop>: >>创建当前光标下文件的快捷方式并发送到桌面
 <TC_CreateFileShortcutToDesktop>:
     Clipboard :=
     SendPos(2018)
@@ -1492,14 +1334,13 @@ Return
         Postmessage, 0x19E, 1, 1, %Ctrl%, ahk_class TTOTAL_CMD
 Return
 
-;<TC_CreateFileShortcutToStartup>: >>创建当前光标下文件的快捷方式并发送到启动文件里
 <TC_CreateFileShortcutToStartup>:
     Clipboard :=
     SendPos(2018)
     ClipWait
     SplitPath, Clipboard, name, dir, ext, name_no_ext
     ExtLen := StrLen(ext)
-    if %ExtLen% != 0
+    if (%ExtLen% != 0) {
         ; MsgBox, %Clipboard%
         FileCreateShortcut, %Clipboard%, %dir%\%name_no_ext%.lnk
         FileMove, %dir%\%name_no_ext%.lnk, %appdata%\Microsoft\Windows\Start Menu\Programs\Startup\
@@ -1511,16 +1352,15 @@ Return
         ControlSend, %TCEdit%, {enter}, ahk_class TTOTAL_CMD
         ControlGetFocus, Ctrl, ahk_class TTOTAL_CMD
         Postmessage, 0x19E, 1, 1, %Ctrl%, ahk_class TTOTAL_CMD
+    }
 Return
 
-;<TC_FilterSearchFNsuffix_exe>: >>在当前目录里快速过滤exe扩展名的文件
 <TC_FilterSearchFNsuffix_exe>:
     SendPos(2915)
     Send, *.exe
     Send, {ESC}
 Return
 
-;<TC_TwoFileExchangeName>: >>两个文件互换文件名
 <TC_TwoFileExchangeName>:
     Clipboard :=
     SendPos(2018)
@@ -1535,23 +1375,18 @@ Return
     FileMove, %FirstName%.bak, %SecondName%
 Return
 
-TC_OpenPath(Path, InNewTab := true, LeftOrRight := "")
-{
-    if (LeftOrRight = "")
-    {
+TC_OpenPath(Path, InNewTab := true, LeftOrRight := "") {
+    if (LeftOrRight = "") {
         LeftOrRight := "/R"
-        if Mod(LeftRight(), 2)
-        {
+
+        if Mod(LeftRight(), 2) {
             LeftOrRight := "/L"
         }
     }
 
-    if (InNewTab)
-    {
+    if (InNewTab) {
         Run, "%TCPath%" /O /T /A "%LeftOrRight%"="%Path%"
-    }
-    else
-    {
+    } else {
         Run, "%TCPath%" /O /A "%LeftOrRight%"="%Path%"
     }
 }
@@ -1576,8 +1411,7 @@ return
     ; WinWaitClose, ahk_class TCmdSelForm
     ClipWait
 
-    if (IsLabel("<" Clipboard ">"))
-    {
+    if (IsLabel("<" Clipboard ">")) {
         Gosub, <%Clipboard%>
     }
 return
@@ -1587,16 +1421,12 @@ return
 return
 
 ; 自动设置的话显示效果滞后
-TC_SetTitle(Title := "", KeepVersion := true)
-{
-    if (KeepVersion)
-    {
+TC_SetTitle(Title := "", KeepVersion := true) {
+    if (KeepVersion) {
         WinGetTitle, OldTitle, ahk_class TTOTAL_CMD
         StringMid, NewTitle, OldTitle, 1, 21  ;保留TC的版本号信息
         WinSetTitle, ahk_class TTOTAL_CMD, , %NewTitle% - %Title%
-    }
-    else
-    {
+    } else {
         WinSetTitle, ahk_class TTOTAL_CMD, , %Title%
     }
 }
@@ -1616,8 +1446,7 @@ return
     OldClipboard =
     Loop, Parse, Contents, `n, `r
     {
-        if FileExist(A_LoopField)
-        {
+        if FileExist(A_LoopField) {
             TC_OpenPath(A_LoopField, true)
             Sleep, 100
         }
@@ -1632,15 +1461,13 @@ return
     NewFile("创建空文件", true, "")
 return
 
-TC_Run(cmd)
-{
+TC_Run(cmd) {
     FixTCEditId()
 
     ControlSetText, %TCEdit%, %cmd%, ahk_class TTOTAL_CMD
     ControlSend, %TCEdit%, {Enter}, ahk_class TTOTAL_CMD
 }
 
-; 粘贴文件，如果光标下为目录则粘贴进该目录
 <TC_PasteFileEx>:
     OldClipboard := ClipboardAll
     Clipboard =
@@ -1648,8 +1475,7 @@ TC_Run(cmd)
     SendPos(2018)  ;cm_CopyFullNamesToClip
     ClipWait
     TempClip := Clipboard
-    If (SubStr(TempClip, 0) == "\")
-    {
+    If (SubStr(TempClip, 0) == "\") {
         SendPos(1001)  ;cm_Return
         Clipboard := OldClipboard
         SendPos(2009)  ;cm_PasteFromClipboard
@@ -1664,12 +1490,11 @@ return
 ; 缩略图视图，并且临时修改 h 和 l 按键为左右方向键
 <TC_ThumbsView>:
     Gosub, <cm_SrcThumbs>
-
     Gosub, <TC_ThumbsViewSwitchKey>
 return
 
 <TC_ThumbsViewSwitchKey>:
-    InThumbsView := !(InThumbsView)
+    InThumbsView := !InThumbsView
     if (InThumbsView) {
         vim.Map("h", "<left>", "TTOTAL_CMD")
         vim.Map("l", "<right>", "TTOTAL_CMD")
@@ -1679,23 +1504,18 @@ return
     }
 return
 
-FixTCEditId()
-{
+FixTCEditId() {
     global TC64Bit
 
-    if (!TC64Bit)
-    {
+    if (!TC64Bit) {
         return
     }
 
     ControlGetText, Result, Edit2, ahk_class TTOTAL_CMD
 
-    if (ErrorLevel)
-    {
+    if (ErrorLevel) {
         TCEdit := "Edit1"
-    }
-    else
-    {
+    } else {
         TCEdit := "Edit2"
     }
 }
@@ -1719,8 +1539,7 @@ return
 
     OldPwd := Clipboard
 
-    if (StrLen(OldPwd) == 3)
-    {
+    if (StrLen(OldPwd) == 3) {
         ; 在根分区
         Gosub, <cm_GotoPreviousDrive>
         Gosub, <cm_GoToFirstEntry>
@@ -1729,9 +1548,7 @@ return
         ClipSaved := ""
 
         return
-    }
-    else if (RegExMatch(OldPwd, "^\\\\\\\w+\\\w+$"))
-    {
+    } else if (RegExMatch(OldPwd, "^\\\\\\\w+\\\w+$")) {
         Clipboard := ClipSaved
         ClipSaved := ""
 
@@ -1740,8 +1557,7 @@ return
 
     Gosub, <cm_GoToParent>
 
-    if (InStr(OldPwd, "\\\"))
-    {
+    if (InStr(OldPwd, "\\\")) {
         ; 网络文件系统比较慢，等待下
         Sleep, 50
     }
@@ -1752,13 +1568,10 @@ return
     Gosub, <cm_CopyFullNamesToClip>
     ClipWait
 
-    if (!InStr(OldPwd, Clipboard))
-    {
+    if (!InStr(OldPwd, Clipboard)) {
         Gosub, <cm_GoToDir>
         Gosub, <cm_GoToFirstEntry>
-    }
-    else
-    {
+    } else {
         Gosub, <cm_GotoPreviousDir>
         Gosub, <cm_GoToFirstEntry>
     }
@@ -1775,8 +1588,7 @@ return
 
     OldPwd := Clipboard
 
-    if (StrLen(OldPwd) == 3)
-    {
+    if (StrLen(OldPwd) == 3) {
         ; 在根分区
         Gosub, <cm_GotoNextDrive>
         Gosub, <cm_GoToFirstEntry>
@@ -1785,9 +1597,7 @@ return
         ClipSaved := ""
 
         return
-    }
-    else if (RegExMatch(OldPwd, "^\\\\\\\w+\\\w+$"))
-    {
+    } else if (RegExMatch(OldPwd, "^\\\\\\\w+\\\w+$")) {
         Clipboard := ClipSaved
         ClipSaved := ""
 
@@ -1796,8 +1606,7 @@ return
 
     Gosub, <cm_GoToParent>
 
-    if (InStr(OldPwd, "\\\"))
-    {
+    if (InStr(OldPwd, "\\\")) {
         ; 网络文件系统比较慢，等待下
         Sleep, 50
     }
@@ -1805,8 +1614,7 @@ return
     Gosub, <cm_GotoNext>
     Gosub, <cm_GoToDir>
 
-    if (InStr(OldPwd, "\\\"))
-    {
+    if (InStr(OldPwd, "\\\")) {
         ; 网络文件系统比较慢，等待下
         Sleep, 50
     }
@@ -1815,13 +1623,10 @@ return
     Gosub, <cm_CopySrcPathToClip>
     ClipWait
 
-    if (OldPwd != Clipboard && InStr(OldPwd, Clipboard))
-    {
+    if (OldPwd != Clipboard && InStr(OldPwd, Clipboard)) {
         ; 下一个是文件而不是目录
         Gosub, <cm_GotoPreviousDir>
-    }
-    else
-    {
+    } else {
         Gosub, <cm_GoToFirstEntry>
     }
 

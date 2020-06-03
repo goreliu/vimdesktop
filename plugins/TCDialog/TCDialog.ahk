@@ -100,7 +100,7 @@ return
         return
 
     CallerId := id
-    gosub, <FocusTC>
+    gosub, <TC_FocusTC>
     gosub, <TCDialog_MapKeys>
 return
 
@@ -122,7 +122,7 @@ return
         if CallerId = 0
             return
 
-        gosub, <FocusTC>
+        gosub, <TC_FocusTC>
         gosub, <TCDialog_MapKeys>
         return
     }
