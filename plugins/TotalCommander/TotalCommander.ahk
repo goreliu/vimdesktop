@@ -1,5 +1,6 @@
 ﻿TotalCommander:
     global TCPath
+    global TCDir
     global TCIni
     global TCMarkIni
     global ini
@@ -7,49 +8,16 @@
 
     TCPath := ini.TotalCommander_Config.TCPath
     TCIni := ini.TotalCommander_Config.TCIni
+    Splitpath, TCPath, , TCDir
+    TCMarkIni := TCDir "\TCMark.ini"
 
-    if !FileExist(TCPath)
+    if (!FileExist(TCPath) || !FileExist(TCIni))
     {
-        Process, Exist, totalcmd.exe
-        if ErrorLevel
-        {
-            WinGet, TCPath, ProcessPath, ahk_pid %ErrorLevel%
-        }
-        else
-        {
-            Process, Exist, totalcmd64.exe
-            if ErrorLevel
-                WinGet, TCPath, ProcessPath, ahk_pid %ErrorLevel%
-        }
-
-        if TCPath
-            IniWrite, %TCPath%, %ConfigPath%, TotalCommander_Config, TCPath
+        MsgBox, 请在配置文件中设置正确的 TotalCommander 地址
+        return
     }
 
-    if TCPath and Not FileExist(TCPath)
-    {
-        RegRead, TCDir, HKEY_CURRENT_USER, Software\Ghisler\Total Commander, InstallDir
-        if FileExist(TCDir "\totalcmd.exe")
-            l .= TCDir "\totalcmd.exe`n"
-        if FileExist(TCDir "\totalcmd64.exe")
-            l .= TCDir "\totalcmd64.exe`n"
-        GUI, FindTC:Add, Edit, w300 ReadOnly R3, %TCDir%
-        GUI, FindTC:Add, Button, w300 gTotalcomander_select_tc, TOTALCMD.EXE   (&A)
-        GUI, FindTC:Add, Button, w300 gTotalcomander_select_tc64, TOTALCMD64.EXE (&S)
-        GUI, FindTC:Add, Button, w300 gTotalcomander_select_tcdir, TC目录路径不对? (&D)
-        GUI, FindTC:Show, , Total Commander 设置路径
-    }
-
-    if TCPath and not FileExist(TCIni)
-    {
-        SplitPath, TCPath, , dir
-        TCIni := dir "\wincmd.ini"
-        IniWrite, %TCIni%, %ConfigPath%, TotalCommander_Config, TCIni
-    }
-
-    TCMarkIni := RegExReplace(TCPath, "i)totalcmd6?4?.exe$", "TCMark.ini")
-
-    if (InStr(TcPath, "totalcmd64.exe"))
+    if (InStr(TCPath, "totalcmd64.exe"))
     {
         TC64Bit := true
 
@@ -842,8 +810,7 @@ return
 ; 检查文件模板功能
 FileTempMenuCheck()
 {
-    global TCPath
-    Splitpath, TCPath, , TCDir
+    global TCDir
 
     blankico := false
 
@@ -1262,47 +1229,6 @@ return
     SendPos(571)
     Send {Tab}
 return
-
-Totalcomander_select_tc:
-    Totalcomander_select_tc()
-return
-
-Totalcomander_select_tc()
-{
-    GUI, FindTC:Default
-    GuiControlGet, dir, , Edit1
-    TCPath := dir "\totalcmd.exe"
-    TCIni  := dir "\wincmd.ini"
-    GUi, FindTC:Destroy
-    IniWrite, %TCPath%, %ConfigPath%, TotalCommander_Config, TCPath
-    IniWrite, %TCIni%, %ConfigPath%, TotalCommander_Config, TCIni
-}
-
-Totalcomander_select_tc64:
-    Totalcomander_select_tc64()
-return
-
-Totalcomander_select_tc64()
-{
-    GUI, FindTC:Default
-    GuiControlGet, dir, , Edit1
-    TCPath := dir "\totalcmd64.exe"
-    TCIni  := dir "\wincmd.ini"
-    GUi, FindTC:Destroy
-    IniWrite, %TCPath%, %ConfigPath%, TotalCommander_Config, TCPath
-    IniWrite, %TCIni%, %ConfigPath%, TotalCommander_Config, TCIni
-}
-
-Totalcomander_select_tcdir:
-    Totalcomander_select_tcdir()
-return
-
-Totalcomander_select_tcdir()
-{
-    FileSelectFolder, tcdir, , 0, 打开TC安装目录
-
-    GuiControl, , Edit1, %tcdir%
-}
 
 ; 切换当前（纵向）窗口显示状态50%~100%"
 <TC_Toggle_50_100Percent>:
