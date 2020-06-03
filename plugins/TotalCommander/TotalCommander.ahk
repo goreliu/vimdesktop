@@ -4208,16 +4208,16 @@ return
 return
 
 <TC_SelectCmd>:
-    OldClipboard := Clipboard
+    Clipboard := ""
 
     Gosub, <cm_CommandBrowser>
-    sleep 100
-    WinWaitClose, ahk_class TCmdSelForm
-    if (IsLabel("<" Clipboard ">") && Clipboard != OldClipboard)
+    ; WinWaitClose, ahk_class TCmdSelForm
+    ClipWait
+
+    if (IsLabel("<" Clipboard ">"))
     {
         Gosub, <%Clipboard%>
     }
-    OldClipboard =
 return
 
 <TC_ClearTitle>:
