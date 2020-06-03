@@ -348,10 +348,10 @@ return
 ; TTOTAL_CMD_CheckMode()
 TTOTAL_CMD_CheckMode()
 {
-    WinGet, MenuID, ID, AHK_CLASS #32768
+    WinGet, MenuID, ID, ahk_class #32768
     if MenuID
         return True
-    ControlGetFocus, ctrl, AHK_CLASS TTOTAL_CMD
+    ControlGetFocus, ctrl, ahk_class TTOTAL_CMD
     if RegExMatch(ctrl, TInEdit)
         return false
     if RegExMatch(ctrl, TCEdit)
@@ -370,10 +370,10 @@ TTOTAL_CMD_CheckMode()
 TC_BeforeActionDo()
 {
     Global TC_SendPos
-    WinGet, MenuID, ID, AHK_CLASS #32768
+    WinGet, MenuID, ID, ahk_class #32768
     if MenuID And (TC_SendPos <> 572)
         return True
-    ControlGetFocus, ctrl, AHK_CLASS TTOTAL_CMD
+    ControlGetFocus, ctrl, ahk_class TTOTAL_CMD
     Ifinstring, ctrl, %TCListBox%
         return False
     return True
@@ -399,24 +399,24 @@ return
 return
 ; <TC_ToggleTC> {{{1
 <TC_ToggleTC>:
-    IfWinExist, AHK_CLASS TTOTAL_CMD
+    IfWinExist, ahk_class TTOTAL_CMD
     {
-        WinGet, AC, MinMax, AHK_CLASS TTOTAL_CMD
+        WinGet, AC, MinMax, ahk_class TTOTAL_CMD
         if Ac = -1
-            Winactivate, AHK_ClASS TTOTAL_CMD
+            Winactivate, ahk_class TTOTAL_CMD
         else
-            Ifwinnotactive, AHK_CLASS TTOTAL_CMD
-                Winactivate, AHK_CLASS TTOTAL_CMD
+            Ifwinnotactive, ahk_class TTOTAL_CMD
+                Winactivate, ahk_class TTOTAL_CMD
             else
-                Winminimize, AHK_CLASS TTOTAL_CMD
+                Winminimize, ahk_class TTOTAL_CMD
     }
     else
     {
         Run, %TCPath%
         Loop, 4
         {
-            IfWinNotActive, AHK_CLASS TTOTAL_CMD
-                WinActivate, AHK_CLASS TTOTAL_CMD
+            IfWinNotActive, ahk_class TTOTAL_CMD
+                WinActivate, ahk_class TTOTAL_CMD
             else
                 Break
             Sleep, 500
@@ -429,15 +429,15 @@ return
 ;激活TC
 <FocusTC>:
 {
-    IfWinExist, AHK_CLASS TTOTAL_CMD
-        Winactivate, AHK_ClASS TTOTAL_CMD
+    IfWinExist, ahk_class TTOTAL_CMD
+        Winactivate, ahk_class TTOTAL_CMD
     else
     {
         Run, %TCPath%
         Loop, 4
         {
-            IfWinNotActive, AHK_CLASS TTOTAL_CMD
-                WinActivate, AHK_CLASS TTOTAL_CMD
+            IfWinNotActive, ahk_class TTOTAL_CMD
+                WinActivate, ahk_class TTOTAL_CMD
             else
                 Break
             Sleep, 500
@@ -610,8 +610,8 @@ azHistorySelect()
 
         ControlSetText, %TCEdit%, cd %ThisMenuItem%, ahk_class TTOTAL_CMD
         ControlSend, %TCEdit%, {enter}, ahk_class TTOTAL_CMD
-        ControlGetFocus, Ctrl, AHK_CLASS TTOTAL_CMD
-        Postmessage, 0x19E, 1, 1, %Ctrl%, AHK_CLASS TTOTAL_CMD
+        ControlGetFocus, Ctrl, ahk_class TTOTAL_CMD
+        Postmessage, 0x19E, 1, 1, %Ctrl%, ahk_class TTOTAL_CMD
     }
 }
 ; <TC_DownSelect> {{{1
@@ -696,23 +696,23 @@ return
 TC_GotoLine(Index)
 {
     Vim_HotKeyCount := 0
-    ControlGetFocus, Ctrl, AHK_CLASS TTOTAL_CMD
+    ControlGetFocus, Ctrl, ahk_class TTOTAL_CMD
     if Index
     {
         ;Index--
-        ControlGet, text, List, , %ctrl%, AHK_CLASS TTOTAL_CMD
+        ControlGet, text, List, , %ctrl%, ahk_class TTOTAL_CMD
         Stringsplit, T, Text, `n
         Last := T0 - 1
         if Index > %Last%
             Index := Last
-        Postmessage, 0x19E, %Index%, 1, %Ctrl%, AHK_CLASS TTOTAL_CMD
+        Postmessage, 0x19E, %Index%, 1, %Ctrl%, ahk_class TTOTAL_CMD
     }
     else
     {
-        ControlGet, text, List, , %ctrl%, AHK_CLASS TTOTAL_CMD
+        ControlGet, text, List, , %ctrl%, ahk_class TTOTAL_CMD
         Stringsplit, T, Text, `n
         Last := T0 - 1
-        PostMessage, 0x19E, %Last% , 1 , %CTRL%, AHK_CLASS TTOTAL_CMD
+        PostMessage, 0x19E, %Last% , 1 , %CTRL%, ahk_class TTOTAL_CMD
     }
 }
 ; <TC_Half>  {{{1
@@ -743,15 +743,15 @@ TC_Mark()
 {
     vim.mode("insert")
     GoSub, <cm_FocusCmdLine>
-    ControlGet, EditId, Hwnd, , AHK_CLASS TTOTAL_CMD
+    ControlGet, EditId, Hwnd, , ahk_class TTOTAL_CMD
 
     if (TC64bit)
     {
         FixTCEditId()
     }
 
-    ControlSetText, %TCEdit%, m, AHK_CLASS TTOTAL_CMD
-    Postmessage, 0xB1, 2, 2, %TCEdit%, AHK_CLASS TTOTAL_CMD
+    ControlSetText, %TCEdit%, m, ahk_class TTOTAL_CMD
+    Postmessage, 0xB1, 2, 2, %TCEdit%, ahk_class TTOTAL_CMD
     SetTimer, <MarkTimer>, 100
 }
 <MarkTimer>:
@@ -759,14 +759,14 @@ TC_Mark()
 return
 MarkTimer()
 {
-    ControlGetFocus, ThisControl, AHK_CLASS TTOTAL_CMD
+    ControlGetFocus, ThisControl, ahk_class TTOTAL_CMD
 
     if (TC64bit)
     {
         FixTCEditId()
     }
 
-    ControlGetText, OutVar, %TCEdit%, AHK_CLASS TTOTAL_CMD
+    ControlGetText, OutVar, %TCEdit%, ahk_class TTOTAL_CMD
     Match_TCEdit := "i)^" . TCEdit . "$"
     if Not RegExMatch(ThisControl, Match_TCEdit) OR Not RegExMatch(Outvar, "i)^m.?")
     {
@@ -778,8 +778,8 @@ MarkTimer()
     {
         vim.mode("normal")
         SetTimer, <MarkTimer>, off
-        ControlSetText, %TCEdit%, , AHK_CLASS TTOTAL_CMD
-        ControlSend, %TCEdit%, {Esc}, AHK_CLASS TTOTAL_CMD
+        ControlSetText, %TCEdit%, , ahk_class TTOTAL_CMD
+        ControlSend, %TCEdit%, {Esc}, ahk_class TTOTAL_CMD
         ClipSaved := ClipboardAll
         Clipboard :=
         Postmessage 1075, 2029, 0, , ahk_class TTOTAL_CMD
@@ -878,8 +878,8 @@ AddMark()
 
     ControlSetText, %TCEdit%, cd %ThisMenuItem%, ahk_class TTOTAL_CMD
     ControlSend, %TCEdit%, {Enter}, ahk_class TTOTAL_CMD
-    ControlGetFocus, Ctrl, AHK_CLASS TTOTAL_CMD
-    Postmessage, 0x19E, 1, 1, %Ctrl%, AHK_CLASS TTOTAL_CMD
+    ControlGetFocus, Ctrl, ahk_class TTOTAL_CMD
+    Postmessage, 0x19E, 1, 1, %Ctrl%, ahk_class TTOTAL_CMD
     return
 }
 ; <TC_ListMark> {{{1
@@ -1122,65 +1122,73 @@ return
 
 ; 确认新建文件
 NewFileOK:
-    NewFileOK()
-return
-NewFileOK()
-{
     GuiControlGet, SrcPath, , Edit1
     GuiControlGet, NewFileName, , Edit2
+
     ClipSaved := ClipboardAll
     Clipboard :=
     GoSub, <cm_CopySrcPathToClip>
     ClipWait, 2
-    if clipboard
-        DstPath := Clipboard
-    else
+    DstPath := Clipboard
+    Clipboard := ClipSaved
+    ClipSaved := ""
+
+    if (DstPath == "")
+    {
         return
-    clipboard := ClipSaved
-        if RegExMatch(DstPath, "^\\\\计算机$")
-        return
-    if RegExMatch(DstPath, "i)\\\\所有控制面板项$")
-        return
-    if RegExMatch(DstPath, "i)\\\\Fonts$")
-        return
-    if RegExMatch(DstPath, "i)\\\\网络$")
-        return
-    if RegExMatch(DstPath, "i)\\\\打印机$")
-        return
-    if RegExMatch(DstPath, "i)\\\\回收站$")
-        return
-    if RegExmatch(DstPath, "^\\\\桌面$")
-        DstPath := A_Desktop
+    }
+
+    if (InStr(DstPath, "\\") == 1)
+    {
+        if (RegExMatch(DstPath, "^\\\\(计算机|所有控制面板项|Fonts|网络|打印机|回收站)$"))
+        {
+            MsgBox, 0, 提示, 无法在此处创建新文件
+            Gui, Destroy
+            return
+        }
+        else if (DstPath == "\\桌面")
+        {
+            DstPath := A_Desktop
+        }
+    }
+
     NewFile := DstPath . "\" . NewFileName
     if FileExist(NewFile)
     {
         MsgBox, 4, 新建文件, 新建文件已存在，是否覆盖？
         IfMsgBox No
+        {
             return
+        }
     }
-    if !FileExist(SrcPath)
-        Run, fsutil file createnew "%NewFile%" 0, , Hide
-    else
+
+    if FileExist(SrcPath)
+    {
         FileCopy, %SrcPath%, %NewFile%, 1
+    }
+    else
+    {
+        Run, fsutil file createnew "%NewFile%" 0, , Hide
+    }
 
     Gui, Destroy
-    WinActivate, AHK_CLASS TTOTAL_CMD
-    ControlGetFocus, FocusCtrl, AHK_Class TTOTAL_CMD
-    IF RegExMatch(FocusCtrl, TCListBox)
+    WinActivate, ahk_class TTOTAL_CMD
+    ControlGetFocus, FocusCtrl, ahk_class TTOTAL_CMD
+    if (InStr(FocusCtrl, TCListBox) == 1)
     {
         GoSub, <cm_RereadSource>
-        ControlGet, Text, List, , %FocusCtrl%, AHK_CLASS TTOTAL_CMD
+        ControlGet, Text, List, , %FocusCtrl%, ahk_class TTOTAL_CMD
         Loop, Parse, Text, `n
         {
-            if RegExMatch(A_LoopField, NewFileName)
+            if (InStr(A_LoopField, NewFileName) == 1)
             {
-                Index := A_Index - 1
-                Postmessage, 0x19E, %Index%, 1, %FocusCtrl%, AHK_CLASS TTOTAL_CMD
-                Break
+                Postmessage, 0x19E, % A_Index - 1, 1, %FocusCtrl%, ahk_class TTOTAL_CMD
+                break
             }
         }
     }
-}
+return
+
 ;============================================================================
 ; ReadNewFile()
 ; 新建文件菜单
@@ -1314,8 +1322,8 @@ IsRootDir()
     {
         GoSub, <cm_OpenDrives>
         Path := "i)" . RegExReplace(Path, "\\", "")
-        ControlGetFocus, focus_control, AHK_CLASS TTOTAL_CMD
-        ControlGet, outvar, list, , %focus_control%, AHK_CLASS TTOTAL_CMD
+        ControlGetFocus, focus_control, ahk_class TTOTAL_CMD
+        ControlGet, outvar, list, , %focus_control%, ahk_class TTOTAL_CMD
         Loop, Parse, Outvar, `n
         {
             if Not A_LoopField
@@ -1326,7 +1334,7 @@ IsRootDir()
                 Break
             }
         }
-        PostMessage, 0x19E, %Focus%, 1, %focus_control%, AHK_CLASS TTOTAL_CMD
+        PostMessage, 0x19E, %Focus%, 1, %focus_control%, ahk_class TTOTAL_CMD
     }
 }
 <TC_AlwayOnTop>:
@@ -1345,7 +1353,7 @@ TC_AlwayOnTop()
 LeftRight()
 {
     location := 0
-    ControlGetPos, x1, y1, , , %TCPanel1%, AHK_CLASS TTOTAL_CMD
+    ControlGetPos, x1, y1, , , %TCPanel1%, ahk_class TTOTAL_CMD
     if x1 > %y1%
         location += 2
     ControlGetFocus, TLB, ahk_class TTOTAL_CMD
@@ -1366,7 +1374,7 @@ LeftRight()
 ; 增强命令 By 流彩 {{{1
 ;<DirectoryHotlistother>: >>常用文件夹:另一侧{{{2
 <DirectoryHotlistother>:
-    ControlGetFocus, CurrentFocus, AHK_CLASS TTOTAL_CMD
+    ControlGetFocus, CurrentFocus, ahk_class TTOTAL_CMD
     if CurrentFocus not in %TCListBox%2, %TCListBox%1
         return
     if CurrentFocus in %TCListBox%2
@@ -1399,7 +1407,7 @@ return
 
 ;<TC_CopyDirectoryHotlist>: >>复制到常用文件夹{{{2
 <TC_CopyDirectoryHotlist>:
-    ControlGetFocus, CurrentFocus, AHK_CLASS TTOTAL_CMD
+    ControlGetFocus, CurrentFocus, ahk_class TTOTAL_CMD
     if CurrentFocus not in %TCListBox%2, %TCListBox%1
         return
     if CurrentFocus in %TCListBox%2
@@ -1447,7 +1455,7 @@ return
 ;<TC_MoveDirectoryHotlist>: >>移动到常用文件夹{{{2
 <TC_MoveDirectoryHotlist>:
     if SendPos(0)
-        ControlGetFocus, CurrentFocus, AHK_CLASS TTOTAL_CMD
+        ControlGetFocus, CurrentFocus, ahk_class TTOTAL_CMD
     if CurrentFocus not in %TCListBox%2, %TCListBox%1
         return
     if CurrentFocus in %TCListBox%2
@@ -1644,14 +1652,14 @@ return
         IniWrite, WCMD_CHN.MNU, %TCINI%, Configuration, Mainmenu
         IniWrite, 0, %TCINI%, Configuration, RestrictInterface
 
-        WinClose, AHK_CLASS TTOTAL_CMD
+        WinClose, ahk_class TTOTAL_CMD
 
         Loop, 4
         {
             Sleep, 50
             Run, %TCPath%
-            IfWinNotActive, AHK_CLASS TTOTAL_CMD
-                WinActivate, AHK_CLASS TTOTAL_CMD
+            IfWinNotActive, ahk_class TTOTAL_CMD
+                WinActivate, ahk_class TTOTAL_CMD
             else
                 Break
             Sleep, 100
@@ -1691,17 +1699,17 @@ return
     left_panel := TCPathPanel
     right_panel := TCPathPanelRight
 
-    ControlGetText, old_pwd_left, %left_panel%, AHK_CLASS TTOTAL_CMD
+    ControlGetText, old_pwd_left, %left_panel%, ahk_class TTOTAL_CMD
 
     if (Substr(old_pwd_left, 2, 1) != ":" && Substr(old_pwd_left, 2, 1) != "\")
     {
         ; 打开 FTP 时
         left_panel := "Window9"
         right_panel := "Window14"
-        ControlGetText, old_pwd_left, %left_panel%, AHK_CLASS TTOTAL_CMD
+        ControlGetText, old_pwd_left, %left_panel%, ahk_class TTOTAL_CMD
     }
 
-    ControlGetText, old_pwd_right, %right_panel%, AHK_CLASS TTOTAL_CMD
+    ControlGetText, old_pwd_right, %right_panel%, ahk_class TTOTAL_CMD
 
     GoSub, <cm_Return>
 
@@ -1709,8 +1717,8 @@ return
     {
         Sleep, 10
 
-        ControlGetText, new_pwd_left, %left_panel%, AHK_CLASS TTOTAL_CMD
-        ControlGetText, new_pwd_right, %right_panel%, AHK_CLASS TTOTAL_CMD
+        ControlGetText, new_pwd_left, %left_panel%, ahk_class TTOTAL_CMD
+        ControlGetText, new_pwd_right, %right_panel%, ahk_class TTOTAL_CMD
 
         if (old_pwd_left != new_pwd_left || old_pwd_right != new_pwd_right)
         {
@@ -1831,8 +1839,8 @@ Return
 
         ControlSetText, %TCEdit%, cd %USERPROFILE%\desktop\, ahk_class TTOTAL_CMD
         ControlSend, %TCEdit%, {enter}, ahk_class TTOTAL_CMD
-        ControlGetFocus, Ctrl, AHK_CLASS TTOTAL_CMD
-        Postmessage, 0x19E, 1, 1, %Ctrl%, AHK_CLASS TTOTAL_CMD
+        ControlGetFocus, Ctrl, ahk_class TTOTAL_CMD
+        Postmessage, 0x19E, 1, 1, %Ctrl%, ahk_class TTOTAL_CMD
 Return
 
 ;<TC_CreateFileShortcutToStartup>: >>创建当前光标下文件的快捷方式并发送到启动文件里
@@ -1855,8 +1863,8 @@ Return
         ; 如果不想打开启动目录的话，注释以下4行
         ControlSetText, %TCEdit%, cd %appdata%\Microsoft\Windows\Start Menu\Programs\Startup\, ahk_class TTOTAL_CMD
         ControlSend, %TCEdit%, {enter}, ahk_class TTOTAL_CMD
-        ControlGetFocus, Ctrl, AHK_CLASS TTOTAL_CMD
-        Postmessage, 0x19E, 1, 1, %Ctrl%, AHK_CLASS TTOTAL_CMD
+        ControlGetFocus, Ctrl, ahk_class TTOTAL_CMD
+        Postmessage, 0x19E, 1, 1, %Ctrl%, ahk_class TTOTAL_CMD
 Return
 
 ;<TC_FilterSearchFNsuffix_exe>: >>在当前目录里快速过滤exe扩展名的文件
@@ -1920,7 +1928,7 @@ return
 
     GoSub, <cm_CommandBrowser>
     sleep 100
-    WinWaitClose, AHK_CLASS TCmdSelForm
+    WinWaitClose, ahk_class TCmdSelForm
     if (IsLabel("<" Clipboard ">") && Clipboard <> OldClipboard)
     {
         GoSub, <%Clipboard%>
@@ -2042,14 +2050,14 @@ FixTCEditId()
 }
 
 <TC_Restart>:
-    WinClose, AHK_CLASS TTOTAL_CMD
+    WinClose, ahk_class TTOTAL_CMD
 
     ; 好像不需要 Sleep
     ; Sleep, 100
 
     Run, %TCPath%
-    WinWait, AHK_CLASS TTOTAL_CMD
-    WinActivate, AHK_CLASS TTOTAL_CMD
+    WinWait, ahk_class TTOTAL_CMD
+    WinActivate, ahk_class TTOTAL_CMD
 return
 
 <TC_PreviousParallelDir>:
@@ -2641,7 +2649,7 @@ TCCOMMAND:
 return
 SendPos(Number)
 {
-    PostMessage 1075, %Number%, 0, , AHK_CLASS TTOTAL_CMD
+    PostMessage 1075, %Number%, 0, , ahk_class TTOTAL_CMD
 }
 ;<cm_SrcComments>: >>来源窗口: 显示文件备注{{{2
 <cm_SrcComments>:
