@@ -123,7 +123,7 @@
     vim.Comment("<TC_GotoLine>", "移动到 [count] 行，默认第一行")
     vim.Comment("<TC_LastLine>", "移动到 [count] 行，默认最后一行")
     vim.Comment("<TC_Half>", "移动到窗口中间行")
-    vim.Comment("<TC_CreateNewFile>", "文件模板")
+    vim.Comment("<TC_CreateNewFile>", "从模板创建文件")
     vim.Comment("<TC_GoToParentEx>", "返回到上层文件夹，可返回到我的电脑")
     vim.Comment("<TC_AlwayOnTop>", "设置 TC 顶置")
     vim.Comment("<TC_OpenDriveThis>", "打开驱动器列表:本侧")
@@ -326,8 +326,6 @@
     vim.Map("zv", "<cm_VerticalPanels>", "TTOTAL_CMD")
 
     vim.BeforeActionDo("TC_BeforeActionDo", "TTOTAL_CMD")
-
-    ReadNewFile()
 return
 
 TC_BeforeActionDo()
@@ -781,7 +779,7 @@ AddMark:
         {
             Postmessage 1075, 2123, 0, , ahk_class TTOTAL_CMD
         }
-        else if (ThisMenuItem == "\\Fonts")
+        else if (ThisMenuItem = "\\Fonts")
         {
             Postmessage 1075, 2124, 0, , ahk_class TTOTAL_CMD
         }
@@ -822,38 +820,21 @@ return
     Menu, MarkMenu, Show, %xn%, %yn%
 return
 
-<TC_CreateNewFileNewStyle>:
+<TC_CreateNewFile>:
     ControlGetFocus, TLB, ahk_class TTOTAL_CMD
     ControlGetPos, xn, yn, , , %TLB%, ahk_class TTOTAL_CMD
+
     Menu, FileTemp, Add
     Menu, FileTemp, DeleteAll
     Menu, FileTemp, Add , F >> 文件夹, <cm_Mkdir>
     Menu, FileTemp, Icon, F >> 文件夹, %A_WinDir%\system32\Shell32.dll, 4
     Menu, FileTemp, Add , S >> 快捷方式, <cm_CreateShortcut>
-    if A_OSVersion in WIN_2000, WIN_XP
-        Menu, FileTemp, Icon, S >> 快捷方式, %A_WinDir%\system32\Shell32.dll, 30 ;我测试xp下必须是30
-    else
-        Menu, FileTemp, Icon, S >> 快捷方式, %A_WinDir%\system32\Shell32.dll, 264 ;原来是264，xp下反正是有问题
-    FileTempMenuCheckNewStyle()
-    Menu, FileTemp, Show, %xn%, %yn%
-return
 
-; 新建文件
-<TC_CreateNewFile>:
-    ControlGetFocus, TLB, ahk_class TTOTAL_CMD
-    ControlGetPos, xn, yn, , , %TLB%, ahk_class TTOTAL_CMD
-    Menu, FileTemp, Add
-    Menu, FileTemp, DeleteAll
-    Menu, FileTemp, Add , 0 新建文件, :TC_CreateNewFile
-    Menu, FileTemp, Icon, 0 新建文件, %A_WinDir%\system32\Shell32.dll, -152
-    Menu, FileTemp, Add , 1 文件夹, <cm_Mkdir>
-    Menu, FileTemp, Icon, 1 文件夹, %A_WinDir%\system32\Shell32.dll, 4
-    Menu, FileTemp, Add , 2 快捷方式, <cm_CreateShortcut>
     if A_OSVersion in WIN_2000, WIN_XP
-        Menu, FileTemp, Icon, 2 快捷方式, %A_WinDir%\system32\Shell32.dll, 30 ;我测试xp下必须是30
-    else Menu, FileTemp, Icon, 2 快捷方式, %A_WinDir%\system32\Shell32.dll, 264 ;原来是264，xp下反正是有问题
-    Menu, FileTemp, Add , 3 添加到新模板, AddToTempFiles
-    Menu, FileTemp, Icon, 3 添加到新模板, %A_WinDir%\system32\Shell32.dll, -155
+        Menu, FileTemp, Icon, S >> 快捷方式, %A_WinDir%\system32\Shell32.dll, 30 ; 我测试 xp 下必须是 30
+    else
+        Menu, FileTemp, Icon, S >> 快捷方式, %A_WinDir%\system32\Shell32.dll, 264 ; 原来是 264，xp 下反正是有问题
+
     FileTempMenuCheck()
     Menu, FileTemp, Show, %xn%, %yn%
 return
@@ -863,41 +844,15 @@ FileTempMenuCheck()
 {
     global TCPath
     Splitpath, TCPath, , TCDir
-    Loop, %TCDir%\shellnew\*.*
-    {
-        if A_Index = 1
-            Menu, FileTemp, Add
-        ft := chr(64+A_Index) . " >> " . A_LoopFileName
-        Menu, FileTemp, Add, %ft%, FileTempNew
-        Ext := "." . A_LoopFileExt
-        IconFile := RegGetNewFileIcon(Ext)
-        IconFile := RegExReplace(IconFile, "i)%systemroot%", A_WinDir)
-        IconFilePath := RegExReplace(IconFile, ",-?\d*", "")
-        StringReplace, IconFilePath, IconFilePath, ", , A
-        IconFileIndex := RegExReplace(IconFile, ".*,", "")
-        IconFileIndex := IconFileIndex>=0?IconFileIndex+1:IconFileIndex
-        ;MsgBox, %Ext%_%IconFile%_%IconFilePath%_%IconFileIndex%
-        if Not FileExist(IconFilePath)
-            Menu, FileTemp, Icon, %ft%, %A_WinDir%\system32\Shell32.dll, 1 ;-152
-        else
-            Menu, FileTemp, Icon, %ft%, %IconFilePath%, %IconFileIndex%
-    }
-}
-
-; 检查文件模板功能（新）
-FileTempMenuCheckNewStyle()
-{
-    global TCPath
-    Splitpath, TCPath, , TCDir
 
     blankico := false
 
-    if FileExist(TCDir "\shellnew\blankico")
+    if FileExist(TCDir "\ShellNew\blankico")
     {
         blankico := true
     }
 
-    Loop, %TCDir%\shellnew\*.*
+    Loop, %TCDir%\ShellNew\*.*
     {
         if A_Index = 1
             Menu, FileTemp, Add
@@ -909,20 +864,20 @@ FileTempMenuCheckNewStyle()
             Menu, FileTemp, Icon, %ft%, %A_WinDir%\system32\Shell32.dll, 1 ;-152
             continue
         }
-        else if FileExist(TCDir "\shellnew\icons\" A_LoopFileExt ".ico")
+        else if FileExist(TCDir "\ShellNew\icons\" A_LoopFileExt ".ico")
         {
-            Menu, FileTemp, Icon, %ft%, % TCDir "\shellnew\icons\" A_LoopFileExt ".ico"
+            Menu, FileTemp, Icon, %ft%, % TCDir "\ShellNew\icons\" A_LoopFileExt ".ico"
             continue
         }
 
         Ext := "." . A_LoopFileExt
         IconFile := RegGetNewFileIcon(Ext)
-        IconFile := RegExReplace(IconFile, "i)%systemroot%", A_WinDir)
+        IconFile := StrReplace(IconFile, "%systemroot%", A_WinDir)
         IconFilePath := RegExReplace(IconFile, ",-?\d*", "")
         StringReplace, IconFilePath, IconFilePath, ", , A
         IconFileIndex := RegExReplace(IconFile, ".*,", "")
-        IconFileIndex := IconFileIndex>=0?IconFileIndex+1:IconFileIndex
-        ;MsgBox, %Ext%_%IconFile%_%IconFilePath%_%IconFileIndex%
+        IconFileIndex := IconFileIndex >= 0 ? IconFileIndex + 1 : IconFileIndex
+        MsgBox, %Ext% %IconFile% %IconFilePath% %IconFileIndex%
         if Not FileExist(IconFilePath)
             Menu, FileTemp, Icon, %ft%, %A_WinDir%\system32\Shell32.dll, 1 ;-152
         else
@@ -930,65 +885,19 @@ FileTempMenuCheckNewStyle()
     }
 }
 
-; 添加到文件模板中
-AddToTempFiles:
-    ClipSaved := ClipboardAll
-    Clipboard :=
-    Gosub, <cm_CopyFullNamesToClip>
-    ClipWait, 2
-    if Clipboard
-        AddPath := Clipboard
-    else
-        return
-
-    Clipboard := ClipSaved
-    ClipSaved := ""
-
-    if FileExist(AddPath)
-        Splitpath, AddPath, filename, , FileExt, filenamenoext
-    else
-        return
-
-    Gui, Destroy
-    Gui, Add, Text, Hidden, %AddPath%
-    Gui, Add, Text, x12 y20 w50 h20 +Center, 模板源
-    Gui, Add, Edit, x72 y20 w300 h20 Disabled, %FileName%
-    Gui, Add, Text, x12 y50 w50 h20 +Center, 模板名
-    Gui, Add, Edit, x72 y50 w300 h20 , %FileName%
-    Gui, Add, Button, x162 y80 w90 h30 gAddTempOK default, 确认(&S)
-    Gui, Add, Button, x282 y80 w90 h30 gNewFileClose , 取消(&C)
-    Gui, Show, w400 h120, 添加模板
-    if FileExt
-    {
-        Controlget, nf, hwnd, , edit2, A
-        PostMessage, 0x0B1, 0, Strlen(filenamenoext), Edit2, A
-    }
-return
-
-AddTempOK:
-    global TCPath
-    GuiControlGet, SrcPath, , Static1
-    Splitpath, SrcPath, filename, , FileExt, filenamenoext
-    GuiControlGet, NewFileName, , Edit2
-    SNDir := RegExReplace(TCPath, "[^\\]*$") . "ShellNew\"
-    if Not FileExist(SNDir)
-        FileCreateDir, %SNDir%
-    NewFile := SNDir . NewFileName
-    FileCopy, %SrcPath%, %NewFile%, 1
-    Gui, Destroy
-return
-
 ; 新建文件模板
 FileTempNew:
-    NewFile(RegExReplace(A_ThisMenuItem, ".\s>>\s", RegExReplace(TCPath, "\\[^\\]*$", "\shellnew\")))
+    NewFile(RegExReplace(A_ThisMenuItem, ".\s>>\s", RegExReplace(TCPath, "\\[^\\]*$", "\ShellNew\")))
 return
 
 ; 新建文件
 NewFile(File = "", Blank := false, Ext := "txt")
 {
     global NewFile
+
     if Not File
         File := RegExReplace(NewFiles[A_ThisMenuItemPos], "(.*\[|\]$)", "")
+
     if (Blank)
     {
         FileName := "New"
@@ -1004,9 +913,9 @@ NewFile(File = "", Blank := false, Ext := "txt")
     {
         RegRead, ShellNewDir, HKEY_USERS, .default\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders
         if Not ShellNewDir
-            ShellNewDir := "C:\windows\Shellnew"
+            ShellNewDir := "C:\windows\ShellNew"
         File := ShellNewDir . "\" file
-        if RegExMatch(SubStr(file, -7), "NullFile")
+        if (SubStr(file, -7) = "NullFile")
         {
             FileExt := RegExReplace(NewFiles[A_ThisMenuItemPos], "(.*\(|\).*)")
             File := "New" . FileExt
@@ -1016,6 +925,7 @@ NewFile(File = "", Blank := false, Ext := "txt")
     }
     else
         Splitpath, file, filename, , FileExt, filenamenoext
+
     Gui, Destroy
     Gui, Add, Text, x12 y20 w50 h20 +Center, 模板源
     Gui, Add, Edit, x72 y20 w300 h20 Disabled, %file%
@@ -1024,6 +934,7 @@ NewFile(File = "", Blank := false, Ext := "txt")
     Gui, Add, Button, x162 y80 w90 h30 gNewFileOk default, 确认(&S)
     Gui, Add, Button, x282 y80 w90 h30 gNewFileClose , 取消(&C)
     Gui, Show, w400 h120, 新建文件
+
     if FileExt
     {
         Controlget, nf, hwnd, , edit2, A
@@ -1110,82 +1021,6 @@ NewFileOK:
         }
     }
 return
-
-; 新建文件菜单
-ReadNewFile()
-{
-    NewFiles[0] := 0
-    SetBatchLines -1
-    Loop, HKEY_CLASSES_ROOT , , 1, 0
-    {
-        if A_LoopRegName=.lnk ;让新建快捷方式无效
-            continue
-        else if RegExMatch(A_LoopRegName, "^\..*")
-        {
-            Reg := A_LoopRegName
-            Loop, HKEY_CLASSES_ROOT, %Reg%, 1, 1
-            {
-                if RegExMatch(A_LoopRegName, "i)shellnew")
-                {
-                    NewReg := A_LoopRegSubKey "\shellnew"
-                    if RegGetNewFilePath(NewReg)
-                    {
-                        NewFiles[0]++
-                        Index := NewFiles[0]
-                        NewFiles[Index] := RegGetNewFileDescribe(Reg) . "(" . Reg . ")[" . RegGetNewFilePath(NewReg) . "]"
-                    }
-                }
-            }
-        }
-    }
-    LoopCount := NewFiles[0]
-    Half := LoopCount/2
-    Loop % LoopCount
-    {
-        if A_Index < %Half%
-        {
-            B_Index := NewFiles[0] - A_Index + 1
-            C_Index := NewFiles[A_Index]
-            NewFiles[A_Index] := NewFiles[B_Index]
-            NewFiles[B_Index] := C_Index
-        }
-    }
-    Menu, TC_CreateNewFile, UseErrorLevel, On
-    LastExt := ""
-    Loop % NewFiles[0]
-    {
-        File := RegExReplace(NewFiles[A_Index], "\(.*", "")
-        Ext := RegExReplace(NewFiles[A_Index], "(.*\(|\)\[.*)", "")
-        MenuFile := Chr(A_Index+64) . " >> " . File . "(" Ext . ")"
-        ; 去除重复的文件，只有连续出现的情况有效
-        if (Ext = LastExt)
-        {
-            continue
-        }
-        LastExt := Ext
-
-        Menu, TC_CreateNewFile, Add, %MenuFile%, NewFile
-
-        IconFile := RegGetNewFileIcon(Ext)
-        IconFile := RegExReplace(IconFile, "i)%systemroot%", A_WinDir)
-        IconFile := RegExReplace(IconFile, "i)%ProgramFiles%", A_ProgramFiles)
-        IconFilePath := RegExReplace(IconFile, ",-?\d*", "")
-        StringReplace, IconFilePath, IconFilePath, ", , A
-        if Not FileExist(IconFilePath)
-            IconFilePath := ""
-        IconFileIndex := RegExReplace(IconFile, ".*,", "")
-        IconFileIndex := IconFileIndex>=0?IconFileIndex+1:IconFileIndex
-        ;MsgBox, %IconFile%_%IconFilePath%_%IconFileIndex%
-        if Not RegExMatch(IconFileIndex, "^-?\d*$")
-            IconFileIndex := ""
-        if RegExMatch(Ext, "\.lnk")
-        {
-            IconFilePath := A_WinDir . "\system32\Shell32.dll"
-            IconFileIndex := "264"
-        }
-        Menu, TC_CreateNewFile, Icon, %MenuFile%, %IconFilePath%, %IconFileIndex%
-    }
-}
 
 ; 获取新建文件的源
 ; reg 为后缀
