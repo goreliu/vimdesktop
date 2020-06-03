@@ -97,14 +97,6 @@ SaveMark=1
 ;目前仅用于TC中的AZHistory导航:可用尺寸16,20,24,32
 MenuIconSize=20
 
-;设置为 1 -- 将使用TC作为文件选择对话框，打开文件选择对话框时，会自动跳转到TC
-;设置为 0 -- 将禁用TC作为文件选择对话框，此时仍可使用 win + o 激活TC进行文件选择
-AsOpenFileDialog=0
-
-;含有指定字符串的窗体被打开时，禁用自动跳转到TC的功能,以逗号间隔
-OpenFileDialogExclude = password , 密码
-
-
 ; Total Commander快捷键配置
 [TTOTAL_CMD]
 ; 热键定义语法
@@ -141,7 +133,7 @@ c=<cm_MkDir>
 d=<TC_ListMark>
 e=<cm_edit>
 h=<TC_GoToParentEx>
-i=<TC_CreateNewFileNewStyle>
+i=<TC_CreateNewFile>
 l=<TC_SuperReturn>
 m=<TC_ThumbsView>
 o=<cm_ContextMenu>
