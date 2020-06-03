@@ -28,12 +28,12 @@ VimdRun()
 return
 
 #Include %A_ScriptDir%\core\Main.ahk
-#Include %A_ScriptDir%\core\class_vim.ahk
+#Include %A_ScriptDir%\core\Vim.ahk
 #Include %A_ScriptDir%\core\VimDConfig.ahk
-#Include %A_ScriptDir%\lib\class_EasyINI.ahk
+#Include %A_ScriptDir%\lib\EasyIni.ahk
 #Include %A_ScriptDir%\lib\Acc.ahk
 #Include %A_ScriptDir%\lib\GDIP.ahk
 #Include %A_ScriptDir%\lib\Logger.ahk
-#Include %A_ScriptDir%\plugins\plugins.ahk
+#Include %A_ScriptDir%\plugins\Plugins.ahk
 ; 用户自定义配置
 #Include *i %A_ScriptDir%\custom.ahk

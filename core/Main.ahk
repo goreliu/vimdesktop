@@ -55,7 +55,7 @@ VimdRun()
 
 CheckPlugin()
 {
-    ExtensionsAHK := A_ScriptDir "\plugins\plugins.ahk"
+    ExtensionsAHK := A_ScriptDir "\Plugins\Plugins.ahk"
 
     ; 检测是否有新增插件
     Loop, %A_ScriptDir%\plugins\*, 2, 0
