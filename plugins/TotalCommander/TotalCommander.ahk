@@ -327,7 +327,6 @@
 
     vim.BeforeActionDo("TC_BeforeActionDo", "TTOTAL_CMD")
 
-    ;; 默认按键完
     ReadNewFile()
 return
 
@@ -793,7 +792,11 @@ TCCOMMAND:
     vim.Comment("<cm_ContentStopLoadFields>", "停止后台加载备注")
     vim.Comment("<cm_FocusSrc>", "光标切换至源面板")
     vim.Comment("<cm_FocusTrg>", "光标切换至目标面板")
+    vim.Comment("<cm_FocusLeftTree>", "将光标移动到左侧文件夹树")
+    vim.Comment("<cm_FocusRightTree>", "将光标移动到右侧文件夹树")
+    vim.Comment("<cm_FocusSrcTree>", "将光标移动到来源文件夹树")
 return
+
 SendPos(Number)
 {
     PostMessage 1075, %Number%, 0, , ahk_class TTOTAL_CMD
@@ -1388,6 +1391,26 @@ return
 
 <cm_FocusButtonBar>:
     SendPos(4004)
+return
+
+<cm_FocusSrc>:
+    SendPos(4005)
+return
+
+<cm_FocusTrg>:
+    SendPos(4006)
+return
+
+<cm_FocusLeftTree>:
+    SendPos(4007)
+return
+
+<cm_FocusRightTree>:
+    SendPos(4008)
+return
+
+<cm_FocussrcTree>:
+    SendPos(4009)
 return
 
 <cm_CountDirContent>:
@@ -2690,13 +2713,6 @@ return
     SendPos(2049)
 return
 
-<cm_FocusSrc>:
-    SendPos(4005)
-return
-
-<cm_FocusTrg>:
-    SendPos(4006)
-return
 /* 如果没用就删除
 <TC_0>:
 <TC_1>:
@@ -3107,11 +3123,13 @@ MarkTimer:
         ControlSetText, %TCEdit%, , ahk_class TTOTAL_CMD
         ControlSend, %TCEdit%, {Esc}, ahk_class TTOTAL_CMD
         ClipSaved := ClipboardAll
-        Clipboard :=
+        Clipboard := ""
         Postmessage 1075, 2029, 0, , ahk_class TTOTAL_CMD
         ClipWait
         Path := Clipboard
         Clipboard := ClipSaved
+        ClipSaved := ""
+
         if StrLen(Path) > 80
         {
             SplitPath, Path, , PathDir
@@ -3333,11 +3351,15 @@ AddToTempFiles:
         AddPath := Clipboard
     else
         return
+
     Clipboard := ClipSaved
+    ClipSaved := ""
+
     if FileExist(AddPath)
         Splitpath, AddPath, filename, , FileExt, filenamenoext
     else
         return
+
     Gui, Destroy
     Gui, Add, Text, Hidden, %AddPath%
     Gui, Add, Text, x12 y20 w50 h20 +Center, 模板源
@@ -3500,8 +3522,6 @@ NewFileOK:
     }
 return
 
-;============================================================================
-; ReadNewFile()
 ; 新建文件菜单
 ReadNewFile()
 {
@@ -3590,7 +3610,6 @@ RegGetNewFilePath(reg)
         return "NullFile"
 }
 
-; RegGetNewFileType(reg)
 ; 获取新建文件类型名
 ; reg 为后缀
 RegGetNewFileType(reg)
@@ -3620,20 +3639,15 @@ RegGetNewFileIcon(reg)
         return FileIcon
 }
 
-; 返回到上层文件夹，可返回到我的电脑
 <TC_GoToParentEx>:
-    IsRootDir()
-    Gosub, <cm_GoToParent>
-return
-
-IsRootDir()
-{
     ClipSaved := ClipboardAll
     Clipboard :=
     Gosub, <cm_CopySrcPathToClip>
     ClipWait, 1
     Path := Clipboard
     Clipboard := ClipSaved
+    ClipSaved := ""
+
     if RegExMatch(Path, "^.:\\$")
     {
         Gosub, <cm_OpenDrives>
@@ -3652,7 +3666,11 @@ IsRootDir()
         }
         PostMessage, 0x19E, %Focus%, 1, %focus_control%, ahk_class TTOTAL_CMD
     }
-}
+    else
+    {
+        Gosub, <cm_GoToParent>
+    }
+return
 
 <TC_AlwayOnTop>:
     WinGet, ExStyle, ExStyle, ahk_class TTOTAL_CMD
