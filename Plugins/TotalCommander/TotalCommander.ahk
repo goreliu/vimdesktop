@@ -219,7 +219,7 @@
     vim.Map("-", "<cm_SwitchSeparateTree>", "TTOTAL_CMD")
     vim.Map("=", "<cm_MatchSrc>", "TTOTAL_CMD")
     vim.Map(",", "<cm_SrcThumbs>", "TTOTAL_CMD")
-    vim.Map(";", "<TC_ListMark>", "TTOTAL_CMD")
+    vim.Map(";", "<cm_DirectoryHotlist>", "TTOTAL_CMD")
     vim.Map(":", "<cm_FocusCmdLine>", "TTOTAL_CMD")
     vim.Map("~", "<cm_SysInfo>", "TTOTAL_CMD")
     vim.Map("``", "<TC_ToggleShowInfo>", "TTOTAL_CMD")
@@ -1180,7 +1180,7 @@ return
         IniWrite, NONE.MNU, %TCIni%, Configuration, Mainmenu
         IniWrite, 1, %TCIni%, Configuration, RestrictInterface
 
-        noneMnuPath := RegExReplace(TCPath, "i)totalcmd6?4?.exe$", "LANGUAGE\NONE.MNU")
+        noneMnuPath := TCDir . "\LANGUAGE\NONE.MNU"
 
         if (!FileExist(noneMnuPath)) {
             FileAppend, , %noneMnuPath%, UTF-8-RAW
@@ -1190,20 +1190,13 @@ return
         IniWrite, 0, %TCIni%, Configuration, RestrictInterface
 
         WinClose, ahk_class TTOTAL_CMD
+        WinWaitClose, ahk_class TTOTAL_CMD, , 2
 
-        Loop, 4 {
-            Sleep, 50
+        Run, %TCPath%
+        WinWait, ahk_class TTOTAL_CMD
 
-            Run, %TCPath%
-            WinWait, ahk_class TTOTAL_CMD
-
-            IfWinNotActive, ahk_class TTOTAL_CMD
-                WinActivate, ahk_class TTOTAL_CMD
-            else
-                break
-
-            Sleep, 100
-        }
+        IfWinNotActive, ahk_class TTOTAL_CMD
+            WinActivate, ahk_class TTOTAL_CMD
     }
 return
 
@@ -1522,9 +1515,7 @@ FixTCEditId() {
 
 <TC_Restart>:
     WinClose, ahk_class TTOTAL_CMD
-
-    ; 好像不需要 Sleep
-    ; Sleep, 100
+    WinWaitClose, ahk_class TTOTAL_CMD, , 2
 
     Run, %TCPath%
     WinWait, ahk_class TTOTAL_CMD
