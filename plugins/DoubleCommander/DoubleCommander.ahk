@@ -1,28 +1,29 @@
 ﻿DoubleCommander:
-    global DoubleCommander_name := "DoubleCommander"
-    global DoubleCommander_class := "DClass"
-    global DoubleCommander_exe := "doublecmd.exe"
+    global DC_name := "DoubleCommander"
+    global DC_class := "DClass"
+    global DC_exe := "doublecmd.exe"
 
     ; normal模式
-    vim.SetWin(DoubleCommander_name, DoubleCommander_class, DoubleCommander_exe)
-    vim.mode("normal", DoubleCommander_name)
+    vim.SetWin(DC_name, DC_class, DC_exe)
+    vim.mode("normal", DC_name)
 
-    vim.map("h", "<left>", DoubleCommander_name)
-    vim.map("j", "<down>", DoubleCommander_name)
-    vim.map("k", "<up>", DoubleCommander_name)
-    vim.map("l", "<enter>", DoubleCommander_name)
-    vim.map("gg", "<DoubleCommander_GoToFirstFile>", DoubleCommander_name)
-    vim.map("G", "<end>", DoubleCommander_name)
-    vim.map("o", "<DoubleCommander_ContextMenu>", DoubleCommander_name)
-    vim.map("<la-r>", "<DoubleCommander_Rename>", DoubleCommander_name)
-    vim.map("<f2>", "<DoubleCommander_RenameFull>", DoubleCommander_name)
-    vim.map("<c-f>", "<pgdn>", DoubleCommander_name)
-    vim.map("<c-b>", "<pgup>", DoubleCommander_name)
+    vim.map("h", "<left>", DC_name)
+    vim.map("j", "<down>", DC_name)
+    vim.map("k", "<up>", DC_name)
+    vim.map("l", "<enter>", DC_name)
+    vim.map("gg", "<DC_GoToFirstFile>", DC_name)
+    vim.map("G", "<end>", DC_name)
+    vim.map("o", "<DC_ContextMenu>", DC_name)
+    vim.map("<la-r>", "<DC_Rename>", DC_name)
+    vim.map("<f2>", "<DC_RenameFull>", DC_name)
+    vim.map("<f1>", "<DC_Test>", DC_name)
+    vim.map("<c-f>", "<pgdn>", DC_name)
+    vim.map("<c-b>", "<pgup>", DC_name)
 
-    vim.BeforeActionDo("DoubleCommander_ForceInsertMode", DoubleCommander_name)
+    vim.BeforeActionDo("DC_ForceInsertMode", DC_name)
 return
 
-DoubleCommander_ForceInsertMode()
+DC_ForceInsertMode()
 {
     ControlGetFocus, ctrl
     ;MsgBox % ctrl
@@ -35,20 +36,30 @@ DoubleCommander_ForceInsertMode()
     ;    return true
 }
 
-<DoubleCommander_GoToFirstFile>:
+DC_Run(cmd)
+{
+    ControlSetText, Edit1, %cmd%, ahk_class %DC_class%
+    ControlSend, Edit1, {enter}, ahk_class %DC_class%
+}
+
+<DC_GoToFirstFile>:
     Send, {home}{down}
 return
 
-<DoubleCommander_ContextMenu>:
+<DC_ContextMenu>:
     Send, {appskey}
 return
 
-<DoubleCommander_Rename>:
+<DC_Rename>:
     Send, {f2}{right}
 return
 
-<DoubleCommander_RenameFull>:
+<DC_RenameFull>:
     Send, {f2}^a
+return
+
+<DC_Test>:
+    DC_Run("cm_About")
 return
 
 /*  插件缺失功能：
@@ -61,8 +72,10 @@ return
 
 /*  DC 现有问题：
 
-    不能查看回收站（阻碍迁移，暂时可以用资源管理器来查看）
-    不能单独定制文件打开方式（有些影响，但可以定制右键菜单）
+    左右面板的 ClassNN 不固定，很难获取位置信息（阻碍迁移）
+    不能查看回收站（有些影响，暂时可以用资源管理器来查看）
+    不能单独定制文件打开方式（影响不大，但可以定制右键菜单）
+    有时常规功能会导致错误弹窗（影响不大，可以关闭）
     图片快速浏览过慢（影响不大，用 Imagine 后速度基本没问题了，只是快速切换图片时会闪屏）
     内存占用比 TC 稍高（基本没有影响）
 */
