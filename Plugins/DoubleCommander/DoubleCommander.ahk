@@ -15,7 +15,7 @@
 
     TODO
 
-    Explorer 插件中的相关功能
+    整理代码
 */
 
 DoubleCommander:
@@ -574,3 +574,18 @@ return
     Send, ^v
     Send, {Enter}
 return
+
+DC_OpenPath(Path, InNewTab := true, LeftOrRight := "") {
+    LeftOfRight := DC_GetPanelInfo()[1]
+    if (LeftOfRight == "right") {
+        LeftOrRight := "-R"
+    } else {
+        LeftOrRight := "-L"
+    }
+
+    if (InNewTab) {
+        Run, "%DC_Dir%\doublecmd.exe" --no-splash -T "%LeftOrRight%" "%Path%"
+    } else {
+        Run, "%DC_Dir%\doublecmd.exe" --no-splash "%LeftOrRight%" "%Path%"
+    }
+}

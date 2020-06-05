@@ -21,6 +21,10 @@ Explorer:
     vim.comment("<Explorer_GotoTCX>", "使用TC打开当前目录，并关闭Explorer")
     vim.comment("<Explorer_GotoTCInNewTab>", "使用TC在新标签页打开当前目录")
     vim.comment("<Explorer_GotoTCInNewTabX>", "使用TC在新标签页打开当前目录，并关闭Explorer")
+    vim.comment("<Explorer_GotoDC>", "使用DC打开当前目录")
+    vim.comment("<Explorer_GotoDCX>", "使用DC打开当前目录，并关闭Explorer")
+    vim.comment("<Explorer_GotoDCInNewTab>", "使用DC在新标签页打开当前目录")
+    vim.comment("<Explorer_GotoDCInNewTabX>", "使用DC在新标签页打开当前目录，并关闭Explorer")
 
     vim.SetWin("Explorer", "CabinetWClass")
 
@@ -180,6 +184,55 @@ Explorer_GotoTC(newTab, closeExplorer = false)
             WinClose, A
         }
         TC_OpenPath(FileToOpen, newTab, "/L")
+    }
+
+    Clipboard := OldClipboard
+    OldClipboard =
+}
+
+<Explorer_GotoDC>:
+    Explorer_GotoDC(false)
+return
+
+<Explorer_GotoDCX>:
+    Explorer_GotoDC(false, true)
+return
+
+<Explorer_GotoDCInNewTab>:
+    Explorer_GotoDC(true)
+return
+
+<Explorer_GotoDCInNewTabX>:
+    Explorer_GotoDC(true, true)
+return
+
+Explorer_GotoDC(newTab, closeExplorer = false)
+{
+    OldClipboard := ClipboardAll
+    Clipboard =
+
+    Send, ^c
+    ClipWait, 0.3
+
+    if (!ErrorLevel)
+    {
+        FileToOpen := Clipboard
+        if (closeExplorer)
+        {
+            WinClose, A
+        }
+        DC_OpenPath(FileToOpen, newTab, "-L")
+        Clipboard := OldClipboard
+        OldClipboard =
+    }
+    else
+    {
+        FileToOpen := Explorer_GetPath()
+        if (closeExplorer)
+        {
+            WinClose, A
+        }
+        DC_OpenPath(FileToOpen, newTab, "-L")
     }
 
     Clipboard := OldClipboard
