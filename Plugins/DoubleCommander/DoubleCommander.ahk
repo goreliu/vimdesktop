@@ -15,8 +15,6 @@
 
     TODO
 
-    整理快捷键列表到配置文件
-
     迁移 TC 的主菜单命令
 */
 
@@ -77,14 +75,6 @@ DC_ColumnsView(columnset) {
         DC_Run("cm_ColumnsView columnset=" columnset)
     }
 }
-
-<DC_ContextMenu>:
-    Send, {appskey}
-return
-
-<DC_Rename>:
-    Send, {f2}{right}
-return
 
 <DC_RenameFull>:
     Send, {f2}^a
@@ -224,14 +214,6 @@ return
 
     Clipboard := ClipSaved
     ClipSaved := ""
-return
-
-<DC_DownSelect>:
-    Send +{Down}
-return
-
-<DC_UpSelect>:
-    Send +{Up}
 return
 
 <DC_CreateNewFile>:
