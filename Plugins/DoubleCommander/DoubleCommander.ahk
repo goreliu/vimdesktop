@@ -15,19 +15,11 @@
 
     TODO
 
-    列表视图和缩略图试图返回上一级目录失效
-
-    ff/fa 按键
+    整理快捷键列表到配置文件
 
     迁移 TC 的主菜单命令
 
     CreateShortcut 导出为命令
-
-    缩略图模式自动修改按键绑定
-
-    整理快捷键列表到配置文件
-
-    切换到上/下一个同级目录（进行中）
 
     作为 OpenDialog
 */
@@ -39,48 +31,6 @@ DoubleCommander:
 
     vim.SetWin(DC_Name, "DClass", "doublecmd.exe")
     vim.Mode("normal", DC_Name)
-
-    vim.Map("h", "<left>", DC_Name)
-    vim.Map("j", "<down>", DC_Name)
-    vim.Map("k", "<up>", DC_Name)
-    vim.Map("l", "<enter>", DC_Name)
-    vim.Map("gg", "<home>", DC_Name)
-    vim.Map("G", "<end>", DC_Name)
-    vim.Map("o", "<DC_ContextMenu>", DC_Name)
-    vim.Map("<la-r>", "<DC_Rename>", DC_Name)
-    vim.Map("<f1>", "<DC_Test>", DC_Name)
-    vim.Map("<f2>", "<DC_RenameFull>", DC_Name)
-    vim.Map("<f5>", "<DC_Restart>", DC_Name)
-    vim.Map("<c-f>", "<pgdn>", DC_Name)
-    vim.Map("<c-b>", "<pgup>", DC_Name)
-    vim.Map("zz", "<DC_Toggle_50_100>", DC_Name)
-    vim.Map("zi", "<DC_Show_100_0>", DC_Name)
-    vim.Map("zo", "<DC_Show_0_100>", DC_Name)
-    vim.Map("zv", "<DC_HorizontalFilePanels>", DC_Name)
-    vim.Map("<S-K>", "<DC_PreviousParallelDir>", DC_Name)
-    vim.Map("<S-J>", "<DC_NextParallelDir>", DC_Name)
-    vim.Map("<c-k>", "<DC_UpSelect>", DC_Name)
-    vim.Map("<c-j>", "<DC_DownSelect>", DC_Name)
-    vim.Map("i", "<DC_CreateNewFile>", DC_Name)
-    vim.Map("sn", "<DC_SortByName>", DC_Name)
-    vim.Map("se", "<DC_SortByExt>", DC_Name)
-    vim.Map("ss", "<DC_SortBySize>", DC_Name)
-    vim.Map("sd", "<DC_SortByDate>", DC_Name)
-    vim.Map("sa", "<DC_SortByAttr>", DC_Name)
-    vim.Map("sr", "<DC_ReverseOrder>", DC_Name)
-    vim.Map("s1", "<DC_SortByName>", DC_Name)
-    vim.Map("s2", "<DC_SortByExt>", DC_Name)
-    vim.Map("s3", "<DC_SortBySize>", DC_Name)
-    vim.Map("s4", "<DC_SortByDate>", DC_Name)
-    vim.Map(".", "<DC_OpenExplorer>", DC_Name)
-    vim.Map("""", "<DC_MarkFile>", DC_Name)
-    vim.Map("_", "<DC_UnMarkFile>", DC_Name)
-    vim.Map("Vm", "<DC_ShowMainMenu>", DC_Name)
-    vim.Map("Vb", "<DC_ShowButtonMenu>", DC_Name)
-    vim.Map("Vv", "<DC_OperationsViewer>", DC_Name)
-    vim.Map("Va", "<DC_BriefView>", DC_Name)
-    vim.Map("V1", "<DC_ColumnsView1>", DC_Name)
-    vim.Map("V2", "<DC_ColumnsView2>", DC_Name)
 
     vim.BeforeActionDo("DC_ForceInsertMode", DC_Name)
 return
@@ -194,17 +144,22 @@ return
 return
 
 <DC_PreviousParallelDir>:
-; TODO
-/*
+    SleepTime := 10
+
     ClipSaved := ClipboardAll
     Clipboard := ""
     DC_Run("cm_CopyCurrentPathToClip")
-    ClipWait
+    ClipWait, 2
 
     OldPwd := Clipboard
 
+    if (InStr(OldPwd, "\") == 1) {
+        ; 网络文件系统比较慢
+        SleepTime := 50
+    }
+
     if (StrLen(OldPwd) == 3) {
-        ; 在根分区
+        ; 在根分区 TODO
         ; Gosub, <cm_GotoPreviousDrive>
 
         Clipboard := ClipSaved
@@ -212,33 +167,64 @@ return
 
         return
     }
-    ; DC_Run("cm_ChangeDirToParent")
-*/
 
-    Send, {left}
-    Sleep, 10
+    DC_Run("cm_ChangeDirToParent")
+    Sleep, % SleepTime
+
     Send, {up}
-    Sleep, 10
+    Sleep, % SleepTime
+
     Send, {right}
 
-/*
-    if (InStr(OldPwd, "wfx") == 1) {
-        ; 网络文件系统比较慢，等待下
-        Sleep, 50
+    Clipboard := ClipSaved
+    ClipSaved := ""
+return
+
+<DC_NextParallelDir>:
+    SleepTime := 10
+
+    ClipSaved := ClipboardAll
+    Clipboard := ""
+    DC_Run("cm_CopyCurrentPathToClip")
+    ClipWait, 2
+
+    OldPwd := Clipboard
+
+    if (InStr(OldPwd, "\") == 1) {
+        ; 网络文件系统比较慢
+        SleepTime := 50
+    }
+
+    if (StrLen(OldPwd) == 3) {
+        ; 在根分区 TODO
+        ; Gosub, <cm_GotoPreviousDrive>
+
+        Clipboard := ClipSaved
+        ClipSaved := ""
+
+        return
+    }
+
+    DC_Run("cm_ChangeDirToParent")
+    Sleep, % SleepTime
+
+    Send, {down}
+    Sleep, % SleepTime
+
+    Send, {right}
+    Sleep, % SleepTime
+
+    Clipboard := ""
+    DC_Run("cm_CopyCurrentPathToClip")
+    ClipWait, 2
+
+    if (InStr(OldPwd, Clipboard) == 1) {
+        ; 下一个是文件
+        DC_Run("cm_ViewHistoryPrev")
     }
 
     Clipboard := ClipSaved
     ClipSaved := ""
-*/
-return
-
-<DC_NextParallelDir>:
-; TODO
-    Send, {left}
-    Sleep, 10
-    Send, {down}
-    Sleep, 10
-    Send, {right}
 return
 
 <DC_DownSelect>:
@@ -423,4 +409,46 @@ return
 
 <DC_ColumnsView2>:
     DC_ColumnsView("test")
+return
+
+<DC_ThumbnailsView>:
+    DC_Run("cm_ThumbnailsView")
+    Gosub, <DC_ThumbnailsSwitchKey>
+return
+
+<DC_ThumbnailsSwitchKey>:
+    InThumbsView := !InThumbsView
+
+    if (InThumbsView) {
+        vim.Map("l", "<right>", DC_Name)
+    } else {
+        vim.Map("l", "<enter>", DC_Name)
+    }
+return
+
+<DC_ToggleShowInfo>:
+    vim.GetWin(DC_Name).SetInfo(!vim.GetWin(DC_Name).info)
+return
+
+<DC_CopyFileContent>:
+    Clipboard := ""
+    DC_Run("cm_CopyFullNamesToClip")
+    ClipWait, 2
+
+    Fileread, Contents, % Clipboard
+    Clipboard := Contents
+return
+
+<DC_CopyFilenamesOnly>:
+    Clipboard := ""
+    DC_Run("cm_CopyFullNamesToClip")
+    ClipWait, 2
+
+    SplitPath, Clipboard, OutFileName, , , OutFilenameNoExt
+
+	if (InStr(FileExist(Clipboard), "D")) {
+        Clipboard := OutFileName
+    } else if (InStr(Clipboard, ".")) {
+        Clipboard := OutFilenameNoExt
+    }
 return
