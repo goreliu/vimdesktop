@@ -16,7 +16,6 @@
     TODO
 
     Explorer 插件中的相关功能
-    迁移 TC 的主菜单命令
 */
 
 DoubleCommander:
@@ -90,7 +89,7 @@ return
     WinClose, % DC
     WinWaitClose, % DC, , 2
 
-    Run, % DC_Dir . "\doublecmd.exe"
+    Run, % DC_Dir . "\doublecmd.exe --no-splash"
 
     WinWaitActive, % DC
 
@@ -299,7 +298,7 @@ return
             }
         }
     } else {
-        Run, % DC_Dir . "\doublecmd.exe"
+        Run, % DC_Dir . "\doublecmd.exe --no-splash"
         WinWait, % DC
 
         if (!WinActive(DC)) {
@@ -454,7 +453,7 @@ return
     IfWinExist, % DC
         Winactivate, % DC
     else {
-        Run, % DC_Dir . "\doublecmd.exe"
+        Run, % DC_Dir . "\doublecmd.exe --no-splash"
         WinWait, % DC
         IfWinNotActive, % DC
             WinActivate, % DC
