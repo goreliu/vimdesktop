@@ -1205,6 +1205,8 @@ return
 return
 
 <TC_SuperReturn>:
+    ; 浏览压缩文件时会失效
+
     ClipSaved := ClipboardAll
     Clipboard := ""
     Gosub, <cm_CopySrcPathToClip>
@@ -1529,7 +1531,7 @@ FixTCEditId() {
     WinWaitActive, ahk_class TTOTAL_CMD
     ErrorMessage .= "|" ErrorLevel
 
-    if (!WinActive("ahk_class TTOTAL_CMD")) {
+    if (!WinExist("ahk_class TTOTAL_CMD")) {
         ; 有时重启失败，需要查询原因，而不是 Sleep 加重试
         MsgBox, 重启失败 %ErrorMessage%
     }

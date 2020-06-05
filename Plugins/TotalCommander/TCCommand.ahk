@@ -456,9 +456,8 @@
     vim.Comment("<cm_RightViewMode9>", "（直到第 249 个模式，命令代码： 8499）")
 return
 
-SendPos(pos)
-{
-    PostMessage 1075, %pos%, 0, , ahk_class TTOTAL_CMD
+SendPos(pos) {
+    PostMessage, 1075, %pos%, 0, , ahk_class TTOTAL_CMD
 }
 
 <cm_SrcComments>:

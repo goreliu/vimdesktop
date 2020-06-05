@@ -24,9 +24,8 @@ cat $chn | iconv -f gbk -t utf-8 | grep '^[0-9]\+=' | sed "s/\r$//g" > chn.zsh
     cat <<EOF
 return
 
-SendPos(pos)
-{
-    PostMessage 1075, %pos%, 0, , ahk_class TTOTAL_CMD
+SendPos(pos) {
+    PostMessage, 1075, %pos%, 0, , ahk_class TTOTAL_CMD
 }
 
 EOF
