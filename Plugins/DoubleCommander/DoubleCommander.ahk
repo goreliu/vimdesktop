@@ -18,13 +18,14 @@
     整理快捷键列表到配置文件
 
     迁移 TC 的主菜单命令
-
-    作为 OpenDialog
 */
 
 DoubleCommander:
     global DC := "ahk_class DClass"
     global DC_Dir := "c:\mine\app\doublecmd"
+    ; 用于记录文件打开对话框所属窗体
+    global DC_CallerId := 0
+
     DC_Name := "DoubleCommander"
 
     vim.SetWin(DC_Name, "DClass", "doublecmd.exe")
@@ -465,4 +466,130 @@ return
     } else if (OutVar != "") {
         FileCreateShortcut, % FilePath, % RegExReplace(FilePath, "\.[^.]*$", ".lnk")
     }
+return
+
+<DC_Focus>:
+    IfWinExist, % DC
+        Winactivate, % DC
+    else {
+        Run, % DC_Dir . "\doublecmd.exe"
+        WinWait, % DC
+        IfWinNotActive, % DC
+            WinActivate, % DC
+    }
+return
+
+<DC_MapKeys>:
+	vim.Mode("normal", DC_Name)
+    vim.Map("<S-Enter>", "<DC_SelectedCurrentDir>", DC_Name)
+    vim.Map("<Esc>", "<DC_ReturnToCaller>", DC_Name)
+return
+
+<DC_UnMapKeys>:
+	vim.Mode("normal", DC_Name)
+    vim.Map("<S-Enter>", "<Default>", DC_Name)
+    vim.Map("<Esc>", "<Default>", DC_Name)
+return
+
+; 返回调用者
+<DC_ReturnToCaller>:
+    gosub <DC_UnMapKeys>
+
+    WinActivate, ahk_id %DC_CallerId%
+
+    DC_CallerId := 0
+return
+
+; 非 TC 窗口按下后激活 TC 窗口
+; TC 窗口按下后复制当前选中文件返回原窗口后粘贴
+<DC_OpenDCDialog>:
+    WinGetClass, name, A
+
+    ; 在 DC 按下快捷键时，激活调用窗体并执行粘贴操作
+    if (name == "DClass") {
+        if (DC_CallerId != 0) {
+            gosub <DC_Selected>
+            DC_CallerId := 0
+		}
+    } else {
+        DC_CallerId := WinExist("A")
+        if (DC_CallerId == 0) {
+            return
+		}
+
+        gosub <DC_Focus>
+        gosub <DC_MapKeys>
+    }
+return
+
+<DC_Selected>:
+    gosub <DC_UnMapKeys>
+
+    Clipboard := ""
+    ; 不知道什么原因，必须加一个 MsgBox 功能才正常
+    MsgBox, , , 处理中, 0.3
+
+    DC_Run("cm_CopyCurrentPathToClip")
+
+    ClipWait, 2
+    pwd := Clipboard
+
+    Clipboard := ""
+    DC_Run("cm_CopyNamesToClip")
+    ClipWait, 2
+
+    WinActivate, ahk_id %DC_CallerId%
+    WinWait, ahk_id %DC_CallerId%
+    DC_CallerId := 0
+
+    if (!InStr(Clipboard, "`n")) {
+        Clipboard := pwd . Clipboard
+        Send, {Home}
+        Send, ^v
+        Send, {Enter}
+
+        return
+    }
+
+    ; 多选
+
+    files := ""
+    Loop, parse, Clipboard, `n, `r
+        files .= """" . A_LoopField  . """ "
+
+    ; 第一步：跳转到当前路径
+    Clipboard := pwd
+    Send, ^a
+    Send, ^v
+    Send, {Enter}
+    sleep, 100
+
+    ; 第二步：提交文件名
+    Clipboard := files
+    Send, ^v
+    Send, {Enter}
+return
+
+<DC_SelectedCurrentDir>:
+    gosub <DC_UnMapKeys>
+
+    if (DC_CallerId == 0) {
+        return
+    }
+
+    Clipboard := ""
+    DC_Run("cm_CopyCurrentPathToClip")
+    ClipWait
+
+    ; 添加默认路径不带反斜杠，添加之
+
+    Clipboard .= "\"
+
+    WinActivate, ahk_id %DC_CallerId%
+    WinWait, ahk_id %DC_CallerId%
+    DC_CallerId := 0
+
+    Send, {Home}
+    Send, ^v
+    Send, {Enter}
 return
