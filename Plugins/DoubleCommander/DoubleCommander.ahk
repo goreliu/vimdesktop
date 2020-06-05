@@ -1,52 +1,93 @@
-﻿DoubleCommander:
+﻿/*
+    此插件仅供自用，依赖对 DC 代码的修改以及专门的配置
+
+    ---
+
+    DC 的优势
+
+    开源，免费，跨平台，可以自由改代码定制功能，很好编译
+    可以改代码让所有目录中的父目录（..）消失（已完成）
+    可以把按键绑定到工具栏的子菜单上，然后再通过按键触发功能
+    内建 lua 解释器，方便写一些高级功能（感觉功能有限，用处不大）
+    主界面和配置界面更漂亮、好用
+
+    ---
+
+    TODO
+
+    列表视图和缩略图试图返回上一级目录失效
+
+    ff/fa 按键
+
+    迁移 TC 的主菜单命令
+
+    CreateShortcut 导出为命令
+
+    缩略图模式自动修改按键绑定
+
+    整理快捷键列表到配置文件
+
+    切换到上/下一个同级目录（进行中）
+
+    作为 OpenDialog
+*/
+
+DoubleCommander:
     global DC := "ahk_class DClass"
-    global DC_name := "DoubleCommander"
     global DC_Dir := "c:\mine\app\doublecmd"
-    ; global DC_splitpct := 50
+    DC_Name := "DoubleCommander"
 
-    ; normal模式
-    vim.SetWin(DC_name, "DClass", "doublecmd.exe")
-    vim.mode("normal", DC_name)
+    vim.SetWin(DC_Name, "DClass", "doublecmd.exe")
+    vim.Mode("normal", DC_Name)
 
-    vim.map("h", "<left>", DC_name)
-    vim.map("j", "<down>", DC_name)
-    vim.map("k", "<up>", DC_name)
-    vim.map("l", "<enter>", DC_name)
-    vim.map("gg", "<home>", DC_name)
-    vim.map("G", "<end>", DC_name)
-    vim.map("o", "<DC_ContextMenu>", DC_name)
-    vim.map("<la-r>", "<DC_Rename>", DC_name)
-    vim.map("<f1>", "<DC_Test>", DC_name)
-    vim.map("<f2>", "<DC_RenameFull>", DC_name)
-    vim.map("<f5>", "<DC_Restart>", DC_name)
-    vim.map("<c-f>", "<pgdn>", DC_name)
-    vim.map("<c-b>", "<pgup>", DC_name)
-    vim.map("zz", "<DC_Show_50_50>", DC_name)
-    vim.map("zi", "<DC_Show_100_0>", DC_name)
-    vim.map("zo", "<DC_Show_0_100>", DC_name)
-	vim.map("zv", "<DC_HorizontalFilePanels>", DC_name)
-	vim.map("<S-K>", "<DC_PreviousParallelDir>", DC_name)
-	vim.map("<S-J>", "<DC_NextParallelDir>", DC_name)
-	vim.map("<c-k>", "<DC_UpSelect>", DC_name)
-	vim.map("<c-j>", "<DC_DownSelect>", DC_name)
-	vim.map("i", "<DC_CreateNewFile>", DC_name)
-	vim.map("sn", "<DC_SortByName>", DC_name)
-	vim.map("se", "<DC_SortByExt>", DC_name)
-	vim.map("ss", "<DC_SortBySize>", DC_name)
-	vim.map("sd", "<DC_SortByDate>", DC_name)
-	vim.map("sa", "<DC_SortByAttr>", DC_name)
-	vim.map("sr", "<DC_ReverseOrder>", DC_name)
-	vim.map("s1", "<DC_SortByName>", DC_name)
-	vim.map("s2", "<DC_SortByExt>", DC_name)
-	vim.map("s3", "<DC_SortBySize>", DC_name)
-	vim.map("s4", "<DC_SortByDate>", DC_name)
+    vim.Map("h", "<left>", DC_Name)
+    vim.Map("j", "<down>", DC_Name)
+    vim.Map("k", "<up>", DC_Name)
+    vim.Map("l", "<enter>", DC_Name)
+    vim.Map("gg", "<home>", DC_Name)
+    vim.Map("G", "<end>", DC_Name)
+    vim.Map("o", "<DC_ContextMenu>", DC_Name)
+    vim.Map("<la-r>", "<DC_Rename>", DC_Name)
+    vim.Map("<f1>", "<DC_Test>", DC_Name)
+    vim.Map("<f2>", "<DC_RenameFull>", DC_Name)
+    vim.Map("<f5>", "<DC_Restart>", DC_Name)
+    vim.Map("<c-f>", "<pgdn>", DC_Name)
+    vim.Map("<c-b>", "<pgup>", DC_Name)
+    vim.Map("zz", "<DC_Toggle_50_100>", DC_Name)
+    vim.Map("zi", "<DC_Show_100_0>", DC_Name)
+    vim.Map("zo", "<DC_Show_0_100>", DC_Name)
+    vim.Map("zv", "<DC_HorizontalFilePanels>", DC_Name)
+    vim.Map("<S-K>", "<DC_PreviousParallelDir>", DC_Name)
+    vim.Map("<S-J>", "<DC_NextParallelDir>", DC_Name)
+    vim.Map("<c-k>", "<DC_UpSelect>", DC_Name)
+    vim.Map("<c-j>", "<DC_DownSelect>", DC_Name)
+    vim.Map("i", "<DC_CreateNewFile>", DC_Name)
+    vim.Map("sn", "<DC_SortByName>", DC_Name)
+    vim.Map("se", "<DC_SortByExt>", DC_Name)
+    vim.Map("ss", "<DC_SortBySize>", DC_Name)
+    vim.Map("sd", "<DC_SortByDate>", DC_Name)
+    vim.Map("sa", "<DC_SortByAttr>", DC_Name)
+    vim.Map("sr", "<DC_ReverseOrder>", DC_Name)
+    vim.Map("s1", "<DC_SortByName>", DC_Name)
+    vim.Map("s2", "<DC_SortByExt>", DC_Name)
+    vim.Map("s3", "<DC_SortBySize>", DC_Name)
+    vim.Map("s4", "<DC_SortByDate>", DC_Name)
+    vim.Map(".", "<DC_OpenExplorer>", DC_Name)
+    vim.Map("""", "<DC_MarkFile>", DC_Name)
+    vim.Map("_", "<DC_UnMarkFile>", DC_Name)
+    vim.Map("Vm", "<DC_ShowMainMenu>", DC_Name)
+    vim.Map("Vb", "<DC_ShowButtonMenu>", DC_Name)
+    vim.Map("Vv", "<DC_OperationsViewer>", DC_Name)
+    vim.Map("Va", "<DC_BriefView>", DC_Name)
+    vim.Map("V1", "<DC_ColumnsView1>", DC_Name)
+    vim.Map("V2", "<DC_ColumnsView2>", DC_Name)
 
-    vim.BeforeActionDo("DC_ForceInsertMode", DC_name)
+    vim.BeforeActionDo("DC_ForceInsertMode", DC_Name)
 return
 
 DC_ForceInsertMode() {
     ControlGetFocus, ctrl
-    if (ctrl == "Edit") {
+    if (InStr(ctrl, "Edit") == 1) {
         return true
     }
 
@@ -63,6 +104,31 @@ DC_Run(cmd) {
     ControlSend, Edit1, {enter}, % DC
 }
 
+; 返回值 [1]: left/right [2]: 左侧面板所占比例 0-100
+DC_GetPanelInfo() {
+    ClipSaved := ClipboardAll
+    Clipboard := ""
+    DC_run("cm_CopyPanelInfoToClip")
+    ClipWait, 2
+
+    PanelInfo := StrSplit(Clipboard, " ")
+    Clipboard := ClipSaved
+
+    return PanelInfo
+}
+
+DC_ExecuteToolbarItem(Id) {
+    DC_Run("cm_ExecuteToolbarItem ToolItemID=" . Id)
+}
+
+DC_ColumnsView(columnset) {
+    if (columnset == "") {
+        DC_Run("cm_ColumnsView")
+    } else {
+        DC_Run("cm_ColumnsView columnset=" columnset)
+    }
+}
+
 <DC_ContextMenu>:
     Send, {appskey}
 return
@@ -76,6 +142,7 @@ return
 return
 
 <DC_Test>:
+    ; DC_ExecuteToolbarItem("{700FF494-B939-48A3-B248-8823EB366AEA}")
     DC_Run("cm_About")
 return
 
@@ -83,7 +150,7 @@ return
     WinClose, % DC
     WinWaitClose, % DC, , 2
 
-    Run, c:\mine\app\doublecmd\doublecmd.exe
+    Run, % DC_Dir . "\doublecmd.exe"
 
     WinWaitActive, % DC
 
@@ -105,11 +172,25 @@ return
 return
 
 <DC_HorizontalFilePanels>:
-	DC_Run("cm_HorizontalFilePanels mode=legacy")
+    DC_Run("cm_HorizontalFilePanels mode=legacy")
+return
+
+<DC_Toggle_50_100>:
+    PanelInfo := DC_GetPanelInfo()
+
+    if (abs(50 - PanelInfo[2]) < 10) {
+        if (PanelInfo[1] == "left") {
+            DC_Run("cm_PanelsSplitterPerPos splitpct=100")
+        } else {
+            DC_Run("cm_PanelsSplitterPerPos splitpct=0")
+        }
+    } else {
+        DC_Run("cm_PanelsSplitterPerPos splitpct=50")
+    }
 return
 
 <DC_MakeDir>:
-	DC_Run("cm_MakeDir")
+    DC_Run("cm_MakeDir")
 return
 
 <DC_PreviousParallelDir>:
@@ -117,7 +198,7 @@ return
 /*
     ClipSaved := ClipboardAll
     Clipboard := ""
-    DC_Run("cm_CopyPathOfFilesToClip")
+    DC_Run("cm_CopyCurrentPathToClip")
     ClipWait
 
     OldPwd := Clipboard
@@ -134,11 +215,11 @@ return
     ; DC_Run("cm_ChangeDirToParent")
 */
 
-	Send, {left}
-	Sleep, 10
-	Send, {up}
-	Sleep, 10
-	Send, {right}
+    Send, {left}
+    Sleep, 10
+    Send, {up}
+    Sleep, 10
+    Send, {right}
 
 /*
     if (InStr(OldPwd, "wfx") == 1) {
@@ -153,11 +234,11 @@ return
 
 <DC_NextParallelDir>:
 ; TODO
-	Send, {left}
-	Sleep, 10
-	Send, {down}
-	Sleep, 10
-	Send, {right}
+    Send, {left}
+    Sleep, 10
+    Send, {down}
+    Sleep, 10
+    Send, {right}
 return
 
 <DC_DownSelect>:
@@ -170,21 +251,21 @@ return
 
 <DC_CreateNewFile>:
     ControlGetFocus, TLB, % DC
-	ControlGetPos, xn, yn, , , % TLB, % DC
+    ControlGetPos, xn, yn, , , % TLB, % DC
 
     Menu, NewFileMenu, Add
     Menu, NewFileMenu, DeleteAll
 /*
    TODO
     Menu, NewFileMenu, Add , S >> 快捷方式, <cm_CreateShortcut>
-	Menu, NewFileMenu, Icon, S >> 快捷方式, %A_WinDir%\system32\Shell32.dll, 264
+    Menu, NewFileMenu, Icon, S >> 快捷方式, %A_WinDir%\system32\Shell32.dll, 264
     Menu, NewFileMenu, Add
 */
 
     Loop, % DC_Dir . "\ShellNew\*.*" {
         ft := SubStr(A_LoopFileName, 1, 1) . " >> " . A_LoopFileName
         Menu, NewFileMenu, Add, % ft, DC_NewFileMenuAction
-        Menu, NewFileMenu, Icon, % ft, %A_WinDir%\system32\Shell32.dll, 
+        Menu, NewFileMenu, Icon, % ft, %A_WinDir%\system32\Shell32.dll
     }
 
     Menu, NewFileMenu, Show, % xn, % yn + 2
@@ -214,7 +295,7 @@ DC_NewFileOK:
 
     ClipSaved := ClipboardAll
     Clipboard :=
-	DC_Run("cm_CopyPathOfFilesToClip")
+    DC_Run("cm_CopyCurrentPathToClip")
     ClipWait, 2
     DstPath := Clipboard
     Clipboard := ClipSaved
@@ -233,7 +314,7 @@ DC_NewFileOK:
             return
     }
 
-	FileCopy, % SrcFilePath, % NewFilePath, 1
+    FileCopy, % SrcFilePath, % NewFilePath, 1
 
     ; TODO
     ; 好像无法实现定位到新创建的文件
@@ -246,7 +327,7 @@ return
         WinGet, Ac, MinMax, % DC
         if (Ac == -1) {
             WinActivate, % DC
-		} else {
+        } else {
             if (!WinActive(DC)) {
                 WinActivate, % DC
             } else {
@@ -254,7 +335,7 @@ return
             }
         }
     } else {
-        Run, c:\mine\app\doublecmd\doublecmd.exe
+        Run, % DC_Dir . "\doublecmd.exe"
         WinWait, % DC
 
         if (!WinActive(DC)) {
@@ -288,39 +369,58 @@ return
 return
 
 <DC_FocusSwap>:
-    DC_run("cm_FocusSwap")
+    DC_Run("cm_FocusSwap")
     ; side=left/right
-return 
+return
 
-/* 
-    DC 现有问题
+<DC_CopyCurrentPathToClip>:
+    DC_Run("cm_CopyCurrentPathToClip")
+return
 
-    不能查看回收站（有些影响，暂时可以用资源管理器来查看）
-    图片快速浏览过慢（影响不大，用 Imagine 后速度基本没问题了，只是快速切换图片时会闪屏）
-    有时常规功能会导致错误弹窗（影响不大，可以关闭）
-    左右面板的 ClassNN 不固定，很难获取位置信息（影响不大，可以改代码添加新命令获取）
+<DC_OpenExplorer>:
+    DC_Run(".")
+return
 
-	---
+<DC_MarkFile>:
+    DC_Run("cm_EditComment")
+    ; 不要在已有备注的文件使用
+    Send, ^+{end}🖥{f2}
+return
 
-    DC 的优势
+<DC_UnMarkFile>:
+    DC_Run("cm_EditComment")
+    ; 删除 DC_MarkFile 的文件标记，也可用于清空文件备注
+    Send, ^+{end}{del}{f2}
+return
 
-    开源，免费，跨平台，可以自由改代码定制功能，很好编译
-    可以改代码让所有目录中的父目录（..）消失（已完成）
-    内建 lua 解释器，方便写一些高级功能（感觉功能有限，用处不大）
-    配置界面更漂亮、好用
-    最吸引我的是可以通过修改源码定制和添加功能，迁移中
+<DC_ShowMainMenu>:
+    DC_Run("cm_ShowMainMenu")
+return
 
-	---
+<DC_ShowButtonMenu>:
+    DC_Run("cm_ShowButtonMenu")
+return
 
-    TODO
+<DC_OperationsViewer>:
+    DC_Run("cm_OperationsViewer")
+return
 
-    切换到上/下一个同级目录（进行中）
+<DC_TreeView>:
+    DC_Run("cm_TreeView")
+return
 
-    用右键菜单定制某些文件的打开方式
-   
-    实现命令 cm_GetPanelInfo（感觉用处不大，优先级低）
-    无参数
-    通过剪切板返回：m n
-    m 左边则返回 left，右边则返回 right
-    n 左面板占用比例，0-100
-*/
+<DC_FocusTreeView>:
+    DC_Run("cm_FocusTreeView")
+return
+
+<DC_BriefView>:
+    DC_Run("cm_BriefView")
+return
+
+<DC_ColumnsView1>:
+    DC_ColumnsView("mine")
+return
+
+<DC_ColumnsView2>:
+    DC_ColumnsView("test")
+return

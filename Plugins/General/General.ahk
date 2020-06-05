@@ -1105,3 +1105,7 @@ return
     Sleep, 200
     SendMessage, 0x112, 0xF170, 2, , Program Manager
 return
+
+<RecycleBin>:
+    Run, explorer.exe ::{645ff040-5081-101b-9f08-00aa002f954e}
+return
