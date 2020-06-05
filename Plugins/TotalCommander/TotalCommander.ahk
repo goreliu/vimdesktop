@@ -688,7 +688,8 @@ AddMark:
     FixTCEditId()
 
     ; 先跳转到回收站，避免在 FTP 等目录中中无法正常跳转
-    Postmessage 1075, 2127, 0, , ahk_class TTOTAL_CMD
+    ; 当回收站文件较多时会异常，不再使用
+    ; Postmessage 1075, 2127, 0, , ahk_class TTOTAL_CMD
 
     ControlSetText, %TCEdit%, cd %ThisMenuItem%, ahk_class TTOTAL_CMD
     ControlSend, %TCEdit%, {Enter}, ahk_class TTOTAL_CMD
