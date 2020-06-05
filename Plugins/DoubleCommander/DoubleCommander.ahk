@@ -19,8 +19,6 @@
 
     迁移 TC 的主菜单命令
 
-    CreateShortcut 导出为命令
-
     作为 OpenDialog
 */
 
@@ -241,12 +239,9 @@ return
 
     Menu, NewFileMenu, Add
     Menu, NewFileMenu, DeleteAll
-/*
-   TODO
-    Menu, NewFileMenu, Add , S >> 快捷方式, <cm_CreateShortcut>
+    Menu, NewFileMenu, Add , S >> 快捷方式, <DC_CreateFileShortcut>
     Menu, NewFileMenu, Icon, S >> 快捷方式, %A_WinDir%\system32\Shell32.dll, 264
     Menu, NewFileMenu, Add
-*/
 
     Loop, % DC_Dir . "\ShellNew\*.*" {
         ft := SubStr(A_LoopFileName, 1, 1) . " >> " . A_LoopFileName
@@ -446,9 +441,28 @@ return
 
     SplitPath, Clipboard, OutFileName, , , OutFilenameNoExt
 
-	if (InStr(FileExist(Clipboard), "D")) {
+    if (InStr(FileExist(Clipboard), "D")) {
         Clipboard := OutFileName
     } else if (InStr(Clipboard, ".")) {
         Clipboard := OutFilenameNoExt
+    }
+return
+
+<DC_CreateFileShortcut>:
+    ClipSaved := ClipboardAll
+    Clipboard := ""
+    DC_Run("cm_CopyFullNamesToClip")
+    ClipWait
+
+    FilePath := Clipboard
+    Clipboard := ClipSaved
+    ClipSaved := ""
+
+
+    OutVar := FileExist(FilePath)
+    if (InStr(OutVar, "D")) {
+        FileCreateShortcut, % FilePath, % FilePath . ".lnk"
+    } else if (OutVar != "") {
+        FileCreateShortcut, % FilePath, % RegExReplace(FilePath, "\.[^.]*$", ".lnk")
     }
 return
