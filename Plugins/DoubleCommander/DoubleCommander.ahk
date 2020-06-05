@@ -148,8 +148,7 @@ return
     }
 
     if (StrLen(OldPwd) == 3) {
-        ; 在根分区 TODO
-        ; Gosub, <cm_GotoPreviousDrive>
+        ; 在根分区
 
         Clipboard := ClipSaved
         ClipSaved := ""
@@ -185,7 +184,7 @@ return
     }
 
     if (StrLen(OldPwd) == 3) {
-        ; 在根分区 TODO
+        ; 在根分区
         ; Gosub, <cm_GotoPreviousDrive>
 
         Clipboard := ClipSaved
