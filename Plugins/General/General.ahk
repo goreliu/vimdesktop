@@ -8,7 +8,7 @@
     vim.SetAction("<end>", "end键")
     vim.SetAction("<Gen_InsertMode>", "插入模式")
     vim.SetAction("<Gen_NormalMode>", "浏览模式")
-    vim.SetAction("<Gen_Toggle>", "启用/禁用vim热键(General插件)")
+    vim.SetAction("<Gen_Toggle>", "启用/禁用 Vim 热键（General 插件）")
     vim.SetAction("<Reload>", "重新加载")
     vim.SetAction("<Suspend>", "禁用")
     vim.SetAction("<WindowMoveDown>", "窗口移动到下方")
@@ -45,7 +45,7 @@
     vim.SetAction("<Media_Prev>", "播放上一首")
     vim.SetAction("<Media_Play_Pause>", "播放/停止")
     vim.SetAction("<Media_Stop>", "停止播放")
-    vim.SetAction("<RemoveToolTip>", "清除屏幕的ToolTip")
+    vim.SetAction("<RemoveToolTip>", "清除屏幕的 ToolTip")
     vim.SetAction("<ShowHelp>", "显示所有按键帮助信息")
     vim.SetAction("<ToggleCapsLock>", "切换大小写")
     vim.SetAction("<MouseUp>", "向上移动鼠标")
@@ -56,6 +56,18 @@
     vim.SetAction("<PrintScreenAndSave>", "截图并保存")
     vim.SetAction("<RunZ>", "运行 RunZ")
     vim.SetAction("<Test>", "测试")
+    vim.SetAction("<ToggleTitleBar>", "显示/隐藏标题栏")
+    vim.SetAction("<TurnMonitorOff>", "关闭显示器")
+    vim.SetAction("<OpenRecycleBin>", "打开回收站")
+    vim.SetAction("<PrintCurrentTime>", "输出当前时间")
+    vim.SetAction("<AlwaysOnTop>", "置顶显示")
+    vim.SetAction("<CancelAlwaysOnTop>", "取消置顶显示")
+    vim.SetAction("<SuspendMachine>", "睡眠")
+    vim.SetAction("<RunAhkInClipboard>", "运行剪切板中的 AHK 代码")
+    vim.SetAction("<OpenBaiduNetdiskLink>", "打开百度网盘链接")
+    vim.SetAction("<AppendClipboard>", "往剪切板中追加内容")
+    vim.SetAction("<SwitchToEngIMEAndEsc>", "切换到英文输入法并按 Esc 键")
+    vim.SetAction("<SwitchToEngIME>", "切换到英文输入法")
 
 
     vim.SetWin("General", "General")
@@ -117,16 +129,14 @@ Gen_Before()
     Tooltip, Insert模式, , , 19
     Settimer, cancelTooltip, 1200
 return
+
 <Gen_NormalMode>:
     vim.SetMode("Normal", vim.CheckWin())
     Tooltip, Normal模式, , , 19
     Settimer, cancelTooltip, 1200
 return
+
 <Gen_Toggle>:
-    Gen_Toggle()
-return
-Gen_Toggle()
-{
     Global vim, Gen_Save_Win
     WinGetClass, c, A
     WinGet, f, ProcessPath, ahk_class %c%
@@ -154,61 +164,80 @@ Gen_Toggle()
             Tooltip, 取消当前窗口的VIMD热键, , , 19
     }
     Settimer, cancelTooltip, 1200
-}
+return
+
 cancelTooltip:
     Tooltip, , , , 19
 return
+
 <Reload>:
     Reload
 return
+
 <Exit>:
     ExitApp
 return
+
 <Suspend>:
     Suspend
 return
+
 <down>:
     send, {down}
 return
+
 <up>:
     send, {up}
 return
+
 <left>:
     send, {left}
 return
+
 <right>:
     send, {right}
 return
+
 <home>:
     send, {home}
 return
+
 <end>:
     send, {end}
 return
+
 <pgup>:
     send, {pgup}
 return
+
 <pgdn>:
     send, {pgdn}
 return
+
 <enter>:
     send, {enter}
 return
+
 <space>:
     send, {space}
 return
+
 <backspace>:
     send, {backspace}
 return
+
 <Media_Next>:
     send, {Media_Next}
 return
+
 <Media_Prev>:
     send, {Media_Prev}
 return
+
 <Media_Stop>:
     send, {Media_Stop}
 return
+
 <Media_Play_Pause>:
     send, {Media_Play_Pause}
 return
@@ -216,37 +245,42 @@ return
 <WindowMoveDown>:
     WindowPadMove("0, +1, 1.0, 0.5")
 Return
+
 <WindowMoveUp>:
     WindowPadMove("0, -1, 1.0, 0.5")
 Return
+
 <WindowMoveLeft>:
     WindowPadMove("-1, 0, 0.5, 1.0")
 Return
+
 <WindowMoveRight>:
     WindowPadMove("+1, 0, 0.5, 1.0")
 Return
+
 <WindowMoveCenter>:
     WindowPadMove("0, 0, 0.5, 0.7")
 return
+
 <WindowMax>:
     WinMaximize, A
 return
+
 <WindowMaxNoTitle>:
     WinMaximize, A
     WinSet, Style, -0xc00000, A
 return
+
 <WindowMin>:
     WinMinimize, A
 return
+
 <WindowRestore>:
     WinRestore, A
 return
 
 ; 全屏当前程序
 <FullScreen>:
-    FullScreen()
-return
-FullScreen() {
     WinGet, windowID, ID, A
     WindowState := FullScreenID[windowID]
     If Strlen(windowState) = 0
@@ -277,7 +311,7 @@ FullScreen() {
         ;MsgBox 再按一下刚刚的热键退出全屏
     }
     FullScreenID[windowID] := WindowState
-}
+return
 
 
 ;====================================================================================
@@ -504,20 +538,21 @@ CalcNewPosition:
     ; Calculate new position.
     newx := restore_x != "" ? restore_x : Round(monLeft + (sideX+1) * (monWidth  - neww)/2)
     newy := restore_y != "" ? restore_y : Round(monTop  + (sideY+1) * (monHeight - newh)/2)
-    return
+return
 
 CalcMonitorStats:
     ; Get work area (excludes taskbar-reserved space.)
     SysGet, mon, MonitorWorkArea, %m%
     monWidth  := monRight - monLeft
     monHeight := monBottom - monTop
-    return
+return
 }
 
 ; Get/set window property. type should be int, uint or float.
 GetWindowProperty(hwnd, property_name, type="int") {
     return DllCall("GetProp", "uint", hwnd, "str", property_name, type)
 }
+
 SetWindowProperty(hwnd, property_name, data, type="int") {
     return DllCall("SetProp", "uint", hwnd, "str", property_name, type, data)
 }
@@ -586,7 +621,6 @@ WinPreviouslyActive()
     return WinExist("ahk_id " . win%N%)
 }
 
-
 ;
 ; Switch without moving/resizing (relative to screen)
 ;
@@ -647,7 +681,6 @@ WindowScreenMove(P)
     if state = 1
         WinMaximize
 }
-
 
 ;
 ; "Gather" windows on a specific screen.
@@ -1106,10 +1139,10 @@ return
     SendMessage, 0x112, 0xF170, 2, , Program Manager
 return
 
-<RecycleBin>:
+<OpenRecycleBin>:
     Run, explorer.exe ::{645ff040-5081-101b-9f08-00aa002f954e}
 return
 
-<CurrentTime>:
+<PrintCurrentTime>:
     Send, % A_Now
 return
