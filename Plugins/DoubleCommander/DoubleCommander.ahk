@@ -19,14 +19,16 @@
 */
 
 DoubleCommander:
-    global DC := "ahk_class DClass"
+    global DC_Class := "TTOTAL_CMD"
+    global DC := "ahk_class " . DC_Class
     global DC_Dir := "c:\mine\app\doublecmd"
+    global DC_Path := "c:\mine\app\doublecmd\doublecmd.exe --no-splash"
     ; 用于记录文件打开对话框所属窗体
     global DC_CallerId := 0
 
     DC_Name := "DoubleCommander"
 
-    vim.SetWin(DC_Name, "DClass", "doublecmd.exe")
+    vim.SetWin(DC_Name, DC_Class, "doublecmd.exe")
     vim.Mode("normal", DC_Name)
 
     vim.BeforeActionDo("DC_ForceInsertMode", DC_Name)
@@ -56,7 +58,7 @@ DC_GetPanelInfo() {
     ClipSaved := ClipboardAll
     Clipboard := ""
     DC_run("cm_CopyPanelInfoToClip")
-    ClipWait, 2
+    ClipWait, 1
 
     PanelInfo := StrSplit(Clipboard, " ")
     Clipboard := ClipSaved
@@ -89,7 +91,7 @@ return
     WinClose, % DC
     WinWaitClose, % DC, , 2
 
-    Run, % DC_Dir . "\doublecmd.exe --no-splash"
+    Run, % DC_Path
 
     WinWaitActive, % DC
 
@@ -138,7 +140,7 @@ return
     ClipSaved := ClipboardAll
     Clipboard := ""
     DC_Run("cm_CopyCurrentPathToClip")
-    ClipWait, 2
+    ClipWait, 1
 
     OldPwd := Clipboard
 
@@ -159,7 +161,7 @@ return
     DC_Run("cm_ChangeDirToParent")
     Sleep, % SleepTime
 
-    Send, {up}
+    DC_Run("cm_GoToPrevEntry")
     Sleep, % SleepTime
 
     Send, {right}
@@ -174,7 +176,7 @@ return
     ClipSaved := ClipboardAll
     Clipboard := ""
     DC_Run("cm_CopyCurrentPathToClip")
-    ClipWait, 2
+    ClipWait, 1
 
     OldPwd := Clipboard
 
@@ -196,7 +198,7 @@ return
     DC_Run("cm_ChangeDirToParent")
     Sleep, % SleepTime
 
-    Send, {down}
+    DC_Run("cm_GoToNextEntry")
     Sleep, % SleepTime
 
     Send, {right}
@@ -204,9 +206,9 @@ return
 
     Clipboard := ""
     DC_Run("cm_CopyCurrentPathToClip")
-    ClipWait, 2
+    ClipWait, 1
 
-    if (InStr(OldPwd, Clipboard) == 1) {
+    if (OldPwd != Clipboard && InStr(OldPwd, Clipboard) == 1) {
         ; 下一个是文件
         DC_Run("cm_ViewHistoryPrev")
     }
@@ -259,7 +261,7 @@ DC_NewFileOK:
     ClipSaved := ClipboardAll
     Clipboard :=
     DC_Run("cm_CopyCurrentPathToClip")
-    ClipWait, 2
+    ClipWait, 1
     DstPath := Clipboard
     Clipboard := ClipSaved
     ClipSaved := ""
@@ -298,7 +300,7 @@ return
             }
         }
     } else {
-        Run, % DC_Dir . "\doublecmd.exe --no-splash"
+        Run, % DC_Path
         WinWait, % DC
 
         if (!WinActive(DC)) {
@@ -410,7 +412,7 @@ return
 <DC_CopyFileContent>:
     Clipboard := ""
     DC_Run("cm_CopyFullNamesToClip")
-    ClipWait, 2
+    ClipWait, 1
 
     Fileread, Contents, % Clipboard
     Clipboard := Contents
@@ -419,7 +421,7 @@ return
 <DC_CopyFilenamesOnly>:
     Clipboard := ""
     DC_Run("cm_CopyFullNamesToClip")
-    ClipWait, 2
+    ClipWait, 1
 
     SplitPath, Clipboard, OutFileName, , , OutFilenameNoExt
 
@@ -453,7 +455,7 @@ return
     IfWinExist, % DC
         Winactivate, % DC
     else {
-        Run, % DC_Dir . "\doublecmd.exe --no-splash"
+        Run, % DC_Path
         WinWait, % DC
         IfWinNotActive, % DC
             WinActivate, % DC
@@ -487,7 +489,7 @@ return
     WinGetClass, name, A
 
     ; 在 DC 按下快捷键时，激活调用窗体并执行粘贴操作
-    if (name == "DClass") {
+    if (name == DC_Class) {
         if (DC_CallerId != 0) {
             gosub <DC_Selected>
             DC_CallerId := 0
@@ -512,12 +514,12 @@ return
 
     DC_Run("cm_CopyCurrentPathToClip")
 
-    ClipWait, 2
+    ClipWait, 1
     pwd := Clipboard
 
     Clipboard := ""
     DC_Run("cm_CopyNamesToClip")
-    ClipWait, 2
+    ClipWait, 1
 
     WinActivate, ahk_id %DC_CallerId%
     WinWait, ahk_id %DC_CallerId%
@@ -584,8 +586,8 @@ DC_OpenPath(Path, InNewTab := true, LeftOrRight := "") {
     }
 
     if (InNewTab) {
-        Run, "%DC_Dir%\doublecmd.exe" --no-splash -T "%LeftOrRight%" "%Path%"
+        Run, %DC_Path% -C -T "%LeftOrRight%" "%Path%"
     } else {
-        Run, "%DC_Dir%\doublecmd.exe" --no-splash "%LeftOrRight%" "%Path%"
+        Run, %DC_Path% -C "%LeftOrRight%" "%Path%"
     }
 }
