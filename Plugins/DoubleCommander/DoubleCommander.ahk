@@ -113,7 +113,7 @@ return
     }
 return
 
-<DC_PreviousParallelDir>:
+<DC_PrevParallelDir>:
     SleepTime := 10
 
     ClipSaved := ClipboardAll
@@ -143,7 +143,8 @@ return
     DC_Run("cm_GoToPrevEntry")
     Sleep, % SleepTime
 
-    Send, {Right}
+    DC_Run("cm_EnterActiveDir")
+    Sleep, % SleepTime
 
     Clipboard := ClipSaved
     ClipSaved := ""
@@ -180,12 +181,13 @@ return
     DC_Run("cm_GoToNextEntry")
     Sleep, % SleepTime
 
-    Send, {Right}
+    DC_Run("cm_EnterActiveDir")
     Sleep, % SleepTime
 
     Clipboard := ""
     DC_Run("cm_CopyCurrentPathToClip")
     ClipWait, 1
+    Sleep, % SleepTime
 
     if (OldPwd != Clipboard && InStr(OldPwd, Clipboard) == 1) {
         ; 下一个是文件
