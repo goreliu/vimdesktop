@@ -64,14 +64,6 @@ DC_ExecuteToolbarItem(ID) {
     DC_Run("cm_ExecuteToolbarItem ToolItemID=" . ID)
 }
 
-DC_ColumnsView(ColumnSet) {
-    if (ColumnSet == "") {
-        DC_Run("cm_ColumnsView")
-    } else {
-        DC_Run("cm_ColumnsView columnset=" . ColumnSet)
-    }
-}
-
 DC_OpenPath(Path, InNewTab := true, LeftOrRight := "") {
     LeftOfRight := DC_GetPanelInfo()[1]
     if (LeftOfRight == "right") {
@@ -392,14 +384,6 @@ return
 
 <DC_BriefView>:
     DC_Run("cm_BriefView")
-return
-
-<DC_ColumnsView1>:
-    DC_ColumnsView("mine")
-return
-
-<DC_ColumnsView2>:
-    DC_ColumnsView("test")
 return
 
 <DC_ThumbnailsView>:
