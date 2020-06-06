@@ -99,22 +99,6 @@ return
     }
 return
 
-<DC_Show_50_50>:
-    DC_Run("cm_PanelsSplitterPerPos splitpct=50")
-return
-
-<DC_Show_100_0>:
-    DC_Run("cm_PanelsSplitterPerPos splitpct=100")
-return
-
-<DC_Show_0_100>:
-    DC_Run("cm_PanelsSplitterPerPos splitpct=0")
-return
-
-<DC_HorizontalFilePanels>:
-    DC_Run("cm_HorizontalFilePanels mode=legacy")
-return
-
 <DC_Toggle_50_100>:
     PanelInfo := DC_GetPanelInfo()
 
@@ -127,10 +111,6 @@ return
     } else {
         DC_Run("cm_PanelsSplitterPerPos splitpct=50")
     }
-return
-
-<DC_MakeDir>:
-    DC_Run("cm_MakeDir")
 return
 
 <DC_PreviousParallelDir>:
@@ -313,43 +293,6 @@ return
     }
 return
 
-<DC_SortByName>:
-    DC_Run("cm_SortByName")
-return
-
-<DC_SortByExt>:
-    DC_Run("cm_SortByExt")
-return
-
-<DC_SortBySize>:
-    DC_Run("cm_SortBySize")
-return
-
-<DC_SortByDate>:
-    DC_Run("cm_SortByDate")
-return
-
-<DC_SortByAttr>:
-    DC_Run("cm_SortByAttr")
-return
-
-<DC_ReverseOrder>:
-    DC_Run("cm_ReverseOrder")
-return
-
-<DC_FocusSwap>:
-    DC_Run("cm_FocusSwap")
-    ; side=left/right
-return
-
-<DC_CopyCurrentPathToClip>:
-    DC_Run("cm_CopyCurrentPathToClip")
-return
-
-<DC_OpenExplorer>:
-    DC_Run(".")
-return
-
 <DC_MarkFile>:
     DC_Run("cm_EditComment")
     ; 不要在已有备注的文件使用
@@ -360,30 +303,6 @@ return
     DC_Run("cm_EditComment")
     ; 删除 DC_MarkFile 的文件标记，也可用于清空文件备注
     Send, ^+{End}{Del}{F2}
-return
-
-<DC_ShowMainMenu>:
-    DC_Run("cm_ShowMainMenu")
-return
-
-<DC_ShowButtonMenu>:
-    DC_Run("cm_ShowButtonMenu")
-return
-
-<DC_OperationsViewer>:
-    DC_Run("cm_OperationsViewer")
-return
-
-<DC_TreeView>:
-    DC_Run("cm_TreeView")
-return
-
-<DC_FocusTreeView>:
-    DC_Run("cm_FocusTreeView")
-return
-
-<DC_BriefView>:
-    DC_Run("cm_BriefView")
 return
 
 <DC_ThumbnailsView>:
