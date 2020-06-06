@@ -16,8 +16,6 @@
     TODO
 
     看怎么给命令传递多个参数
-
-    专用 DC 的配置类型
 */
 
 DoubleCommander:
@@ -30,10 +28,10 @@ DoubleCommander:
 
     DC_Name := "DoubleCommander"
 
-    vim.SetWin(DC_Name, DC_Class, "doublecmd.exe")
-    vim.Mode("normal", DC_Name)
+    Vim.SetWin(DC_Name, DC_Class, "doublecmd.exe")
+    Vim.Mode("normal", DC_Name)
 
-    vim.BeforeActionDo("DC_ForceInsertMode", DC_Name)
+    Vim.BeforeActionDo("DC_ForceInsertMode", DC_Name)
 return
 
 DC_ForceInsertMode() {
@@ -414,14 +412,14 @@ return
     InThumbsView := !InThumbsView
 
     if (InThumbsView) {
-        vim.Map("l", "<right>", DC_Name)
+        Vim.Map("l", "<right>", DC_Name)
     } else {
-        vim.Map("l", "<enter>", DC_Name)
+        Vim.Map("l", "<enter>", DC_Name)
     }
 return
 
 <DC_ToggleShowInfo>:
-    vim.GetWin(DC_Name).SetInfo(!vim.GetWin(DC_Name).info)
+    Vim.GetWin(DC_Name).SetInfo(!Vim.GetWin(DC_Name).info)
 return
 
 <DC_CopyFileContent>:
@@ -478,15 +476,15 @@ return
 return
 
 <DC_MapKeys>:
-	vim.Mode("normal", DC_Name)
-    vim.Map("<S-Enter>", "<DC_SelectedCurrentDir>", DC_Name)
-    vim.Map("<Esc>", "<DC_ReturnToCaller>", DC_Name)
+	Vim.Mode("normal", DC_Name)
+    Vim.Map("<S-Enter>", "<DC_SelectedCurrentDir>", DC_Name)
+    Vim.Map("<Esc>", "<DC_ReturnToCaller>", DC_Name)
 return
 
 <DC_UnMapKeys>:
-	vim.Mode("normal", DC_Name)
-    vim.Map("<S-Enter>", "<Default>", DC_Name)
-    vim.Map("<Esc>", "<Default>", DC_Name)
+	Vim.Mode("normal", DC_Name)
+    Vim.Map("<S-Enter>", "<Default>", DC_Name)
+    Vim.Map("<Esc>", "<Default>", DC_Name)
 return
 
 ; 返回调用者
