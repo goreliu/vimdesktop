@@ -255,6 +255,11 @@ DC_NewFileMenuAction:
     Gui, Add, Button, x162 y80 w90 h30 gDC_NewFileOk default, 确认(&S)
     Gui, Add, Button, x282 y80 w90 h30 gDC_NewFileClose , 取消(&C)
     Gui, Show, w400 h120, 新建文件
+
+    if (InStr(Filename, ".")) {
+        ; 只选定扩展名之外的文件名
+        PostMessage, 0x0B1, 0, % InStr(Filename, ".") - 1, Edit2, A
+    }
 return
 
 DC_NewFileClose:
