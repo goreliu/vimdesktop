@@ -15,7 +15,7 @@
 
     TODO
 
-    看怎么给命令传递多个参数
+    看搜索怎么定位到下一个结果
 */
 
 DoubleCommander:
@@ -74,7 +74,7 @@ DC_ColumnsView(ColumnSet) {
     if (ColumnSet == "") {
         DC_Run("cm_ColumnsView")
     } else {
-        DC_Run("cm_ColumnsView columnset=" ColumnSet)
+        DC_Run("cm_ColumnsView columnset=" . ColumnSet)
     }
 }
 
@@ -132,7 +132,7 @@ return
 <DC_Toggle_50_100>:
     PanelInfo := DC_GetPanelInfo()
 
-    if (abs(50 - PanelInfo[2]) < 10) {
+    if (Abs(50 - PanelInfo[2]) < 10) {
         if (PanelInfo[1] == "left") {
             DC_Run("cm_PanelsSplitterPerPos splitpct=100")
         } else {
@@ -294,8 +294,8 @@ DC_NewFileOK:
 
     FileCopy, % SrcFilePath, % NewFilePath, 1
 
-    ; TODO
-    ; 好像无法实现定位到新创建的文件
+    ; 虽然不是完全匹配，基本也能用了
+    DC_Run("cm_QuickSearch matchbeginning=on | text=" . NewFilename)
 
     Gui, Destroy
 return
