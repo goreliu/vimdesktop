@@ -15,7 +15,9 @@
 
     TODO
 
-    整理代码
+    看怎么给命令传递多个参数
+
+    专用 DC 的配置类型
 */
 
 DoubleCommander:
@@ -35,8 +37,8 @@ DoubleCommander:
 return
 
 DC_ForceInsertMode() {
-    ControlGetFocus, ctrl
-    if (InStr(ctrl, "Edit") == 1) {
+    ControlGetFocus, Ctrl
+    if (InStr(Ctrl, "Edit") == 1) {
         return true
     }
 
@@ -48,16 +50,16 @@ DC_ForceInsertMode() {
     return false
 }
 
-DC_Run(cmd) {
-    ControlSetText, Edit1, % cmd, % DC
-    ControlSend, Edit1, {enter}, % DC
+DC_Run(Cmd) {
+    ControlSetText, Edit1, % Cmd, % DC
+    ControlSend, Edit1, {Enter}, % DC
 }
 
 ; 返回值 [1]: left/right [2]: 左侧面板所占比例 0-100
 DC_GetPanelInfo() {
     ClipSaved := ClipboardAll
     Clipboard := ""
-    DC_run("cm_CopyPanelInfoToClip")
+    DC_Run("cm_CopyPanelInfoToClip")
     ClipWait, 1
 
     PanelInfo := StrSplit(Clipboard, " ")
@@ -66,21 +68,34 @@ DC_GetPanelInfo() {
     return PanelInfo
 }
 
-DC_ExecuteToolbarItem(Id) {
-    DC_Run("cm_ExecuteToolbarItem ToolItemID=" . Id)
+DC_ExecuteToolbarItem(ID) {
+    DC_Run("cm_ExecuteToolbarItem ToolItemID=" . ID)
 }
 
-DC_ColumnsView(columnset) {
-    if (columnset == "") {
+DC_ColumnsView(ColumnSet) {
+    if (ColumnSet == "") {
         DC_Run("cm_ColumnsView")
     } else {
-        DC_Run("cm_ColumnsView columnset=" columnset)
+        DC_Run("cm_ColumnsView columnset=" ColumnSet)
     }
 }
 
-<DC_RenameFull>:
-    Send, {f2}^a
-return
+DC_OpenPath(Path, InNewTab := true, LeftOrRight := "") {
+    LeftOfRight := DC_GetPanelInfo()[1]
+    if (LeftOfRight == "right") {
+        LeftOrRight := "-R"
+    } else {
+        LeftOrRight := "-L"
+    }
+
+    if (InNewTab) {
+        Run, %DC_Path% -C -T "%LeftOrRight%" "%Path%"
+    } else {
+        Run, %DC_Path% -C "%LeftOrRight%" "%Path%"
+    }
+}
+
+; funcend
 
 <DC_Test>:
     ; DC_ExecuteToolbarItem("{700FF494-B939-48A3-B248-8823EB366AEA}")
@@ -164,7 +179,7 @@ return
     DC_Run("cm_GoToPrevEntry")
     Sleep, % SleepTime
 
-    Send, {right}
+    Send, {Right}
 
     Clipboard := ClipSaved
     ClipSaved := ""
@@ -201,7 +216,7 @@ return
     DC_Run("cm_GoToNextEntry")
     Sleep, % SleepTime
 
-    Send, {right}
+    Send, {Right}
     Sleep, % SleepTime
 
     Clipboard := ""
@@ -219,7 +234,7 @@ return
 
 <DC_CreateNewFile>:
     ControlGetFocus, TLB, % DC
-    ControlGetPos, xn, yn, , , % TLB, % DC
+    ControlGetPos, Xn, Yn, , , % TLB, % DC
 
     Menu, NewFileMenu, Add
     Menu, NewFileMenu, DeleteAll
@@ -227,13 +242,13 @@ return
     Menu, NewFileMenu, Icon, S >> 快捷方式, %A_WinDir%\system32\Shell32.dll, 264
     Menu, NewFileMenu, Add
 
-    Loop, % DC_Dir . "\ShellNew\*.*" {
-        ft := SubStr(A_LoopFileName, 1, 1) . " >> " . A_LoopFileName
-        Menu, NewFileMenu, Add, % ft, DC_NewFileMenuAction
-        Menu, NewFileMenu, Icon, % ft, %A_WinDir%\system32\Shell32.dll
+    Loop, % DC_Dir . "\shellnew\*.*" {
+        Ft := SubStr(A_LoopFileName, 1, 1) . " >> " . A_LoopFileName
+        Menu, NewFileMenu, Add, % Ft, DC_NewFileMenuAction
+        Menu, NewFileMenu, Icon, % Ft, %A_WinDir%\system32\Shell32.dll
     }
 
-    Menu, NewFileMenu, Show, % xn, % yn + 2
+    Menu, NewFileMenu, Show, % Xn, % Yn + 2
 return
 
 DC_NewFileMenuAction:
@@ -349,13 +364,13 @@ return
 <DC_MarkFile>:
     DC_Run("cm_EditComment")
     ; 不要在已有备注的文件使用
-    Send, ^+{end}🖥{f2}
+    Send, ^+{End}🖥{F2}
 return
 
 <DC_UnMarkFile>:
     DC_Run("cm_EditComment")
     ; 删除 DC_MarkFile 的文件标记，也可用于清空文件备注
-    Send, ^+{end}{del}{f2}
+    Send, ^+{End}{Del}{F2}
 return
 
 <DC_ShowMainMenu>:
@@ -515,7 +530,7 @@ return
     DC_Run("cm_CopyCurrentPathToClip")
 
     ClipWait, 1
-    pwd := Clipboard
+    Pwd := Clipboard
 
     Clipboard := ""
     DC_Run("cm_CopyNamesToClip")
@@ -526,7 +541,7 @@ return
     DC_CallerId := 0
 
     if (!InStr(Clipboard, "`n")) {
-        Clipboard := pwd . Clipboard
+        Clipboard := Pwd . Clipboard
         Send, {Home}
         Send, ^v
         Send, {Enter}
@@ -536,19 +551,19 @@ return
 
     ; 多选
 
-    files := ""
+    Files := ""
     Loop, parse, Clipboard, `n, `r
-        files .= """" . A_LoopField  . """ "
+        Files .= """" . A_LoopField  . """ "
 
     ; 第一步：跳转到当前路径
-    Clipboard := pwd
+    Clipboard := Pwd
     Send, ^a
     Send, ^v
     Send, {Enter}
     sleep, 100
 
     ; 第二步：提交文件名
-    Clipboard := files
+    Clipboard := Files
     Send, ^v
     Send, {Enter}
 return
@@ -577,17 +592,6 @@ return
     Send, {Enter}
 return
 
-DC_OpenPath(Path, InNewTab := true, LeftOrRight := "") {
-    LeftOfRight := DC_GetPanelInfo()[1]
-    if (LeftOfRight == "right") {
-        LeftOrRight := "-R"
-    } else {
-        LeftOrRight := "-L"
-    }
-
-    if (InNewTab) {
-        Run, %DC_Path% -C -T "%LeftOrRight%" "%Path%"
-    } else {
-        Run, %DC_Path% -C "%LeftOrRight%" "%Path%"
-    }
-}
+<DC_FlatViewSel>:
+    DC_Run("cm_FlatViewSel")
+return
