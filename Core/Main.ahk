@@ -103,7 +103,7 @@ CheckHotKey()
         }
 
         vim.mode(this_mode)
-        if RegExMatch(this_action, "^(run|key|dir|tccmd|wshkey|function)\|")
+        if RegExMatch(this_action, "^(run|key|dir|tccmd|dccmd|wshkey|function)\|")
         {
             vim.map(this_key, "VIMD_CMD")
             VIMD_CMD_LIST[this_key] := this_action
@@ -155,7 +155,7 @@ CheckHotKey()
 
             vim.mode(this_mode, PluginName)
 
-            if RegExMatch(n, "i)^(run|key|dir|tccmd|wshkey|function)\|")
+            if RegExMatch(n, "i)^(run|key|dir|tccmd|dccmd|wshkey|function)\|")
             {
                 /*
                 示例：
@@ -212,6 +212,10 @@ VIMD_CMD()
     else if RegExMatch(VIMD_CMD_LIST[key], "i)^(tccmd)\|", m)
     {
         TC_Run(substr(VIMD_CMD_LIST[key], strlen(m1) + 2))
+    }
+    else if RegExMatch(VIMD_CMD_LIST[key], "i)^(dccmd)\|", m)
+    {
+        DC_Run(substr(VIMD_CMD_LIST[key], strlen(m1) + 2))
     }
     else if RegExMatch(VIMD_CMD_LIST[key], "i)^(wshkey)\|", m)
     {
