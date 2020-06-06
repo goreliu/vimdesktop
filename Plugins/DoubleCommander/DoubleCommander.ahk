@@ -305,21 +305,6 @@ return
     Send, ^+{End}{Del}{F2}
 return
 
-<DC_ThumbnailsView>:
-    DC_Run("cm_ThumbnailsView")
-    Gosub, <DC_ThumbnailsSwitchKey>
-return
-
-<DC_ThumbnailsSwitchKey>:
-    InThumbsView := !InThumbsView
-
-    if (InThumbsView) {
-        Vim.Map("l", "<right>", DC_Name)
-    } else {
-        Vim.Map("l", "<enter>", DC_Name)
-    }
-return
-
 <DC_ToggleShowInfo>:
     Vim.GetWin(DC_Name).SetInfo(!Vim.GetWin(DC_Name).info)
 return
