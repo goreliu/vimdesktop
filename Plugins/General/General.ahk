@@ -1135,7 +1135,7 @@ return
 return
 
 <TurnMonitorOff>:
-    Sleep, 200
+    Sleep, 300
     SendMessage, 0x112, 0xF170, 2, , Program Manager
 return
 
@@ -1145,4 +1145,10 @@ return
 
 <PrintCurrentTime>:
     Send, % A_Now
+return
+
+<EmptyRecycle>:
+	MsgBox, 4, , 将要清空回收站，是否执行？
+	IfMsgBox Yes
+		FileRecycleEmpty
 return
