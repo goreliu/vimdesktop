@@ -47,17 +47,32 @@ DC_Run(Cmd) {
     ControlSend, Edit1, {Enter}, % DC
 }
 
-; 返回值 [1]: left/right [2]: 左侧面板所占比例 0-100
-DC_GetPanelInfo() {
-    ClipSaved := ClipboardAll
+DC_RunGet(Cmd, SaveClipboard := True) {
+    if (SaveClipboard) {
+        ClipSaved := ClipboardAll
+    }
+
     Clipboard := ""
-    DC_Run("cm_CopyPanelInfoToClip")
+
+    DC_Run(Cmd)
+
     ClipWait, 1
 
-    PanelInfo := StrSplit(Clipboard, " ")
-    Clipboard := ClipSaved
+    if (SaveClipboard) {
+        Result := Clipboard
 
-    return PanelInfo
+        Clipboard := ClipSaved
+        ClipSaved := ""
+
+        return Result
+    }
+
+    return Clipboard
+}
+
+; 返回值 [1]: left/right [2]: 左侧面板所占比例 0-100
+DC_GetPanelInfo() {
+    return StrSplit(DC_RunGet("cm_CopyPanelInfoToClip"), " ")
 }
 
 DC_ExecuteToolbarItem(ID) {
@@ -114,25 +129,12 @@ return
 return
 
 <DC_PrevParallelDir>:
-    SleepTime := 10
+    SleepTime := 50
 
-    ClipSaved := ClipboardAll
-    Clipboard := ""
-    DC_Run("cm_CopyCurrentPathToClip")
-    ClipWait, 1
-
-    OldPwd := Clipboard
-
-    if (InStr(OldPwd, "\") == 1) {
-        ; 网络文件系统比较慢
-        SleepTime := 50
-    }
+    OldPwd := DC_RunGet("cm_CopyCurrentPathToClip")
 
     if (StrLen(OldPwd) == 3) {
         ; 在根分区
-
-        Clipboard := ClipSaved
-        ClipSaved := ""
 
         return
     }
@@ -140,37 +142,21 @@ return
     DC_Run("cm_ChangeDirToParent")
     Sleep, % SleepTime
 
+    ; 可能没跳转过去 TODO
     DC_Run("cm_GoToPrevEntry")
     Sleep, % SleepTime
 
     DC_Run("cm_EnterActiveDir")
     Sleep, % SleepTime
-
-    Clipboard := ClipSaved
-    ClipSaved := ""
 return
 
 <DC_NextParallelDir>:
-    SleepTime := 10
+    SleepTime := 50
 
-    ClipSaved := ClipboardAll
-    Clipboard := ""
-    DC_Run("cm_CopyCurrentPathToClip")
-    ClipWait, 1
-
-    OldPwd := Clipboard
-
-    if (InStr(OldPwd, "\") == 1) {
-        ; 网络文件系统比较慢
-        SleepTime := 50
-    }
+    OldPwd := DC_RunGet("cm_CopyCurrentPathToClip")
 
     if (StrLen(OldPwd) == 3) {
         ; 在根分区
-        ; Gosub, <cm_GotoPreviousDrive>
-
-        Clipboard := ClipSaved
-        ClipSaved := ""
 
         return
     }
@@ -178,24 +164,20 @@ return
     DC_Run("cm_ChangeDirToParent")
     Sleep, % SleepTime
 
+    ; 可能没跳转过去 TODO
     DC_Run("cm_GoToNextEntry")
     Sleep, % SleepTime
 
     DC_Run("cm_EnterActiveDir")
     Sleep, % SleepTime
 
-    Clipboard := ""
-    DC_Run("cm_CopyCurrentPathToClip")
-    ClipWait, 1
+    Pwd := DC_RunGet("cm_CopyCurrentPathToClip", false)
     Sleep, % SleepTime
 
-    if (OldPwd != Clipboard && InStr(OldPwd, Clipboard) == 1) {
+    if (OldPwd != Pwd && InStr(OldPwd, Pwd) == 1) {
         ; 下一个是文件
         DC_Run("cm_ViewHistoryPrev")
     }
-
-    Clipboard := ClipSaved
-    ClipSaved := ""
 return
 
 <DC_CreateNewFile>:
@@ -244,13 +226,7 @@ DC_NewFileOK:
     GuiControlGet, SrcFilePath, , Edit1
     GuiControlGet, NewFilename, , Edit2
 
-    ClipSaved := ClipboardAll
-    Clipboard :=
-    DC_Run("cm_CopyCurrentPathToClip")
-    ClipWait, 1
-    DstPath := Clipboard
-    Clipboard := ClipSaved
-    ClipSaved := ""
+    DstPath := DC_RunGet("cm_CopyCurrentPathToClip")
 
     if (InStr(DstPath, "`r")) {
         DstPath := SubStr(DstPath, 1, InStr(DstPath, "`r") - 1)
@@ -312,38 +288,24 @@ return
 return
 
 <DC_CopyFileContent>:
-    Clipboard := ""
-    DC_Run("cm_CopyFullNamesToClip")
-    ClipWait, 1
-
-    Fileread, Contents, % Clipboard
+    Fileread, Contents, % DC_RunGet("cm_CopyFullNamesToClip", false)
     Clipboard := Contents
 return
 
 <DC_CopyFilenamesOnly>:
-    Clipboard := ""
-    DC_Run("cm_CopyFullNamesToClip")
-    ClipWait, 1
+    Result := DC_RunGet("cm_CopyFullNamesToClip")
 
-    SplitPath, Clipboard, OutFileName, , , OutFilenameNoExt
+    SplitPath, Result, OutFileName, , , OutFilenameNoExt
 
-    if (InStr(FileExist(Clipboard), "D")) {
+    if (InStr(FileExist(Result), "D")) {
         Clipboard := OutFileName
-    } else if (InStr(Clipboard, ".")) {
+    } else if (InStr(Result, ".")) {
         Clipboard := OutFilenameNoExt
     }
 return
 
 <DC_CreateFileShortcut>:
-    ClipSaved := ClipboardAll
-    Clipboard := ""
-    DC_Run("cm_CopyFullNamesToClip")
-    ClipWait
-
-    FilePath := Clipboard
-    Clipboard := ClipSaved
-    ClipSaved := ""
-
+    FilePath := DC_RunGet("cm_CopyFullNamesToClip")
 
     OutVar := FileExist(FilePath)
     if (InStr(OutVar, "D")) {
@@ -388,13 +350,13 @@ return
 ; 非 TC 窗口按下后激活 TC 窗口
 ; TC 窗口按下后复制当前选中文件返回原窗口后粘贴
 <DC_OpenDCDialog>:
-    WinGetClass, name, A
+    WinGetClass, Name, A
 
     ; 在 DC 按下快捷键时，激活调用窗体并执行粘贴操作
-    if (name == DC_Class) {
+    if (Name == DC_Class) {
         if (DC_CallerId != 0) {
             gosub <DC_Selected>
-            DC_CallerId := 0
+            return
 		}
     } else {
         DC_CallerId := WinExist("A")
@@ -410,25 +372,23 @@ return
 <DC_Selected>:
     gosub <DC_UnMapKeys>
 
-    Clipboard := ""
-    ; 不知道什么原因，必须加一个 MsgBox 功能才正常
+    if (DC_CallerId == 0) {
+        return
+    }
+
+    ; 避免发送回车时受其他按键影响
     MsgBox, , , 处理中, 0.3
 
-    DC_Run("cm_CopyCurrentPathToClip")
+    Pwd := DC_RunGet("cm_CopyCurrentPathToClip", false)
 
-    ClipWait, 1
-    Pwd := Clipboard
-
-    Clipboard := ""
-    DC_Run("cm_CopyNamesToClip")
-    ClipWait, 1
+    Filename := DC_RunGet("cm_CopyNamesToClip", false)
 
     WinActivate, ahk_id %DC_CallerId%
     WinWait, ahk_id %DC_CallerId%
     DC_CallerId := 0
 
-    if (!InStr(Clipboard, "`n")) {
-        Clipboard := Pwd . Clipboard
+    if (!InStr(Filename, "`n")) {
+        Clipboard := Pwd . Filename
         Send, {Home}
         Send, ^v
         Send, {Enter}
@@ -439,7 +399,7 @@ return
     ; 多选
 
     Files := ""
-    Loop, parse, Clipboard, `n, `r
+    Loop, parse, FIlename, `n, `r
         Files .= """" . A_LoopField  . """ "
 
     ; 第一步：跳转到当前路径
@@ -462,13 +422,7 @@ return
         return
     }
 
-    Clipboard := ""
     DC_Run("cm_CopyCurrentPathToClip")
-    ClipWait
-
-    ; 添加默认路径不带反斜杠，添加之
-
-    Clipboard .= "\"
 
     WinActivate, ahk_id %DC_CallerId%
     WinWait, ahk_id %DC_CallerId%
@@ -477,8 +431,4 @@ return
     Send, {Home}
     Send, ^v
     Send, {Enter}
-return
-
-<DC_FlatViewSel>:
-    DC_Run("cm_FlatViewSel")
 return
