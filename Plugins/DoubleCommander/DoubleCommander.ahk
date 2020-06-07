@@ -30,7 +30,7 @@ return
 
 DC_ForceInsertMode() {
     ControlGetFocus, Ctrl
-    if (InStr(Ctrl, "Edit") == 1) {
+    if (InStr(Ctrl, "Edit") || Ctrl == "Window1") {
         return true
     }
 
