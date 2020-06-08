@@ -1,5 +1,6 @@
 ﻿/*
     此插件仅供自用，依赖对 DC 代码的修改以及专门的配置
+    我修改版的 DC 代码：https://github.com/goreliu/doublecmd
 
     ---
 
@@ -376,8 +377,9 @@ return
         return
     }
 
-    ; 避免发送回车时受其他按键影响
-    MsgBox, , , 处理中, 0.3
+    ; 避免发送回车时受同时按下的 Win 等键影响
+    ; MsgBox, , , 处理中, 0.3
+    ; 通过修改 DC 代码解决
 
     Pwd := DC_RunGet("cm_CopyCurrentPathToClip", false)
 
