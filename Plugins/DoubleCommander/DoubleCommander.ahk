@@ -1,19 +1,4 @@
-﻿/*
-    此插件仅供自用，依赖对 DC 代码的修改以及专门的配置
-    我修改版的 DC 代码：https://github.com/goreliu/doublecmd
-
-    ---
-
-    DC 的优势
-
-    开源，免费，跨平台，可以自由改代码定制功能，很好编译
-    可以改代码让所有目录中的父目录（..）消失（已完成）
-    可以把按键绑定到工具栏的子菜单上，然后再通过按键触发功能
-    内建 lua 解释器，方便写一些高级功能（感觉功能有限，用处不大）
-    主界面和配置界面更漂亮、好用
-*/
-
-DoubleCommander:
+﻿DoubleCommander:
     global DC_Class := "TTOTAL_CMD"
     global DC := "ahk_class " . DC_Class
     global DC_Dir := "c:\mine\app\doublecmd"
