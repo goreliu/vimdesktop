@@ -272,16 +272,58 @@ return
     }
 return
 
-<DC_MarkFile>:
+<DC_MarkFileSingle>:
     DC_Run("cm_EditComment")
     ; 不要在已有备注的文件使用
     Send, ^+{End}🖥{F2}
 return
 
-<DC_UnMarkFile>:
+<DC_UnMarkFileSingle>:
     DC_Run("cm_EditComment")
     ; 删除 DC_MarkFile 的文件标记，也可用于清空文件备注
     Send, ^+{End}{Del}{F2}
+return
+
+<DC_MarkFile>:
+    SelectedFiles := DC_RunGet("cm_CopyNamesToClip")
+    Result := """" . StrReplace(SelectedFiles, "`r`n", """ 🖥`r`n""") . """ 🖥`r`n"
+    DC_Run("cm_MarkUnmarkAll")
+
+    FileAppend, % Result, % DC_RunGet("cm_CopyCurrentPathToClip") . "\descript.ion", UTF-8-RAW
+    Sleep, 20
+
+    DC_Run("cm_EditComment")
+    Send, {F2}
+
+    SelectedFiles := ""
+    Result := ""
+return
+
+<DC_UnMarkFile>:
+    DescriptPath := DC_RunGet("cm_CopyCurrentPathToClip") . "\descript.ion"
+    SelectedFiles := DC_RunGet("cm_CopyNamesToClip")
+    DC_Run("cm_MarkUnmarkAll")
+
+    FileRead, Content, % DescriptPath
+
+    Loop, Parse, SelectedFiles, `r`n
+    {
+        Content := StrReplace(Content, """" . A_LoopField . """ 🖥`r`n")
+    }
+
+    FileDelete, % DescriptPath
+
+    if (Content != "") {
+        FileAppend, % Content, % DescriptPath, UTF-8-RAW
+    }
+
+    Sleep, 20
+
+    DC_Run("cm_EditComment")
+    Send, {F2}
+
+    SelectedFiles := ""
+    Content := ""
 return
 
 <DC_ToggleShowInfo>:
@@ -401,7 +443,7 @@ return
     ; 多选
 
     Files := ""
-    Loop, parse, FIlename, `n, `r
+    Loop, Parse, FIlename, `n, `r
         Files .= """" . A_LoopField  . """ "
 
     ; 第一步：跳转到当前路径
