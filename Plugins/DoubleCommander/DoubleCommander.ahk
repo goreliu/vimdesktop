@@ -230,7 +230,7 @@ DC_NewFileOK:
     FileCopy, % SrcFilePath, % NewFilePath, 1
 
     ; 虽然不是完全匹配，基本也能用了
-    DC_Run("cm_QuickSearch matchbeginning=on | text=" . NewFilename)
+    DC_Run("cm_QuickSearch text=" . NewFilename)
 
     Gui, Destroy
 return
