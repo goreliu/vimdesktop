@@ -16,7 +16,9 @@ return
 
 DC_ForceInsertMode() {
     ControlGetFocus, Ctrl
-    if (InStr(Ctrl, "Edit") || Ctrl == "Window1") {
+    ; Edit 用于底部命令行
+    ; Button 用于各种确认窗口
+    if (InStr(Ctrl, "Edit") || InStr(Ctrl, "Button" == 1) || Ctrl == "Window1")  {
         return true
     }
 
