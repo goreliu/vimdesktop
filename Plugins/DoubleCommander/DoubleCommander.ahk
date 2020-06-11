@@ -2,7 +2,7 @@
     global DC_Class := "TTOTAL_CMD"
     global DC := "ahk_class " . DC_Class
     global DC_Dir := "c:\mine\app\doublecmd"
-    global DC_Path := "c:\mine\app\doublecmd\doublecmd.exe --no-splash"
+    global DC_Path := DC_Dir . "\doublecmd.exe --no-splash"
     ; 用于记录文件打开对话框所属窗体
     global DC_CallerId := 0
 
@@ -17,8 +17,8 @@ return
 DC_ForceInsertMode() {
     ControlGetFocus, Ctrl
     ; Edit 用于底部命令行
-    ; Button 用于各种确认窗口
-    if (InStr(Ctrl, "Edit") || InStr(Ctrl, "Button" == 1) || Ctrl == "Window1")  {
+    ; Button 用于各种确认窗口，影响正常使用
+    if (InStr(Ctrl, "Edit") || Ctrl == "Window1")  {
         return true
     }
 
