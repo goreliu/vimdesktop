@@ -974,7 +974,7 @@ return
 return
 
 <SearchInWeb>:
-    Run, cmd /c start https://www.baidu.com/s?wd=%Clipboard%, , Hide
+    Run, explorer "https://www.baidu.com/s?wd=%Clipboard%", ,
 return
 
 <Test>:
