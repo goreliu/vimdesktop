@@ -340,9 +340,9 @@ return
 
     OutVar := FileExist(FilePath)
     if (InStr(OutVar, "D")) {
-        FileCreateShortcut, % FilePath, % FilePath . ".lnk"
+        FileCreateShortcut, % FilePath, % FilePath . ".lnk", % RegExReplace(FilePath, "\\[^\\]*$")
     } else if (OutVar != "") {
-        FileCreateShortcut, % FilePath, % RegExReplace(FilePath, "\.[^.]*$", ".lnk")
+        FileCreateShortcut, % FilePath, % RegExReplace(FilePath, "\.[^.]*$", ".lnk"), % RegExReplace(FilePath, "\\[^\\]*$")
     }
 return
 
