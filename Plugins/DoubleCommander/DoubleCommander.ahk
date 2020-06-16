@@ -275,21 +275,24 @@ return
 <DC_MarkFile>:
     SelectedFiles := DC_RunGet("cm_CopyNamesToClip")
     Result := """" . StrReplace(SelectedFiles, "`r`n", """ 🖥`r`n""") . """ 🖥`r`n"
+
+    Sleep, 10
     DC_Run("cm_MarkUnmarkAll")
 
     FileAppend, % Result, % DC_RunGet("cm_CopyCurrentPathToClip") . "\descript.ion", UTF-8-RAW
-    Sleep, 20
 
-    DC_Run("cm_EditComment")
-    Send, {F2}
+    DC_Run("cm_Refresh")
 
     SelectedFiles := ""
     Result := ""
 return
 
 <DC_UnMarkFile>:
-    DescriptPath := DC_RunGet("cm_CopyCurrentPathToClip") . "\descript.ion"
     SelectedFiles := DC_RunGet("cm_CopyNamesToClip")
+    DescriptPath := DC_RunGet("cm_CopyCurrentPathToClip") . "\descript.ion"
+
+    ; 有时取消选定会失效，改 20 也一样，不清楚怎么修复
+    Sleep, 10
     DC_Run("cm_MarkUnmarkAll")
 
     FileRead, Content, % DescriptPath
@@ -305,10 +308,7 @@ return
         FileAppend, % Content, % DescriptPath, UTF-8-RAW
     }
 
-    Sleep, 20
-
-    DC_Run("cm_EditComment")
-    Send, {F2}
+    DC_Run("cm_Refresh")
 
     SelectedFiles := ""
     Content := ""
