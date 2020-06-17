@@ -260,18 +260,6 @@ return
     }
 return
 
-<DC_MarkFileSingle>:
-    DC_Run("cm_EditComment")
-    ; 不要在已有备注的文件使用
-    Send, ^+{End}🖥{F2}
-return
-
-<DC_UnMarkFileSingle>:
-    DC_Run("cm_EditComment")
-    ; 删除 DC_MarkFile 的文件标记，也可用于清空文件备注
-    Send, ^+{End}{Del}{F2}
-return
-
 <DC_MarkFile>:
     SelectedFiles := DC_RunGet("cm_CopyNamesToClip")
     Result := """" . StrReplace(SelectedFiles, "`r`n", """ 🖥`r`n""") . """ 🖥`r`n"
@@ -279,7 +267,7 @@ return
     Sleep, 10
     DC_Run("cm_MarkUnmarkAll")
 
-    FileAppend, % Result, % DC_RunGet("cm_CopyCurrentPathToClip") . "\descript.ion", UTF-8-RAW
+    FileAppend, % Result, % DC_RunGet("cm_CopyCurrentPathToClip") . "descript.ion", UTF-8-RAW
 
     DC_Run("cm_Refresh")
 
@@ -289,7 +277,7 @@ return
 
 <DC_UnMarkFile>:
     SelectedFiles := DC_RunGet("cm_CopyNamesToClip")
-    DescriptPath := DC_RunGet("cm_CopyCurrentPathToClip") . "\descript.ion"
+    DescriptPath := DC_RunGet("cm_CopyCurrentPathToClip") . "descript.ion"
 
     ; 有时取消选定会失效，改 20 也一样，不清楚怎么修复
     Sleep, 10
@@ -297,7 +285,7 @@ return
 
     FileRead, Content, % DescriptPath
 
-    Loop, Parse, SelectedFiles, `r`n
+    Loop, Parse, SelectedFiles, `n, `r
     {
         Content := StrReplace(Content, """" . A_LoopField . """ 🖥`r`n")
     }
@@ -312,6 +300,60 @@ return
 
     SelectedFiles := ""
     Content := ""
+return
+
+<DC_AddComment>:
+    InputBox, Content, , 请输入注释, , 375, 125
+    if ErrorLevel
+        return
+
+    SelectedFiles := DC_RunGet("cm_CopyNamesToClip")
+
+    Result := """" . StrReplace(SelectedFiles, "`r`n", """ " . Content . "`r`n""") . """ " . Content . "`r`n"
+
+    Sleep, 10
+    DC_Run("cm_MarkUnmarkAll")
+
+    FileAppend, % Result, % DC_RunGet("cm_CopyCurrentPathToClip") . "descript.ion", UTF-8-RAW
+
+    DC_Run("cm_Refresh")
+
+    SelectedFiles := ""
+    Result := ""
+return
+
+<DC_RemoveComment>:
+    SelectedFiles := DC_RunGet("cm_CopyNamesToClip")
+    DescriptPath := DC_RunGet("cm_CopyCurrentPathToClip") . "descript.ion"
+
+    ; 有时取消选定会失效，改 20 也一样，不清楚怎么修复
+    Sleep, 10
+    DC_Run("cm_MarkUnmarkAll")
+
+    FileRead, Content, % DescriptPath
+
+    Loop, Parse, SelectedFiles, `n, `r
+    {
+        Content := RegexReplace(Content, "m)^""?" . A_LoopField . """? .*")
+    }
+
+    ; \K：前边的不算，重新开始匹配
+    Content := RegexReplace(Content, "(^|\R)\K\R+")
+
+    FileDelete, % DescriptPath
+
+    if (Content != "") {
+        FileAppend, % Content, % DescriptPath, UTF-8-RAW
+    }
+
+    DC_Run("cm_Refresh")
+
+    SelectedFiles := ""
+    Content := ""
+return
+
+<DC_EditComment>:
+    Run, % editor . " """ . DC_RunGet("cm_CopyCurrentPathToClip") . "descript.ion"""
 return
 
 <DC_ToggleShowInfo>:
