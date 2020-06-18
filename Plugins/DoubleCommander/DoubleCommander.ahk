@@ -1,4 +1,5 @@
 ﻿DoubleCommander:
+    global DC_Name := "DoubleCommander"
     global DC_Class := "TTOTAL_CMD"
     global DC := "ahk_class " . DC_Class
     global DC_Dir := "c:\mine\app\doublecmd"
@@ -6,11 +7,8 @@
     ; 用于记录文件打开对话框所属窗体
     global DC_CallerId := 0
 
-    DC_Name := "DoubleCommander"
-
     Vim.SetWin(DC_Name, DC_Class, "doublecmd.exe")
     Vim.Mode("normal", DC_Name)
-
     Vim.BeforeActionDo("DC_ForceInsertMode", DC_Name)
 return
 
@@ -131,7 +129,7 @@ return
     DC_Run("cm_ChangeDirToParent")
     Sleep, % SleepTime
 
-    ; 可能没跳转过去 TODO
+    ; 可能没跳转过去
     DC_Run("cm_GoToPrevEntry")
     Sleep, % SleepTime
 
@@ -153,7 +151,7 @@ return
     DC_Run("cm_ChangeDirToParent")
     Sleep, % SleepTime
 
-    ; 可能没跳转过去 TODO
+    ; 可能没跳转过去
     DC_Run("cm_GoToNextEntry")
     Sleep, % SleepTime
 
