@@ -359,8 +359,7 @@ return
 return
 
 <DC_CopyFileContent>:
-    Fileread, Contents, % DC_RunGet("cm_CopyFullNamesToClip", false)
-    Clipboard := Contents
+    Fileread, Clipboard, % DC_RunGet("cm_CopyFullNamesToClip", false)
 return
 
 <DC_CopyFilenamesOnly>:

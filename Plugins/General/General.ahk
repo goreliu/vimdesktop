@@ -1028,6 +1028,26 @@ ScreenSnapshot(filename, area := 0)
     Gdip_Shutdown(pToken)
 }
 
+IME_GET(WinTitle := "")
+;-----------------------------------------------------------
+; IMEの状態の取得
+;    対象： AHK v1.0.34以降
+;   WinTitle : 対象Window (省略時:アクティブウィンドウ)
+;   戻り値  1:ON 0:OFF
+;-----------------------------------------------------------
+{
+    ifEqual WinTitle, ,SetEnv, WinTitle, A
+    WinGet, hWnd, ID, %WinTitle%
+    DefaultIMEWnd := DllCall("imm32\ImmGetDefaultIMEWnd", Uint, hWnd, Uint)
+
+    ; Message : WM_IME_CONTROL  wParam:IMC_GETOPENSTATUS
+    DetectSave := A_DetectHiddenWindows
+    DetectHiddenWindows, ON
+    SendMessage 0x283, 0x005, 0, , ahk_id %DefaultIMEWnd%
+    DetectHiddenWindows, %DetectSave%
+    return ErrorLevel
+}
+
 SwitchIME(dwLayout)
 {
     HKL := DllCall("LoadKeyboardLayout", Str, dwLayout, UInt, 1)
