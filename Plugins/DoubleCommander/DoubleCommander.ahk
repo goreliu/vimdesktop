@@ -116,55 +116,15 @@ return
 return
 
 <DC_PrevParallelDir>:
-    SleepTime := 50
+    DC_Run("cm_ExecuteToolbarItem ToolItemID={D682D989-E31B-4774-A95F-FCAAC0723803}")
 
-    OldPwd := DC_RunGet("cm_CopyCurrentPathToClip")
-
-    if (StrLen(OldPwd) == 3) {
-        ; 在根分区
-
-        return
-    }
-
-    DC_Run("cm_ChangeDirToParent")
-    Sleep, % SleepTime
-
-    ; 可能没跳转过去
-    DC_Run("cm_GoToPrevEntry")
-    Sleep, % SleepTime
-
-    DC_Run("cm_EnterActiveDir")
-    Sleep, % SleepTime
+    Sleep, 50
 return
 
 <DC_NextParallelDir>:
-    SleepTime := 50
+    DC_Run("cm_ExecuteToolbarItem ToolItemID={5CFC019B-CF36-4029-B3F6-3F1AAE3FE462}")
 
-    OldPwd := DC_RunGet("cm_CopyCurrentPathToClip")
-
-    if (StrLen(OldPwd) == 3) {
-        ; 在根分区
-
-        return
-    }
-
-    DC_Run("cm_ChangeDirToParent")
-    Sleep, % SleepTime
-
-    ; 可能没跳转过去
-    DC_Run("cm_GoToNextEntry")
-    Sleep, % SleepTime
-
-    DC_Run("cm_EnterActiveDir")
-    Sleep, % SleepTime
-
-    Pwd := DC_RunGet("cm_CopyCurrentPathToClip", false)
-    Sleep, % SleepTime
-
-    if (OldPwd != Pwd && InStr(OldPwd, Pwd) == 1) {
-        ; 下一个是文件
-        DC_Run("cm_ViewHistoryPrev")
-    }
+    Sleep, 50
 return
 
 <DC_CreateNewFile>:
