@@ -319,7 +319,12 @@ return
 return
 
 <DC_CopyFileContent>:
-    Fileread, Clipboard, % DC_RunGet("cm_CopyFullNamesToClip", false)
+    FileRead, Clipboard, % DC_RunGet("cm_CopyFullNamesToClip", false)
+return
+
+<DC_PasteFileContent>:
+    Filename := DC_RunGet("cm_CopyFullNamesToClip")
+    FileAppend, % Clipboard, % Filename, UTF-8-RAW
 return
 
 <DC_CopyFilenamesOnly>:
