@@ -1036,8 +1036,9 @@ IME_GET(WinTitle := "")
 ;   戻り値  1:ON 0:OFF
 ;-----------------------------------------------------------
 {
-    ifEqual WinTitle, ,SetEnv, WinTitle, A
-    WinGet, hWnd, ID, %WinTitle%
+    ; ifEqual WinTitle, ,SetEnv, WinTitle, A
+    ; WinGet, hWnd, ID, %WinTitle%
+    WinGet, hWnd, ID, A
     DefaultIMEWnd := DllCall("imm32\ImmGetDefaultIMEWnd", Uint, hWnd, Uint)
 
     ; Message : WM_IME_CONTROL  wParam:IMC_GETOPENSTATUS

@@ -4,12 +4,12 @@
 
 CoordMode, Tooltip, Screen
 CoordMode, Mouse, Screen
-Coordmode, Menu, Window
+CoordMode, Menu, Window
 SetControlDelay, -1
 SetKeyDelay, -1
-;Detecthiddenwindows, on
-FileEncoding, utf-8
-SendMode Input
+; DetectHiddenWindows, On
+FileEncoding, UTF-8
+SendMode, Input
 
 Menu, Tray, Icon, %A_ScriptDir%\vimd.ico
 Menu, Tray, NoStandard
