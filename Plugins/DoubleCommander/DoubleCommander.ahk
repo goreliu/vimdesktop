@@ -190,10 +190,12 @@ DC_NewFileOK:
 
     FileCopy, % SrcFilePath, % NewFilePath, 1
 
+    Gui, Destroy
+
+    ; 验证有没有用
+    Sleep, 10
     ; 虽然不是完全匹配，基本也能用了
     DC_Run("cm_QuickSearch text=" . NewFilename)
-
-    Gui, Destroy
 return
 
 <DC_Toggle>:
