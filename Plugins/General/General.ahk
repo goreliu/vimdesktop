@@ -998,11 +998,15 @@ TestFunction(arg)
 
     sleep, 50
 
-    FileSelectFile, selectedFile, s16, 截图_%A_Now%.png, 另存为, 图片(*.png; *.jpg; *.gif; *.bmp)
+    FileSelectFile, selectedFile, s16, 截图_%A_Now%.jpg, 另存为, 图片(*.jpg; *.png; *.gif; *.bmp)
 
     if (selectedFile == "")
     {
         return
+    }
+    else if (!InStr(selectedFile, "."))
+    {
+        selectedFile .= ".jpg"
     }
 
     SaveImageFromClipboard(selectedFile)
@@ -1012,7 +1016,7 @@ SaveImageFromClipboard(filename)
 {
     pToken := Gdip_Startup()
     pBitmap := Gdip_CreateBitmapFromClipboard()
-    Gdip_SaveBitmapToFile(pBitmap, filename)
+    Gdip_SaveBitmapToFile(pBitmap, filename, 100)
     Gdip_DisposeImage(pBitmap)
     Gdip_Shutdown(pToken)
 }
