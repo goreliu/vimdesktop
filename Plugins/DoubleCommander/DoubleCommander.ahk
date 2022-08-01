@@ -470,3 +470,9 @@ return
     Send, ^v
     Send, {Enter}
 return
+
+<DC_Trash>:
+    DC_Run("cm_NetworkConnect")
+    Sleep, 40
+    Send, {Down}{Down}{Enter}
+return
