@@ -247,7 +247,8 @@ return
 
     Loop, Parse, SelectedFiles, `n, `r
     {
-        Content := StrReplace(Content, """" . A_LoopField . """ 🖥`r`n")
+        Content := RegExReplace(Content, """?" . A_LoopField . """? .*`r`n")
+        ; Content := StrReplace(Content, """" . A_LoopField . """ 🖥`r`n")
     }
 
     FileDelete, % DescriptPath
