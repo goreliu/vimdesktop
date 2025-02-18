@@ -998,7 +998,7 @@ TestFunction(arg)
 
     sleep, 50
 
-    FileSelectFile, selectedFile, s16, 截图_%A_Now%.jpg, 另存为, 图片(*.jpg; *.png; *.gif; *.bmp)
+    FileSelectFile, selectedFile, s16, 截图_%A_Now%.png, 另存为, 图片(*.png; *.jpg; *.gif; *.bmp)
 
     if (selectedFile == "")
     {
@@ -1006,7 +1006,7 @@ TestFunction(arg)
     }
     else if (!InStr(selectedFile, "."))
     {
-        selectedFile .= ".jpg"
+        selectedFile .= ".png"
     }
 
     SaveImageFromClipboard(selectedFile)

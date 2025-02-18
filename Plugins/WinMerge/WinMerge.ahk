@@ -20,6 +20,7 @@
     vim.mode("insert", "WinMerge")
 
     vim.map("<esc>", "<WinMerge_NormalMode>", "WinMerge")
+    vim.map("<ctrl>", "<WinMerge_NormalMode>", "WinMerge")
 
     ; normal模式
     vim.mode("normal", "WinMerge")
