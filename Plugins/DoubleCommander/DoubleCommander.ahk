@@ -342,6 +342,19 @@ return
     }
 return
 
+<DC_CopyDirname>:
+    Result := DC_RunGet("cm_CopyCurrentPathToClip")
+    Clipboard := SubStr(Result, InStr(Result, "\", , -1) + 1, -1)
+return
+
+<DC_RenameToDirname>:
+    Result := DC_RunGet("cm_CopyFullNamesToClip")
+    SplitPath, Result, OutFileName, OutDir, OutExt
+
+    Dirname := SubStr(OutDir, InStr(OutDir, "\", , -1) + 1)
+    FileMove, % OutDir . "\" . OutFileName, % OutDir . "\" . Dirname . "." . OutExt
+return
+
 <DC_CreateFileShortcut>:
     FilePath := DC_RunGet("cm_CopyFullNamesToClip")
 
@@ -365,13 +378,13 @@ return
 return
 
 <DC_MapKeys>:
-	Vim.Mode("normal", DC_Name)
+    Vim.Mode("normal", DC_Name)
     Vim.Map("<S-Enter>", "<DC_SelectedCurrentDir>", DC_Name)
     Vim.Map("<Esc>", "<DC_ReturnToCaller>", DC_Name)
 return
 
 <DC_UnMapKeys>:
-	Vim.Mode("normal", DC_Name)
+    Vim.Mode("normal", DC_Name)
     Vim.Map("<S-Enter>", "<Default>", DC_Name)
     Vim.Map("<Esc>", "<Default>", DC_Name)
 return
@@ -395,12 +408,12 @@ return
         if (DC_CallerId != 0) {
             gosub <DC_Selected>
             return
-		}
+        }
     } else {
         DC_CallerId := WinExist("A")
         if (DC_CallerId == 0) {
             return
-		}
+        }
 
         gosub <DC_Focus>
         gosub <DC_MapKeys>
@@ -438,7 +451,7 @@ return
     ; 多选
 
     Files := ""
-    Loop, Parse, FIlename, `n, `r
+    Loop, Parse, Filename, `n, `r
         Files .= """" . A_LoopField  . """ "
 
     ; 第一步：跳转到当前路径
