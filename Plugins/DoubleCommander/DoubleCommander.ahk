@@ -472,3 +472,7 @@ return
     Send, ^v
     Send, {Enter}
 return
+
+<DC_Trash>:
+    DC_Run("cd \\\回收站\")
+return
