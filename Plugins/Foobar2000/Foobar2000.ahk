@@ -34,6 +34,7 @@
     vim.map("G", "<end>", Foobar2000_name)
     vim.map("<c-f>", "<pgdn>", Foobar2000_name)
     vim.map("<c-b>", "<pgup>", Foobar2000_name)
+    vim.map("<c-g>", "<Foobar2000_Search>", Foobar2000_name)
     vim.map("/", "<Foobar2000_Search>", Foobar2000_name)
     vim.map("t", "<Foobar2000_Tree>", Foobar2000_name)
     vim.map("m", "<Foobar2000_List>", Foobar2000_name)

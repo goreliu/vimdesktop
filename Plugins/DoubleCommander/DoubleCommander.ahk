@@ -115,18 +115,6 @@ return
     }
 return
 
-<DC_PrevParallelDir>:
-    DC_Run("cm_ExecuteToolbarItem ToolItemID={D682D989-E31B-4774-A95F-FCAAC0723803}")
-
-    Sleep, 50
-return
-
-<DC_NextParallelDir>:
-    DC_Run("cm_ExecuteToolbarItem ToolItemID={5CFC019B-CF36-4029-B3F6-3F1AAE3FE462}")
-
-    Sleep, 50
-return
-
 <DC_CreateNewFile>:
     ControlGetFocus, TLB, % DC
     ControlGetPos, Xn, Yn, , , % TLB, % DC
