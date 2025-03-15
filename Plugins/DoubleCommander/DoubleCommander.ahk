@@ -15,7 +15,7 @@ return
 DC_ForceInsertMode() {
     ControlGetFocus, Ctrl
     ; Edit 用于底部命令行
-    ; Windows1 或 Windows3 用于磁盘列表
+    ; Window1 或 Window3 用于磁盘列表
     ; Button 用于各种确认窗口，影响正常使用
     if (InStr(Ctrl, "Edit") || Ctrl == "Window1" || Ctrl == "Window3")  {
         return true

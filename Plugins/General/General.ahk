@@ -1117,6 +1117,11 @@ return
     Clipboard := OldClipboard . Clipboard
 return
 
+<PastePureText>:
+    Clipboard := Clipboard
+    Send, ^v
+return
+
 <OpenBaiduNetdiskLink>:
     Clipboard =
     Send, ^c
@@ -1173,9 +1178,9 @@ return
 return
 
 <EmptyRecycle>:
-	MsgBox, 4, , 将要清空回收站，是否执行？
-	IfMsgBox Yes
-		FileRecycleEmpty
+    MsgBox, 4, , 将要清空回收站，是否执行？
+    IfMsgBox Yes
+        FileRecycleEmpty
 return
 
 ; https://www.autohotkey.com/boards/viewtopic.php?f=5&t=46654
@@ -1252,6 +1257,6 @@ SetAppVolume(pid, MasterVolume)    ; WIN_V+
 }
 
 <ToggleVolume>:
-	WinGet, pid, PID, A
+    WinGet, pid, PID, A
     SetAppVolume(pid, 100 - GetAppVolume(pid))
 return
