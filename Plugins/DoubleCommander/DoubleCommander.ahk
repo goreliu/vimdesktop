@@ -223,34 +223,6 @@ return
     Result := ""
 return
 
-<DC_UnMarkFile>:
-    SelectedFiles := DC_RunGet("cm_CopyNamesToClip")
-    DescriptPath := DC_RunGet("cm_CopyCurrentPathToClip") . "descript.ion"
-
-    ; 有时取消选定会失效，改 20 也一样，不清楚怎么修复
-    Sleep, 10
-    DC_Run("cm_MarkUnmarkAll")
-
-    FileRead, Content, % DescriptPath
-
-    Loop, Parse, SelectedFiles, `n, `r
-    {
-        Content := RegExReplace(Content, """?" . A_LoopField . """? .*`r`n")
-        ; Content := StrReplace(Content, """" . A_LoopField . """ 🖥`r`n")
-    }
-
-    FileDelete, % DescriptPath
-
-    if (Content != "") {
-        FileAppend, % Content, % DescriptPath, UTF-8-RAW
-    }
-
-    DC_Run("cm_Refresh")
-
-    SelectedFiles := ""
-    Content := ""
-return
-
 <DC_AddComment>:
     InputBox, Content, , 请输入注释, , 375, 125
     if ErrorLevel
@@ -283,7 +255,8 @@ return
 
     Loop, Parse, SelectedFiles, `n, `r
     {
-        Content := RegexReplace(Content, "m)^""?" . A_LoopField . """? .*")
+        ; \Q ... \E 把中间内容全部按字面处理，以免文件名中出现 .() 等特殊符号
+        Content := RegexReplace(Content, "m)^""?" . "\Q" . A_LoopField . "\E" . """? .*")
     }
 
     ; \K：前边的不算，重新开始匹配
