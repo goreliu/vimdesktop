@@ -308,6 +308,12 @@ return
     Clipboard := SubStr(Result, InStr(Result, "\", , -1) + 1, -1)
 return
 
+<DC_CopyWslPath>:
+    Result := StrReplace(DC_RunGet("cm_CopyCurrentPathToClip", false), "\", "/")
+
+    Clipboard := """" . RegExReplace(Result, "^([A-Za-z]):", "/mnt/$L1") . """"
+return
+
 <DC_RenameToDirname>:
     Result := DC_RunGet("cm_CopyFullNamesToClip")
     SplitPath, Result, OutFileName, OutDir, OutExt
